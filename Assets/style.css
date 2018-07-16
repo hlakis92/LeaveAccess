@@ -1,0 +1,98 @@
+/* this sets the items in the div from flowing out of the divs on the page */
+div{
+  word-wrap: break-word;
+}
+/* Remove the navbar's default margin-bottom and rounded borders */ 
+.navbar {
+    margin-bottom: 0;
+    border-radius: 0;
+  }
+  
+  /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+  .row.content {
+    height: 450px
+  }
+
+  /* Sets the right side divs */
+  .sidenav1 {
+    padding-top: 20px; 
+    height: 100%;
+  }
+
+  p { margin:0.1 }
+  /* Sets the right side divs */
+  .sidenav2 {
+    line-height: 15px; /* 4px +12px + 4px */
+    font-size: 12px;
+    padding-top: 20px;
+    text-align: left; 
+  }
+
+  #HRcontacts, #supervisorcontacts, #payrollcontacts {
+    line-height: 15px; /* 4px +12px + 4px */
+    font-size: 12px;
+    padding-top: 20px;
+    text-align: left; 
+  }
+
+  /* centers the radio buttons in grid */
+  #gridRadios1, #gridRadios2, #gridRadios3{
+    margin-left: 40%;
+    font-size: 50%;
+  }
+  /* makes the radio buttons a bit larger */
+  input[type='radio'] { 
+    transform: scale(1.5); 
+  }
+  
+  /* centers the check boxes in grid */
+  #gridCheck{
+    display:inline-block;
+    margin-left: 40%;
+  }
+
+  .container{
+    margin: auto;
+  }
+
+  /* makes the check boxes a bit larger */
+  input[type='checkbox'] { 
+    transform: scale(1.5); 
+  }
+  /* Set black background color, white text and some padding */
+  footer {
+    background-color: #555;
+    color: white;
+    padding: 15px;
+  }
+  
+  /* On small screens, set height to 'auto' for sidenav and grid */
+  @media screen and (max-width: 767px) {
+    .sidenav {
+      height: auto;
+      padding: 15px;
+    }
+    .row.content {height:auto;} 
+  }
+
+  /* centers the container in the middle of the page */
+  .container{
+    margin: auto;
+  }
+
+
+  table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
