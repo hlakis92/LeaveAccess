@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <title>Employee Information</title>
+  <title>Create New Leave</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -10,7 +10,8 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
   <link rel="stylesheet" href="assets/style.css">
-  <style></style>
+  <style>
+  </style>
 </head>
 
 <body>
@@ -29,17 +30,17 @@
         <div class="collapse navbar-collapse" id="myNavbar">
           <ul class="nav navbar-nav">
             <li>
-              <a href="#">Search Team Member</a>
-            </li>
-            <li>
+              <a href="leaveSearch.html">Search Team Member</a>
+          </li>
+          <li>
               <a href="#">Leave List</a>
-            </li>
+          </li>
+          <li>
+              <a href="tasks.html">Tasks</a>
+          </li>
             <li>
-              <a href="#">Tasks</a>
-            </li>
-            <li>
-              <a href="employeelist.html">Team Member List</a>
-            </li>
+              <a href="teammemberlist.html">Team Member List</a>
+          </li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <li>
@@ -55,10 +56,10 @@
       <div class="row content">
         <div class="col-sm-2 sidenav1">
           <p>
-            <a class="active" href="#">Employee Information</a>
+            <a  class="active" href="employeeinfo.html" disabled>Employee Information</a>
           </p>
           <p>
-            <a href="#">Location Information</a>
+            <a href="locationinfo.html">Location Information</a>
           </p>
           <p>
             <a href="#">Leaves</a>
@@ -70,11 +71,11 @@
             <a href="#">Decision</a>
           </p>
           <p>
-            <a href="#">Create New Leave</a>
-          </p>
+              <a href="#">Create New Leave</a>
+            </p>
         </div>
         <div class="col-sm-8 text-left">
-          <h1>Employee Information</h1>
+          <h1>New Leave Request</h1>
 
           <br>
           <!-- this will be the beginning of the form that will contain the employee's information -->
@@ -91,9 +92,7 @@
               </div>
             </div>
 
-            <!--Input for employee information-->
-            <div class="form-group">
-            </div>
+            
 
 
 
@@ -153,6 +152,8 @@
                       <input class="form-check-input" type="checkbox" id="gridCheck">
                     </td>
                   </tr>
+
+                  
                   <tr>
                     <td id="cellNumber">Cell</td>
                     <td>
@@ -171,6 +172,8 @@
                       <input class="form-check-input" type="checkbox" id="gridCheck">
                     </td>
                   </tr>
+
+
                   <tr id="employeeInfo">
                     <td id="workNumber">Work</td>
                     <td>
@@ -214,18 +217,15 @@
             </div>
 
 
-
+            
 
 
 
             <!--Sign In Button-->
-            <div class="form-row">
-              <div class="col-md-12">
-                <button type="submit" class="btn btn-primary">Submit</button>
-              </div>
-            </div>
+            <button type="submit" class="btn btn-primary">Next Page></button>
+          </form>
         </div>
-        </form>
+
         </form>
 
         <!--side bar where employee and supervisor info will populate-->
@@ -237,7 +237,7 @@
             <p id="employeeGender">Gender:</p>
             <p id="addEmail">Email: someone@place.com</p>
             <p id="employeeStatus">Status:Active</p>
-
+            
           </div>
 
 
@@ -249,7 +249,7 @@
       </div>
     </div>
   </div>
-
+<br>
   <footer class="container-fluid text-center">
     <p>Footer Text</p>
   </footer>

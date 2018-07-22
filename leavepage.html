@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Employee Information</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+  <link rel="stylesheet" href="assets/style.css">
+  <style></style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="container-fluid">
+      <nav class="navbar navbar-inverse">
+
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand">Lifetime Absence Management</a>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+          <ul class="nav navbar-nav">
+            <li>
+              <a href="#">Search Team Member</a>
+            </li>
+            <li>
+              <a href="#">Leave List</a>
+            </li>
+            <li>
+              <a href="#">Tasks</a>
+            </li>
+            <li>
+              <a href="teammemberlist.html">Team Member List</a>
+            </li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li>
+              <a href="#">
+                <span class="glyphicon glyphicon-log-out"></span> Log Out</a>
+            </li>
+          </ul>
+        </div>
+    </div>
+    </nav>
+
+    <div class="container-fluid text-center">
+      <div class="row content">
+        <div class="col-sm-2 sidenav1">
+          <p>
+            <a class="active" href="#">Employee Information</a>
+          </p>
+          <p>
+            <a href="#">Location Information</a>
+          </p>
+          <p>
+            <a href="#">Leaves</a>
+          </p>
+          <p>
+            <a href="#">Provider Information</a>
+          </p>
+          <p>
+            <a href="#">Decision</a>
+          </p>
+          <p>
+            <a href="#">Create New Leave</a>
+          </p>
+        </div>
+        <div class="col-sm-8 text-left">
+          <br>
+          <p>Leave Dates</p>
+
+          <br>
+          <!-- this will be the beginning of the form that will contain the employee's information -->
+          <!--Input for first and last name-->
+          <form>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="inputFirst4">First name</label>
+                <input type="text" class="form-control" id="inputFirst4" placeholder="First" required>
+              </div>
+              <div class="form-group col-md-6">
+                <label for="inputLast4">Last Name</label>
+                <input type="text" class="form-control" id="inputLast4" placeholder="Last" required>
+              </div>
+            </div>
+
+            <!--Input for employee information-->
+            <div class="form-group">
+            </div>
+
+
+
+            <!-- this is the email and social info entry for the employee -->
+            <div class="form-row">
+              <div class="form-group col-md-6">
+            
+              </div>
+              <div class="form-group col-md-6">
+                
+              </div>
+            </div>
+
+            <!-- this will be the addresses entry for the employee -->
+            <div class="form-row">
+              <div class="form-group col-md-12">
+                
+              </div>
+              <div class="form-group col-md-12">
+                
+              </div>
+            </div>
+
+            <!-- this div belwow is the table for entering the employee's contact informatiion  -->
+            <div class="form-row">
+              <div class="form-group col-md-12">
+                <table id="notifications">
+                  <tr>
+                    <th>Type</th>
+                    <th>Number</th>
+                    <th>Preferred</th>
+                    <th>Call</th>
+                    <th>Voice Mail</th>
+                    <th>Text</th>
+                  </tr>
+
+                  <tr id="employeeContactInfo">
+
+                    <td id="homeNumber">Home</td>
+                    <td>
+                      <input id="EeHomePhone4" type="tel" class="form-control" placeholder="123-456-7890" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}">
+                    </td>
+                    <td>
+                      <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="option1">
+                    </td>
+                    <td>
+                      <input class="form-check-input" type="checkbox" id="gridCheck">
+                    </td>
+                    <td>
+                      <input class="form-check-input" type="checkbox" id="gridCheck">
+                    </td>
+                    <td>
+                      <input class="form-check-input" type="checkbox" id="gridCheck">
+                    </td>
+                  </tr>
+                  <tr>
+                    <td id="cellNumber">Cell</td>
+                    <td>
+                      <input id="EeCellPhone4" type="tel" class="form-control" placeholder="123-456-7890" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}">
+                    </td>
+                    <td>
+                      <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2">
+                    </td>
+                    <td>
+                      <input class="form-check-input" type="checkbox" id="gridCheck">
+                    </td>
+                    <td>
+                      <input class="form-check-input" type="checkbox" id="gridCheck">
+                    </td>
+                    <td>
+                      <input class="form-check-input" type="checkbox" id="gridCheck">
+                    </td>
+                  </tr>
+                  <tr id="employeeInfo">
+                    <td id="workNumber">Work</td>
+                    <td>
+                      <input id="EeWorkPhone4" type="tel" class="form-control" placeholder="123-456-7890" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}">
+                    </td>
+                    <td>
+                      <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios3" value="option3">
+                    </td>
+                    <td>
+                      <input class="form-check-input" type="checkbox" id="gridCheck">
+                    </td>
+                    <td>
+                      <input class="form-check-input" type="checkbox" id="gridCheck">
+                    </td>
+                    <td>
+                      <input class="form-check-input" type="checkbox" id="gridCheck">
+                    </td>
+                  </tr>
+
+                </table>
+              </div>
+            </div>
+
+
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="inputCity">City</label>
+                <input type="text" class="form-control" id="inputCity" required>
+              </div>
+              <div class="form-group col-md-4">
+                <label for="inputState">State</label>
+                <select id="inputState" class="form-control" required>
+                  <option selected>Choose...</option>
+                  <option>...</option>
+                </select>
+              </div>
+              <div class="form-group col-md-2">
+                <label for="inputZip">Zip</label>
+                <input type="text" class="form-control" id="inputZip" required>
+              </div>
+            </div>
+
+
+
+
+
+
+            <!--Sign In Button-->
+            <div class="form-row">
+              <div class="col-md-12">
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </div>
+            </div>
+        </div>
+        </form>
+        </form>
+
+        <!--side bar where employee and supervisor info will populate-->
+        <div class="col-sm-2 sidenav2">
+          <div class="well">
+            <p id="addName">First Last</p>
+            <p id="addAddress">100 someplace ave, somewhere, AN, 00000</p>
+            <p id="employeePhoneNumber">Phone Number: </p>
+            <p id="employeeGender">Gender:</p>
+            <p id="addEmail">Email: someone@place.com</p>
+            <p id="employeeStatus">Status:Active</p>
+
+          </div>
+
+
+          <div class="well sidenav2">
+            <p id="supervisorName">Supervisor Name:</p>
+            <p id="supervisorEmail">Supervisor Email:</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+ 
+
+</body>
+
+</html>

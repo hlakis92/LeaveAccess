@@ -30,16 +30,16 @@
                 <div class="collapse navbar-collapse" id="myNavbar">
                     <ul class="nav navbar-nav">
                         <li>
-                            <a href="#">Search Team Member</a>
+                            <a href="leaveSearch.html">Search Team Member</a>
                         </li>
                         <li>
                             <a href="#">Leave List</a>
                         </li>
                         <li>
-                            <a href="#">Tasks</a>
+                            <a href="tasks.html">Tasks</a>
                         </li>
                         <li>
-                            <a href="employeelist.html">Team Member List</a>
+                            <a href="teammemberlist.html">Team Member List</a>
                         </li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
@@ -88,7 +88,13 @@
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="inputEmployeeStatus4">Employee Status</label>
-                                <input type="text" class="form-control" id="inputEmployeeStatus4" placeholder="Active/Leave of Absence" required>
+                                <select id="inputStatus" class="form-control" required>
+                                <option selected>Choose...</option>
+                                <option>Active</option>
+                                <option>Inactive</option>
+                                <option>Leave of Absence</option>
+                                </select>
+              
                             </div>
                         </div>
 
