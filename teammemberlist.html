@@ -33,13 +33,13 @@
                         <a href="leaveSearch.html">Search Team Member</a>
                     </li>
                     <li>
-                        <a href="#">Leave List</a>
-                    </li>
-                    <li>
                         <a href="tasks.html">Tasks</a>
                     </li>
                     <li class="active">
                         <a href="teammemberlist.html">Team Member List</a>
+                    </li>
+                    <li>
+                        <a href="#">Reports</a>
                     </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
@@ -75,9 +75,10 @@
                             </div>
                             
                             <div class="col-md-4">
-                                <form action="/claim_managers.php">
-                                    <select name="managers">
-                                        <option value="All">Team Member Status</option>
+                                <form action="/team_status.php">
+                                    <select name="employeeStatus">
+                                        <option value="listofTeamMembers">Team Member Status</option>
+                                        <option value="All">All Team Members</option>
                                         <option value="active">Active</option>
                                         <option value="notActive">Inactive</option>
                                         <option value="Terminated">Terminated</option>
