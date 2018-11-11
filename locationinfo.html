@@ -44,7 +44,7 @@
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li>
-                            <a href="#">
+                             <a href="#">
                                 <span class="glyphicon glyphicon-log-out"></span> Log Out</a>
                         </li>
                     </ul>
@@ -76,8 +76,6 @@
                 </div>
                 <div class="col-sm-8 text-left">
                     <h1>Location Information</h1>
-
-                    
                     <!-- this will be the beginning of the form that will contain the employee's information -->
                     <!--Input for first and last name-->
                     <form>
@@ -99,9 +97,9 @@
                             </div>
                         </div>
 
-                        <!--Input for employee information-->
+                        <!-- Input for employee information
                         <div class="form-group">
-                        </div>
+                        </div> -->
 
 
 
@@ -127,117 +125,121 @@
                                 <label for="input12MonthHours">Hours Worked in Last 12 Months</label>
                                 <input type="number" class="form-control" id="input12MonthHours" placeholder="Hours">
                             </div>
+                            <div class="form-group col-md-4">
+                                <label for="inputCounty">County</label>
+                                <input type="number" class="form-control" id="inputCounty" placeholder="Hours">
+                            </div>
+                        </div>
 
-                            <!-- this will be the addresses entry for the employee -->
+                        <!--this will be the addresses entry for the employee-->
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <label for="inputLocationAddress">Address</label>
+                                <input type="text" class="form-control" id="inputLocationAddress1" placeholder="1234 Main St"
+                                    required>
+                            </div>
+                        </div>
+
+
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="inputCity">City</label>
+                                <input type="text" class="form-control" id="inputCity" required>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="inputState">State</label>
+                                <select id="inputState" class="form-control" required>
+                                    <option selected>Choose...</option>
+                                    <option>...</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-2">
+                                <label for="inputZip">Zip</label>
+                                <input type="text" class="form-control" id="inputZip" required>
+                            </div>
+                        </div>
+
+                        <!-- this div below is the table for entering the employee's contact informatiion  -->
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <table id="notifications">
+                                    <tr>
+                                        <th>Contact Type</th>
+                                        <th>Number</th>
+                                        <th>Contact Name</th>
+                                        <th>Email</th>
+                                    </tr>
+
+                                    <tr id="employeeContactList">
+                                        <label for="inputemployeeContactList">Employee Contact List</label>
+
+                                        <td id="homeNumber">Supervisor</td>
+                                        <td>
+                                            <input id="EeHomePhone4" type="tel" class="form-control" placeholder="123-456-7890"
+                                                pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}">
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control" id="inputSupervisorFirstLast4"
+                                                placeholder="First and Last Name" required>
+                                        </td>
+                                        <td>
+                                            <input type="email" class="form-control" id="inputSupEmail4" placeholder="Email"
+                                                required>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td id="cellNumber">Human Resources</td>
+                                        <td>
+                                            <input id="EeCellPhone4" type="tel" class="form-control" placeholder="123-456-7890"
+                                                pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}">
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control" id="inputHRFirstLast4" placeholder="First and Last Name"
+                                                required>
+                                        </td>
+                                        <td>
+                                            <input type="email" class="form-control" id="inputHREmail4" placeholder="Email"
+                                                required>
+                                        </td>
+                                    </tr>
+
+                                    <tr id="employeeInfo">
+                                        <td id="workNumber">Payroll/Benefits</td>
+                                        <td>
+                                            <input id="EeWorkPhone4" type="tel" class="form-control" placeholder="123-456-7890"
+                                                pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}">
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control" id="inputPayrollFirstLast4"
+                                                placeholder="First and Last Name" required>
+                                        </td>
+                                        <td>
+                                            <input type="email" class="form-control" id="inputPayrollEmail4"
+                                                placeholder="Email" required>
+                                        </td>
+                                    </tr>
+
+                                </table>
+                            </div>
+                            <!--Sign In Button-->
                             <div class="form-row">
-                                <div class="form-group col-md-12">
-                                    <label for="inputLocationAddress">Address</label>
-                                    <input type="text" class="form-control" id="inputLocationAddress1" placeholder="1234 Main St"
-                                        required>
+                                <div class="col-md-6">
+                                    <button type="submit" class="btn btn-primary">Submit</button>
                                 </div>
                             </div>
-
-
-
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                    <label for="inputCity">City</label>
-                                    <input type="text" class="form-control" id="inputCity" required>
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <label for="inputState">State</label>
-                                    <select id="inputState" class="form-control" required>
-                                        <option selected>Choose...</option>
-                                        <option>...</option>
-                                    </select>
-                                </div>
-                                <div class="form-group col-md-2">
-                                    <label for="inputZip">Zip</label>
-                                    <input type="text" class="form-control" id="inputZip" required>
-                                </div>
-                            </div>
-
-                            <!-- this div below is the table for entering the employee's contact informatiion  -->
-                            <div class="form-row">
-                                <div class="form-group col-md-12">
-                                    <table id="notifications">
-                                        <tr>
-                                            <th>Contact Type</th>
-                                            <th>Number</th>
-                                            <th>Contact Name</th>
-                                            <th>Email</th>
-                                        </tr>
-
-                                        <tr id="employeeContactList">
-                                            <label for="inputemployeeContactList">Employee Contact List</label>
-
-                                            <td id="homeNumber">Supervisor</td>
-                                            <td>
-                                                <input id="EeHomePhone4" type="tel" class="form-control" placeholder="123-456-7890"
-                                                    pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}">
-                                            </td>
-                                            <td>
-                                                <input type="text" class="form-control" id="inputSupervisorFirstLast4"
-                                                    placeholder="First and Last Name" required>
-                                            </td>
-                                            <td>
-                                                <input type="email" class="form-control" id="inputSupEmail4"
-                                                    placeholder="Email" required>
-                                            </td>
-                                        </tr>
-
-                                        <tr>
-                                            <td id="cellNumber">Human Resources</td>
-                                            <td>
-                                                <input id="EeCellPhone4" type="tel" class="form-control" placeholder="123-456-7890"
-                                                    pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}">
-                                            </td>
-                                            <td>
-                                                <input type="text" class="form-control" id="inputHRFirstLast4"
-                                                    placeholder="First and Last Name" required>
-                                            </td>
-                                            <td>
-                                                <input type="email" class="form-control" id="inputHREmail4" placeholder="Email"
-                                                    required>
-                                            </td>
-                                        </tr>
-
-                                        <tr id="employeeInfo">
-                                            <td id="workNumber">Payroll/Benefits</td>
-                                            <td>
-                                                <input id="EeWorkPhone4" type="tel" class="form-control" placeholder="123-456-7890"
-                                                    pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}">
-                                            </td>
-                                            <td>
-                                                <input type="text" class="form-control" id="inputPayrollFirstLast4"
-                                                    placeholder="First and Last Name" required>
-                                            </td>
-                                            <td>
-                                                <input type="email" class="form-control" id="inputPayrollEmail4"
-                                                    placeholder="Email" required>
-                                            </td>
-                                        </tr>
-
-                                    </table>
-                                </div>
-                                <!--Sign In Button-->
-                                <div class="form-row">
-                                    <div class="col-md-6">
-                                        <button type="submit" class="btn btn-primary">Submit</button>
-                                    </div>
-                                </div>
+                        </div>
                     </form>
                 </div>
-
-
             </div>
 
-
-
-            <br><br>
-
-
         </div>
+
+        <br><br>
+
+    </div>
+
         <!--side bar where employee and supervisor info will populate-->
         <div class="col-sm-2 sidenav2">
             <div class="row">
@@ -286,9 +288,6 @@
             </div>
         </div>
     </div>
-
-
-
 
 </body>
 

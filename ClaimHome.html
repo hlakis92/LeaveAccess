@@ -111,7 +111,7 @@
 
                       <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Set Task</h4>
+                        <h5 class="modal-title">Set Task</h5>
                       </div>
 
                       <div class="modal-body">
@@ -169,8 +169,39 @@
         </table>
 
         <hr>
+        <h5>Plan Status</h5>
         <div class="claimStatus">
-
+          <div class="well">
+            <div class="row">
+              <div class="col-md-4 ">
+                <div class="planName">Family and Medical Leave Act(FMLA)</div>
+              </div>
+              <div class="col-md-4"></div>
+              <div class="col-md-4">
+                  <div class="plandates">MM/DD/YYYY - MM/DD/YYYY</div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="planStatus"></div>
+                </div>
+              </div>
+            </div>
+            <br><br>
+            <div class="row">
+                <div class="col-md-4 ">
+                  <div class="planName">Short Term Disability (STD)</div>
+                </div>
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                    <div class="plandates">MM/DD/YYYY - MM/DD/YYYY</div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="planStatus"></div>
+                  </div>
+                </div>
+              </div>
+          </div>
         </div>
 
         <h5>Notifications</h5>
@@ -213,8 +244,8 @@
 
         </table>
         <br>
-        <button type="submit" class="btn btn-primary" onclick="uploadNewPaperwork()">Upload Paperwork</button>
-        <button type="submit" class="btn btn-primary" onclick="">Attach Paperwork</button>
+        <button type="submit" class="btn btn-primary" id="attachPw" onclick="uploadNewPaperwork()">Attach Paperwork</button>
+        <button type="submit" class="btn btn-primary" onclick="uploadNewPaperwork()">Upload Paperwork </button>
       </div>
 
 
@@ -251,12 +282,12 @@
         </div>
       </div>
     </div>
-  </div>
+  </div>  
 
 
 
 </body>
 <!-- Javascript link to upload paperwork -->
-<script type="text/javascript" src="assets/uploadPaperwork.js"></script>
+<script type="text/javascript" src="Assets/uploadPaperwork.js"></script>
 
 </html>

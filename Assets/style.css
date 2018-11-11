@@ -107,3 +107,16 @@ td, th {
 tr:nth-child(even) {
     background-color: #dddddd;
 }
+
+.planStatus {
+  word-wrap: break-word;
+  border: 1px solid black;
+  padding: 15px;
+  background: lightgray;
+  border-radius: 5px;
+}
+
+h5 {
+  text-decoration: underline;
+  font-weight: bold;
+}
