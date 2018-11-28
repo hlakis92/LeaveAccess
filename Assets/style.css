@@ -112,11 +112,27 @@ tr:nth-child(even) {
   word-wrap: break-word;
   border: 1px solid black;
   padding: 15px;
+  background: rgb(253, 208, 8);
+  border-radius: 5px;
+}
+
+.planStatus1 {
+  word-wrap: break-word;
+  border: 1px solid black;
+  padding: 15px;
   background: lightgray;
   border-radius: 5px;
 }
 
-h5 {
+h5 {  
   text-decoration: underline;
   font-weight: bold;
+}
+
+.outputTask {
+  text-decoration: underline;
+}
+
+.three-calendars {
+  text-align: center;
 }

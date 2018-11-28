@@ -11,6 +11,8 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <link rel="stylesheet" href="assets/style.css">
+  <link rel="stylesheet" href="css/pickmeup.css" type="text/css" />
+  <link rel="stylesheet" media="screen" type="text/css" href="demo/demo.css" />
   <style>
   </style>
 </head>
@@ -178,7 +180,7 @@
               </div>
               <div class="col-md-4"></div>
               <div class="col-md-4">
-                  <div class="plandates">MM/DD/YYYY - MM/DD/YYYY</div>
+                <div class="plandates">MM/DD/YYYY - MM/DD/YYYY</div>
               </div>
               <div class="row">
                 <div class="col-md-12">
@@ -188,28 +190,50 @@
             </div>
             <br><br>
             <div class="row">
-                <div class="col-md-4 ">
-                  <div class="planName">Short Term Disability (STD)</div>
-                </div>
-                <div class="col-md-4"></div>
-                <div class="col-md-4">
-                    <div class="plandates">MM/DD/YYYY - MM/DD/YYYY</div>
-                </div>
-                <div class="row">
-                  <div class="col-md-12">
-                    <div class="planStatus"></div>
-                  </div>
+              <div class="col-md-4 ">
+                <div class="planName">Short Term Disability (STD)</div>
+              </div>
+              <div class="col-md-4"></div>
+              <div class="col-md-4">
+                <div class="plandates">MM/DD/YYYY - MM/DD/YYYY</div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="planStatus1"></div>
                 </div>
               </div>
+            </div>
           </div>
         </div>
 
-        <h5>Notifications</h5>
+        <h5 style="background-color:lightgrey;">Tasks</h5>
+        <div class="newTasks">
+          <div class="outputTask"><a>Eligibility</a><span class="taskDate" style="padding-left: 25px;">MM/DD/YYYY</span></div>
+          <div class="outputTask"><a>Decision</a><span class="taskDate" style="padding-left: 25px;">MM/DD/YYYY</span></div>
+          <div class="outputTask"><a>Paperwork Review</a><span class="taskDate" style="padding-left: 25px;">MM/DD/YYYY</span></div>
+          <div class="outputTask"><a>ERTW Confirmation</a><span class="taskDate" style="padding-left: 25px;">MM/DD/YYYY</span></div>
+          <div class="outputTask"><a>ARTW Confirmation</a><span class="taskDate" style="padding-left: 25px;">MM/DD/YYYY</span></div>
+        </div>
+        <br><br>
 
+
+        <div id="Datepicker1">
+          <section>
+            <h5 style="background-color:lightgrey;">Enter Intermittent Usage</h5>
+            <article>
+              <div class="three-calendars"></div>
+            </article>
+          </section>
+        </div>
+
+
+        <br><br>
+        <h5>Notifications</h5>
         <table id="notifications">
           <tr>
             <th>Letter</th>
             <th>Contact</th>
+            <th>Sent By</th>
             <th>Date</th>
           </tr>
 
@@ -218,6 +242,7 @@
               <a href="#"> Decision</a>
             </td>
             <td id="employee">Francisco Chang(TM)</td>
+            <td id="letterSentMethod">Mail, E-Mail</td>
             <td id="letterDate">06/25/2018</td>
           </tr>
           <tr>
@@ -225,6 +250,7 @@
               <a href="#">Decision</a>
             </td>
             <td id="supervisor">Roland Mendel</td>
+            <td id="letterSentMethod">Mail, E-Mail</td>
             <td id="letterDate">06/25/2018</td>
           </tr>
           <tr id="employeeInfo">
@@ -232,6 +258,7 @@
               <a href="#">Eligibility</a>
             </td>
             <td id="employee">Francisco Chang(TM)</td>
+            <td id="letterSentMethod">Mail, E-Mail</td>
             <td id="letterDate">06/25/2018</td>
           </tr>
           <tr>
@@ -239,6 +266,7 @@
               <a href="#">Eligibility</a>
             </td>
             <td id="supervisor">Roland Mendel</td>
+            <td id="letterSentMethod">Mail, E-Mail</td>
             <td id="letterDate">06/25/2018</td>
           </tr>
 
@@ -257,10 +285,11 @@
           <p id="employeeGender">Gender:</p>
           <p id="addEmail">Email: someone@place.com</p>
           <p id="employeeStatus">Status:Active</p>
-        </div>
-
-
-
+        </div> 
+        
+        <div class="noteArea"></div>
+            
+        <br>
 
         <div class="well sidenav2">
           <div id="supervisorcontacts">
@@ -280,14 +309,28 @@
           </div>
 
         </div>
+
+        <div class="well">
+          <p id="updateClaimNumber">Leave ID: 2019000001</p>
+          <p id="dateOpened">Date Opened: 00/00/0000</p>
+          <p id="employeePhoneNumber">Phone Number: </p>
+          <p id="employeeGender">Gender:</p>
+          <p id="dateClosed">Date Closed:00/00/0000</p>
+          <p id="leaveStatus">Status:Opened</p>
+        </div>
       </div>
     </div>
-  </div>  
+  </div>
 
 
 
 </body>
+
+
 <!-- Javascript link to upload paperwork -->
 <script type="text/javascript" src="Assets/uploadPaperwork.js"></script>
+
+<script type="text/javascript" src="js/pickmeup.js"></script>
+<script type="text/javascript" src="demo/demo.js"></script>
 
 </html>
