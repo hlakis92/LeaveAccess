@@ -75,7 +75,7 @@
                     </p>
                 </div>
                 <div class="col-sm-8 text-left">
-                    <h1>Leave Type</h1>
+                    <h1>Leave Type/Change</h1>
 
 
                     <!-- this will be the beginning of the form that will contain the employee's information -->
@@ -95,103 +95,56 @@
                         <!-- this div belwow is the table for entering the employee's contact informatiion  -->
                         <div class="form-row">
                             <div class="form-group col-md-12">
-                                <table id="notifications">
-                                    <tr>
-                                        <th></th>
-                                        <th>Type of Leave Description</th>
-                                    </tr>
-
-                                    <tr id="employeeContactInfo">
-
-                                        <td id="homeNumber">
-                                            <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2"
-                                                value="option2">
-                                        </td>
-                                        <td>
-                                            Employee's Own Health Condition
-                                        </td>
-
-                                    <tr>
-                                        <td id="cellNumber">
-                                            <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2"
-                                                value="option2">
-                                        </td>
-                                        <td>
-                                            Family Member's Health Condition
-                                        </td>
-
-                                    <tr id="employeeInfo">
-                                        <td id="workNumber">
-                                            <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2"
-                                                value="option2">
-                                        </td>
-                                        <td>
-                                            Military Leave
-                                        </td>
-
-                                    <tr id="employeeInfo">
-                                        <td id="workNumber">
-                                            <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2"
-                                                value="option2">
-                                        </td>
-                                        <td>
-                                            Maternity Leave
-                                        </td>
-
-                                    <tr id="employeeInfo">
-                                        <td id="workNumber">
-                                            <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2"
-                                                value="option2">
-                                        </td>
-                                        <td>
-                                            Workplace Accommodation
-                                        </td>
-
-                                    <tr id="employeeInfo">
-                                        <td id="workNumber">
-                                            <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2"
-                                                value="option2">
-                                        </td>
-                                        <td>
-                                            Care For Newborn
-                                        </td>
-
-                                    <tr id="employeeInfo">
-                                        <td id="workNumber">
-                                            <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2"
-                                                value="option2">
-                                        </td>
-                                        <td>
-                                            Family Military Exigency
-                                        </td>
-                                    <tr id="employeeInfo">
-                                        <td id="workNumber">
-                                            <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2"
-                                                value="option2">
-                                        </td>
-                                        <td>
-                                            Adoption
-                                        </td>
-                                    <tr id="employeeInfo">
-                                        <td id="workNumber">
-                                            <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2"
-                                                value="option2">
-                                        </td>
-                                        <td>
-                                            Foster Care
-                                        </td>
-                                </table>
+                                <div class="form-row">
+                                    <div class="form-group col-md-3">
+                                        <label for="inputStartDate4">Start Date</label>
+                                        <input type="date" class="form-control" id="InputStartDateofTM1" placeholder="First Day Missed"
+                                            required>
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <label for="inputEndDate4">End Date</label>
+                                        <input type="date" class="form-control" id="InputEndDateofTM1" placeholder="Last Day Covered Through"
+                                            required>
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <label for="input-leavetype">Leave Type</label>
+                                        <form action="/leave_type.php">
+                                            <select name="managers" id="selectLeaveTypeOptions" placeholder="Select Leave Type">
+                                                <option value="continuousleavetype">Continuous</option>
+                                              <option value="intermittentleavetype">Intermittent</option>
+                                              <option value="reducedWSleavetype">Reduced Schedule</option>
+                                            </select>
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                            <label for="inputEndDate4">Submit Change</label>
+                                            <button type="submit" class="btn btn-primary">Submit > </button>
+                                        </div>
+                                </div>
                             </div>
                         </div>
 
 
                         <div class="form-row">
-                            <div class="form-group col-md-6">
-                            </div>
-                            <div class="form-group col-md-4">
-                            </div>
-                            <div class="form-group col-md-2">
-                            </div>
+                                <h5>Leave Info Summary</h5>
+                                <div class="elected-Status">
+                                  <div class="well">
+                                    <div class="row">
+                                      <div class="col-md-4 ">
+                                        <div class="plan-Type">Continuous</div>
+                                      </div>
+                                      <div class="col-md-4"></div>
+                                      <div class="col-md-4">
+                                        <div class="plandates">MM/DD/YYYY - MM/DD/YYYY</div>
+                                      </div>
+                                      <div class="row">
+                                        <div class="col-md-12">
+                                          <div class="electedDates"></div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <br><br>
+                                  </div>
+                                </div>  
                         </div>
 
 
@@ -250,6 +203,14 @@
                                 <p id="supervisorEmail">Payroll/Benefits Email:</p>
                             </div>
                             <!-- </div> -->
+                        </div>
+                        <div class="well claimInfoSummary">
+                            <p id="updateClaimNumber">Leave ID: 2019000000</p>
+                            <p id="dateOpened">Date Opened: 00/00/0000</p>
+                            <p id="employeePhoneNumber">Phone Number: </p>
+                            <p id="employeeGender">Gender:</p>
+                            <p id="dateClosed">Date Closed:00/00/0000</p>
+                            <p id="leaveStatus">Status:Opened</p>
                         </div>
                     </div>
                 </div>
