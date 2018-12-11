@@ -150,3 +150,38 @@ h5 {
   border-radius: 5px;
 
 }
+
+#incompleteLeaves{
+  background-color: rgb(218, 115, 115);
+  padding: 2px;
+  text-align: center;
+  border-radius: 5px;
+}
+
+#openLeaves{
+  background-color: lightgreen;
+  padding: 2px;
+  text-align: center;
+  border-radius: 5px;
+}
+
+#closedLeaves{
+  background-color: lightgrey;
+  padding: 2px;
+  text-align: center;
+  border-radius: 5px;
+}
+
+#leave-eligible{
+  background-color: lightgreen;
+  padding: 5px;
+  text-align: center;
+  border-radius: 5px;
+}
+
+#leave-NotEligible{
+  background-color: lightgrey;
+  padding: 5px;
+  text-align: center;
+  border-radius: 5px;
+}

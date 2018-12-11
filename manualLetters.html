@@ -61,78 +61,65 @@
         
         <!-- this will be the beginning of the form that will contain the employee's information -->
         <!--Input for first and last name-->
-        <h4 id="incompleteLeaves">Incomplete Leaves</h4>
-        <table id="incompleteLeaves-table">
-          <tr>
-            <th>Claim Number</th>
-            <th>Type</th>
-            <th>Dates</th>
-          </tr>
+        <h4 id="letterTitle">Choose A Letter</h4>
+        <table id="leaveReasonTable">
+            <tr>
+              <th></th>
+              <th>Type of Letter</th>
+            </tr>
 
-          <tr id="leaveInfoCell">
-            <td id="assigned-leaveNumber"><a href="#">20190000000</a></td>
-            <td id="selected-leaveType">Continuous</td>
-            <td id="selected-leaveDates">06/25/2018 - 09/15/2018</td>
-          </tr>
-        </table>
-        <br>
-        <br>
-        <h4 id="openLeaves">Open Leaves</h4>
-        <table id="openLeaves-table">
-          <tr>
-            <th>Claim Number</th>
-            <th>Type</th>
-            <th>Dates</th>
-          </tr>
+            <tr id="employeeContactInfo">
 
-          <tr id="leaveInfoCell">
-            <td id="assigned-leaveNumber"><a href="#">20190000000</a></td>
-            <td id="selected-leaveType">Continuous</td>
-            <td id="selected-leaveDates">06/25/2018 - 09/15/2018</td>
-          </tr>
+              <td id="manual-elig-letter">
+                <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2">
+              </td><td><a href="#" data-target="#">Eligibility Letter</a></td>
 
-          <tr>
-            <td id="assigned-leaveNumber"><a href="#">20190000000</a></td>
-            <td id="selected-leaveType">Intermittent</td>
-            <td id="selected-leaveDates">06/25/2018 - 09/15/2018</td>
-          </tr>
-        </table>
+            <tr>
+              <td id="manual-decision-letter">
+                <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2">
+              </td>
+              <td><a href="#" data-target="#">Decision Letter</a></td>
 
+            <tr id="Manual-RTW-Letter">
+              <td id="rtwLetter"><input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2">
+              </td> <td><a href="#" data-target="#">Return To Work Letter</a></td>
 
-        <br><br>
-        <h4 id="closedLeaves">Closed Leaves</h4>
-        <table id="closedLeaves-table">
-          <tr>
-            <th>Claim Number</th>
-            <th>Type</th>
-            <th>Dates</th>
-          </tr>
+            <tr id="manual-close-letter">
+              <td id="closeLeaveLetter"><input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2">
+              </td><td><a href="#" data-target="#">Close Leave Letter</a></td>
 
-          <tr id="leaveInfoCell">
-            <td id="assigned-leaveNumber"> <a href="#">20190000000</a></td>
-            <td id="selected-leaveType">Continuous</td>
-            <td id="selected-leaveDates">06/25/2018 - 09/15/2018</td>
-          </tr>
+            <tr id="sampleLetter1">
+              <td id="#">
+                <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2">
+              </td> <td><a href="#" data-target="#">Sample Letter 1</a></td>
 
-          <tr>
-            <td id="assigned-leaveNumber"> <a href="#">20190000000</a></td>
-            <td id="selected-leaveType">Intermittent</td>
-            <td id="selected-leaveDates">06/25/2018 - 09/15/2018</td>
-          </tr>
+            <tr id="sampleLetter2">
+              <td id="#">
+                <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2">
+              </td> <td><a href="#" data-target="#">Sample Letter 2</a></td>
 
-          <tr id="leaveInfoCell">
-            <td id="assigned-leaveNumber"> <a href="#">20190000000</a></td>
-            <td id="selected-leaveType">Reduced Schedule</td>
-            <td id="selected-leaveDates">06/25/2018 - 09/15/2018</td>
-          </tr>
-          <tr>
-        </table>
+            <tr id="sampleLetter3">
+              <td id="#">
+                <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2">
+              </td>
+              <td><a href="#" data-target="#">Sample Letter 3</a></td>
+
+            <tr id="sampleLetter4">
+              <td id="#">
+                  <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2">
+              </td><td><a href="#" data-target="#">Sample Letter 4</a></td>
+
+            <tr id="sampleLetter5">
+              <td id="#">
+                <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2">
+              </td><td><a href="#" data-target="#">Sample Letter 5</a></td>
+          </table>
 
         <br>
         
         <div class="form-row">
           <div class="col-md-12">
-           
+                <button type="submit" class="btn btn-primary">Send > </button>
           </div>
         </div>
       </div>
@@ -201,6 +188,14 @@
               <p id="supervisorEmail">Payroll/Benefits Email:</p>
             </div>
             <!-- </div> -->
+          </div>
+          <div class="well claimInfoSummary">
+            <p id="updateClaimNumber">Leave ID: 2019000001</p>
+            <p id="dateOpened">Date Opened: 00/00/00  00</p>
+            <p id="employeePhoneNumber">Phone Number: </p>
+            <p id="employeeGender">Gender:</p>
+            <p id="dateClosed">Date Closed:00/00/0000</p>
+            <p id="leaveStatus">Status:Opened</p>
           </div>
         </div>
       </div>
