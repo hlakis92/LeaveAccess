@@ -142,6 +142,10 @@ h5 {
   border-radius: 5px;
 }
 
+.leaveReasonCode{
+  font-size: 4px;
+}
+
 .electedDates {
   word-wrap: break-word;
   border: 1px solid rgb(151, 151, 151);
