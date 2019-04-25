@@ -10,9 +10,10 @@
         integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="assets/style.css">
-    <link rel="stylesheet" href="css/pickmeup.css" type="text/css" />
-    <link rel="stylesheet" media="screen" type="text/css" href="demo/demo.css" />
+    <link rel="stylesheet" href="../Assets/style.css">
+    <link rel="stylesheet" href="../Assets/reset.css">
+    <link rel="stylesheet" href="../css/pickmeup.css" type="text/css" />
+    <link rel="stylesheet" media="screen" type="text/css" href="../demo/demo.css" />
     <style>
     </style>
 </head>
@@ -93,6 +94,76 @@
                         <div class="col-md-2">
                             <h5 id="createTasks" data-toggle="modal" data-target="#myModal"><a href="#">Create Tasks</a>
                             </h5>
+                            <!-- Modal -->
+                            <div class="modal fade" id="myModal" role="dialog">
+                                <div class="modal-dialog">
+                                    <p id="employeeStatus">Status:Active</p>
+
+                                    <!-- Modal content-->
+                                    <div class="modal-content">
+
+                                        <div class="modal-header">
+                                            <button type="button" class="close"
+                                                data-dismiss="modal">&times;</button>
+                                            <h5 class="modal-title">Set Task</h5>
+                                        </div>
+
+                                        <div class="modal-body">
+                                            <div id="pickManager">
+                                                <form action="">
+                                                    <select name="managers" required>
+                                                        <option value="All">All Claim Manager</option>
+                                                        <option value="Hassan">Hassan</option>
+                                                        <option value="Hassan">Emilee</option>
+                                                        <option value="Hassan">Carrie</option>
+                                                    </select>
+                                            </div>
+
+                                            <br>
+
+                                            <div class="form-group">
+                                                <label for="taskName">Task Name</label>
+                                                <input type="text" class="form-control" id="taskName"
+                                                    placeholder="Write Task Name">
+                                            </div>
+
+                                            <br>
+
+                                            <div class="form-group">
+                                                <div>
+                                                    <label for="start">Task Due Date</label>
+                                                    <input type="date" id="start" name="trip" value="2018-07-22"
+                                                        min="1990-01-01" max="2088-12-31" />
+                                                </div>
+
+                                                <br>
+
+                                                <label for="FormControlTextarea1">Description </label>
+                                                <textarea class="form-control" id="exampleFormControlTextarea1"
+                                                    rows="4"> </textarea>
+                                            </div>
+
+
+                                            <!-- Modal Task Completed Check box-->
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input"
+                                                    id="taskCompletedCheck">
+                                                <label class="custom-control-label" for="taskCompletedCheck">Task
+                                                    Completed</label>
+                                            </div>
+
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default"
+                                                data-dismiss="modal">Close</button>
+                                            <button type="sumbmit" class="btn btn-default"
+                                                data-dismiss="modal">submit</button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -104,12 +175,12 @@
                             <th id="leavePlan">State/FMLA Plan</th>
                             <th id="leaveNotes">
                                 <!-- Trigger the modal with a button -->
-                                <button type="button" class="btn btn-info btn-md" data-toggle="#" data-target="#">
+                                <button type="button" class="btn btn-info btn-md" data-toggle="modal" data-target="#myModal2">
                                     <i class="fa fa-sticky-note" aria-hidden="true"></i> Notes</i>
                                 </button>
 
                                 <!-- Modal -->
-                                <div class="modal fade" id="myModal" role="dialog">
+                                <div class="modal fade" id="myModal2" role="dialog">
                                     <div class="modal-dialog">
                                         <p id="employeeStatus">Status:Active</p>
 
@@ -175,13 +246,12 @@
                                                     data-dismiss="modal">submit</button>
                                             </div>
                                         </div>
-
                                     </div>
                                 </div>
                 </div>
                 </th>
                 </tr>
-                <td id="leaveType">Continuous</td>
+                <td id="leaveType">Reduced Work Schedule</td>
                 <td id="leaveReasonCode">Family Member's Health Condition</td>
                 <td id="leaveDates">6/29/2019 - 8/28/2019</td>
                 <td id="leavePlan">Family Medical Leave Act (FMLA)<br>California Family Rights Act (CFRA) </td>
@@ -196,7 +266,7 @@
                                 <th>Plan Name</th>
                                 <th>Total Hours / Weeks Available</th>
                                 <th>Leave Usage</th>
-                                <th>Hours Remaining(To Date)</th>
+                                <th>Hours Remaining(By End Date)</th>
                             </tr>
                             <tr>
                                 <td>FMLA<br>CFRA</td>
@@ -376,6 +446,7 @@
 
 
 <!-- Javascript link to upload paperwork -->
-<script type="text/javascript" src="./Assets/uploadPaperwork.js"></script>
+<script type="text/javascript" src="../Assets/uploadPaperwork.js"></script>
+
 
 </html>
