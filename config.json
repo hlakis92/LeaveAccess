@@ -1,0 +1,17 @@
+{
+  "ssl": {
+    "active": false,
+    "key": "SSL_2019/leave_access.key",
+    "certificate": "SSL_2019/leave_access.crt",
+    "intermediate": "SSL_2019/leave_access.crt"
+  },
+  "dbConfig": {
+    "host": "127.0.0.1",
+    "port": "3306",
+    "user": "root",
+    "password": "root",
+    "database": "leave_access",
+    "type": "database",
+    "databaseType": "mysql"
+  }
+}

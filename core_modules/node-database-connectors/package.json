@@ -1,0 +1,52 @@
+{
+  "name": "node-database-connectors",
+  "license": "Apache License 2.0",
+  "description": "connector to convert JSON to database specific query",
+  "main": "ConnectorIdentifier.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/darshit-shah/node-database-connectors.git"
+  },
+  "author": {
+    "name": "Darshit Shah",
+    "email": "darshit@yuktianalytics.com"
+  },
+  "bugs": {
+    "url": "https://github.com/darshit-shah/node-database-connectors/issues"
+  },
+  "dependencies": {
+    "mysql": "*"
+  },
+  "homepage": "https://github.com/darshit-shah/node-database-connectors",
+  "version": "0.0.13",
+  "gitHead": "98e7cc7ec83ba7342c0e5ab595dfec5b6ae8f29c",
+  "_id": "node-database-connectors@0.0.13",
+  "_shasum": "121a24ae17e2d927c1ca86c93a2b273e23e464cd",
+  "_from": "node-database-connectors@*",
+  "_npmVersion": "2.14.7",
+  "_nodeVersion": "0.8.17",
+  "_npmUser": {
+    "name": "darshit-shah",
+    "email": "darshit@yuktianalytics.com"
+  },
+  "dist": {
+    "shasum": "121a24ae17e2d927c1ca86c93a2b273e23e464cd",
+    "tarball": "https://registry.npmjs.org/node-database-connectors/-/node-database-connectors-0.0.13.tgz"
+  },
+  "maintainers": [
+    {
+      "name": "darshit-shah",
+      "email": "darshit@yuktianalytics.com"
+    }
+  ],
+  "_npmOperationalInternal": {
+    "host": "packages-9-west.internal.npmjs.com",
+    "tmp": "tmp/node-database-connectors-0.0.13.tgz_1456400168801_0.7797710192389786"
+  },
+  "directories": {},
+  "_resolved": "http://registry.npmjs.org/node-database-connectors/-/node-database-connectors-0.0.13.tgz",
+  "readme": "ERROR: No README data found!"
+}
