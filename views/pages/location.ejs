@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <% include ../partials/head %>
+
+</head>
+<body>
+
+<div class="container">
+    <div class="container-fluid">
+        <% include ../partials/topnav %>
+        <div class="col-sm-2 sidenav1">
+        </div>
+        <div class="col-sm-8 text-left">
+            <h1>Location Information</h1>
+
+            <br>
+            <!-- this will be the beginning of the form that will contain the employee's information -->
+            <!--Input for first and last name-->
+            <form>
+                <div class="form-row">
+                    <!--Employee Identification information and -->
+                    <div class="form-group col-md-6">
+                        <label for="inputEmployeeId">Employee Identification Number</label>
+                        <input type="text" class="form-control" id="inputEmployeeId"
+                               placeholder="Employee ID Number" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="inputEmployeeStatus">Employee Status</label>
+                        <select id="inputEmployeeStatus" class="form-control" required>
+                            <option selected>Choose...</option>
+                            <option>Active</option>
+                            <option>Inactive</option>
+                            <option>Leave of Absence</option>
+                        </select>
+
+                    </div>
+                </div>
+
+
+                <!-- this is the email and social info entry for the employee -->
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="inputLocationEmail">Email</label>
+                        <input type="email" class="form-control" id="inputLocationEmail" placeholder="Email">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="inputHireDate">Hire Date</label>
+                        <input type="date" class="form-control" id="inputHireDate" placeholder="Hired"
+                               required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="input12MonthHours">Hours Worked in Last 12 Months</label>
+                        <input type="number" class="form-control" id="input12MonthHours" placeholder="Hours">
+                    </div>
+
+                    <!-- this will be the addresses entry for the employee -->
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <label for="inputAddress">Address</label>
+                            <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St"
+                                   required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="inputCity">City</label>
+                            <input type="text" class="form-control" id="inputCity" required>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="inputState">State</label>
+                            <select id="inputState" class="form-control" required>
+                                <option selected>Choose...</option>
+                                <option>...</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-2">
+                            <label for="inputZip">Zip</label>
+                            <input type="text" class="form-control" id="inputZip" required>
+                        </div>
+                    </div>
+
+                    <br><br>
+
+                    <!-- this div belwow is the table for entering the employee's contact informatiion  -->
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <table id="notifications">
+                                <tr>
+                                    <th>Contact Type</th>
+                                    <th>Number</th>
+                                    <th>Contact Name</th>
+                                    <th>Email</th>
+                                </tr>
+
+                                <tr id="employeeContactList">
+                                    <label for="inputemployeeContactList">Employee Contact List</label>
+
+                                    <td id="homeNumber">Supervisor</td>
+                                    <td>
+                                        <input id="supervisorPhone" type="tel" class="form-control"
+                                               placeholder="123-456-7890" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" id="supervisorName"
+                                               placeholder="First and Last Name" required>
+                                    </td>
+                                    <td>
+                                        <input type="email" class="form-control" id="supervisorEmail"
+                                               placeholder="Email" required>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td id="cellNumber">Human Resources</td>
+                                    <td>
+                                        <input id="hrPhone" type="tel" class="form-control"
+                                               placeholder="123-456-7890" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" id="hrPhoneName"
+                                               placeholder="First and Last Name" required>
+                                    </td>
+                                    <td>
+                                        <input type="email" class="form-control" id="hrEmail"
+                                               placeholder="Email" required>
+                                    </td>
+                                </tr>
+
+                                <tr id="employeeInfo">
+                                    <td id="workNumber">Payroll/Benefits</td>
+                                    <td>
+                                        <input id="payrollPhone" type="tel" class="form-control"
+                                               placeholder="123-456-7890" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" id="payrollName"
+                                               placeholder="First and Last Name" required>
+                                    </td>
+                                    <td>
+                                        <input type="email" class="form-control" id="payrollEmail"
+                                               placeholder="Email" required>
+                                    </td>
+                                </tr>
+
+                            </table>
+                        </div>
+                        <br> <br>
+                        <div class="form-row">
+                            <div class="col-md-12">
+                                <table id="notifications">
+                                    <tr>
+                                        <th>Sunday</th>
+                                        <th>Monday</th>
+                                        <th>Tuesday</th>
+                                        <th>Wednesday</th>
+                                        <th>Thursday</th>
+                                        <th>Friday</th>
+                                        <th>Saturday</th>
+                                    </tr>
+
+                                    <tr id="WorkSched">
+                                        <label for="inputWorkSched">Enter Work Schedule</label>
+
+                                        <td id="sundayRSHours"><input type="number" class="form-control"
+                                                                      id="inputsundayRSHours" placeholder="0" required>
+                                        </td>
+                                        <td id="mondayRSHours"><input type="number" class="form-control"
+                                                                      id="inputmondayRSHours" placeholder="0" required>
+                                        </td>
+                                        <td id="tuesdayRSHours"><input type="number" class="form-control"
+                                                                       id="inputtuesdayRSHours" placeholder="0"
+                                                                       required>
+                                        </td>
+                                        <td id="wednesdayRSHours"><input type="number" class="form-control"
+                                                                         id="inputwednesdayRSHours" placeholder="0"
+                                                                         required>
+                                        </td>
+                                        <td id="thursdayRSHours"><input type="number" class="form-control"
+                                                                        id="inputthursdayRSHours" placeholder="0"
+                                                                        required>
+                                        </td>
+                                        <td id="fridayRSHours"><input type="number" class="form-control"
+                                                                      id="inputfridayRSHours" placeholder="0" required>
+                                        </td>
+                                        <td id="SaturdayRSHours"><input type="number" class="form-control"
+                                                                        id="inputSaturdayRSHours" placeholder="0"
+                                                                        required>
+                                        </td>
+                                    </tr>
+                                </table>
+
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <!-- Button-->
+                    <div class="form-row">
+                        <div class="col-md-6">
+                            <br> <br>
+                            <!--back and next page button-->
+                            <button type="button" class="btn btn-secondary" id="locationBackButton"> Back</button>
+                            <button type="submit" class="btn btn-primary" id="locationAddButton">Next Page →</button>
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+<% include ../partials/footer %>
+<script>
+  $(document).ready(function () {
+    let locationInfo = getCookie('locationInfo');
+    if (locationInfo !== '' && locationInfo !== undefined) {
+      locationInfo = JSON.parse(locationInfo)
+      $("#inputEmployeeId").val(locationInfo['employeeId']);
+      $("#inputEmployeeStatus").val(locationInfo['employeeStatus']);
+      $("#inputLocationEmail").val(locationInfo['locationEmail']);
+      $("#inputHireDate").val(locationInfo['DOJ']);
+      $("#input12MonthHours").val(locationInfo['_12MonthHours']);
+      $("#inputAddress").val(locationInfo['address']);
+      $("#inputCity").val(locationInfo['city']);
+      $("#inputState").val(locationInfo['state']);
+      $("#inputZip").val(locationInfo['pincode']);
+      $("#supervisorPhone").val(locationInfo['supervisorPhone']);
+      $("#supervisorName").val(locationInfo['supervisorName']);
+      $("#supervisorEmail").val(locationInfo['supervisorEmail']);
+      $("#hrPhone").val(locationInfo['hrPhone']);
+      $("#hrPhoneName").val(locationInfo['hrPhoneName']);
+      $("#hrEmail").val(locationInfo['hrEmail']);
+      $("#payrollPhone").val(locationInfo['payrollPhone']);
+      $("#payrollName").val(locationInfo['payrollName']);
+      $("#payrollEmail").val(locationInfo['payrollEmail']);
+      $("#inputsundayRSHours").val(locationInfo['inputsundayRSHours']);
+      $("#inputmondayRSHours").val(locationInfo['inputmondayRSHours']);
+      $("#inputtuesdayRSHours").val(locationInfo['inputtuesdayRSHours']);
+      $("#inputwednesdayRSHours").val(locationInfo['inputwednesdayRSHours']);
+      $("#inputthursdayRSHours").val(locationInfo['inputthursdayRSHours']);
+      $("#inputfridayRSHours").val(locationInfo['inputfridayRSHours']);
+      $("#inputSaturdayRSHours").val(locationInfo['inputSaturdayRSHours']);
+    }
+  });
+</script>
+</html>

@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <% include ../partials/head %>
+
+</head>
+<body>
+
+<div class="container">
+    <div class="container-fluid">
+        <% include ../partials/topnav %>
+        <div class="container-fluid text-center">
+            <div class="row content">
+                <div class="col-sm-2 sidenav1"></div>
+                <!--<div class="col-sm-2 sidenav1">
+                    <p>
+                        <a class="active" href="#">Employee Information</a>
+                    </p>
+                    <p>
+                        <a href="#">Location Information</a>
+                    </p>
+                    <p>
+                        <a href="#">Leaves</a>
+                    </p>
+                    <p>
+                        <a href="#">Provider Information</a>
+                    </p>
+                    <p>
+                        <a href="#">Decision</a>
+                    </p>
+                    <p>
+                        <a href="#">Create New Leave</a>
+                    </p>
+                </div>-->
+                <div class="col-sm-8 text-left">
+                    <h1>Employee Information</h1>
+
+                    <br>
+                    <!-- this will be the beginning of the form that will contain the employee's information -->
+                    <!--Input for first and last name-->
+                    <form>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="inputFirstName">First name</label>
+                                <input type="text" class="form-control" id="inputFirstName" placeholder="First"
+                                       required>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="inputLast4">Last Name</label>
+                                <input type="text" class="form-control" id="inputLastName" placeholder="Last" required>
+                            </div>
+                        </div>
+                        <!-- this is the email and social info entry for the employee -->
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="inputEmail">Email</label>
+                                <input type="email" class="form-control" id="inputEmail" placeholder="Email">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="inputDOB">Date Of Birth</label>
+                                <input type="date" class="form-control" id="inputDOB" placeholder="DOB" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-4">
+                                <label for="inputGender">Gender</label>
+                                <select id="inputGender" class="form-control" required>
+                                    <option selected>None</option>
+                                    <option selected value=0>Male</option>
+                                    <option value="1">Female</option>
+                                </select>
+                            </div>
+                            <!-- this will be the addresses entry for the employee -->
+                            <div class="form-row">
+                                <div class="form-group col-md-12">
+                                    <label for="inputAddress1">Address</label>
+                                    <input type="text" class="form-control" id="inputAddress1"
+                                           placeholder="1234 Main St" required>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-12">
+                                    <label for="inputAddress2">Address 2 (optional)</label>
+                                    <input type="text" class="form-control" id="inputAddress2"
+                                           placeholder="Apartment, studio, or floor"
+                                           required>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="inputCity">City</label>
+                                    <input type="text" class="form-control" id="inputCity" required>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="inputStat">State</label>
+                                    <select id="inputState" class="form-control" required>
+                                        <option selected>Choose...</option>
+                                        <option>...</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <label for="inputZip">Zip</label>
+                                    <input type="text" class="form-control" id="inputZip" required>
+                                </div>
+                            </div>
+
+                            <!-- this div belwow is the table for entering the employee's contact informatiion  -->
+                            <div class="form-row">
+                                <div class="form-group col-md-12">
+                                    <table id="notifications">
+                                        <tr>
+                                            <th>Type</th>
+                                            <th>Number</th>
+                                            <th>Preferred</th>
+                                            <th>Call</th>
+                                            <th>Voice Mail</th>
+                                            <th>Text</th>
+                                        </tr>
+
+                                        <tr id="employeeContactInfo">
+
+                                            <td id="homeNumber">Home</td>
+                                            <td>
+                                                <input id="EeHomePhone4" type="tel" class="form-control"
+                                                       placeholder="123-456-7890" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}">
+                                            </td>
+                                            <td>
+                                                <input class="form-check-input" type="radio" name="gridRadios"
+                                                       id="gridRadios1" value="option1">
+                                            </td>
+                                            <td>
+                                                <input class="form-check-input" type="checkbox" id="gridCheck">
+                                            </td>
+                                            <td>
+                                                <input class="form-check-input" type="checkbox" id="gridCheck">
+                                            </td>
+                                            <td>
+                                                <input class="form-check-input" type="checkbox" id="gridCheck">
+                                            </td>
+                                        </tr>
+
+
+                                        <tr>
+                                            <td id="cellNumber">Cell</td>
+                                            <td>
+                                                <input id="EeCellPhone4" type="tel" class="form-control"
+                                                       placeholder="123-456-7890" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}">
+                                            </td>
+                                            <td>
+                                                <input class="form-check-input" type="radio" name="gridRadios"
+                                                       id="gridRadios2" value="option2">
+                                            </td>
+                                            <td>
+                                                <input class="form-check-input" type="checkbox" id="gridCheck">
+                                            </td>
+                                            <td>
+                                                <input class="form-check-input" type="checkbox" id="gridCheck">
+                                            </td>
+                                            <td>
+                                                <input class="form-check-input" type="checkbox" id="gridCheck">
+                                            </td>
+                                        </tr>
+
+
+                                        <tr id="employeeInfo">
+                                            <td id="workNumber">Work</td>
+                                            <td>
+                                                <input id="EeWorkPhone4" type="tel" class="form-control"
+                                                       placeholder="123-456-7890" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}">
+                                            </td>
+                                            <td>
+                                                <input class="form-check-input" type="radio" name="gridRadios"
+                                                       id="gridRadios3" value="option3">
+                                            </td>
+                                            <td>
+                                                <input class="form-check-input" type="checkbox" id="gridCheck">
+                                            </td>
+                                            <td>
+                                                <input class="form-check-input" type="checkbox" id="gridCheck">
+                                            </td>
+                                            <td>
+                                                <input class="form-check-input" type="checkbox" id="gridCheck">
+                                            </td>
+                                        </tr>
+
+                                    </table>
+                                </div>
+                            </div>
+
+
+                            <!--                            Sign In Button-->
+                           <!-- <div class="form-row">
+                                <div class="col-md-4">
+                                    <button type="submit" class="btn btn-primary" id="employeeAddButton">Submit</button>
+                                </div>
+                            </div>-->
+                            <div class="form-row">
+                                <div class="col-md-4">
+                                    <!--back and next page button-->
+<!--                                    <button type="submit" class="btn btn-secondary"> ← Back</button>-->
+                                    <button type="submit" class="btn btn-primary" id="employeeAddButton">Next Page →
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+            <!--side bar where employee and supervisor info will populate-->
+            <!--<div class="col-sm-2 sidenav2">
+                <div class="row">
+                    &lt;!&ndash; <div class="col-sm-12"> &ndash;&gt;
+                    <div class="well">
+                        <p id="addName">First Last</p>
+                        <p id="addAddress">100 someplace ave, somewhere, AN, 00000</p>
+                        <p id="employeePhoneNumber">Phone Number: </p>
+                        <p id="employeeGender">Gender:</p>
+                        <p id="addEmail">Email: someone@place.com</p>
+                        <p id="employeeStatus">Status:Active</p>
+                    </div>
+                    &lt;!&ndash; </div> &ndash;&gt;
+                </div>
+
+                <div class="row">
+                    &lt;!&ndash; <div class="col-sm-12"> &ndash;&gt;
+                    <div class="noteArea">
+
+                    </div>
+                    &lt;!&ndash; </div> &ndash;&gt;
+                </div>
+
+                <br>
+
+                <div class="row">
+                    &lt;!&ndash; <div class="col-sm-12"> &ndash;&gt;
+                    <div class="well sidenav2">
+                        <div id="supervisorcontacts">
+                            <p id="supervisorName">Supervisor Name:</p>
+                            <p id="supervisorPhoneNumber">Supervisor Number:</p>
+                            <p id="supervisorEmail">Supervisor Email:</p>
+                        </div>
+                        <div id="HRcontacts">
+                            <p id="supervisorName">Human Resources Name:</p>
+                            <p id="supervisorPhoneNumber">Human Resources Number:</p>
+                            <p id="supervisorEmail">Human Resources Email:</p>
+                        </div>
+                        <div id="payrollcontacts">
+                            <p id="supervisorName">Payroll/Benefits Name:</p>
+                            <p id="supervisorPhoneNumber">Payroll/Benefits Number:</p>
+                            <p id="supervisorEmail">Payroll/Benefits Email:</p>
+                        </div>
+                        &lt;!&ndash; </div> &ndash;&gt;
+                    </div>
+
+                </div>
+            </div>-->
+        </div>
+    </div>
+</div>
+</body>
+<% include ../partials/footer %>
+<script>
+  $(document).ready(function () {
+    let employeeInfo = getCookie('employeeInfo');
+    if(employeeInfo!==''&& employeeInfo!==undefined){
+      employeeInfo=JSON.parse(employeeInfo)
+      $("#inputFirstName").val(employeeInfo['first_name']);
+      $("#inputLastName").val(employeeInfo['last_name']);
+      $("#inputEmail").val(employeeInfo['email']);
+      $("#inputDOB").val(employeeInfo['DOB']);
+      $("#inputGender").val(employeeInfo['gender']);
+      $("#inputAddress1").val(employeeInfo['address1']);
+      $("#inputAddress2").val(employeeInfo['address2']);
+      $("#inputCity").val(employeeInfo['city']);
+      $("#inputState").val(employeeInfo['state']);
+      $("#inputZip").val(employeeInfo['pincode']);
+    }
+  });
+</script>
+</html>

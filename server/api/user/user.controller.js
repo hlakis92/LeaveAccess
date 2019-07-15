@@ -16,7 +16,7 @@ let signup = async (request, response) => {
   debug("user.controller -> singup");
   if (request.body !== undefined && typeof request.body === "object") {
     let result = userService.signupService(request);
-    response.statusCode = 201;
+    response.status = 201;
     response.send(result);
   } else {
     return response.send({
@@ -40,7 +40,7 @@ let signin = async (request, response) => {
   debug("user.controller -> signin");
   if (request.body !== undefined && typeof request.body === "object") {
     let result = await userService.signinService(request);
-    response.statusCode = 201;
+    response.status = 201;
     return response.send(result);
   } else {
     return response.send({

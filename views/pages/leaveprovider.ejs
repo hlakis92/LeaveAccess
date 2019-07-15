@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <% include ../partials/head %>
+
+</head>
+<body>
+
+<div class="container">
+    <div class="container-fluid">
+        <% include ../partials/topnav %>
+        <div class="container-fluid text-center">
+            <div class="row content">
+                <div class="col-sm-2 sidenav1">
+                    <!-- <p>
+                         <a class="active" href="#">Employee Information</a>
+                     </p>
+                     <p>
+                         <a href="#">Location Information</a>
+                     </p>
+                     <p>
+                         <a href="#">Leave Reason</a>
+                     </p>
+                     <p>
+                         <a href="#">Provider Information</a>
+                     </p>
+                     <p>
+                         <a href="#">Leave Information</a>
+                     </p>
+                     <p>
+                         <a href="#">Leave Summary</a>
+                     </p>-->
+                </div>
+                <div class="col-sm-8 text-left">
+                    <br>
+
+                    <h2>Leave & Provider Information</h2>
+
+                    <br><br>
+                    <!-- this will be the beginning of the form that will contain the employee's information -->
+                    <!--Input for first and last name-->
+                    <% if (type == 1) { %>
+
+                        <h4 id="famMemberinfoTitle">Family Member Info</h4>
+                        <form>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="inputFamilyFirst4">Family Member First name</label>
+                                    <input type="text" class="form-control" id="inputFirst4" placeholder="First"
+                                           required>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="inputFamilyLast4">Family Member Last Name</label>
+                                    <input type="text" class="form-control" id="inputLast4" placeholder="Last" required>
+                                </div>
+                            </div>
+
+                            <!--Input for employee information-->
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="inputFamilyMemberDOB4">Date Of Birth</label>
+                                    <input type="date" class="form-control" id="inputFamilyMemberDOB4" placeholder="DOB"
+                                           required>
+                                </div>
+                            </div>
+
+
+                            <div class="form-row">
+                                <div class="form-group col-md-4">
+                                    <label for="inputRelation">Relationship</label>
+                                    <select id="inputRelation" class="form-control" required>
+                                        <option selected>Choose...</option>
+                                        <option>Father</option>
+                                        <option>Mother</option>
+                                        <option>Brother</option>
+                                        <option>Sister</option>
+                                        <option>GrandMother</option>
+                                        <option>GrandFather</option>
+                                        <option>Child</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <label for="selectInLocoParentis">In Loco Parentis</label>
+                                    <input class="form-check-input" type="checkbox" id="gridCheck">
+                                </div>
+                            </div>
+
+
+                            <br><br>
+                            <div>
+                                <h4 id="famMemberinfo1Title">Provider Info</h4>
+
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="providerName">Name</label>
+                                        <input type="text" class="form-control" id="providerName"
+                                               placeholder="provider Name" required>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="providerType">Practice Type</label>
+                                        <input type="text" class="form-control" id="providerType"
+                                               placeholder="provider type" required>
+                                    </div>
+                                </div>
+
+                                <!--Input for employee information-->
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="providePhone">Phone Number</label>
+                                        <input type="text" class="form-control" id="providePhone"
+                                               placeholder="provide Phone" required>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="provideFax">Fax Number</label>
+                                        <input type="text" class="form-control" id="provideFax"
+                                               placeholder="provide Fax" required>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="provideAddress">Address of practice</label>
+                                        <input type="text" class="form-control" id="provideAddress"
+                                               placeholder="provide Address" required>
+                                    </div>
+                                </div>
+
+
+                                <!--S-->
+                                <div class="form-row">
+                                    <div class="col-md-12">
+                                        <!--back and next page button-->
+                                        <button type="button" class="btn btn-secondary" id="leaveProviderBackButton"> ←
+                                            Back
+                                        </button>
+                                        <button type="submit" class="btn btn-primary" id="leaveProviderAddButton">Next
+                                            Page →
+                                        </button>
+                                    </div>
+                                </div>
+                        </form>
+
+                    <% } else { %>
+
+                        <h4 id="famMemberinfoTitle">Provider Info</h4>
+                        <form>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="providerName">Name</label>
+                                    <input type="text" class="form-control" id="providerName"
+                                           placeholder="provider Name" required>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="providerType">Practice Type</label>
+                                    <input type="text" class="form-control" id="providerType"
+                                           placeholder="provider type" required>
+                                </div>
+                            </div>
+
+                            <!--Input for employee information-->
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="providePhone">Phone Number</label>
+                                    <input type="text" class="form-control" id="providePhone"
+                                           placeholder="provide Phone" required>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="provideFax">Fax Number</label>
+                                    <input type="text" class="form-control" id="provideFax" placeholder="provide Fax"
+                                           required>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="provideAddress">Address of practice</label>
+                                    <input type="text" class="form-control" id="provideAddress"
+                                           placeholder="provide Address" required>
+                                </div>
+                            </div>
+
+
+                            <!--S-->
+                            <div class="form-row">
+                                <div class="col-md-12">
+                                    <!--back and next page button-->
+                                    <button type="button" class="btn btn-secondary" id="leaveProviderBackButton"> ←
+                                        Back
+                                    </button>
+                                    <button type="submit" class="btn btn-primary" id="leaveProviderAddButton">Next Page
+                                        →
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    <% } %>
+                </div>
+            </div>
+
+
+            <!--side bar where employee and supervisor info will populate-->
+            <div class="col-sm-2 sidenav2">
+                <!--<div class="row">
+                    &lt;!&ndash; <div class="col-sm-12"> &ndash;&gt;
+                    <div class="well">
+                        <p id="addName">First Last</p>
+                        <p id="addAddress">100 someplace ave, somewhere, AN, 00000</p>
+                        <p id="employeePhoneNumber">Phone Number: </p>
+                        <p id="employeeGender">Gender:</p>
+                        <p id="addEmail">Email: someone@place.com</p>
+                        <p id="employeeStatus">Status:Active</p>
+                    </div>
+                    &lt;!&ndash; </div> &ndash;&gt;
+                </div>
+
+                <div class="row">
+                    &lt;!&ndash; <div class="col-sm-12"> &ndash;&gt;
+                    <div class="noteArea">
+
+                    </div>
+                    &lt;!&ndash; </div> &ndash;&gt;
+                </div>
+
+                <br>
+
+                <div class="row">
+                    &lt;!&ndash; <div class="col-sm-12"> &ndash;&gt;
+                    <div class="well sidenav2">
+                        <div id="supervisorcontacts">
+                            <p id="supervisorName">Supervisor Name:</p>
+                            <p id="supervisorPhoneNumber">Supervisor Number:</p>
+                            <p id="supervisorEmail">Supervisor Email:</p>
+                        </div>
+                        <div id="HRcontacts">
+                            <p id="supervisorName">Human Resources Name:</p>
+                            <p id="supervisorPhoneNumber">Human Resources Number:</p>
+                            <p id="supervisorEmail">Human Resources Email:</p>
+                        </div>
+                        <div id="payrollcontacts">
+                            <p id="supervisorName">Payroll/Benefits Name:</p>
+                            <p id="supervisorPhoneNumber">Payroll/Benefits Number:</p>
+                            <p id="supervisorEmail">Payroll/Benefits Email:</p>
+                        </div>
+                        &lt;!&ndash; </div> &ndash;&gt;
+                    </div>
+                </div>-->
+            </div>
+        </div>
+
+
+    </div>
+</div>
+</body>
+<% include ../partials/footer %>
+<script>
+  $(document).ready(function () {
+    let leaveProviderInfo = getCookie('leaveProviderInfo');
+    if (leaveProviderInfo !== '' && leaveProviderInfo !== undefined) {
+      leaveProviderInfo = JSON.parse(leaveProviderInfo)
+      $("#inputFirst4").val(leaveProviderInfo['familyFirst']);
+      $("#inputLast4").val(leaveProviderInfo['familyLast']);
+      $("#inputFamilyMemberDOB4").val(leaveProviderInfo['familyMemberDOB']);
+      $("#inputRelation").val(leaveProviderInfo['familyRelation']);
+      $("#gridCheck").val(leaveProviderInfo['inLocoParent']);
+      $("#providerName").val(leaveProviderInfo['providerName']);
+      $("#providerType").val(leaveProviderInfo['providerType']);
+      $("#providePhone").val(leaveProviderInfo['providePhone']);
+      $("#provideFax").val(leaveProviderInfo['provideFax']);
+      $("#provideAddress").val(leaveProviderInfo['provideAddress']);
+    }
+  });
+</script>
+</html>

@@ -4,7 +4,7 @@ let applicationConfiguration = {
   "MAX_ACCESS_TOKEN_EXPIRY_HOURS": 720, // 30 days
   "PAGE_SIZE": 10, //
   "API_START_PATH": '/api/',
-
+  "DB_DATE_FORMAT_DOB": '%Y-%m-%d',
   "DB_DATE_FORMAT": '%Y-%m-%d %H:%M:%S',
 };
 
@@ -38,6 +38,10 @@ let requestMessages = {
     code: 2005,
     message: 'invalid signup request'
   },
+  'ERR_INVALID_ADD_EMPLOYEE_REQUEST': {
+    code: 2006,
+    message: 'invalid add employee request'
+  },
 };
 
 let userMessages = {
@@ -51,8 +55,20 @@ let userMessages = {
   },
 };
 
+let employeeMessages = {
+  ERR_IN_ADD_EMPLOYEE: {
+    code: 3001,
+    message: 'error while adding employee.'
+  },
+  MSG_ADD_EMPLOYEE_SUCCESSFULLY: {
+    code: 3002,
+    message: 'employee added successfully.'
+  },
+};
+
 module.exports = {
   appConfig: applicationConfiguration,
   requestMessages: requestMessages,
   userMessages: userMessages,
+  employeeMessages: employeeMessages,
 };

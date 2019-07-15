@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link href="/stylesheets/login.css" rel="stylesheet">
+    <title><%= title %></title>
     <style>
         .bd-placeholder-img {
             font-size: 1.125rem;
@@ -29,7 +30,7 @@
 </head>
 <body class="text-center">
 <!--<form class="form-signin" action="/api/user/user-signin" method="post">-->
-<form class="form-signin">
+<form class="form-signin" method="post" id="loginForm">
     <h1 class="display-3">LAM</h1>
 <!--    <img class="mb-4" src="https://getbootstrap.com/docs/4.3/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">-->
     <div id="messageError"> </div>
