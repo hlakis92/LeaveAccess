@@ -250,7 +250,6 @@ $('#leaveProviderAddButton').on('click', function (e) {
     provideFax: $("#provideFax").val(),
     provideAddress: $("#provideAddress").val(),
   };
-
   $.ajax({
     type: 'POST',
     url: dummyCallURL,
@@ -261,6 +260,51 @@ $('#leaveProviderAddButton').on('click', function (e) {
       deleteCookie('leaveProviderInfo');
       setCookie('leaveProviderInfo', JSON.stringify(data), 1);
       window.location.href = windowLocation.origin + '/leavetype';
+    },
+    error: result => {
+      console.log(result)
+    }
+  });
+});
+
+$('#leaveTypeAddButton').on('click', function (e) {
+  let data = {
+    startDate: $("#InputStartDateofTM1").val(),
+    endDate: $("#InputEndDateofTM1").val(),
+    leaveType: $("#selectLeaveTypeOptions").val(),
+  };
+  $.ajax({
+    type: 'POST',
+    url: dummyCallURL,
+    dataType: "json",
+    data: data,
+    success: result => {
+      console.log(result);
+      deleteCookie('leaveTypeInfo');
+      setCookie('leaveTypeInfo', JSON.stringify(data), 1);
+      // window.location.href = windowLocation.origin + '/leavetype';
+    },
+    error: result => {
+      console.log(result)
+    }
+  });
+});
+$('#leaveTypeAddButtonNext').on('click', function (e) {
+  let data = {
+    startDate: $("#InputStartDateofTM1").val(),
+    endDate: $("#InputEndDateofTM1").val(),
+    leaveType: $("#selectLeaveTypeOptions").val(),
+  };
+  $.ajax({
+    type: 'POST',
+    url: dummyCallURL,
+    dataType: "json",
+    data: data,
+    success: result => {
+      console.log(result);
+      deleteCookie('leaveTypeInfo');
+      setCookie('leaveTypeInfo', JSON.stringify(data), 1);
+      window.location.href = windowLocation.origin + '/leaveeligibility';
     },
     error: result => {
       console.log(result)
@@ -292,3 +336,10 @@ $('#leaveTypeBackButton').on('click', function (e) {
   window.location.href = windowLocation.origin + '/leaveprovider?type=' + type;
   // window.location.href = windowLocation.origin + '/leavereason';
 });
+
+$('#leaveEligibilityBackButton').on('click', function (e) {
+  // alert('click');
+  window.location.href = windowLocation.origin + '/leavetype';
+});
+
+
