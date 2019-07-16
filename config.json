@@ -1,4 +1,5 @@
 {
+  "port": 8080,
   "ssl": {
     "active": false,
     "key": "SSL_2019/leave_access.key",
@@ -9,7 +10,7 @@
     "host": "127.0.0.1",
     "port": "3306",
     "user": "root",
-    "password": "root",
+    "password": "LeaveAcce55",
     "database": "leave_access",
     "type": "database",
     "databaseType": "mysql"
