@@ -211,3 +211,6 @@ h5 {
   top: 0;
   opacity: 0;
 }
+.paperworkTaskModal {
+  float: left;
+}

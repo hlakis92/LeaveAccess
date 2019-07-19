@@ -92,7 +92,7 @@
               <h5>Leave Information</h5>
             </div>
             <div class="col-md-2">
-              <h5 id="createTasks" data-toggle="modal" data-target="#myModal"><a href="#">Create Tasks</a></h5>
+              <h5 id="createTasks1" data-toggle="modal" data-target="#myModal10"><a href="#">Create Tasks</a></h5>
             </div>
           </div>
 
@@ -109,7 +109,7 @@
                 </button>
 
                 <!-- Modal -->
-                <div class="modal fade" id="myModal" role="dialog">
+                <div class="modal fade" id="myModal10" role="dialog">
                   <div class="modal-dialog">
                     <p id="employeeStatus">Status:Active</p>
 
@@ -240,7 +240,38 @@
         <div class="newTasks">
           <div class="outputTask"><a>Eligibility</a><span class="taskDate" style="padding-left: 25px;">MM/DD/YYYY</span></div>
           <div class="outputTask"><a>Decision</a><span class="taskDate" style="padding-left: 25px;">MM/DD/YYYY</span></div>
-          <div class="outputTask"><a>Paperwork Review</a><span class="taskDate" style="padding-left: 25px;">MM/DD/YYYY</span></div>
+          <!-- Trigger the modal with a button -->
+          <div class="outputTask" data-toggle="modal" data-target="#myModal2" data-backdrop="static"><a>Paperwork Review</a><span class="taskDate"
+            style="padding-left: 25px;">MM/DD/YYYY</span>
+            <!-- Modal -->
+            <div class="modal fade" id="myModal2" role="dialog" data-backdrop="static">
+              <div class="modal-dialog">
+              
+                <!-- Modal content-->
+                <div class="modal-content" data-backdrop="static">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Paperwork Name</h4>
+                  </div>
+                  <div class="modal-body paperworkTaskModal">
+                    <table>
+                    <tr><td><div class="row"><div class="col-md-12"><input class="form-check-input" type="checkbox" id="gridCheck">Provider's Name</div></div></td></tr>
+                    <tr><td><div class="row"><div class="col-md-12"><input class="form-check-input" type="checkbox" id="gridCheck">Provider's Specialty</div></div></td></tr>
+                    <tr><td><div class="row"><div class="col-md-12"><input class="form-check-input" type="checkbox" id="gridCheck">Serious Health Condition</div></div></td></tr>
+                    <tr><td><div class="row"><div class="col-md-12"><input class="form-check-input" type="checkbox" id="gridCheck">Dates / Parameters</div></div></td></tr>
+                    <tr><td><div class="row"><div class="col-md-12"><input class="form-check-input" type="checkbox" id="gridCheck">Provider Signature</div></div></td></tr>
+                    <tr><td><div class="row"><div class="col-md-12"><input class="form-check-input" type="checkbox" id="gridCheck">Date Signed</div></div></td></tr>
+                    </table>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <br><br><br>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" type="submit">Submit</button>
+                  </div>
+                </div>
+                
+              </div>
+            </div></div>
           <div class="outputTask"><a>ERTW Confirmation</a><span class="taskDate" style="padding-left: 25px;">MM/DD/YYYY</span></div>
           <div class="outputTask"><a>ARTW Confirmation</a><span class="taskDate" style="padding-left: 25px;">MM/DD/YYYY</span></div>
         </div>
