@@ -2,6 +2,7 @@ let windowLocation = window.location;
 let userSignURL = windowLocation.origin + '/api/user/user-signin';
 let addEmployeeURL = windowLocation.origin + '/api/employee/add-employee';
 let dummyCallURL = windowLocation.origin + '/api/employee/dummy-call';
+let checkLeaveEligibility = windowLocation.origin + '/api/leave/check-leave-eligibility';
 
 $('#signinButton').on('click', function (e) {
   e.preventDefault();
@@ -290,20 +291,41 @@ $('#leaveTypeAddButton').on('click', function (e) {
   });
 });
 $('#leaveTypeAddButtonNext').on('click', function (e) {
+
   let data = {
     startDate: $("#InputStartDateofTM1").val(),
     endDate: $("#InputEndDateofTM1").val(),
     leaveType: $("#selectLeaveTypeOptions").val(),
   };
+  let employeeInfo = getCookie('employeeInfo');
+  let locationInfo = getCookie('locationInfo');
+  let leaveReasonInfo = getCookie('leaveReasonInfo');
+  let leaveProviderInfo = getCookie('leaveProviderInfo');
+  employeeInfo = JSON.parse(employeeInfo);
+  locationInfo = JSON.parse(locationInfo);
+  leaveReasonInfo = JSON.parse(leaveReasonInfo);
+  leaveProviderInfo = JSON.parse(leaveProviderInfo);
+  let requireData = {
+    locationState: (locationInfo['state']).toLowerCase(),
+    last_12_month_work_hours: (locationInfo['_12MonthHours']),
+    doj: (locationInfo['DOJ']),
+    leave_type: (data['leaveType']).toLowerCase(),
+    from_date: (data['startDate']).toLowerCase(),
+    to_date: (data['endDate']).toLowerCase(),
+    type_of_leave: (leaveReasonInfo['leaveReason']).toLowerCase(),
+
+  };
   $.ajax({
     type: 'POST',
-    url: dummyCallURL,
+    url: checkLeaveEligibility,
     dataType: "json",
-    data: data,
+    data: requireData,
     success: result => {
       console.log(result);
       deleteCookie('leaveTypeInfo');
       setCookie('leaveTypeInfo', JSON.stringify(data), 1);
+      deleteCookie('leaveEligibilityList');
+      setCookie('leaveEligibilityList', JSON.stringify(result.data), 1);
       window.location.href = windowLocation.origin + '/leaveeligibility';
     },
     error: result => {
@@ -328,7 +350,7 @@ $('#leaveProviderBackButton').on('click', function (e) {
 $('#leaveTypeBackButton').on('click', function (e) {
   let leaveReasonInfo = getCookie('leaveReasonInfo');
   leaveReasonInfo = JSON.parse(leaveReasonInfo);
-  let radioValue= leaveReasonInfo['leaveReason'];
+  let radioValue = leaveReasonInfo['leaveReason'];
   let type = 1;
   if (radioValue === 'Employees Own Health Condition') {
     type = 0

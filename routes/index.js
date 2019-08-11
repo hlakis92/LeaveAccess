@@ -43,6 +43,7 @@ router.get('/leavetype', function (req, res, next) {
 
 router.get('/leaveeligibility', function (req, res, next) {
   res.status(200);
+  console.log("......................render.....",req.co);
 
   res.render('pages/leaveeligibility', {title: 'LAM'});
 });

@@ -38,10 +38,12 @@ let addEmployee = async (request, response) => {
  */
 let dummyCall = async (request, response) => {
   debug("employee.controller -> dummyCall");
+  debug(request.body);
   return response.send({
     status: true,
     data: {}
   });
+
 };
 
 

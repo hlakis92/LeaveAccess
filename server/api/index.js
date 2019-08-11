@@ -6,3 +6,4 @@ module.exports = router;
 
 router.use('/user',  require('./user'));
 router.use('/employee',  require('./employee'));
+router.use('/leave',  require('./leave'));
