@@ -6,11 +6,15 @@ module.exports.checkLeaveEligibilty = (data) => {
   let leaveMatch = 0;
   let leaveElibleList = [];
   ruleList.forEach((ruleData,index) => {
-    // if(index===0){
-    //   console.log(ruleData['qualifying_reason'].includes(data['type_of_leave']));
-      console.log(ruleData['eligibility']['hours'] , data['last_12_month_work_hours']);
+    if(ruleData['state'] === data['locationState']){
+      console.log('......',ruleData['_comment'])
+      console.log(ruleData['qualifying_reason'].includes(data['type_of_leave']));
+      console.log(ruleData['state'] === data['locationState']);
+      console.log(ruleData['leave_type'].includes('all'));
+      console.log(ruleData['maximum_duration'] !== undefined);
+      // console.log(ruleData['eligibility']['hours'] , data['last_12_month_work_hours']);
     //   console.log(ruleData['eligibility']['month'] <= data['service_period_in_month']);
-    // }
+    }
 
     let maxToDateForValidation;
     if (ruleData['maximum_duration'] !== undefined) {
@@ -28,7 +32,7 @@ module.exports.checkLeaveEligibilty = (data) => {
       ruleData['qualifying_reason'].includes(data['type_of_leave']) === true &&
       (ruleData['leave_type'].includes('all') === true
         || ruleData['leave_type'].includes(data['leave_type']) === true) &&
-      (maxToDateForValidation !== undefined
+      (maxToDateForValidation === undefined
         || (new Date(maxToDateForValidation)).getTime() >= new Date(data['to_date']).getTime())
     ) {
       if(ruleData['eligibility'].hasOwnProperty('state') === true

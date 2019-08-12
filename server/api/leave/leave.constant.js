@@ -10,7 +10,7 @@ exports.leaveMatrix = [{
     'employees own health condition',
     'family member health',
     'care for newborn',
-    'maternity'
+    'maternity leave'
   ],
   leave_type: ['all'],
   maximum_duration: {value: 84, granularityType: 'days'}
@@ -100,7 +100,7 @@ exports.leaveMatrix = [{
   leave_name: 'PDL',
   eligibility: {state: 'california'},
   qualifying_reason: [
-    'maternity'
+    'maternity leave'
   ],
   leave_type: ['all'],
   maximum_duration: {value: 112, granularityType: 'days'}
@@ -116,7 +116,7 @@ exports.leaveMatrix = [{
     "employees own health condition",
     "to care for a family member",
     "care for a newborn",
-    "maternity"
+    "maternity leave"
   ],
   leave_type: ['all'],
   maximum_duration: {value: 84, granularityType: 'days'}
@@ -170,4 +170,101 @@ exports.leaveMatrix = [{
   ],
   leave_type: ['all'],
   maximum_duration: {value: 56, granularityType: 'days'}
+}, {
+  _comment: 42,
+  state: 'maryland',
+  leave_name: 'Parental Leave Act',
+  eligibility: {
+    month: 12,
+    hours: 1250
+  },
+  qualifying_reason: [
+    "care for newborn"
+  ],
+  leave_type: ['all'],
+  maximum_duration: {value: 42, granularityType: 'days'}
+}, {
+  _comment: 43,
+  state: 'massachusetts',
+  leave_name: 'Parental Leave',
+  eligibility: {
+    month: 3
+  },
+  qualifying_reason: [
+    "care for newborn", 'adoption',"employees own health condition",
+  ],
+  leave_type: ['continuous'],
+  maximum_duration: {value: 56, granularityType: 'days'}
+}, {
+  _comment: 48,
+  state: 'minnesota',
+  leave_name: 'Pregnancy and Parenting',
+  eligibility: {
+    month: 12
+  },
+  qualifying_reason: [
+    "care for newborn", 'maternity leave'
+  ],
+  leave_type: ['all'],
+  maximum_duration: {value: 84, granularityType: 'days'}
+}, {
+  _comment: 62,
+  state: 'montana',
+  leave_name: 'Pregnancy Disability Leave',
+  eligibility: {
+    state: 'montana'
+  },
+  qualifying_reason: [
+    'maternity leave'
+  ],
+  leave_type: ['all'],
+  maximum_duration: undefined
+}, {
+  _comment: 67,
+  state: 'nebraska',
+  leave_name: 'Pregnancy Accommodation',
+  eligibility: {
+    state: 'nebraska'
+  },
+  qualifying_reason: [
+    'maternity leave'
+  ],
+  leave_type: ['all'],
+  maximum_duration: undefined
+}, {
+  _comment: 67,
+  state: 'nebraska',
+  leave_name: 'Pregnancy Accommodation',
+  eligibility: {
+    state: 'nebraska'
+  },
+  qualifying_reason: [
+    'maternity leave'
+  ],
+  leave_type: ['all'],
+  maximum_duration: undefined
+}, {
+  _comment: 69,
+  state: 'nevada',
+  leave_name: 'Military Leave',
+  eligibility: {
+    state: 'nevada'
+  },
+  qualifying_reason: [
+    'military'
+  ],
+  leave_type: ['all'],
+  maximum_duration: undefined
+}, {
+  _comment: 70,
+  state: 'nevada',
+  leave_name: 'Pregancy Accommodation',
+  eligibility: {
+    state: 'nevada'
+  },
+  qualifying_reason: [
+    'maternity leave'
+  ],
+  leave_type: ['all'],
+  maximum_duration: undefined
 }];
