@@ -191,7 +191,7 @@ exports.leaveMatrix = [{
     month: 3
   },
   qualifying_reason: [
-    "care for newborn", 'adoption',"employees own health condition",
+    "care for newborn", 'adoption', "employees own health condition",
   ],
   leave_type: ['continuous'],
   maximum_duration: {value: 56, granularityType: 'days'}
@@ -264,6 +264,229 @@ exports.leaveMatrix = [{
   },
   qualifying_reason: [
     'maternity leave'
+  ],
+  leave_type: ['all'],
+  maximum_duration: undefined
+}, {
+  _comment: 76,
+  state: 'new hampshire',
+  leave_name: 'Pregnancy Disability Leave',
+  eligibility: {
+    state: 'new hampshire'
+  },
+  qualifying_reason: [
+    'maternity leave'
+  ],
+  leave_type: ['all'],
+  maximum_duration: undefined
+}, {
+  _comment: 77,
+  state: 'new jersey',
+  leave_name: 'NJ Family Leave Act',
+  eligibility: {
+    month: 12,
+    hours: 1000
+  },
+  qualifying_reason: [
+    'care for newborn'
+  ],
+  leave_type: ['all'],
+  maximum_duration: {value: 84, granularityType: 'days'}
+}, {
+  _comment: 79,
+  state: 'new jersey',
+  leave_name: 'NJ Family Leave Act',
+  eligibility: {
+    state: 'new jersey',
+  },
+  qualifying_reason: [
+    'military'
+  ],
+  leave_type: ['all'],
+  maximum_duration: {value: 3, granularityType: 'months'}
+}, {
+  _comment: 82,
+  state: 'new york',
+  leave_name: 'Adoption Leave',
+  eligibility: {
+    state: 'new york',
+  },
+  qualifying_reason: [
+    'adoption'
+  ],
+  leave_type: ['all'],
+  maximum_duration: undefined
+}, {
+  _comment: 83,
+  state: 'new york',
+  leave_name: 'Paid Family Leave',
+  eligibility: {
+    state: 'new york',
+  },
+  qualifying_reason: [
+    'care for newborn', 'adoption'
+  ],
+  leave_type: ['all'],
+  maximum_duration: {value: 70, granularityType: 'days'}
+}, {
+  _comment: 98,
+  state: 'ohio',
+  leave_name: 'Pregnancy Disability Leave',
+  eligibility: {
+    state: 'ohio'
+  },
+  qualifying_reason: [
+    'maternity leave'
+  ],
+  leave_type: ['all'],
+  maximum_duration: undefined
+}, {
+  _comment: 105,
+  state: 'oregon',
+  leave_name: 'Family Military Leave',
+  eligibility: {
+    state: 'oregon'
+  },
+  qualifying_reason: [
+    'family military exigency'
+  ],
+  leave_type: ['all'],
+  maximum_duration: undefined
+}, {
+  _comment: 109,
+  state: 'rhode island',
+  leave_name: 'Family Military Leave',
+  eligibility: {
+    month: 12,
+    hours: 1000
+  },
+  qualifying_reason: [
+    'family military exigency'
+  ],
+  leave_type: ['all'],
+  maximum_duration: {value: 30, granularityType: 'days'}
+}, {
+  _comment: 110,
+  state: 'rhode island',
+  leave_name: 'Parental and Family Medical Leave (RI PFMLA)',
+  eligibility: {
+    month: 12
+  },
+  qualifying_reason: [
+    'employees own health condition',
+    'family member health',
+  ],
+  leave_type: ['continuous'],
+  maximum_duration: {value: 91, granularityType: 'days'}
+}, {
+  _comment: 116,
+  state: 'tennessee',
+  leave_name: 'Parental Leave',
+  eligibility: {
+    month: 12
+  },
+  qualifying_reason: [
+    "maternity leave",
+    'adoption',
+    'care for newborn'
+  ],
+  leave_type: ['continuous'],
+  maximum_duration: {value: 4, granularityType: 'months'}
+}, {
+  _comment: 121,
+  state: 'utah',
+  leave_name: 'TX Military',
+  eligibility: {state: 'utah'},
+  qualifying_reason: [
+    'military'
+  ],
+  leave_type: ['all'],
+  maximum_duration: undefined
+}, {
+  _comment: 129,
+  state: 'virginia',
+  leave_name: 'VA Military',
+  eligibility: {state: 'virginia'},
+  qualifying_reason: [
+    'military'
+  ],
+  leave_type: ['all'],
+  maximum_duration: undefined
+}, {
+  _comment: 130,
+  state: 'washington',
+  leave_name: 'Pregnancy Disability Leave',
+  eligibility: {state: 'washington'},
+  qualifying_reason: [
+    'maternity leave'
+  ],
+  leave_type: ['all'],
+  maximum_duration: undefined
+}, {
+  _comment: 130,
+  state: 'washington',
+  leave_name: 'Pregnancy Disability Leave',
+  eligibility: {state: 'washington'},
+  qualifying_reason: [
+    'maternity leave'
+  ],
+  leave_type: ['all'],
+  maximum_duration: undefined
+}, {
+  _comment: 131,
+  state: 'washington',
+  leave_name: 'WA Family Leave Act (WA FLA)',
+  eligibility: {month: 12, hours: 1250},
+  qualifying_reason: [
+    'employees own health condition',
+    'family member health',
+    "maternity leave",
+    'adoption',
+    'care for newborn'
+  ],
+  leave_type: ['all'],
+  maximum_duration: {value: 84, granularityType: 'days'}
+}, {
+  _comment: 132,
+  state: 'washington',
+  leave_name: 'Pregnancy Disability Leave',
+  eligibility: {state: 'washington'},
+  qualifying_reason: [
+    'military'
+  ],
+  leave_type: ['all'],
+  maximum_duration: {value: 48, granularityType: 'months'}
+}, {
+  _comment: 133,
+  state: 'washington',
+  leave_name: 'Family Military Leave',
+  eligibility: {
+    state: 'washington'
+  },
+  qualifying_reason: [
+    'family military exigency'
+  ],
+  leave_type: ['all'],
+  maximum_duration: {value: 15, granularityType: 'days'}
+}, {
+  _comment: 136,
+  state: 'company',
+  leave_name: 'Company Medical',
+  eligibility: {state: 'company'},
+  qualifying_reason: [
+    'employees own health condition',
+    "maternity leave",
+
+  ],
+  leave_type: ['all'],
+  maximum_duration: undefined
+}, {
+  _comment: 137,
+  state: 'company',
+  leave_name: 'Military',
+  eligibility: {state: 'company'},
+  qualifying_reason: [
+    'military'
   ],
   leave_type: ['all'],
   maximum_duration: undefined

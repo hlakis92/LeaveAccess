@@ -8,9 +8,9 @@ module.exports.checkLeaveEligibilty = (data) => {
   ruleList.forEach((ruleData,index) => {
     if(ruleData['state'] === data['locationState']){
       console.log('......',ruleData['_comment'])
-      console.log(ruleData['qualifying_reason'].includes(data['type_of_leave']));
-      console.log(ruleData['state'] === data['locationState']);
-      console.log(ruleData['leave_type'].includes('all'));
+      console.log(ruleData['qualifying_reason'].includes(data['type_of_leave']),ruleData['qualifying_reason'],(data['type_of_leave']));
+      console.log(ruleData['state'] === data['locationState'],ruleData['state'] , data['locationState']);
+      console.log(ruleData['leave_type'].includes('all'),ruleData['leave_type']);
       console.log(ruleData['maximum_duration'] !== undefined);
       // console.log(ruleData['eligibility']['hours'] , data['last_12_month_work_hours']);
     //   console.log(ruleData['eligibility']['month'] <= data['service_period_in_month']);
