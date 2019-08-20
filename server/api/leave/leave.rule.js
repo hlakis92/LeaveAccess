@@ -56,3 +56,34 @@ module.exports.checkLeaveEligibilty = (data) => {
   });
   return leaveElibleList;
 };
+
+/*
+let qulityResonList = [
+  "employees own health condition",
+  "family members health condition",
+  "workplace accommodation",
+  "maternity",
+  "care for newborn",
+  "adoption",
+  "foster care",
+  "military",
+  "military duty",
+  "family military exigency",
+  "emergency duty",
+  "marrow/organ/blood donation",
+  "political proceedings",
+  "domestic violence",
+  "school activities",
+  "legal/court proceedings",
+  "jury duty",
+  "voting",
+];
+
+ruleList.forEach((data,index)=>{
+  // console.log((index+1),data['_comment'])
+  data['qualifying_reason'].forEach(qr=>{
+    if(qulityResonList.includes(qr)===false){
+      console.log(data['_comment'],qr);
+    }
+  });
+})*/
