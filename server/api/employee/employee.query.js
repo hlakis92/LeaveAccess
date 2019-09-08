@@ -6,7 +6,7 @@ let query = {
   addEmployeeDetailsQuery: {
     table: tbl_EmployeeMaster,
     insert: {
-      field: ["firstName", "lastName", "email", "DOB", "gender", "address1", "address2", "city", "state", "pincode"],
+      field: ["firstName", "lastName", "email", "DOB", "gender", "address1", "address2", "cityName", "stateName", "pincode"],
       fValue: []
     }
   }, // add employee details query end

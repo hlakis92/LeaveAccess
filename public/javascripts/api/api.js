@@ -3,6 +3,7 @@ let userSignURL = windowLocation.origin + '/api/user/user-signin';
 let addEmployeeURL = windowLocation.origin + '/api/employee/add-employee';
 let dummyCallURL = windowLocation.origin + '/api/employee/dummy-call';
 let checkLeaveEligibility = windowLocation.origin + '/api/leave/check-leave-eligibility';
+let submitLeaveURL = windowLocation.origin + '/api/leave/add-all-data';
 
 $('#signinButton').on('click', function (e) {
   e.preventDefault();
@@ -290,6 +291,7 @@ $('#leaveTypeAddButton').on('click', function (e) {
     }
   });
 });
+
 $('#leaveTypeAddButtonNext').on('click', function (e) {
 
   let data = {
@@ -313,7 +315,6 @@ $('#leaveTypeAddButtonNext').on('click', function (e) {
     from_date: (data['startDate']).toLowerCase(),
     to_date: (data['endDate']).toLowerCase(),
     type_of_leave: (leaveReasonInfo['leaveReason']).toLowerCase(),
-
   };
   $.ajax({
     type: 'POST',
@@ -333,6 +334,50 @@ $('#leaveTypeAddButtonNext').on('click', function (e) {
     }
   });
 });
+
+function cloneObject(Object) {
+  return JSON.parse(JSON.stringify(Object));
+};
+
+$('#leaveSubmit').on('click', function (e) {
+  let employeeInfo = getCookie('employeeInfo');
+  let locationInfo = getCookie('locationInfo');
+  let leaveReasonInfo = getCookie('leaveReasonInfo');
+  let leaveProviderInfo = getCookie('leaveProviderInfo');
+  let leaveTypeInfo = getCookie('leaveTypeInfo');
+  let leaveEligibilityList = getCookie('leaveEligibilityList');
+  let requireData = {
+    employeeInfo: employeeInfo,
+    locationInfo: locationInfo,
+    leaveReasonInfo: leaveReasonInfo,
+    leaveProviderInfo: leaveProviderInfo,
+    leaveTypeInfo: leaveTypeInfo,
+    leaveEligibilityList: leaveEligibilityList
+
+  };
+  // requireData=JSON.parse(requireData)
+  console.log(requireData)
+  $.ajax({
+    type: 'POST',
+    url: submitLeaveURL,
+    dataType: "json",
+    data: requireData,
+    success: result => {
+      console.log(result);
+      deleteCookie('employeeInfo');
+      deleteCookie('locationInfo');
+      deleteCookie('leaveReasonInfo');
+      deleteCookie('leaveProviderInfo');
+      deleteCookie('leaveTypeInfo');
+      deleteCookie('leaveEligibilityList');
+      window.location.href = windowLocation.origin + '/dashboard';
+    },
+    error: result => {
+      console.log(result)
+    }
+  });
+});
+
 
 $('#locationBackButton').on('click', function (e) {
   window.location.href = windowLocation.origin + '/dashboard';
