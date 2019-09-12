@@ -211,7 +211,7 @@ $('#locationAddButton').on('click', function (e) {
 });
 
 $('#leaveReasonAddButton').on('click', function (e) {
-  let radioValue = $("input[name='gridRadios']:checked").val();
+  let radioValue = "Voting"; //$("input[name='gridRadios']:checked").val();
   // debugger;
   // alert(radioValue)
   let data = {
