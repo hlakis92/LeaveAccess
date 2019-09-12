@@ -38,7 +38,7 @@
 
                     <!-- this will be the beginning of the form that will contain the employee's information -->
                     <!--Input for first and last name-->
-                    <form>
+                    <form action="" method="post">
                         <div class="form-row">
                             <div class="form-group col-md-6">
                             </div>
@@ -303,7 +303,7 @@
     if (leaveReasonInfo !== '' && leaveReasonInfo !== undefined) {
       leaveReasonInfo = JSON.parse(leaveReasonInfo)
       let leaveReason= leaveReasonInfo['leaveReason']
-      let radioValue = $("input[name='gridRadios']:checked").val();
+      // let radioValue = $("input[name='gridRadios']:checked").val();
       $("input[name='gridRadios'][value='"+leaveReason+"']").attr('checked', true);
       // $("#inputEmployeeId").val(leaveReasonInfo['employeeId']);
     }
