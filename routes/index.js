@@ -10,6 +10,11 @@ router.get('/', function (req, res, next) {
 router.get('/dashboard', function (req, res, next) {
   // res.send('respond with a resource');
   res.status(200);
+  res.render('pages/searchleave', {title: 'LAM'});
+});
+router.get('/employee', function (req, res, next) {
+  // res.send('respond with a resource');
+  res.status(200);
   res.render('pages/employee', {title: 'LAM'});
 });
 

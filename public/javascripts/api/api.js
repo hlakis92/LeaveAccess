@@ -409,7 +409,7 @@ $('#leaveSubmit').on('click', function (e) {
 
 
 $('#locationBackButton').on('click', function (e) {
-  window.location.href = windowLocation.origin + '/dashboard';
+  window.location.href = windowLocation.origin + '/employee';
 });
 
 $('#leaveReasonBackButton').on('click', function (e) {
