@@ -1,6 +1,6 @@
 let tbl_EmployeeMaster = "tbl_EmployeeMaster";
 let tbl_LocationMaster = "tbl_LocationMaster";
-let tbl_Leaveinfo = "tbl_Leaveinfo";
+let tbl_LeaveInfo = "tbl_LeaveInfo";
 let tbl_EmployeeLeave = "tbl_EmployeeLeave";
 
 
