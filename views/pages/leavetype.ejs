@@ -96,11 +96,11 @@
                                 <div class="well">
                                     <div class="row">
                                         <div class="col-md-4 ">
-                                            <div class="plan-Type">Continuous</div>
+                                            <div class="plan-Type" id="leaveTypeText">Continuous</div>
                                         </div>
                                         <div class="col-md-4"></div>
                                         <div class="col-md-4">
-                                            <div class="plandates">MM/DD/YYYY - MM/DD/YYYY</div>
+                                            <div class="plandates" id="selectedDateText">MM/DD/YYYY - MM/DD/YYYY</div>
                                         </div>
                                         <div class="row">
                                             <div class="col-md-12">
@@ -184,6 +184,7 @@
     </div>
 </body>
 <% include ../partials/footer %>
+<script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 <script>
   $(document).ready(function () {
     let leaveTypeInfo = getCookie('leaveTypeInfo');
@@ -193,6 +194,16 @@
       $("#InputEndDateofTM1").val(leaveTypeInfo['endDate']);
       $("#selectLeaveTypeOptions").val(leaveTypeInfo['leaveType']);
     }
+    $('#leaveTypeAddButton').on('click', function (e) {
+      let leaveType = $("#selectLeaveTypeOptions").val();
+      let startDate = $("#InputStartDateofTM1").val();
+      let endDate = $("#InputEndDateofTM1").val();
+      if (startDate != "" || endDate != "") {
+        let dateText = (d3.time.format("%d/%m/%Y")(new Date(startDate))) + " - " + (d3.time.format("%d/%m/%Y")(new Date(endDate)))
+        $("#selectedDateText").text(dateText);
+      }
+      $("#leaveTypeText").text(leaveType);
+    });
   });
 </script>
 </html>
