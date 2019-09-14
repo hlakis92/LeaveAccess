@@ -31,7 +31,7 @@ let query = {
   }, // create user query end
   /* create user query start */
   addEmployeeLeaveQuery: {
-    table: tbl_EmolyeeLeave,
+    table: tbl_EmployeeLeave,
     insert: {
       field: ['empId', 'leaveId', 'leave_name', 'state', 'eligibility', 'qualifying_reason', 'leave_type', 'maximum_duration', 'from_date', 'to_date'],
       fValue: []
@@ -54,7 +54,7 @@ let query = {
           }
         }
       }, {
-        table: tbl_EmolyeeLeave,
+        table: tbl_EmployeeLeave,
         alias: 'EL',
         joincondition: {
           table: 'EM',
