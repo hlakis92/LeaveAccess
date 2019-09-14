@@ -197,34 +197,6 @@
 </body>
 <% include ../partials/footer %>
 <script>
-  let templateOld =
-    '    <tr>' +
-    '        <td>{{leave_name}}</td>' +
-    '        <td>{{from_date}} - {{to_date}}</td>' +
-    '        <td>' +
-    '         <div id="monthDiv">' +
-    '        <h5>12 Months of Service</h5>' +
-    '            <select name="month" id="monthSelect">' +
-    '                <option value="met">Met</option>' +
-    '                <option value="not met" selected >Not Met</option>' +
-    '            </select>' +
-    '            <br><br>' +
-    '        </div>' +
-    '         <div id="hoursDiv">' +
-    '        <h5>1250 Hours in Past 12 Months</h5>' +
-    '            <select name="hours" id="hoursSelect">' +
-    '                <option value="met">Met</option>' +
-    '                <option value="not met" selected >Not Met</option>' +
-    '            </select>' +
-    '        <br><br>' +
-    '        </div>' +
-    // '        <h5>Qualified Person</h5>'+
-    // '              <select name="#">'+
-    // '                <option value="All">Met</option>'+
-    // '                <option value="active">Not Met</option>'+
-    // '              </select>'+
-    '        </td>' +
-    '  </tr>';
   let template =
     '    <tr>' +
     '        <td>{{leave_name}}</td>' +
@@ -251,10 +223,10 @@
     '        </div>';
   $(document).ready(function () {
     let leaveEligibilityList = getCookie('leaveEligibilityList');
-    console.log(leaveEligibilityList)
+    // console.log(leaveEligibilityList)
     if (leaveEligibilityList !== '' && leaveEligibilityList !== undefined) {
       leaveEligibilityList = JSON.parse(leaveEligibilityList)
-      console.log(leaveEligibilityList)
+      // console.log(leaveEligibilityList)
       leaveEligibilityList.forEach(data => {
         let eligibilityText = '';
         (data.eligibilityData).forEach(d => {
@@ -292,6 +264,27 @@
         }*/
       })
     }
+    $('select').on('change', function() {
+      // alert( this.value );
+
+      if(this.value==="not met"){
+        $('#notEligibleTable').append($(this).parent().parent().parent())
+      }
+      if(this.value==="met") {
+        console.log($(this).parent().parent())
+        // console.log($(this).parent().parent().childList());
+        var selecteditems = [];
+
+        ($(this).parent().parent()).find("select").each(function (i, ob) {
+          selecteditems.push($(ob).val());
+        });
+        const uniqueValue = [...new Set(selecteditems)]
+        // console.log(uniqueValue,uniqueValue.length);
+        if(uniqueValue.length==1){
+          $('#eligibleTable').append($(this).parent().parent().parent())
+        }
+      }
+    });
   });
 </script>
 </html>
