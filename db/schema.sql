@@ -1,4 +1,4 @@
-CREATE DATABASE leave_access;
+CREATE DATABASE Leave_Access;
 
 CREATE TABLE `tbl_UserMaster` (
   `pk_userID` INT NOT NULL AUTO_INCREMENT,
@@ -198,7 +198,7 @@ CREATE TABLE IF NOT EXISTS `tbl_EmployeeLeaveMapping` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-CREATE TABLE `tbl_locationmaster` (
+CREATE TABLE `tbl_LocationMaster` (
   `pk_locationId` INT NOT NULL AUTO_INCREMENT,
   `empId` INT NOT NULL,
   `DOJ` DATE NULL,
@@ -211,7 +211,7 @@ CREATE TABLE `tbl_locationmaster` (
   `pincode` VARCHAR(45) NULL,
   PRIMARY KEY (`pk_locationId`));
 
-CREATE TABLE `tbl_leaveinfo` (
+CREATE TABLE `tbl_LeaveInfo` (
   `pk_leaveInfoId` INT NOT NULL AUTO_INCREMENT,
   `empId` INT NOT NULL,
   `leaveReason` VARCHAR(100) NULL,
@@ -230,7 +230,7 @@ CREATE TABLE `tbl_leaveinfo` (
   `leaveType` VARCHAR(45) NULL,
   PRIMARY KEY (`pk_leaveInfoId`));
 
-CREATE TABLE `tbl_emolyeeleave` (
+CREATE TABLE `tbl_EmployeeLeave` (
     `pk_employeeLeaveID` INT NOT NULL AUTO_INCREMENT,
     `empId` INT NULL,
     `leaveId` INT NULL,

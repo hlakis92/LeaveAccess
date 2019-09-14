@@ -1,13 +1,13 @@
-let tbl_employeemaster = "tbl_employeemaster";
-let tbl_locationmaster = "tbl_locationmaster";
-let tbl_leaveinfo = "tbl_leaveinfo";
-let tbl_emolyeeleave = "tbl_emolyeeleave";
+let tbl_EmployeeMaster = "tbl_EmployeeMaster";
+let tbl_LocationMaster = "tbl_LocationMaster";
+let tbl_Leaveinfo = "tbl_Leaveinfo";
+let tbl_EmployeeLeave = "tbl_EmployeeLeave";
 
 
 let query = {
   /* create user query start */
   addEmployeeDetailsQuery: {
-    table: tbl_employeemaster,
+    table: tbl_EmployeeMaster,
     insert: {
       field: ["firstName", "lastName", "email", "DOB", "gender", "address1", "address2", "cityName", "stateName", "pincode"],
       fValue: []
@@ -15,7 +15,7 @@ let query = {
   }, // create user query end
   /* create user query start */
   addLocationDetailsQuery: {
-    table: tbl_locationmaster,
+    table: tbl_LocationMaster,
     insert: {
       field: ['empId', 'DOJ', 'employeeId', 'locationEmail', '_12MonthHours', 'address', 'city', 'state', 'pincode'],
       fValue: []
@@ -23,7 +23,7 @@ let query = {
   }, // create user query end
   /* create user query start */
   addLeaveInfoQuery: {
-    table: tbl_leaveinfo,
+    table: tbl_Leaveinfo,
     insert: {
       field: ['empId','leaveReason', 'familyFirst', 'familyLast', 'familyMemberDOB', 'familyRelation', 'inLocoParent', 'providerName', 'providerType', 'providePhone','provideFax','provideAddress','startDate','endDate','leaveType'],
       fValue: []
@@ -31,7 +31,7 @@ let query = {
   }, // create user query end
   /* create user query start */
   addEmployeeLeaveQuery: {
-    table: tbl_emolyeeleave,
+    table: tbl_EmolyeeLeave,
     insert: {
       field: ['empId', 'leaveId', 'leave_name', 'state', 'eligibility', 'qualifying_reason', 'leave_type', 'maximum_duration', 'from_date', 'to_date'],
       fValue: []
@@ -39,10 +39,10 @@ let query = {
   }, // create user query end
   getAllEmployeeLeaveQuery: {
     join: {
-      table: tbl_employeemaster,
+      table: tbl_EmployeeMaster,
       alias: 'EM',
       joinwith: [{
-        table: tbl_locationmaster,
+        table: tbl_LocationMaster,
         alias: 'lm',
         joincondition: {
           table: 'EM',
@@ -54,7 +54,7 @@ let query = {
           }
         }
       }, {
-        table: tbl_emolyeeleave,
+        table: tbl_EmolyeeLeave,
         alias: 'EL',
         joincondition: {
           table: 'EM',
