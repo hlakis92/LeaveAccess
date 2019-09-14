@@ -48,14 +48,14 @@ let addLeaveInfo = async (leaveReasonInfo, leaveProviderInfo, leaveTypeInfo, emp
   let leaveReason = leaveReasonInfo['leaveReason'];
   let familyFirst = leaveProviderInfo['familyFirst'];
   let familyLast = leaveProviderInfo['familyLast'];
-  let familyMemberDOB = leaveProviderInfo['familyMemberDOB'];
-  let familyRelation = leaveProviderInfo['familyRelation'];
-  let inLocoParent = leaveProviderInfo['inLocoParent'];
-  let providerName = leaveProviderInfo['providerName'];
-  let providerType = leaveProviderInfo['providerType'];
-  let providePhone = leaveProviderInfo['providePhone'];
-  let provideFax = leaveProviderInfo['provideFax'];
-  let provideAddress = leaveProviderInfo['provideAddress'];
+  let familyMemberDOB = leaveProviderInfo['familyMemberDOB'] || 'NULL';
+  let familyRelation = leaveProviderInfo['familyRelation'] || 'NULL';
+  let inLocoParent = leaveProviderInfo['inLocoParent'] || 'NULL';
+  let providerName = leaveProviderInfo['providerName'] || 'NULL';
+  let providerType = leaveProviderInfo['providerType'] || 'NULL';
+  let providePhone = leaveProviderInfo['providePhone'] || 'NULL';
+  let provideFax = leaveProviderInfo['provideFax'] || 'NULL';
+  let provideAddress = leaveProviderInfo['provideAddress'] || 'NULL';
   let startDate = leaveTypeInfo['startDate'];
   let endDate = leaveTypeInfo['endDate'];
   let leaveType = leaveTypeInfo['leaveType'];
@@ -69,12 +69,12 @@ let addLeaveInfo = async (leaveReasonInfo, leaveProviderInfo, leaveTypeInfo, emp
 let addEmployeeLeave = async (leaveEligibilityList, empId) => {
   debug("user.DAL -> addEmployeeLeave");
   leaveEligibilityList = JSON.parse(leaveEligibilityList);
-  let rawData=[];
-  leaveEligibilityList.forEach(data=>{
+  let rawData = [];
+  leaveEligibilityList.forEach(data => {
     let leaveId = data['_comment'];
     let state = data['state'];
     let leave_name = data['leave_name'];
-    let eligibility = JSON.stringify(data['eligibility']);
+    let eligibility = JSON.stringify(data['eligibilityData']);
     let qualifying_reason = JSON.stringify(data['qualifying_reason']);
     let leave_type = data['leave_type'];
     let maximum_duration = JSON.stringify(data['maximum_duration']);
@@ -89,10 +89,17 @@ let addEmployeeLeave = async (leaveEligibilityList, empId) => {
 };
 
 
+let getAllEmployeeLeave = async () => {
+  debug("user.DAL -> getAllEmployeeLeav");
+  let getAllEmployeeLeaveQuery = common.cloneObject(query.getAllEmployeeLeaveQuery);
+  return await common.executeQuery(getAllEmployeeLeaveQuery);
+};
+
 
 module.exports = {
   addEmployeeDetail: addEmployeeDetail,
   addLocationDetail: addLocationDetail,
   addLeaveInfo: addLeaveInfo,
-  addEmployeeLeave: addEmployeeLeave
+  addEmployeeLeave: addEmployeeLeave,
+  getAllEmployeeLeave: getAllEmployeeLeave,
 };

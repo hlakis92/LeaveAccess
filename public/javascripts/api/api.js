@@ -4,6 +4,7 @@ let addEmployeeURL = windowLocation.origin + '/api/employee/add-employee';
 let dummyCallURL = windowLocation.origin + '/api/employee/dummy-call';
 let checkLeaveEligibility = windowLocation.origin + '/api/leave/check-leave-eligibility';
 let submitLeaveURL = windowLocation.origin + '/api/leave/add-all-data';
+let getAllEmployeeLeaveURL = windowLocation.origin + '/api/leave/get-employee-leave';
 
 $('#signinButton').on('click', function (e) {
   e.preventDefault();
@@ -116,31 +117,15 @@ $('#employeeAddButton').on('click', function (e) {
     state: state,
     pincode: pincode,
   };
-  // if (firstName == '' || lastName == '') {
-  //   return false
-  // } else {
-  //   deleteCookie('employeeInfo');
-  //   setCookie('employeeInfo', JSON.stringify(data), 1);
-  //   window.location.href = windowLocation.origin + '/location';
-  // }
 
-  // alert('click')
-  // redirectUri()
-  // debugger;
-  // window.href = windowLocation.origin + "/location";
-
-  // var $form = $("#employeeForm");
-  //
-  // // check if the input is valid
-  // if(! $form.valid()) return false;
-  // console.log(data)
   $.ajax({
     type: 'POST',
     url: dummyCallURL,
     dataType: "json",
     data: data,
     beforeSend: function (xhr) {
-      if (firstName == '' || lastName == '') {
+      if (firstName == '' || lastName == '' || email == '' || DOB == ''
+        || address1 == '' || city == '' || state == '' || pincode == '') {
         return false
       } else {
         e.preventDefault();
@@ -192,7 +177,10 @@ $('#locationAddButton').on('click', function (e) {
     dataType: "json",
     data: data,
     beforeSend: function (xhr) {
-      if ($("#inputEmployeeId").val() == '') {
+      if ($("#inputEmployeeId").val() == '' || $("#employeeStatus").val() == '' ||
+        $("#inputLocationEmail").val() == '' || $("#inputHireDate").val() == '' ||
+        $("#input12MonthHours").val() == '' || $("#inputAddress").val() == '' ||
+        $("#inputCity").val() == '' || $("#inputState").val() == '' || $("#inputZip").val() == '') {
         return false
       } else {
         e.preventDefault();
@@ -211,7 +199,8 @@ $('#locationAddButton').on('click', function (e) {
 });
 
 $('#leaveReasonAddButton').on('click', function (e) {
-  let radioValue = "Voting"; //$("input[name='gridRadios']:checked").val();
+  let radioValue = $("input[name='gridRadios']:checked").val();
+  console.log(radioValue)
   // debugger;
   // alert(radioValue)
   let data = {
@@ -223,6 +212,13 @@ $('#leaveReasonAddButton').on('click', function (e) {
     url: dummyCallURL,
     dataType: "json",
     data: data,
+    beforeSend: function (xhr) {
+      if (radioValue == undefined) {
+        return false
+      } else {
+        e.preventDefault();
+      }
+    },
     success: result => {
       console.log(result);
       deleteCookie('leaveReasonInfo');
@@ -240,6 +236,7 @@ $('#leaveReasonAddButton').on('click', function (e) {
 });
 
 $('#leaveProviderAddButton').on('click', function (e) {
+  let type = (getQueryStringValue("type"));
   let data = {
     familyFirst: $("#inputFirst4").val(),
     familyLast: $("#inputLast4").val(),
@@ -257,6 +254,22 @@ $('#leaveProviderAddButton').on('click', function (e) {
     url: dummyCallURL,
     dataType: "json",
     data: data,
+    beforeSend: function (xhr) {
+      if ((type == 0 && ($("#providerName").val() == '' || $("#providerType").val() == '' ||
+        $("#providePhone").val() == '' || $("#provideFax").val() == '' ||
+        $("#provideAddress").val() == '') ||
+        (type == 1 &&
+          ($("#providerName").val() == '' || $("#providerType").val() == '' ||
+          $("#providePhone").val() == '' || $("#provideFax").val() == '' ||
+          $("#provideAddress").val() == '' || $("#inputFirst4").val() == '' ||
+          $("#inputLast4").val() == '' || $("#inputFamilyMemberDOB4").val() == '' ||
+            $("#inputRelation").val() == ''
+          )))) {
+        return false
+      } else {
+        e.preventDefault();
+      }
+    },
     success: result => {
       console.log(result);
       deleteCookie('leaveProviderInfo');
@@ -269,17 +282,25 @@ $('#leaveProviderAddButton').on('click', function (e) {
   });
 });
 
-$('#leaveTypeAddButton').on('click', function (e) {
+/*$('#leaveTypeAddButton').on('click', function (e) {
   let data = {
     startDate: $("#InputStartDateofTM1").val(),
     endDate: $("#InputEndDateofTM1").val(),
     leaveType: $("#selectLeaveTypeOptions").val(),
   };
+  console.log(data);
   $.ajax({
     type: 'POST',
     url: dummyCallURL,
     dataType: "json",
     data: data,
+    beforeSend: function (xhr) {
+      if ($("#InputStartDateofTM1").val() == '' || $("#InputEndDateofTM1").val() == '' || $("#selectLeaveTypeOptions").val() == '') {
+        return false
+      } else {
+        e.preventDefault();
+      }
+    },
     success: result => {
       console.log(result);
       deleteCookie('leaveTypeInfo');
@@ -290,7 +311,7 @@ $('#leaveTypeAddButton').on('click', function (e) {
       console.log(result)
     }
   });
-});
+});*/
 
 $('#leaveTypeAddButtonNext').on('click', function (e) {
 
@@ -321,6 +342,13 @@ $('#leaveTypeAddButtonNext').on('click', function (e) {
     url: checkLeaveEligibility,
     dataType: "json",
     data: requireData,
+    beforeSend: function (xhr) {
+      if ($("#InputStartDateofTM1").val() == '' || $("#InputEndDateofTM1").val() == '' || $("#selectLeaveTypeOptions").val() == '') {
+        return false
+      } else {
+        e.preventDefault();
+      }
+    },
     success: result => {
       console.log(result);
       deleteCookie('leaveTypeInfo');
@@ -370,7 +398,7 @@ $('#leaveSubmit').on('click', function (e) {
       deleteCookie('leaveProviderInfo');
       deleteCookie('leaveTypeInfo');
       deleteCookie('leaveEligibilityList');
-      window.location.href = windowLocation.origin + '/dashboard';
+      window.location.href = windowLocation.origin + '/searchleave';
     },
     error: result => {
       console.log(result)
@@ -408,5 +436,10 @@ $('#leaveEligibilityBackButton').on('click', function (e) {
   // alert('click');
   window.location.href = windowLocation.origin + '/leavetype';
 });
+
+
+function getQueryStringValue(key) {
+  return decodeURIComponent(window.location.search.replace(new RegExp("^(?:.*[&\\?]" + encodeURIComponent(key).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"));
+}
 
 

@@ -29,10 +29,10 @@
                     <div class="form-group col-md-6">
                         <label for="inputEmployeeStatus">Employee Status</label>
                         <select id="inputEmployeeStatus" class="form-control" required>
-                            <option selected>Choose...</option>
-                            <option>Active</option>
-                            <option>Inactive</option>
-                            <option>Leave of Absence</option>
+                            <option value="" selected>Choose...</option>
+                            <option value="active">Active</option>
+                            <option value="inactive">Inactive</option>
+                            <option value="leave_of_absence">Leave of Absence</option>
                         </select>
 
                     </div>
@@ -43,7 +43,7 @@
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="inputLocationEmail">Email</label>
-                        <input type="email" class="form-control" id="inputLocationEmail" placeholder="Email">
+                        <input type="email" class="form-control" id="inputLocationEmail" placeholder="Email" required>
                     </div>
                     <div class="form-group col-md-6">
                         <label for="inputHireDate">Hire Date</label>
@@ -55,7 +55,7 @@
                 <div class="form-row">
                     <div class="form-group col-md-4">
                         <label for="input12MonthHours">Hours Worked in Last 12 Months</label>
-                        <input type="number" class="form-control" id="input12MonthHours" placeholder="Hours">
+                        <input type="number" class="form-control" id="input12MonthHours" placeholder="Hours" required>
                     </div>
 
                     <!-- this will be the addresses entry for the employee -->
@@ -74,7 +74,7 @@
                         <div class="form-group col-md-4">
                             <label for="inputState">State</label>
                             <select id="inputState" class="form-control" required>
-                                <option selected>Choose...</option>
+                                <option value ="" selected>Choose...</option>
                                 <option value="Alabama">Alabama</option>
                                 <option value="Arizona">Arizona</option>
                                 <option value="California">California</option>
@@ -147,11 +147,11 @@
                                     </td>
                                     <td>
                                         <input type="text" class="form-control" id="supervisorName"
-                                               placeholder="First and Last Name" required>
+                                               placeholder="First and Last Name" >
                                     </td>
                                     <td>
                                         <input type="email" class="form-control" id="supervisorEmail"
-                                               placeholder="Email" required>
+                                               placeholder="Email" >
                                     </td>
                                 </tr>
 

@@ -59,7 +59,29 @@ let addAllDataService = async (request) => {
   return {status: true, data: {}}
 };
 
+/**
+ * Created By: AV
+ * Updated By: AV
+ *
+ * checkLeaveEligibilityService
+ * @param  {object}  request
+ * @return {object}
+ *
+ */
+let getEmployeeLeaveService = async (request) => {
+  debug("leave.service -> getEmployeeLeaveService");
+  let employeeLeaveResult = await leaveDAL.getAllEmployeeLeave();
+  if (employeeLeaveResult.status === true) {
+    return {status: true, data: employeeLeaveResult.content}
+  } else {
+    return {status: false, error: {}}
+  }
+
+};
+
+
 module.exports = {
   checkLeaveEligibilityService: checkLeaveEligibilityService,
   addAllDataService: addAllDataService,
+  getEmployeeLeaveService: getEmployeeLeaveService,
 };

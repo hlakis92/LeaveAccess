@@ -80,13 +80,13 @@
 
             <br><br>
             <h4 id="leave-NotEligible">Not Eligible</h4>
-            <table id="#">
+            <table id="notEligibleTable">
                 <tr>
                     <th>Plan Name</th>
                     <th>Dates</th>
                     <th>Eligibility</th>
                 </tr>
-                <tr id="#">
+                <!--<tr id="#">
                     <td id="#"><a href="#">Short Term Disability</a></td>
                     <td>10/20/2018 - 12/15/2018</td>
                     <td id="#">
@@ -104,15 +104,15 @@
                         <br><br>
                     </td>
 
-                </tr>
+                </tr>-->
             </table>
 
             <br>
 
             <div class="form-row">
                 <div class="col-md-12">
-                    <button type="button" class="btn btn-secondary" id="leaveEligibilityBackButton"> ← Back </button>
-                    <button type="submit" class="btn btn-primary" id="leaveSubmit">Submit Leave → </button>
+                    <button type="button" class="btn btn-secondary" id="leaveEligibilityBackButton"> ← Back</button>
+                    <button type="submit" class="btn btn-primary" id="leaveSubmit">Submit Leave →</button>
                 </div>
             </div>
         </div>
@@ -197,59 +197,99 @@
 </body>
 <% include ../partials/footer %>
 <script>
+  let templateOld =
+    '    <tr>' +
+    '        <td>{{leave_name}}</td>' +
+    '        <td>{{from_date}} - {{to_date}}</td>' +
+    '        <td>' +
+    '         <div id="monthDiv">' +
+    '        <h5>12 Months of Service</h5>' +
+    '            <select name="month" id="monthSelect">' +
+    '                <option value="met">Met</option>' +
+    '                <option value="not met" selected >Not Met</option>' +
+    '            </select>' +
+    '            <br><br>' +
+    '        </div>' +
+    '         <div id="hoursDiv">' +
+    '        <h5>1250 Hours in Past 12 Months</h5>' +
+    '            <select name="hours" id="hoursSelect">' +
+    '                <option value="met">Met</option>' +
+    '                <option value="not met" selected >Not Met</option>' +
+    '            </select>' +
+    '        <br><br>' +
+    '        </div>' +
+    // '        <h5>Qualified Person</h5>'+
+    // '              <select name="#">'+
+    // '                <option value="All">Met</option>'+
+    // '                <option value="active">Not Met</option>'+
+    // '              </select>'+
+    '        </td>' +
+    '  </tr>';
   let template =
-'    <tr>'+
-'        <td>{{leave_name}}</td>'+
-'        <td>{{from_date}} - {{to_date}}</td>'+
-'        <td>'+
-'         <div id="monthDiv">'+
-'        <h5>12 Months of Service</h5>'+
-'            <select name="month" id="monthSelect">'+
-'                <option value="met">Met</option>'+
-'                <option value="not met" selected >Not Met</option>'+
-'            </select>'+
-'            <br><br>'+
-'        </div>'+
-'         <div id="hoursDiv">'+
-'        <h5>1250 Hours in Past 12 Months</h5>'+
-'            <select name="hours" id="hoursSelect">'+
-'                <option value="met">Met</option>'+
-'                <option value="not met" selected >Not Met</option>'+
-'            </select>'+
-'        <br><br>'+
-    '        </div>'+
-// '        <h5>Qualified Person</h5>'+
-// '              <select name="#">'+
-// '                <option value="All">Met</option>'+
-// '                <option value="active">Not Met</option>'+
-// '              </select>'+
-'        </td>'+
-'  </tr>' ; 
+    '    <tr>' +
+    '        <td>{{leave_name}}</td>' +
+    '        <td>{{from_date}} - {{to_date}}</td>' +
+    '        <td>' +
+    '{{eligibilityText}}' +
+    '        </td>' +
+    '  </tr>';
+  let selectTemplateMet = '         <div>' +
+    '        <h5>{{text}}</h5>' +
+    '            <select>' +
+    '                <option value="met" selected>Met</option>' +
+    '                <option value="not met">Not Met</option>' +
+    '            </select>' +
+    '            <br><br>' +
+    '        </div>';
+  let selectTemplateNotMet = '         <div>' +
+    '        <h5>{{text}}</h5>' +
+    '            <select>' +
+    '                <option value="met">Met</option>' +
+    '                <option value="not met" selected>Not Met</option>' +
+    '            </select>' +
+    '            <br><br>' +
+    '        </div>';
   $(document).ready(function () {
     let leaveEligibilityList = getCookie('leaveEligibilityList');
     console.log(leaveEligibilityList)
     if (leaveEligibilityList !== '' && leaveEligibilityList !== undefined) {
       leaveEligibilityList = JSON.parse(leaveEligibilityList)
       console.log(leaveEligibilityList)
-      leaveEligibilityList.forEach(data=>{
-        let templateData = generatingTemplate(template,data);
-        $('#eligibleTable').append(templateData);
-        if(data['eligibility'].hasOwnProperty('hours')===true
-          && data['eligibility']['hours']==='met'){
+      leaveEligibilityList.forEach(data => {
+        let eligibilityText = '';
+        (data.eligibilityData).forEach(d => {
+          if (d.value === 'met') {
+            eligibilityText += generatingTemplate(selectTemplateMet, d);
+          } else {
+            eligibilityText += generatingTemplate(selectTemplateNotMet, d);
+          }
+        });
+        data['eligibilityText'] = eligibilityText;
+        let templateData = generatingTemplate(template, data);
+        if (data['eligible'] == 1) {
+
+          $('#eligibleTable').append(templateData);
+        } else {
+          $('#notEligibleTable').append(templateData);
+
+        }
+
+        /*if (data['eligibility'].hasOwnProperty('hours') === true
+          && data['eligibility']['hours'] === 'met') {
           $('#hoursSelect').val('met');
           // console.log('...................')
 
-        } else if(data['eligibility'].hasOwnProperty('hours')===false) {
+        } else if (data['eligibility'].hasOwnProperty('hours') === false) {
           $('#hoursDiv').remove();
         }
-        if(data['eligibility'].hasOwnProperty('month')===true
-          && data['eligibility']['month']==='met'){
+        if (data['eligibility'].hasOwnProperty('month') === true
+          && data['eligibility']['month'] === 'met') {
           $('#monthSelect').val('met');
           // console.log('...................')
 
-        } else if(data['eligibility'].hasOwnProperty('month')===false) {
+        } else if (data['eligibility'].hasOwnProperty('month') === false) {
           $('#monthDiv').remove();
-        }
+        }*/
       })
     }
   });

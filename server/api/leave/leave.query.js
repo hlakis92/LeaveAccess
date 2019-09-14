@@ -37,6 +37,65 @@ let query = {
       fValue: []
     }
   }, // create user query end
+  getAllEmployeeLeaveQuery: {
+    join: {
+      table: tbl_employeemaster,
+      alias: 'EM',
+      joinwith: [{
+        table: tbl_locationmaster,
+        alias: 'lm',
+        joincondition: {
+          table: 'EM',
+          field: 'pk_empId',
+          operator: 'eq',
+          value: {
+            table: 'LM',
+            field: 'empId'
+          }
+        }
+      }, {
+        table: tbl_emolyeeleave,
+        alias: 'EL',
+        joincondition: {
+          table: 'EM',
+          field: 'pk_empId',
+          operator: 'eq',
+          value: {
+            table: 'EL',
+            field: 'empId'
+          }
+        }
+      }]
+    },
+    select: [{
+      field: 'pk_empID',
+      alias: 'emp_id'
+    }, {
+      field: 'firstName',
+      alias: 'first_name'
+    }, {
+      field: 'lastName',
+      alias: 'last_name'
+    }, {
+      field: 'lm.state',
+      encloseField: false,
+      alias: 'state'
+    }, {
+      field: 'leaveId',
+      alias: 'leave_id'
+    }, {
+      field: 'leave_name',
+      alias: 'leave_name'
+    }, {
+      field: 'DATE_FORMAT(from_date, "%Y-%m-%d")',
+      encloseField: false,
+      alias: 'from_date'
+    }, {
+      field: 'DATE_FORMAT(to_date, "%Y-%m-%d")',
+      encloseField: false,
+      alias: 'to_date'
+    }]
+  }
 };
 
 module.exports = query;

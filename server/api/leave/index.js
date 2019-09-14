@@ -8,5 +8,7 @@ module.exports = router;
 // router.post('/add-employee', controller.addEmployee);
 router.post('/check-leave-eligibility', controller.checkLeaveEligibility);
 router.post('/add-all-data', controller.addAllData);
+router.get('/get-employee-leave', controller.getEmployeeLeave);
+
 
 

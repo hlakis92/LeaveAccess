@@ -47,4 +47,15 @@ router.get('/leaveeligibility', function (req, res, next) {
 
   res.render('pages/leaveeligibility', {title: 'LAM'});
 });
+router.get('/d', function (req, res, next) {
+  // res.send('respond with a resource');
+  res.status(200);
+  res.render('pages/dashboard', {title: 'LAM'});
+});
+
+router.get('/searchleave', function (req, res, next) {
+  // res.send('respond with a resource');
+  res.status(200);
+  res.render('pages/searchleave', {title: 'searchleave'});
+});
 module.exports = router;
