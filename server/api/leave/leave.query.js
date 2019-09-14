@@ -43,7 +43,7 @@ let query = {
       alias: 'EM',
       joinwith: [{
         table: tbl_LocationMaster,
-        alias: 'lm',
+        alias: 'LM',
         joincondition: {
           table: 'EM',
           field: 'pk_empId',
