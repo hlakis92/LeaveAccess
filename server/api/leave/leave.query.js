@@ -23,7 +23,7 @@ let query = {
   }, // create user query end
   /* create user query start */
   addLeaveInfoQuery: {
-    table: tbl_Leaveinfo,
+    table: tbl_LeaveInfo,
     insert: {
       field: ['empId','leaveReason', 'familyFirst', 'familyLast', 'familyMemberDOB', 'familyRelation', 'inLocoParent', 'providerName', 'providerType', 'providePhone','provideFax','provideAddress','startDate','endDate','leaveType'],
       fValue: []
