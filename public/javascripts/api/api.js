@@ -260,9 +260,9 @@ $('#leaveProviderAddButton').on('click', function (e) {
         $("#provideAddress").val() == '') ||
         (type == 1 &&
           ($("#providerName").val() == '' || $("#providerType").val() == '' ||
-          $("#providePhone").val() == '' || $("#provideFax").val() == '' ||
-          $("#provideAddress").val() == '' || $("#inputFirst4").val() == '' ||
-          $("#inputLast4").val() == '' || $("#inputFamilyMemberDOB4").val() == '' ||
+            $("#providePhone").val() == '' || $("#provideFax").val() == '' ||
+            $("#provideAddress").val() == '' || $("#inputFirst4").val() == '' ||
+            $("#inputLast4").val() == '' || $("#inputFamilyMemberDOB4").val() == '' ||
             $("#inputRelation").val() == ''
           )))) {
         return false
@@ -329,6 +329,7 @@ $('#leaveTypeAddButtonNext').on('click', function (e) {
   leaveReasonInfo = JSON.parse(leaveReasonInfo);
   leaveProviderInfo = JSON.parse(leaveProviderInfo);
   let requireData = {
+    gender: employeeInfo['gender'],
     locationState: (locationInfo['state']).toLowerCase(),
     last_12_month_work_hours: (locationInfo['_12MonthHours']),
     doj: (locationInfo['DOJ']),

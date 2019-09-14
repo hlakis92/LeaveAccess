@@ -30,6 +30,8 @@ module.exports.checkLeaveEligibilty = (data) => {
     // console.log(maxToDateForValidation);
     if (ruleData['state'] === data['locationState'] &&
       ruleData['qualifying_reason'].includes(data['type_of_leave']) === true &&
+      ((data['type_of_leave'] == 'maternity' && data['gender'] == 1) ||
+        (data['type_of_leave'] != 'maternity')) &&
       (ruleData['leave_type'].includes('all') === true
         || ruleData['leave_type'].includes(data['leave_type']) === true) &&
       (maxToDateForValidation === undefined
