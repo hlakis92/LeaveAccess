@@ -77,7 +77,7 @@ let query = {
       field: 'lastName',
       alias: 'last_name'
     }, {
-      field: 'lm.state',
+      field: 'LM.state',
       encloseField: false,
       alias: 'state'
     }, {
