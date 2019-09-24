@@ -70,7 +70,7 @@
                                 <div class="form-group col-md-4">
                                     <label for="inputRelation">Relationship</label>
                                     <select id="inputRelation" class="form-control" required>
-                                        <option value ="" selected>Choose...</option>
+                                        <option value="" selected>Choose...</option>
                                         <option>Father</option>
                                         <option>Mother</option>
                                         <option>Brother</option>
@@ -260,7 +260,8 @@
       $("#inputLast4").val(leaveProviderInfo['familyLast']);
       $("#inputFamilyMemberDOB4").val(leaveProviderInfo['familyMemberDOB']);
       $("#inputRelation").val(leaveProviderInfo['familyRelation']);
-      $("#gridCheck").val(leaveProviderInfo['inLocoParent']);
+      // $("#gridCheck").val(leaveProviderInfo['inLocoParent']);
+      $("#gridCheck").prop("checked", leaveProviderInfo['inLocoParent'])
       $("#providerName").val(leaveProviderInfo['providerName']);
       $("#providerType").val(leaveProviderInfo['providerType']);
       $("#providePhone").val(leaveProviderInfo['providePhone']);

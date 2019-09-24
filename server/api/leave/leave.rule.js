@@ -29,7 +29,10 @@ module.exports.checkLeaveEligibilty = (data) => {
 
     // console.log(maxToDateForValidation);
     if (ruleData['state'] === data['locationState'] &&
-      ruleData['qualifying_reason'].includes(data['type_of_leave']) === true &&
+      (ruleData['qualifying_reason'].includes(data['type_of_leave']) === true ||
+        (data['type_of_leave'] === 'family members health condition' &&
+        ruleData['qualifying_reason'].includes('to care for a family member') === true
+        && data[ 'is_loco_parentis']=="true")) &&
       ((data['type_of_leave'] == 'maternity' && data['gender'] == 1) ||
         (data['type_of_leave'] != 'maternity')) &&
       (ruleData['leave_type'].includes('all') === true
