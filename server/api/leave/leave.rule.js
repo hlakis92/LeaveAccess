@@ -1,5 +1,6 @@
 let leaveConstant = require('./leave.constant');
 let DateLibrary = require('date-management');
+let d3 = require('d3');
 let ruleList = leaveConstant.leaveMatrix;
 
 module.exports.checkLeaveEligibilty = (data) => {
@@ -95,6 +96,8 @@ module.exports.checkLeaveEligibilty = (data) => {
       }
       ruleData['from_date'] = data['from_date'];
       ruleData['to_date'] = data['to_date'];
+      // ruleData['from_date_format'] = d3.time.format("%m/%d/%Y")(new Date(ruleData['from_date']));
+      // ruleData['to_date_format'] = d3.time.format("%m/%d/%Y")(new Date(ruleData['to_date']));
       leaveElibleList.push(ruleData);
       console.log("pass..................", ruleData);
       leaveMatch++;
