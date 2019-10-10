@@ -255,7 +255,7 @@ $('#leaveProviderAddButton').on('click', function (e) {
     dataType: "json",
     data: data,
     beforeSend: function (xhr) {
-      if ((type == 0 && ($("#providerName").val() == '' || $("#providerType").val() == '' ||
+     /* if ((type == 0 && ($("#providerName").val() == '' || $("#providerType").val() == '' ||
         $("#providePhone").val() == '' || $("#provideFax").val() == '' ||
         $("#provideAddress").val() == '') ||
         (type == 1 &&
@@ -264,8 +264,10 @@ $('#leaveProviderAddButton').on('click', function (e) {
             $("#provideAddress").val() == '' || $("#inputFirst4").val() == '' ||
             $("#inputLast4").val() == '' || $("#inputFamilyMemberDOB4").val() == '' ||
             $("#inputRelation").val() == ''
-          )))) {
-        return false
+          )))) {*/
+
+           if (type == 1 && ($("#inputFirst4").val() == '' ||  $("#inputLast4").val() == '' || $("#inputFamilyMemberDOB4").val() == '' || $("#inputRelation").val() == '' )) {
+            return false
       } else {
         e.preventDefault();
       }
