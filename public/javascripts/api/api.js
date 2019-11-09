@@ -227,7 +227,11 @@ $('#leaveReasonAddButton').on('click', function (e) {
       if (radioValue === 'Employees Own Health Condition') {
         type = 0
       }
-      window.location.href = windowLocation.origin + '/leaveprovider?type=' + type;
+      if (radioValue === 'Emergency Duty') {
+        window.location.href = windowLocation.origin + '/leavetype';
+      } else {
+        window.location.href = windowLocation.origin + '/leaveprovider?type=' + type;
+      }
     },
     error: result => {
       console.log(result)
@@ -255,16 +259,12 @@ $('#leaveProviderAddButton').on('click', function (e) {
     dataType: "json",
     data: data,
     beforeSend: function (xhr) {
-      if ((type == 0 && ($("#providerName").val() == '' || $("#providerType").val() == '' ||
-        $("#providePhone").val() == '' || $("#provideFax").val() == '' ||
-        $("#provideAddress").val() == '') ||
+      if (
         (type == 1 &&
-          ($("#providerName").val() == '' || $("#providerType").val() == '' ||
-            $("#providePhone").val() == '' || $("#provideFax").val() == '' ||
-            $("#provideAddress").val() == '' || $("#inputFirst4").val() == '' ||
+           $("#inputFirst4").val() == '' ||
             $("#inputLast4").val() == '' || $("#inputFamilyMemberDOB4").val() == '' ||
             $("#inputRelation").val() == ''
-          )))) {
+          )) {
         return false
       } else {
         e.preventDefault();
@@ -333,6 +333,7 @@ $('#leaveTypeAddButtonNext').on('click', function (e) {
     locationState: (locationInfo['state']).toLowerCase(),
     last_12_month_work_hours: (locationInfo['_12MonthHours']),
     is_loco_parentis:leaveProviderInfo['inLocoParent'],
+    family_relation:leaveProviderInfo['familyRelation'],
     doj: (locationInfo['DOJ']),
     leave_type: (data['leaveType']).toLowerCase(),
     from_date: (data['startDate']).toLowerCase(),
@@ -430,7 +431,11 @@ $('#leaveTypeBackButton').on('click', function (e) {
   if (radioValue === 'Employees Own Health Condition') {
     type = 0
   }
-  window.location.href = windowLocation.origin + '/leaveprovider?type=' + type;
+  if (radioValue === 'Emergency Duty') {
+    window.location.href = windowLocation.origin + '/leavereason';
+  } else {
+    window.location.href = windowLocation.origin + '/leaveprovider?type=' + type;
+  }
   // window.location.href = windowLocation.origin + '/leavereason';
 });
 

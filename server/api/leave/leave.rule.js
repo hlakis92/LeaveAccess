@@ -1,5 +1,6 @@
 let leaveConstant = require('./leave.constant');
 let DateLibrary = require('date-management');
+let d3 = require('d3');
 let ruleList = leaveConstant.leaveMatrix;
 
 module.exports.checkLeaveEligibilty = (data) => {
@@ -28,11 +29,16 @@ module.exports.checkLeaveEligibilty = (data) => {
     }
 
     // console.log(maxToDateForValidation);
-    if (ruleData['state'] === data['locationState'] &&
-      (ruleData['qualifying_reason'].includes(data['type_of_leave']) === true ||
-        (data['type_of_leave'] === 'family members health condition' &&
+    if (
+      (ruleData['state'] === data['locationState'] || ruleData['state']==='federal') &&
+      ((data['type_of_leave'] === 'family members health condition' &&
         ruleData['qualifying_reason'].includes('to care for a family member') === true
-        && data[ 'is_loco_parentis']=="true")) &&
+        && data[ 'is_loco_parentis']=="true") ||
+        (data['type_of_leave'] === 'school activities' &&
+          ruleData['qualifying_reason'].includes('school activities') === true
+          && data[ 'family_relation']=="Child") ||
+        (ruleData['qualifying_reason'].includes(data['type_of_leave']) === true
+          && ['school activities'].includes(data['type_of_leave']) === false)) &&
       ((data['type_of_leave'] == 'maternity' && data['gender'] == 1) ||
         (data['type_of_leave'] != 'maternity')) &&
       (ruleData['leave_type'].includes('all') === true
@@ -40,11 +46,18 @@ module.exports.checkLeaveEligibilty = (data) => {
       (maxToDateForValidation === undefined
         || (new Date(maxToDateForValidation)).getTime() >= new Date(data['to_date']).getTime())
     ) {
-      ruleData['eligible'] = 1;
+      let eligible=1;
+      let eligibleType='met';
+      // only for leave no. 17
+      if(data['leave_type'] === 'continuous' && ruleData['_comment'] === 17){
+        eligible = 0;
+        eligibleType='not met';
+      }
+      ruleData['eligible'] = eligible;
       ruleData['eligibilityData'] = [];
       ruleData['eligibilityData'].push({
         'text': 'Specific Reason',
-        'value': 'met'
+        'value': eligibleType
       });
       if (ruleData['eligibility'].hasOwnProperty('state') === true
         && ruleData['eligibility']['state'] == data['locationState']) {
@@ -53,7 +66,7 @@ module.exports.checkLeaveEligibilty = (data) => {
           ruleData['eligibility'].hasOwnProperty('month') === false)
           ruleData['eligibilityData'].push({
             'text': 'Override Eligibility',
-            'value': 'met'
+            'value': eligibleType
           });
         // ruleData['eligibility']['state'] = 'met';
       }
@@ -95,6 +108,8 @@ module.exports.checkLeaveEligibilty = (data) => {
       }
       ruleData['from_date'] = data['from_date'];
       ruleData['to_date'] = data['to_date'];
+      // ruleData['from_date_format'] = d3.time.format("%m/%d/%Y")(new Date(ruleData['from_date']));
+      // ruleData['to_date_format'] = d3.time.format("%m/%d/%Y")(new Date(ruleData['to_date']));
       leaveElibleList.push(ruleData);
       console.log("pass..................", ruleData);
       leaveMatch++;

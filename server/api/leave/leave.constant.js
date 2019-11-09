@@ -181,7 +181,7 @@ exports.leaveMatrix = [{
   qualifying_reason: [
     'domestic violence'
   ],
-  leave_type: ['intermittent'],
+  leave_type: ['all','intermittent'],
   maximum_duration: {value: 3, granularityType: 'days'}
 }, {
   _comment: 18,
