@@ -196,11 +196,12 @@
 </div>
 </body>
 <% include ../partials/footer %>
+<script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 <script>
   let template =
     '    <tr>' +
     '        <td>{{leave_name}}</td>' +
-    '        <td>{{from_date}} - {{to_date}}</td>' +
+    '        <td>{{from_date_format}} - {{to_date_format}}</td>' +
     '        <td>' +
     '{{eligibilityText}}' +
     '        </td>' +
@@ -237,6 +238,10 @@
           }
         });
         data['eligibilityText'] = eligibilityText;
+        console.log(data);
+        data['from_date_format'] = d3.time.format("%m/%d/%Y")(new Date(data['from_date']));
+        data['to_date_format'] = d3.time.format("%m/%d/%Y")(new Date(data['to_date']));
+
         let templateData = generatingTemplate(template, data);
         if (data['eligible'] == 1) {
 

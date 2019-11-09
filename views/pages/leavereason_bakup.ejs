@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <% include ../partials/head %>
+
+</head>
+<body>
+
+<div class="container">
+    <div class="container-fluid">
+        <% include ../partials/topnav %>
+        <div class="container-fluid text-center">
+            <div class="row content">
+                <div class="col-sm-2 sidenav1">
+                    <!--<p>
+                        <a class="active" href="#">Employee Information</a>
+                    </p>
+                    <p>
+                        <a href="#">Location Information</a>
+                    </p>
+                    <p>
+                        <a href="#">Leave Reason</a>
+                    </p>
+                    <p>
+                        <a href="#">Provider Information</a>
+                    </p>
+                    <p>
+                        <a href="#">Leave Information</a>
+                    </p>
+                    <p>
+                        <a href="#">Leave Summary</a>
+                    </p>-->
+                </div>
+                <div class="col-sm-8 text-left">
+                    <h1>Leave Reason</h1>
+
+
+                    <!-- this will be the beginning of the form that will contain the employee's information -->
+                    <!--Input for first and last name-->
+                    <form action="" method="get">
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                            </div>
+                            <div class="form-group col-md-6">
+                            </div>
+                        </div>
+
+                        <!-- t-->
+
+                        <!-- t -->
+
+                        <!-- this div belwow is the table for entering the employee's contact informatiion  -->
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <table id="leaveReasonTable">
+                                    <tr>
+                                        <th></th>
+                                        <th>Type of Leave Description</th>
+                                    </tr>
+
+                                    <tr id="employeeContactInfo">
+
+                                        <td id="homeNumber">
+                                            <input class="form-check-input" type="radio"
+                                                   name="gridRadios" id="gridRadios2"
+                                                   value="Employees Own Health Condition">
+                                        </td>
+                                        <td>
+                                            Employee's Own Health Condition
+                                        </td>
+
+                                    <tr>
+                                        <td id="cellNumber">
+                                            <input class="form-check-input" type="radio"
+                                                   name="gridRadios" id="gridRadios2"
+                                                   value="Family Members Health Condition">
+                                        </td>
+                                        <td>
+                                            Family Member's Health Condition
+                                        </td>
+                                    <tr id="employeeInfo">
+                                        <td id="workNumber">
+                                            <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2"
+                                                   value="Workplace Accommodation">
+                                        </td>
+                                        <td>
+                                            Workplace Accommodation
+                                        </td>
+                                    <tr id="employeeInfo">
+                                        <td id="workNumber">
+                                            <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2"
+                                                   value="Maternity">
+                                        </td>
+                                        <td>
+                                            Maternity
+                                        </td>
+                                    <tr id="employeeInfo">
+                                        <td id="workNumber">
+                                            <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2"
+                                                   value="Care For Newborn">
+                                        </td>
+                                        <td>
+                                            Care For Newborn
+                                        </td>
+                                    <tr id="employeeInfo">
+                                        <td id="workNumber">
+                                            <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2"
+                                                   value="Adoption">
+                                        </td>
+                                        <td>
+                                            Adoption
+                                        </td>
+                                    <tr id="employeeInfo">
+                                        <td id="workNumber">
+                                            <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2"
+                                                   value="Foster Care">
+                                        </td>
+                                        <td>
+                                            Foster Care
+                                        </td>
+                                    <tr id="employeeInfo">
+                                        <td id="workNumber">
+                                            <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="Bereavement">
+                                        </td>
+                                        <td>
+                                            Bereavement
+                                        </td>
+                                    <tr id="employeeInfo">
+                                        <td id="workNumber">
+                                            <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2"
+                                                   value="Military">
+                                        </td>
+                                        <td>
+                                            Military
+                                        </td>
+                                    <tr id="employeeInfo">
+                                        <td id="workNumber">
+                                            <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2"
+                                                   value="Military Duty">
+                                        </td>
+                                        <td>
+                                            Military Duty
+                                        </td>
+                                    <tr id="employeeInfo">
+                                        <td id="workNumber">
+                                            <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2"
+                                                   value="Family Military Exigency">
+                                        </td>
+                                        <td>
+                                            Family Military Exigency
+                                        </td>
+                                    <tr id="employeeInfo">
+                                        <td id="workNumber">
+                                            <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2"
+                                                   value="Emergency Duty">
+                                        </td>
+                                        <td>
+                                            Emergency Duty
+                                        </td>
+                                    <tr id="employeeInfo">
+                                        <td id="workNumber">
+                                            <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2"
+                                                   value="Marrow/Organ/Blood Donation">
+                                        </td>
+                                        <td>
+                                            Marrow/Organ/Blood Donation
+                                        </td>
+                                    <tr id="employeeInfo">
+                                        <td id="workNumber">
+                                            <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2"
+                                                   value="Political Proceedings">
+                                        </td>
+                                        <td>
+                                            Political Proceedings
+                                        </td>
+                                    <tr id="employeeInfo">
+                                        <td id="workNumber">
+                                            <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2"
+                                                   value="Domestic Violence">
+                                        </td>
+                                        <td>
+                                            Domestic Violence
+                                        </td>
+                                    <tr id="employeeInfo">
+                                        <td id="workNumber">
+                                            <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2"
+                                                   value="school activities">
+                                        </td>
+                                        <td>
+                                            School Activities
+                                        </td>
+                                    <tr id="employeeInfo">
+                                        <td id="workNumber">
+                                            <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2"
+                                                   value="legal/court proceedings">
+                                        </td>
+                                        <td>
+                                            Legal/Court Proceedings
+                                        </td>
+                                    <tr id="employeeInfo">
+                                        <td id="workNumber">
+                                            <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2"
+                                                   value="Jury Duty">
+                                        </td>
+                                        <td>
+                                            Jury Duty
+                                        </td>
+                                    <tr id="employeeInfo">
+                                        <td id="workNumber">
+                                            <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2"
+                                                   value="Voting">
+                                        </td>
+                                        <td>
+                                            Voting
+                                        </td>
+                                </table>
+                            </div>
+                        </div>
+
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                            </div>
+                            <div class="form-group col-md-4">
+                            </div>
+                            <div class="form-group col-md-2">
+                            </div>
+                        </div>
+                        <!--back and next page button-->
+                        <button type="button" class="btn btn-secondary" id="leaveReasonBackButton"> ← Back </button>
+                        <button type="submit" class="btn btn-primary" id="leaveReasonAddButton">Next Page → </button>
+                    </form>
+                </div>
+
+
+
+                <!--side bar where employee and supervisor info will populate-->
+                <div class="col-sm-2 sidenav2">
+<!--                    <div class="row">-->
+<!--                        &lt;!&ndash; <div class="col-sm-12"> &ndash;&gt;-->
+<!--                        <div class="well">-->
+<!--                            <p id="addName">First Last</p>-->
+<!--                            <p id="addAddress">100 someplace ave, somewhere, AN, 00000</p>-->
+<!--                            <p id="employeePhoneNumber">Phone Number: </p>-->
+<!--                            <p id="employeeGender">Gender:</p>-->
+<!--                            <p id="addEmail">Email: someone@place.com</p>-->
+<!--                            <p id="employeeStatus">Status:Active</p>-->
+<!--                        </div>-->
+<!--                        &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                    </div>-->
+
+<!--                    <div class="row">-->
+<!--                        &lt;!&ndash; <div class="col-sm-12"> &ndash;&gt;-->
+<!--                        <div class="noteArea">-->
+
+<!--                        </div>-->
+<!--                        &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                    </div>-->
+
+<!--                    <br>-->
+
+<!--                    <div class="row">-->
+<!--                        &lt;!&ndash; <div class="col-sm-12"> &ndash;&gt;-->
+<!--                        <div class="well sidenav2">-->
+<!--                            <div id="supervisorcontacts">-->
+<!--                                <p id="supervisorName">Supervisor Name:</p>-->
+<!--                                <p id="supervisorPhoneNumber">Supervisor Number:</p>-->
+<!--                                <p id="supervisorEmail">Supervisor Email:</p>-->
+<!--                            </div>-->
+<!--                            <div id="HRcontacts">-->
+<!--                                <p id="supervisorName">Human Resources Name:</p>-->
+<!--                                <p id="supervisorPhoneNumber">Human Resources Number:</p>-->
+<!--                                <p id="supervisorEmail">Human Resources Email:</p>-->
+<!--                            </div>-->
+<!--                            <div id="payrollcontacts">-->
+<!--                                <p id="supervisorName">Payroll/Benefits Name:</p>-->
+<!--                                <p id="supervisorPhoneNumber">Payroll/Benefits Number:</p>-->
+<!--                                <p id="supervisorEmail">Payroll/Benefits Email:</p>-->
+<!--                            </div>-->
+<!--                            &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                        </div>-->
+<!--                        <div class="well claimInfoSummary">-->
+<!--                            <p id="updateClaimNumber">Leave ID: 2019000001</p>-->
+<!--                            <p id="dateOpened">Date Opened: 00/00/00  00</p>-->
+<!--                            <p id="employeePhoneNumber">Phone Number: </p>-->
+<!--                            <p id="employeeGender">Gender:</p>-->
+<!--                            <p id="dateClosed">Date Closed:00/00/0000</p>-->
+<!--                            <p id="leaveStatus">Status:Opened</p>-->
+<!--                        </div>-->
+<!--                    </div>-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<% include ../partials/footer %>
+<script>
+  $(document).ready(function () {
+    let leaveReasonInfo = getCookie('leaveReasonInfo');
+    console.log(leaveReasonInfo)
+    if (leaveReasonInfo !== '' && leaveReasonInfo !== undefined) {
+      leaveReasonInfo = JSON.parse(leaveReasonInfo)
+      let leaveReason= leaveReasonInfo['leaveReason']
+      // let radioValue = $("input[name='gridRadios']:checked").val();
+      // $("input[name='gridRadios'][value='"+leaveReason+"']").attr('checked', true);
+      // $("#inputEmployeeId").val(leaveReasonInfo['employeeId']);
+    }
+  });
+</script>
+</html>
