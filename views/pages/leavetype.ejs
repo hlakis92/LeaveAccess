@@ -199,7 +199,9 @@
       let startDate = $("#InputStartDateofTM1").val();
       let endDate = $("#InputEndDateofTM1").val();
       if (startDate != "" || endDate != "") {
-        let dateText = (d3.time.format("%m/%d/%Y")(new Date(startDate))) + " - " + (d3.time.format("%m/%d/%Y")(new Date(endDate)))
+        let startDateS = startDate.split("-");
+        let endDateS = endDate.split("-");
+        let dateText = startDateS[1] + "/" + startDateS[2] + "/" + startDateS[0] + " - " + endDateS[1] + "/" + endDateS[2] + "/" + endDateS[0];
         $("#selectedDateText").text(dateText);
       }
       $("#leaveTypeText").text(leaveType);
