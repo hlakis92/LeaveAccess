@@ -3,20 +3,20 @@
 
 <head>
     <title>Leave Overview</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="../Assets/reset.css">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp"
-    crossorigin="anonymous">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <link rel="stylesheet" href="../Assets/style.css">
-  
-  <link rel="stylesheet" href="../css/pickmeup.css" type="text/css" />
-  <link rel="stylesheet" media="screen" type="text/css" href="../demo/demo.css" />
-  <style>
-  </style>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../Assets/reset.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
+        integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
+    <link rel="stylesheet" href="../Assets/style.css">
+
+    <link rel="stylesheet" href="../css/pickmeup.css" type="text/css" />
+    <link rel="stylesheet" media="screen" type="text/css" href="../demo/demo.css" />
+    <style>
+    </style>
 </head>
 
 <body>
@@ -105,7 +105,7 @@
                             <th id="leaveDates">Dates</th>
                             <th id="leavePlan">State/FMLA Plan</th>
                             <th id="leaveNotes">
-                                <!-- Trigger the modal with a button -->
+                                <!-- Trigger the Task modal with a button -->
                                 <button type="button" class="btn btn-info btn-md" data-toggle="#" data-target="#">
                                     <i class="fa fa-sticky-note" aria-hidden="true"></i> Notes</i>
                                 </button>
@@ -251,33 +251,118 @@
                             style="padding-left: 25px;">MM/DD/YYYY</span></div>
                     <div class="outputTask"><a>Decision</a><span class="taskDate"
                             style="padding-left: 25px;">MM/DD/YYYY</span></div>
-                    <!-- Trigger the modal with a button -->
-                    <div class="outputTask" data-toggle="modal" data-target="#myModal2"><a>Paperwork Review</a><span class="taskDate"
-                            style="padding-left: 25px;">MM/DD/YYYY</span>
-                            <!-- Modal -->
-                            <div class="modal fade" id="myModal2" role="dialog">
-                              <div class="modal-dialog">
-                              
+                    <!-- Trigger the Paperwork modal with a button -->
+                    <div class="outputTask" data-toggle="modal" data-target="#myModal2"><a>Paperwork Review</a><span
+                            class="taskDate" style="padding-left: 25px;">MM/DD/YYYY</span>
+                        <!-- Modal -->
+                        <div class="modal fade" id="myModal2" role="dialog">
+                            <div class="modal-dialog">
+
                                 <!-- Modal content-->
                                 <div class="modal-content">
-                                  <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                    <h4 class="modal-title">Modal Header</h4>
-                                  </div>
-                                  <div class="modal-body">
-                                    <p>Some text in the modal.</p>
-                                  </div>
-                                  <div class="modal-footer">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                  </div>
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <h4 class="modal-title">Paperwork Review</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Some text in the modal.</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default"
+                                            data-dismiss="modal">Close</button>
+                                    </div>
                                 </div>
-                                
-                              </div>
-                            </div></div>
-                    <div class="outputTask"><a>ERTW Confirmation</a><span class="taskDate"
-                            style="padding-left: 25px;">MM/DD/YYYY</span></div>
-                    <div class="outputTask"><a>ARTW Confirmation</a><span class="taskDate"
-                            style="padding-left: 25px;">MM/DD/YYYY</span></div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Trigger the ERTW modal with a button -->
+                    <div class="outputTask" data-toggle="modal" data-target="#myModal3"><a>ERTW Confirmation</a><span
+                            class="taskDate" style="padding-left: 25px;">MM/DD/YYYY</span>
+                        <!-- Modal -->
+                        <div class="modal fade" id="myModal3" role="dialog">
+                            <div class="modal-dialog">
+
+                                <!-- Modal content-->
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <h4 class="modal-title">Estimated Return To Work Confirmation</h4>
+                                    </div>
+                                    <br>
+                                    <div id="pickManager">
+                                        <form action="">
+                                            <select name="managers" required>
+                                                <option value="All">All Claim Handler</option>
+                                                <option value="Hassan">Hassan</option>
+                                                <option value="Hassan">Emilee</option>
+                                                <option value="Hassan">Carrie</option>
+                                            </select>
+                                    </div>
+
+                                    <div class="modal-body">
+                                        <p>What is the estimated return to work date?</p>
+                                        <div>
+                                            <input type="date" id="start" name="trip" value="2018-07-22"
+                                                min="1990-01-01" max="2088-12-31" />
+                                        </div>
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default"
+                                            data-dismiss="modal">Close</button>
+                                        <button type="sumbmit" class="btn btn-default"
+                                            data-dismiss="modal">submit</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Trigger the Paperwork modal with a button -->
+                    <div class="outputTask" data-toggle="modal" data-target="#myModal3"><a>ARTW Confirmation</a><span
+                        class="taskDate" style="padding-left: 25px;">MM/DD/YYYY</span>
+                    <!-- Modal -->
+                    <div class="modal fade" id="myModal3" role="dialog">
+                        <div class="modal-dialog">
+
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title">Actual Return To Work Confirmation</h4>
+                                </div>
+                                <br>
+                                <div id="pickManager">
+                                    <form action="">
+                                        <select name="managers" required>
+                                            <option value="All">All Claim Handler</option>
+                                            <option value="Hassan">Hassan</option>
+                                            <option value="Hassan">Emilee</option>
+                                            <option value="Hassan">Carrie</option>
+                                        </select>
+                                </div>
+
+                                <div class="modal-body">
+                                    <p>What is the Actual return to work date?</p>
+                                    <div>
+                                        <input type="date" id="start" name="trip" value="2018-07-22"
+                                            min="1990-01-01" max="2088-12-31" />
+                                    </div>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default"
+                                        data-dismiss="modal">Close</button>
+                                    <button type="sumbmit" class="btn btn-default"
+                                        data-dismiss="modal">submit</button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
                 </div>
                 <br><br>
 
@@ -384,7 +469,7 @@
                 <div class="well">
                     <p id="updateClaimNumber">Leave ID: 2019000001</p>
                     <p id="dateOpened">Date Opened: 00/00/0000</p>
-                    <p id="employeePhoneNumber">Phone Number: </p>
+                    <p id="employeePhoneNumber">Return Date: 00/00/0000 </p>
                     <p id="employeeGender">Gender:</p>
                     <p id="dateClosed">Date Closed:00/00/0000</p>
                     <p id="leaveStatus">Status:Opened</p>
