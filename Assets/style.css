@@ -23,8 +23,23 @@
     padding-top: 0px; 
     height: 100%;
   }
+  .noteLines {
+    border: none; 
+    height: 1px; 
+    background: grey; 
+  }
 
-
+  .form-control1 {
+    height: 20px;
+    width: 150px;
+  }
+  input.taskCheckBox {
+    float: left;
+    margin: 0;
+  }
+  .taskcheckoff {
+    margin: left;
+  }
   /* Sets the right side divs */
   .sidenav2 {
     line-height: 15px; /* 4px +12px + 4px */
@@ -107,7 +122,9 @@ td, th {
 tr:nth-child(even) {
     background-color: #dddddd;
 }
-
+.bottomCheckbox {
+  margin: left;
+}
 .planStatus {
   word-wrap: break-word;
   border: 1px solid black;

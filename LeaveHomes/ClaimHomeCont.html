@@ -81,7 +81,7 @@
                         <a href="#">Eligibility Requirements</a>
                     </p>
                     <p>
-                        <a href="#">Leave Chronology</a>
+                        <a href="../Ancillary/leaveChronologyFamilyMember.html">Leave Chronology</a>
                     </p>
                     <p>
                         <a href="#">Close Leave</a>
@@ -106,80 +106,171 @@
                             <th id="leavePlan">State/FMLA Plan</th>
                             <th id="leaveNotes">
                                 <!-- Trigger the Task modal with a button -->
-                                <button type="button" class="btn btn-info btn-md" data-toggle="#" data-target="#">
+                                <button type="button" class="btn btn-info btn-md" class="outputTask" data-toggle="modal"
+                                    data-target="#noteModal" data-spy="scroll">
                                     <i class="fa fa-sticky-note" aria-hidden="true"></i> Notes</i>
+
                                 </button>
 
-                                <!-- Modal -->
-                                <div class="modal fade" id="myModal" role="dialog">
+
+                                <!-- Notes Modal -->
+                                <div class="modal fade" id="noteModal" role="dialog">
                                     <div class="modal-dialog">
-                                        <p id="employeeStatus">Status:Active</p>
 
                                         <!-- Modal content-->
-                                        <div class="modal-content">
-
+                                        <div class="modal-content ">
                                             <div class="modal-header">
                                                 <button type="button" class="close"
                                                     data-dismiss="modal">&times;</button>
-                                                <h5 class="modal-title">Set Task</h5>
+                                                <p class="modal-title">Leave Notes</p>
+                                                <br>
+                                                <a href="" data-toggle="modal" data-target="#newNoteModal2"><i
+                                                        class="fa fa-sticky-note" aria-hidden="true"
+                                                        style="margin-left: 0%;"></i>New Note</i></a>
                                             </div>
+                                            <div class="modal-body" style="font-size: small; font-weight: normal ;">
 
-                                            <div class="modal-body">
-                                                <div id="pickManager">
-                                                    <form action="">
-                                                        <select name="managers" required>
-                                                            <option value="All">All Claim Manager</option>
-                                                            <option value="Hassan">Hassan</option>
-                                                            <option value="Hassan">Emilee</option>
-                                                            <option value="Hassan">Carrie</option>
-                                                        </select>
-                                                </div>
-
+                                                <p style="color: blue;">Hassan Lakis 06/30/2019</p>
+                                                <p>Employee called and requested that paperwork be faxed to doctor</p>
+                                                <p
+                                                    style="font-size: small; color: rgba(0, 0, 255, 0.789); float: right;">
+                                                    Edit note</p>
                                                 <br>
+                                                <hr class="noteLines">
 
-                                                <div class="form-group">
-                                                    <label for="taskName">Task Name</label>
-                                                    <input type="text" class="form-control" id="taskName"
-                                                        placeholder="Write Task Name">
-                                                </div>
-
+                                                <p style="color: blue;">Emilee Smith 06/29/2019</p>
+                                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat iure
+                                                    tempora,
+                                                    magni ipsum ipsa nesciunt reiciendis suscipit beatae porro quae iste
+                                                    eius cumque sapiente placeat,
+                                                    voluptatibus quis vero excepturi. Eum.</p>
+                                                <p
+                                                    style="font-size: small; color: rgba(0, 0, 255, 0.789); float: right;">
+                                                    view note</p>
                                                 <br>
+                                                <hr class="noteLines">
 
-                                                <div class="form-group">
-                                                    <div>
-                                                        <label for="start">Task Due Date</label>
-                                                        <input type="date" id="start" name="trip" value="2018-07-22"
-                                                            min="1990-01-01" max="2088-12-31" />
-                                                    </div>
-
-                                                    <br>
-
-                                                    <label for="FormControlTextarea1">Description </label>
-                                                    <textarea class="form-control" id="exampleFormControlTextarea1"
-                                                        rows="4"> </textarea>
-                                                </div>
-
-
-                                                <!-- Modal Task Completed Check box-->
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input"
-                                                        id="taskCompletedCheck">
-                                                    <label class="custom-control-label" for="taskCompletedCheck">Task
-                                                        Completed</label>
-                                                </div>
-
+                                                <p style="color: blue;">Carrie Joe 06/29/2019</p>
+                                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat iure
+                                                    tempora,
+                                                    magni ipsum ipsa nesciunt reiciendis suscipit beatae porro quae iste
+                                                    eius cumque sapiente placeat,
+                                                    voluptatibus quis vero excepturi. Eum.</p>
+                                                <p
+                                                    style="font-size: small; color: rgba(0, 0, 255, 0.789); float: right;">
+                                                    view note</p>
+                                                <br>
+                                                <hr class="noteLines">
 
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-default"
                                                     data-dismiss="modal">Close</button>
-                                                <button type="sumbmit" class="btn btn-default"
-                                                    data-dismiss="modal">submit</button>
                                             </div>
                                         </div>
 
                                     </div>
                                 </div>
+
+
+
+                                <!-- Modal -->
+                                <div class="modal fade" id="newNoteModal2" role="dialog">
+                                    <div class="modal-dialog">
+
+                                        <!-- Modal content-->
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close"
+                                                    data-dismiss="modal">&times;</button>
+                                                <h4 class="modal-title">Create A New Note</h4>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="FormControlTextarea1">Note Information</label>
+                                                <textarea class="form-control" id="exampleFormControlTextarea1"
+                                                    rows="4"> </textarea>
+                                            </div>
+
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default"
+                                                    data-dismiss="modal">Close</button>
+                                                <button type="sumbmit" class="btn btn-success"
+                                                    data-dismiss="modal">Save</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                </div>
+
+
+                <!-- Modal -->
+                <div class="modal fade" id="myModal" role="dialog">
+                    <div class="modal-dialog">
+                        <p id="employeeStatus">Status:Active</p>
+
+                        <!-- Modal content-->
+                        <div class="modal-content">
+
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h5 class="modal-title">Set Task</h5>
+                            </div>
+
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+
+                                        <div id="pickManager">
+                                            <form action="">
+                                                <select name="managers" required>
+                                                    <option value="All">All Claim Manager</option>
+                                                    <option value="Hassan">Hassan</option>
+                                                    <option value="Hassan">Emilee</option>
+                                                    <option value="Hassan">Carrie</option>
+                                                </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div>
+                                            <label for="start">Task Due Date</label>
+                                            <input class="form-control1 input-sm" type="date" id="start" name="trip"
+                                                value="2018-07-22" min="1990-01-01" max="2088-12-31" />
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <br> <br>
+                                <div class="form-group">
+                                    <label for="taskName">Task Name</label>
+                                    <input type="text" class="form-control" id="taskName" placeholder="Write Task Name">
+                                </div>
+
+
+                                <div class="form-group">
+
+                                    <label for="FormControlTextarea1">Description </label>
+                                    <textarea class="form-control" id="exampleFormControlTextarea1"
+                                        rows="4"> </textarea>
+                                </div>
+
+
+                                <!-- Modal Task Completed Check box -->
+                                <div class="row taskcheckoff">
+                                    <div class="col-md-12">
+                                        <input type="checkbox" class="taskCheckBox">Task</div>
+                                </div>
+
+                                <div class="row>">
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default"
+                                            data-dismiss="modal">Close</button>
+                                        <button type="sumbmit" class="btn btn-default"
+                                            data-dismiss="modal">submit</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 </th>
                 </tr>
@@ -277,8 +368,8 @@
                         </div>
                     </div>
                     <!-- Trigger the ERTW modal with a button -->
-                    <div class="outputTask" data-toggle="modal" data-target="#myModal3"><a>ERTW Confirmation</a><span
-                            class="taskDate" style="padding-left: 25px;">MM/DD/YYYY</span>
+                    <div class="outputTask" data-toggle="modal" data-target="#myModal3"><a>ERTW
+                            Confirmation</a><span class="taskDate" style="padding-left: 25px;">MM/DD/YYYY</span>
                         <!-- Modal -->
                         <div class="modal fade" id="myModal3" role="dialog">
                             <div class="modal-dialog">
@@ -321,48 +412,48 @@
                     </div>
 
                     <!-- Trigger the Paperwork modal with a button -->
-                    <div class="outputTask" data-toggle="modal" data-target="#myModal3"><a>ARTW Confirmation</a><span
-                        class="taskDate" style="padding-left: 25px;">MM/DD/YYYY</span>
-                    <!-- Modal -->
-                    <div class="modal fade" id="myModal3" role="dialog">
-                        <div class="modal-dialog">
+                    <div class="outputTask" data-toggle="modal" data-target="#myModal4"><a>ARTW
+                            Confirmation</a><span class="taskDate" style="padding-left: 25px;">MM/DD/YYYY</span>
+                        <!-- Modal -->
+                        <div class="modal fade" id="myModal4" role="dialog">
+                            <div class="modal-dialog">
 
-                            <!-- Modal content-->
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                    <h4 class="modal-title">Actual Return To Work Confirmation</h4>
-                                </div>
-                                <br>
-                                <div id="pickManager">
-                                    <form action="">
-                                        <select name="managers" required>
-                                            <option value="All">All Claim Handler</option>
-                                            <option value="Hassan">Hassan</option>
-                                            <option value="Hassan">Emilee</option>
-                                            <option value="Hassan">Carrie</option>
-                                        </select>
-                                </div>
+                                <!-- Modal content-->
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <h4 class="modal-title">Actual Return To Work Confirmation</h4>
+                                    </div>
+                                    <br>
+                                    <div id="pickManager">
+                                        <form action="">
+                                            <select name="managers" required>
+                                                <option value="All">All Claim Handler</option>
+                                                <option value="Hassan">Hassan</option>
+                                                <option value="Hassan">Emilee</option>
+                                                <option value="Hassan">Carrie</option>
+                                            </select>
+                                    </div>
 
-                                <div class="modal-body">
-                                    <p>What is the Actual return to work date?</p>
-                                    <div>
-                                        <input type="date" id="start" name="trip" value="2018-07-22"
-                                            min="1990-01-01" max="2088-12-31" />
+                                    <div class="modal-body">
+                                        <p>What is the Actual return to work date?</p>
+                                        <div>
+                                            <input type="date" id="start" name="trip" value="2018-07-22"
+                                                min="1990-01-01" max="2088-12-31" />
+                                        </div>
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default"
+                                            data-dismiss="modal">Close</button>
+                                        <button type="sumbmit" class="btn btn-default"
+                                            data-dismiss="modal">submit</button>
                                     </div>
                                 </div>
 
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-default"
-                                        data-dismiss="modal">Close</button>
-                                    <button type="sumbmit" class="btn btn-default"
-                                        data-dismiss="modal">submit</button>
-                                </div>
                             </div>
-
                         </div>
                     </div>
-                </div>
                 </div>
                 <br><br>
 

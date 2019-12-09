@@ -6,8 +6,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp"
-    crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
+    integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <link rel="stylesheet" href="../Assets/style.css">
@@ -34,7 +34,7 @@
         <div class="collapse navbar-collapse" id="myNavbar">
           <ul class="nav navbar-nav">
             <li class="#">
-              <a href="leaveSearch.html">Search Team Member</a> 
+              <a href="leaveSearch.html">Search Team Member</a>
             </li>
 
             <li>
@@ -77,11 +77,11 @@
             <a href="#">Decision</a>
           </p>
           <p>
-              <a href="#">Eligibility Requirements</a>
-            </p>
-            <p>
-                <a href="#">Leave Chronology</a>
-              </p>
+            <a href="#">Eligibility Requirements</a>
+          </p>
+          <p>
+            <a href="#">Leave Chronology</a>
+          </p>
           <p>
             <a href="#">Close Leave</a>
           </p>
@@ -144,7 +144,8 @@
                         <div class="form-group">
                           <div>
                             <label for="start">Task Due Date</label>
-                            <input type="date" id="start" name="trip" value="2018-07-22" min="1990-01-01" max="2088-12-31" />
+                            <input type="date" id="start" name="trip" value="2018-07-22" min="1990-01-01"
+                              max="2088-12-31" />
                           </div>
 
                           <br>
@@ -175,30 +176,30 @@
         </tr>
         <td id="leaveType">Intermittent</td>
         <td id="leaveReasonCode">Family Member's Health Condition</td>
-            <td id="leaveDates">6/29/2019 - 12/28/2019</td>
-            <td id="leavePlan">Family Medical Leave Act (FMLA)<br> California Family Rights Act (CFRA) </td>
+        <td id="leaveDates">6/29/2019 - 12/28/2019</td>
+        <td id="leavePlan">Family Medical Leave Act (FMLA)<br> California Family Rights Act (CFRA) </td>
         </table>
 
         <hr>
         <h5>Plan Summary</h5>
-                <div class="row">
-                    <div class="col-md-12">
-                        <table class="planDataSummary">
-                            <tr>
-                                <th>Plan Name</th>
-                                <th>Total Hours / Weeks Available</th>
-                                <th>Leave Usage</th>
-                                <th>Hours Remaining(To Date)</th>
-                            </tr>
-                            <tr>
-                                <td>FMLA<br>CFRA</td>
-                                <td>480 Hours / 12 Weeks<br>480 Hours / 12 Weeks</td>
-                                <td>160 Hours / 4 Weeks<br>160 Hours / 4 Weeks</td>
-                                <td>320 Hours / 8 Weeks<br>320 Hours / 8 Weeks</td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
+        <div class="row">
+          <div class="col-md-12">
+            <table class="planDataSummary">
+              <tr>
+                <th>Plan Name</th>
+                <th>Total Hours / Weeks Available</th>
+                <th>Leave Usage</th>
+                <th>Hours Remaining(To Date)</th>
+              </tr>
+              <tr>
+                <td>FMLA<br>CFRA</td>
+                <td>480 Hours / 12 Weeks<br>480 Hours / 12 Weeks</td>
+                <td>160 Hours / 4 Weeks<br>160 Hours / 4 Weeks</td>
+                <td>320 Hours / 8 Weeks<br>320 Hours / 8 Weeks</td>
+              </tr>
+            </table>
+          </div>
+        </div>
 
         <hr>
         <h5>Plan Status</h5>
@@ -238,15 +239,17 @@
 
         <h5 style="background-color:lightgrey;">Tasks</h5>
         <div class="newTasks">
-          <div class="outputTask"><a>Eligibility</a><span class="taskDate" style="padding-left: 25px;">MM/DD/YYYY</span></div>
-          <div class="outputTask"><a>Decision</a><span class="taskDate" style="padding-left: 25px;">MM/DD/YYYY</span></div>
+          <div class="outputTask"><a>Eligibility</a><span class="taskDate" style="padding-left: 25px;">MM/DD/YYYY</span>
+          </div>
+          <div class="outputTask"><a>Decision</a><span class="taskDate" style="padding-left: 25px;">MM/DD/YYYY</span>
+          </div>
           <!-- Trigger the modal with a button -->
-          <div class="outputTask" data-toggle="modal" data-target="#myModal2" data-backdrop="static"><a>Paperwork Review</a><span class="taskDate"
-            style="padding-left: 25px;">MM/DD/YYYY</span>
+          <div class="outputTask" data-toggle="modal" data-target="#myModal2" data-backdrop="static"><a>Paperwork
+              Review</a><span class="taskDate" style="padding-left: 25px;">MM/DD/YYYY</span>
             <!-- Modal -->
             <div class="modal fade" id="myModal2" role="dialog" data-backdrop="static">
               <div class="modal-dialog">
-              
+
                 <!-- Modal content-->
                 <div class="modal-content" data-backdrop="static">
                   <div class="modal-header">
@@ -255,12 +258,54 @@
                   </div>
                   <div class="modal-body paperworkTaskModal">
                     <table>
-                    <tr><td><div class="row"><div class="col-md-12"><input class="form-check-input" type="checkbox" id="gridCheck">Provider's Name</div></div></td></tr>
-                    <tr><td><div class="row"><div class="col-md-12"><input class="form-check-input" type="checkbox" id="gridCheck">Provider's Specialty</div></div></td></tr>
-                    <tr><td><div class="row"><div class="col-md-12"><input class="form-check-input" type="checkbox" id="gridCheck">Serious Health Condition</div></div></td></tr>
-                    <tr><td><div class="row"><div class="col-md-12"><input class="form-check-input" type="checkbox" id="gridCheck">Dates / Parameters</div></div></td></tr>
-                    <tr><td><div class="row"><div class="col-md-12"><input class="form-check-input" type="checkbox" id="gridCheck">Provider Signature</div></div></td></tr>
-                    <tr><td><div class="row"><div class="col-md-12"><input class="form-check-input" type="checkbox" id="gridCheck">Date Signed</div></div></td></tr>
+                      <tr>
+                        <td>
+                          <div class="row">
+                            <div class="col-md-12"><input class="form-check-input" type="checkbox"
+                                id="gridCheck">Provider's Name</div>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="row">
+                            <div class="col-md-12"><input class="form-check-input" type="checkbox"
+                                id="gridCheck">Provider's Specialty</div>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="row">
+                            <div class="col-md-12"><input class="form-check-input" type="checkbox"
+                                id="gridCheck">Serious Health Condition</div>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="row">
+                            <div class="col-md-12"><input class="form-check-input" type="checkbox" id="gridCheck">Dates
+                              / Parameters</div>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="row">
+                            <div class="col-md-12"><input class="form-check-input" type="checkbox"
+                                id="gridCheck">Provider Signature</div>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="row">
+                            <div class="col-md-12"><input class="form-check-input" type="checkbox" id="gridCheck">Date
+                              Signed</div>
+                          </div>
+                        </td>
+                      </tr>
                     </table>
                   </div>
                   <div class="modal-footer">
@@ -269,11 +314,14 @@
                     <button type="button" class="btn btn-primary" data-dismiss="modal" type="submit">Submit</button>
                   </div>
                 </div>
-                
+
               </div>
-            </div></div>
-          <div class="outputTask"><a>ERTW Confirmation</a><span class="taskDate" style="padding-left: 25px;">MM/DD/YYYY</span></div>
-          <div class="outputTask"><a>ARTW Confirmation</a><span class="taskDate" style="padding-left: 25px;">MM/DD/YYYY</span></div>
+            </div>
+          </div>
+          <div class="outputTask"><a>ERTW Confirmation</a><span class="taskDate"
+              style="padding-left: 25px;">MM/DD/YYYY</span></div>
+          <div class="outputTask"><a>ARTW Confirmation</a><span class="taskDate"
+              style="padding-left: 25px;">MM/DD/YYYY</span></div>
         </div>
         <br><br>
 
@@ -281,6 +329,73 @@
         <div id="Datepicker1">
           <section>
             <h5 style="background-color:lightgrey;">Enter Intermittent Usage</h5>
+            <h6 id="createTasks1" data-toggle="modal" data-target="#intermittentTimeModal"><a href="#">Enter Time</h6>
+            <!-- Modal -->
+            <div class="modal fade" id="intermittentTimeModal" role="dialog">
+              <div class="modal-dialog">
+                <p id="employeeStatus">Status:Active</p>
+
+                <!-- Modal content-->
+                <div class="modal-content">
+
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h5 class="modal-title">Enter The Intermittent Time</h5>
+                  </div>
+
+                  <div class="modal-body">
+                    <div class="form-group" style="color: black; font-size: small;">
+                      Flare Up: 6/29/2019 - 12/28/2019 <br />
+                      Parameters: 4 time(s) a month, each time lasting up to 1 day(s)
+                    </div>
+                    <div class="form-group" style="color: black; font-size: small;">
+                        Office Visits: 6/29/2019 - 10/15/2019 <br />
+                        Parameters: 4 time(s) a month, each time lasting up to 1 day(s)
+                      </div>
+                      
+                    <div>Is this absence a flare up or an office visit?</div>
+                    <div id="pickIntermittentType">
+                      <form action="/intyType.php">
+                        <select name="intType" required>
+                          <option value="flareUp">Flare Up</option>
+                          <option value="officeVisit">Office Visit</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+
+                    </div>
+
+                    <div class="form-group">
+                      <div>
+                        <label for="start">Date Time Used</label>
+                        <input class="form-control1 input-sm" type="date" id="start" name="trip" value="2018-07-22"
+                          min="1990-01-01" max="2088-12-31" />
+                      </div>
+
+                      <br>
+
+                      <label for="FormControlTextarea1">Description </label>
+                      <input type="number" class="form-control" id="inputwednesdayRSHours" placeholder="0" required>
+                    </div>
+
+
+                    <!-- Modal Task Completed Check box-->
+                    <div class="custom-control custom-checkbox">
+                      <input type="checkbox" class="custom-control-input" id="taskCompletedCheck">
+                      <label class="custom-control-label" for="taskCompletedCheck">Task Completed</label>
+                    </div>
+
+
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="sumbmit" class="btn btn-primary" data-dismiss="modal">submit</button>
+                  </div>
+                </div>
+
+              </div>
+            </div>
             <article>
               <div class="three-calendars"></div>
             </article>
@@ -333,7 +448,8 @@
 
         </table>
         <br>
-        <button type="submit" class="btn btn-primary" id="attachPw" onclick="uploadNewPaperwork()">Attach Paperwork</button>
+        <button type="submit" class="btn btn-primary" id="attachPw" onclick="uploadNewPaperwork()">Attach
+          Paperwork</button>
         <button type="submit" class="btn btn-primary">Upload Paperwork </button>
       </div>
 
@@ -346,10 +462,10 @@
           <p id="employeeGender">Gender:</p>
           <p id="addEmail">Email: someone@place.com</p>
           <p id="employeeStatus">Status:Active</p>
-        </div> 
-        
+        </div>
+
         <div class="noteArea"></div>
-            
+
         <br>
 
         <div class="well sidenav2">
