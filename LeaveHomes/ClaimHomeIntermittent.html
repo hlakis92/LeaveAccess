@@ -353,7 +353,7 @@
                         Parameters: 4 time(s) a month, each time lasting up to 1 day(s)
                       </div>
                       
-                    <div>Is this absence a flare up or an office visit?</div>
+                    <label>Is this absence a flare up or an office visit?</label>
                     <div id="pickIntermittentType">
                       <form action="/intyType.php">
                         <select name="intType" required>
@@ -372,18 +372,27 @@
                         <input class="form-control1 input-sm" type="date" id="start" name="trip" value="2018-07-22"
                           min="1990-01-01" max="2088-12-31" />
                       </div>
-
+                      
                       <br>
 
-                      <label for="FormControlTextarea1">Description </label>
-                      <input type="number" class="form-control" id="inputwednesdayRSHours" placeholder="0" required>
+                      <label for="FormControlTextarea1">How many hours used? </label>
+                      <input type="number" class="form-control1 input-sm" id="inputwednesdayRSHours" placeholder="0" required>
                     </div>
 
-
+                    <label>Is this absence a flare up or an office visit?</label>
+                    <div id="pickIntermittentStatus">
+                      <form action="/intyTypeApproval.php">
+                        <select name="intTypeApproval" required>
+                          <option value="pendingIntTime">Pending</option>
+                          <option value="approvedIntTime">Approved</option>
+                          <option value="deniedIntTime">Denied</option>
+                        </select>
+                    </div>
+                    <br>
                     <!-- Modal Task Completed Check box-->
                     <div class="custom-control custom-checkbox">
-                      <input type="checkbox" class="custom-control-input" id="taskCompletedCheck">
-                      <label class="custom-control-label" for="taskCompletedCheck">Task Completed</label>
+                      <label for="FormControlTextarea1">Comment on why time was approved/denied</label>
+                      <textarea class="form-control" id="exampleFormControlTextarea1" rows="4"> </textarea>
                     </div>
 
 
