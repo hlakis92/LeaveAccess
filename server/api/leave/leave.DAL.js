@@ -66,7 +66,7 @@ let addLeaveInfo = async (leaveReasonInfo, leaveProviderInfo, leaveTypeInfo, emp
   return await common.executeQuery(addLeaveInfoQuery);
 };
 
-let addEmployeeLeave = async (leaveEligibilityList, empId) => {
+let addEmployeeLeave = async (leaveEligibilityList, empId, leaveInfoId) => {
   debug("user.DAL -> addEmployeeLeave");
   leaveEligibilityList = JSON.parse(leaveEligibilityList);
   let rawData = [];
@@ -74,13 +74,13 @@ let addEmployeeLeave = async (leaveEligibilityList, empId) => {
     let leaveId = data['_comment'];
     let state = data['state'];
     let leave_name = data['leave_name'];
-    let eligibility = JSON.stringify(data['eligibilityData']);
-    let qualifying_reason = JSON.stringify(data['qualifying_reason']);
+    let eligibility = JSON.stringify(data['eligibilityData']) || 'NULL';
+    let qualifying_reason = JSON.stringify(data['qualifying_reason']) || "NULL";
     let leave_type = data['leave_type'];
-    let maximum_duration = JSON.stringify(data['maximum_duration']);
+    let maximum_duration = JSON.stringify(data['maximum_duration']) || 'NULL';
     let from_date = data['from_date'];
     let to_date = data['to_date'];
-    rawData.push([empId, leaveId, leave_name, state, eligibility, qualifying_reason, leave_type, maximum_duration, from_date, to_date]);
+    rawData.push([empId, leaveInfoId, leaveId, leave_name, state, eligibility, qualifying_reason, leave_type, maximum_duration, from_date, to_date]);
   });
 
   let addEmployeeLeaveQuery = common.cloneObject(query.addEmployeeLeaveQuery);
@@ -90,9 +90,38 @@ let addEmployeeLeave = async (leaveEligibilityList, empId) => {
 
 
 let getAllEmployeeLeave = async () => {
-  debug("user.DAL -> getAllEmployeeLeav");
+  debug("user.DAL -> getAllEmployeeLeave");
   let getAllEmployeeLeaveQuery = common.cloneObject(query.getAllEmployeeLeaveQuery);
   return await common.executeQuery(getAllEmployeeLeaveQuery);
+};
+
+let getEmployeeLeaveSummaryByEmpId = async (empId) => {
+  debug("user.DAL -> getEmployeeLeaveSummaryByEmpId");
+  let getEmployeeLeaveSummaryByEmpIdQuery = common.cloneObject(query.getEmployeeLeaveSummaryByEmpIdQuery);
+  getEmployeeLeaveSummaryByEmpIdQuery.filter.value = empId;
+  return await common.executeQuery(getEmployeeLeaveSummaryByEmpIdQuery);
+};
+
+
+let getEmployeeLeaveClaimInfoServiceByClaimNumber = async (claimNumber) => {
+  debug("user.DAL -> getEmployeeLeaveClaimInfoServiceByClaimNumber");
+  let getEmployeeLeaveClaimInfoServiceByClaimNumberQuery = common.cloneObject(query.getEmployeeLeaveClaimInfoServiceByClaimNumberQuery);
+  getEmployeeLeaveClaimInfoServiceByClaimNumberQuery.filter.value = claimNumber;
+  return await common.executeQuery(getEmployeeLeaveClaimInfoServiceByClaimNumberQuery);
+};
+
+let getEmployeeLeavePlanSummaryMaxDurationByClaimNumber = async (claimNumber) => {
+  debug("user.DAL -> getEmployeeLeaveClaimInfoServiceByClaimNumber");
+  let getEmployeeLeavePlanSummaryMaxDurationByClaimNumberQuery = common.cloneObject(query.getEmployeeLeavePlanSummaryMaxDurationByClaimNumberQuery);
+  getEmployeeLeavePlanSummaryMaxDurationByClaimNumberQuery.filter.value = claimNumber;
+  return await common.executeQuery(getEmployeeLeavePlanSummaryMaxDurationByClaimNumberQuery);
+};
+
+let getEmployeeLeavePlanStatusByClaimNumber = async (claimNumber) => {
+  debug("user.DAL -> getEmployeeLeavePlanStatusByClaimNumber");
+  let getEmployeeLeavePlanStatusByClaimNumberQuery = common.cloneObject(query.getEmployeeLeavePlanStatusByClaimNumberQuery);
+  getEmployeeLeavePlanStatusByClaimNumberQuery.filter.value = claimNumber;
+  return await common.executeQuery(getEmployeeLeavePlanStatusByClaimNumberQuery);
 };
 
 
@@ -102,4 +131,8 @@ module.exports = {
   addLeaveInfo: addLeaveInfo,
   addEmployeeLeave: addEmployeeLeave,
   getAllEmployeeLeave: getAllEmployeeLeave,
+  getEmployeeLeaveSummaryByEmpId: getEmployeeLeaveSummaryByEmpId,
+  getEmployeeLeaveClaimInfoServiceByClaimNumber: getEmployeeLeaveClaimInfoServiceByClaimNumber,
+  getEmployeeLeavePlanSummaryMaxDurationByClaimNumber: getEmployeeLeavePlanSummaryMaxDurationByClaimNumber,
+  getEmployeeLeavePlanStatusByClaimNumber: getEmployeeLeavePlanStatusByClaimNumber,
 };

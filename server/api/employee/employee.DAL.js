@@ -9,6 +9,16 @@ let addEmployeeDetails = async (addArray) => {
   return await common.executeQuery(addEmployeeDetailsQuery);
 };
 
+let getAllEmployeeByCustomFilter = async (customFilter) => {
+  debug("employee.DAL -> getAllEmployeeBYCustomFilter");
+  let getAllEmployeeByCustomFilterQuery = common.cloneObject(query.getAllEmployeeByCustomFilterQuery);
+  if (customFilter !== undefined) {
+    getAllEmployeeByCustomFilterQuery.filter = customFilter;
+  }
+  return await common.executeQuery(getAllEmployeeByCustomFilterQuery);
+};
+
 module.exports = {
-  addEmployeeDetails: addEmployeeDetails
+  addEmployeeDetails: addEmployeeDetails,
+  getAllEmployeeByCustomFilter: getAllEmployeeByCustomFilter,
 };

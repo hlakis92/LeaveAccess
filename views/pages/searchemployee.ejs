@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <% include ../partials/head %>
+
+</head>
+<body>
+
+<div class="container">
+    <% include ../partials/topnav %>
+    <div class="container-fluid text-center well margin-auto">
+        <div class="row content1">
+            <div class="col-sm-2 sidenav">
+
+            </div>
+            <div class="col-sm-8 text-left margin-auto">
+                <h1>Welcome</h1>
+                <form>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="inputFirst4">First name</label>
+                            <input type="text" class="form-control" id="firstname" placeholder="First Name">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="inputLast4">Last Name</label>
+                            <input type="text" class="form-control" id="lastname" placeholder="Last Name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <label for="inputId">Employee ID</label>
+                                <input type="text" class="form-control" id="empid"
+                                       placeholder="Employee Identification Number">
+
+                                <br>
+
+                                <!--<div class="row">
+                                    <div class="form-group col-md-12">
+                                        <div class="form-group">
+                                            <label for="exampleInputPassword1">Leave ID</label>
+                                            <input type="number" class="form-control" id="exampleInputPassword1"
+                                                   placeholder="Leave Number">
+                                        </div>
+                                    </div>
+                                </div>-->
+
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <button type="button" class="btn btn-primary" id="employeeSearchBtn">Submit
+                                        </button>
+                                        <button type="button" class="btn btn-secondary" id="employeeSearchResetBtn">Reset
+                                        </button>
+                                    </div>
+                                    <br>
+
+
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="form-group">
+                                                <table id="employeeTable">
+                                                    <tbody>
+                                                    <tr></tr>
+
+                                                    </tbody>
+                                                </table>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </form>
+                <hr>
+
+            </div>
+            <!-- <div class="row content">
+                 <div class="col-sm-2 sidenav">
+
+                 </div>
+
+             </div>-->
+
+        </div>
+        <table class="table table-hover" id="empTable">
+            <head><h1>All Employee Leaves</h1>
+                <div style="padding-bottom: 50px">
+                    <button type="button" class="btn btn-primary pull-right"
+                            onclick="location.href = '/employee'"
+                    >Add New Leave
+                    </button>
+                </div>
+
+            </head>
+            <thead>
+            <tr>
+                <th scope="col">Emp Id</th>
+                <th scope="col">First Name</th>
+                <th scope="col">Last Name</th>
+                <th scope="col">DOB</th>
+                <th scope="col">DOJ</th>
+                <th scope="col">Employee State</th>
+                <th scope="col">Location State</th>
+                <th scope="col">Leave Summary</th>
+
+            </tr>
+            </thead>
+            <tbody id="empTableData">
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+<% include ../partials/footer %>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+
+<script>
+  let template = '<tr>\n' +
+    '                    <th scope="row">{{employee_id}}</th>\n' +
+    '                    <td>{{first_name}}</td>\n' +
+    '                    <td>{{last_name}}</td>\n' +
+    '                    <td>{{DOB}}</td>\n' +
+    '                    <td>{{DOJ}}</td>\n' +
+    '                    <td>{{employee_state_name}}</td>\n' +
+    '                    <td>{{location_state_name}}</td>\n' +
+    '                    <td><a href="/leavesummary/{{empId}}">View</a></td>\n' +
+    '                </tr>';
+
+  $(document).ready(function () {
+    getAllEmployeeData();
+    $('#employeeSearchBtn').on('click', function (e) {
+
+      let firstName = $("#firstname").val();
+      let lastName = $("#lastname").val();
+      let empId = $("#empid").val()
+      let query = "?firstname=" + firstName + "&lastname=" + lastName + "&empid=" + empId;
+
+      getAllEmployeeData(query);
+    });
+    $('#employeeSearchResetBtn').on('click', function (e) {
+
+      getAllEmployeeData();
+    });
+  });
+
+  function getAllEmployeeData(query) {
+
+    $.ajax({
+      type: 'GET',
+      url: getAllEmployeeURL + (query || ""),
+      dataType: "json",
+      success: result => {
+        console.log(result);
+        $("#empTableData").html("");
+        (result.data).forEach(d => {
+          $("#empTableData").append(generatingTemplate(template, d))
+        });
+        $('#empTable').DataTable();
+      },
+      error: result => {
+        console.log(result)
+      }
+    });
+  }
+
+</script>
+</html>

@@ -43,11 +43,26 @@ let dummyCall = async (request, response) => {
     status: true,
     data: {}
   });
+};
 
+/**
+ * Created By: AV
+ * Updated By: AV
+ *
+ * add employee information
+ *
+ * @param  {object} request
+ * @param  {object} response
+ * @return {object}
+ */
+let getAllEmployee = async (request, response) => {
+  debug("employee.controller -> getAllEmployee");
+  response.send(await employeeService.getAllEmployeeService(request));
 };
 
 
 module.exports = {
   addEmployee: addEmployee,
   dummyCall: dummyCall,
+  getAllEmployee: getAllEmployee,
 };

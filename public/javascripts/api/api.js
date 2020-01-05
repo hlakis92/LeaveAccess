@@ -5,6 +5,8 @@ let dummyCallURL = windowLocation.origin + '/api/employee/dummy-call';
 let checkLeaveEligibility = windowLocation.origin + '/api/leave/check-leave-eligibility';
 let submitLeaveURL = windowLocation.origin + '/api/leave/add-all-data';
 let getAllEmployeeLeaveURL = windowLocation.origin + '/api/leave/get-employee-leave';
+let getAllEmployeeURL = windowLocation.origin + '/api/employee/get-all-employee';
+let getEmployeeLeaveSummaryURL = windowLocation.origin + '/api/leave/get-employee-leave-summary';
 
 $('#signinButton').on('click', function (e) {
   e.preventDefault();
@@ -401,7 +403,7 @@ $('#leaveSubmit').on('click', function (e) {
       deleteCookie('leaveProviderInfo');
       deleteCookie('leaveTypeInfo');
       deleteCookie('leaveEligibilityList');
-      window.location.href = windowLocation.origin + '/searchleave';
+      window.location.href = windowLocation.origin + '/searchemployee';
     },
     error: result => {
       console.log(result)

@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <% include ../partials/head %>
+
+</head>
+<body>
+
+<div class="container">
+    <% include ../partials/topnav %>
+    <div class="container-fluid text-center well margin-auto">
+        <div class="row content1">
+            <div class="col-sm-2 sidenav">
+
+            </div>
+            <!--<div class="col-sm-8 text-left margin-auto">
+                <h1>Welcome</h1>
+                <form>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="inputFirst4">First name</label>
+                            <input type="text" class="form-control" id="inputFirst4" placeholder="First">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="inputLast4">Last Name</label>
+                            <input type="text" class="form-control" id="inputLast4" placeholder="Last">
+                        </div>
+                    </div>
+                    <div class="form-group">
+
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <label for="inputId">Employee ID</label>
+                                <input type="text" class="form-control" id="inputId"
+                                       placeholder="Employee Identification Number">
+
+                                <br>
+
+                                <div class="row">
+                                    <div class="form-group col-md-12">
+                                        <div class="form-group">
+                                            <label for="exampleInputPassword1">Leave ID</label>
+                                            <input type="number" class="form-control" id="exampleInputPassword1"
+                                                   placeholder="Leave Number">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <button type="button" class="btn btn-primary">Submit</button>
+                                    </div>
+                                    <br>
+
+
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="form-group">
+                                                <table id="employeeTable">
+                                                    <tbody>
+                                                    <tr></tr>
+
+                                                    </tbody>
+                                                </table>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </form>
+                <hr>
+
+            </div>-->
+            <!-- <div class="row content">
+                 <div class="col-sm-2 sidenav">
+
+                 </div>
+
+             </div>-->
+
+        </div>
+        <table class="table table-hover" id="totalLeave">
+            <head><h1>All Employee Leaves</h1>
+                <div style="padding-bottom: 50px">
+                    <button type="button" class="btn btn-primary pull-right"
+                            onclick="location.href = '/employee'"
+                    >Add New Leave</button></div>
+
+            </head>
+            <thead>
+            <tr>
+                <th scope="col">Emp Id</th>
+                <th scope="col">First Name</th>
+                <th scope="col">Last Name</th>
+                <th scope="col">State</th>
+                <th scope="col">Leave Id</th>
+                <th scope="col">Leave Name</th>
+                <th scope="col">From Date</th>
+                <th scope="col">Last Date</th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+<% include ../partials/footer %>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+
+<script>
+  let template = '<tr>\n' +
+    '                    <th scope="row">{{emp_id}}</th>\n' +
+    '                    <td>{{first_name}}</td>\n' +
+    '                    <td>{{last_name}}</td>\n' +
+    '                    <td>{{state}}</td>\n' +
+    '                    <td>{{leave_id}}</td>\n' +
+    '                    <td>{{leave_name}}</td>\n' +
+    '                    <td>{{from_date}}</td>\n' +
+    '                    <td>{{to_date}}</td>\n' +
+    '                </tr>';
+
+  $(document).ready(function () {
+    // alert('...................call')
+    $('#example').hide();
+    console.log(getAllEmployeeLeaveURL)
+    $.ajax({
+      type: 'GET',
+      url: getAllEmployeeLeaveURL,
+      dataType: "json",
+      success: result => {
+        console.log(result);
+        (result.data).forEach(d => {
+          $("#totalLeave").append(generatingTemplate(template, d))
+        });
+        $('#totalLeave').DataTable();
+      },
+      error: result => {
+        console.log(result)
+      }
+    });
+    // $(document).ready(function() {
+    //
+    // } );
+  });
+
+</script>
+</html>

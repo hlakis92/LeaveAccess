@@ -26,7 +26,6 @@ let addEmployeeService = async (request) => {
   let lastName = request.body['last_name'];
   let email = request.body['email'];
   let DOB = d3.timeFormat(dbDateFormatDOB)(new Date(request.body['DOB']));
-  debug(DOB)
   let gender = request.body['gender'];
   let address1 = request.body['address1'];
   let address2 = request.body['address2'];
@@ -34,7 +33,6 @@ let addEmployeeService = async (request) => {
   let state = request.body['state'];
   let pincode = request.body['pincode'];
   let addArray = [firstName, lastName, email, DOB, gender, address1, address2, city, state, pincode];
-  debug('...................',addArray)
   let addEmployeeResult = await employeeDAL.addEmployeeDetails(addArray);
   if (addEmployeeResult.status === true && addEmployeeResult.content.length !== 0) {
     return {status: true, data: constant.employeeMessages.MSG_ADD_EMPLOYEE_SUCCESSFULLY};
@@ -42,7 +40,57 @@ let addEmployeeService = async (request) => {
     return {status: false, error: constant.employeeMessages.ERR_IN_ADD_EMPLOYEE};
   }
 };
+/**
+ * Created By: AV
+ * Updated By: AV
+ *
+ * getAllEmployeeService
+ * @param  {object}  request
+ * @return {object}
+ *
+ */
+let getAllEmployeeService = async (request) => {
+  debug("employee.service -> getAllEmployeeService");
+  let firstName = (request.query.firstname || "").toLowerCase();
+  let lastName = (request.query.lastname || "").toLowerCase();
+  let empId = (request.query.empid || "").toLowerCase();
+  debug("...............................",firstName, lastName, empId)
+  let customFilter = {and: []};
+  if (firstName !== "") {
+    customFilter.and.push({
+      field: 'LOWER(firstName)',
+      encloseField: false,
+      operator: 'eq',
+      value: firstName
+    })
+  }
+  if (lastName !== "") {
+    customFilter.and.push({
+      field: 'LOWER(lastName)',
+      encloseField: false,
+      operator: 'eq',
+      value: lastName
+    })
+  }
+  if (empId !== "") {
+    customFilter.and.push({
+      field: 'LOWER(employeeId)',
+      encloseField: false,
+      operator: 'eq',
+      value: empId
+    })
+  }
+  if (customFilter.and.length === 0) {
+    customFilter = undefined;
+  }
+  let getAllEmployeeByCustomFilterResult = await employeeDAL.getAllEmployeeByCustomFilter(customFilter);
+  if (getAllEmployeeByCustomFilterResult.status === false || getAllEmployeeByCustomFilterResult.length === 0) {
+    return {status: false, error: constant.employeeMessages.ERR_EMPLOYEE_NOT_FOUND}
+  }
+  return {status: true, data: getAllEmployeeByCustomFilterResult.content};
+};
 
 module.exports = {
   addEmployeeService: addEmployeeService,
+  getAllEmployeeService: getAllEmployeeService
 };

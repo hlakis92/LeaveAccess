@@ -28,7 +28,7 @@ CREATE TABLE `tbl_EmployeeMaster` (
   `address` VARCHAR(200) NULL,
   `city` VARCHAR(45) NULL,
   `state` VARCHAR(45) NULL,                                                                                                                           `pincode` VARCHAR(10) NULL,
-  PRIMARY KEY (`pk_locationId`));
+  PRIMARY KEY (`pk_employeeLocationMappingId`));
 
 CREATE TABLE `tbl_Employeelocataioncontactlistmapping` (
   `pk_empLocationContactLIstMappingId` INT NOT NULL AUTO_INCREMENT,
@@ -52,5 +52,18 @@ CREATE TABLE `tbl_employeeworkschedulemapping` (
   `friday` INT NULL DEFAULT 0,
   `saturday` INT NULL DEFAULT 0,
   PRIMARY KEY (`pk_empWorkSchedukeMappingId`));
+
+ALTER TABLE `leave_access`.`tbl_employeeleave`
+CHANGE COLUMN `eligibility` `eligibility` JSON NULL DEFAULT NULL ,
+CHANGE COLUMN `qualifying_reason` `qualifying_reason` JSON NULL DEFAULT NULL ,
+CHANGE COLUMN `maximum_duration` `maximum_duration` JSON NULL DEFAULT NULL ;
+
+
+ALTER TABLE `tbl_employeeleave`
+ADD COLUMN `leaveInfoId` INT NULL AFTER `empId`;
+
+ALTER TABLE tbl_leaveinfo AUTO_INCREMENT = 100000;
+
+
 
 

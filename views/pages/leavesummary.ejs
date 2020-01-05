@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <% include ../partials/head %>
+
+</head>
+<body>
+
+<div class="container">
+    <% include ../partials/topnav %>
+    <div class="container-fluid text-center">
+        <div class="row content1">
+            <div class="col-sm-10 text-left">
+
+                <!-- this will be the beginning of the form that will contain the employee's information -->
+                <!--Input for first and last name-->
+                <h4 id="incompleteLeaves">Incomplete Leaves</h4>
+                <table id="incompleteLeaves-table">
+
+                    <% if (employeeLeaveSummaryData.hasOwnProperty('incomplete') === true) { %>
+                        <tr>
+                            <th>Claim Number</th>
+                            <th>Type</th>
+                            <th>Dates</th>
+                        </tr>
+                        <% employeeLeaveSummaryData['incomplete'].forEach(function(data) { %>
+
+                            <tr>
+                                <td><%= data.leave_info_id %></td>
+                                <td><%= data.leave_type %></td>
+                                <td><%= data.from_date %> - <%= data.to_date %></td>
+                            </tr>
+
+                        <% }); %>
+                    <% }  else { %>
+                        <tr>
+                            <td colspan="3" style="text-align: center">No Record Found</td>
+                        </tr>
+                    <% } %>
+                </table>
+                <br>
+                <br>
+                <h4 id="openLeaves">Open Leaves</h4>
+                <table id="openLeaves-table">
+
+                    <% if (employeeLeaveSummaryData.hasOwnProperty('open') === true) { %>
+                        <tr>
+                            <th>Claim Number</th>
+                            <th>Type</th>
+                            <th>Dates</th>
+                        </tr>
+                        <% employeeLeaveSummaryData['open'].forEach(function(data) { %>
+
+                            <tr>
+                                <td><a href=/claim<%= data.leave_type %>/<%= data.leave_info_id %>><%= data.leave_info_id %></a></td>
+                                <td><%= data.leave_type %></td>
+                                <td><%= data.from_date %> - <%= data.to_date %></td>
+                            </tr>
+
+                        <% }); %>
+
+                    <% }  else { %>
+                        <tr>
+                            <td colspan="3" style="text-align: center">No Record Found</td>
+                        </tr>
+                    <% } %>
+
+                    <!--<tr >
+                        <td ><a href="#">20190000000</a></td>
+                        <td >Continuous</td>
+                        <td >06/25/2018 - 09/15/2018</td>
+                    </tr>
+
+                    <tr>
+                        <td ><a href="#">20190000000</a></td>
+                        <td >Intermittent</td>
+                        <td >06/25/2018 - 09/15/2018</td>
+                    </tr>-->
+                </table>
+
+
+                <br><br>
+                <h4 id="closedLeaves">Closed Leaves</h4>
+                <table id="closedLeaves-table">
+
+                    <% if (employeeLeaveSummaryData.hasOwnProperty('closed') === true) { %>
+                        <tr>
+                            <th>Claim Number</th>
+                            <th>Type</th>
+                            <th>Dates</th>
+                        </tr>
+                        <% employeeLeaveSummaryData['closed'].forEach(function(data) { %>
+                            <tr>
+                                <td><%= data.leave_info_id %></td>
+                                <td><%= data.leave_type %></td>
+                                <td><%= data.from_date %> - <%= data.to_date %></td>
+                            </tr>
+
+                        <% }); %>
+                    <% }  else { %>
+                        <tr>
+                            <td colspan="3" style="text-align: center">No Record Found</td>
+                        </tr>
+                    <% } %>
+                </table>
+
+                <br>
+
+                <div class="form-row">
+                    <div class="col-md-12">
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+<% include ../partials/footer %>
+
+<script>
+
+
+</script>
+</html>

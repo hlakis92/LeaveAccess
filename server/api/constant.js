@@ -1,6 +1,5 @@
 let applicationConfiguration = {
-  "APPLICATION_API_KEY": ["1", "b2236bde3ffbe7b27f425ae889ca1e08", "ios", "web", "admin"], // local and 2.16
-
+  "APPLICATION_API_KEY": ["1", "b2236bde3ffbe7b27f425ae889ca1e08"], // local and 2.16
   "MAX_ACCESS_TOKEN_EXPIRY_HOURS": 720, // 30 days
   "PAGE_SIZE": 10, //
   "API_START_PATH": '/api/',
@@ -64,6 +63,10 @@ let employeeMessages = {
     code: 3002,
     message: 'employee added successfully.'
   },
+  ERR_EMPLOYEE_NOT_FOUND:{
+    code: 3003,
+    message: 'employees not found.'
+  }
 };
 
 module.exports = {

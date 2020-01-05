@@ -13,7 +13,7 @@ let constant = require('../constant');
  */
 let checkLeaveEligibility = async (request, response) => {
   debug("leave.controller -> checkLeaveEligibility");
-  let result= await leaveService.checkLeaveEligibilityService(request);
+  let result = await leaveService.checkLeaveEligibilityService(request);
   // debug(request.body);
   return response.send(result);
 
@@ -43,15 +43,45 @@ let addAllData = async (request, response) => {
  * @return {object}
  */
 let getEmployeeLeave = async (request, response) => {
-  debug("leave.controller -> addAllData");
+  debug("leave.controller -> getEmployeeLeave");
   let result = await leaveService.getEmployeeLeaveService(request);
   // debug(request.body);
+  return response.send(result);
+};
+
+/**
+ * Created By: AV
+ * Updated By: AV
+ *
+ * @param  {object} request
+ * @param  {object} response
+ * @return {object}
+ */
+let getEmployeeLeaveSummary = async (request, response) => {
+  debug("leave.controller -> getEmployeeLeaveSummary");
+  let result = await leaveService.getEmployeeLeaveSummaryService(request);
+  return response.send(result);
+};
+
+/**
+ * Created By: AV
+ * Updated By: AV
+ *
+ * @param  {object} request
+ * @param  {object} response
+ * @return {object}
+ */
+let getEmployeeLeaveClaimInfo = async (request, response) => {
+  debug("leave.controller -> getEmployeeLeaveClaimInfo");
+  let result = await leaveService.getEmployeeLeaveClaimInfoService(request);
   return response.send(result);
 };
 
 module.exports = {
   // addEmployee: addEmployee,
   checkLeaveEligibility: checkLeaveEligibility,
-  addAllData:addAllData,
-  getEmployeeLeave:getEmployeeLeave,
+  addAllData: addAllData,
+  getEmployeeLeave: getEmployeeLeave,
+  getEmployeeLeaveSummary: getEmployeeLeaveSummary,
+  getEmployeeLeaveClaimInfo:getEmployeeLeaveClaimInfo,
 };
