@@ -11,6 +11,7 @@ router.post('/add-all-data', controller.addAllData);
 router.get('/get-employee-leave', controller.getEmployeeLeave);
 router.get('/get-employee-leave-summary/:empId', controller.getEmployeeLeaveSummary);
 router.get('/get-employee-leave-claim-info/:claimNumber', controller.getEmployeeLeaveClaimInfo);
+router.post('/edit-leave-decision', controller.editLeaveDecision);
 
 
 

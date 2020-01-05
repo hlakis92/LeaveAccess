@@ -53,7 +53,7 @@ CREATE TABLE `tbl_employeeworkschedulemapping` (
   `saturday` INT NULL DEFAULT 0,
   PRIMARY KEY (`pk_empWorkSchedukeMappingId`));
 
-ALTER TABLE `leave_access`.`tbl_employeeleave`
+ALTER TABLE `tbl_employeeleave`
 CHANGE COLUMN `eligibility` `eligibility` JSON NULL DEFAULT NULL ,
 CHANGE COLUMN `qualifying_reason` `qualifying_reason` JSON NULL DEFAULT NULL ,
 CHANGE COLUMN `maximum_duration` `maximum_duration` JSON NULL DEFAULT NULL ;
@@ -63,6 +63,16 @@ ALTER TABLE `tbl_employeeleave`
 ADD COLUMN `leaveInfoId` INT NULL AFTER `empId`;
 
 ALTER TABLE tbl_leaveinfo AUTO_INCREMENT = 100000;
+
+ALTER TABLE `tbl_LeaveInfo`
+ADD COLUMN `leaveTypeStatus` VARCHAR(45) DEFAULT 'pending' AFTER `leaveType`;
+
+ALTER TABLE `tbl_EmployeeLeave`
+ADD COLUMN `leaveTypeStatus` VARCHAR(45) DEFAULT 'pending' AFTER `to_date`;
+
+
+
+
 
 
 

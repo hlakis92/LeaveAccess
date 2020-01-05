@@ -159,6 +159,29 @@ router.get('/claimreducedschedule/:claimNumber', async function (req, res, next)
   });
 });
 
+router.get('/decision/:claimNumber', async function (req, res, next) {
+  let leaveService = require('./../server/api/leave/leave.service');
+  let employeeLeaveClaimInfoResult = await leaveService.getEmployeeLeaveClaimInfoService(req);
+  let employeeLeaveClaimInfoData, planMaximumDuration, planStatus;
+
+  if (employeeLeaveClaimInfoResult.status === true) {
+    employeeLeaveClaimInfoData = employeeLeaveClaimInfoResult.data.leaveInfo;
+    planMaximumDuration = employeeLeaveClaimInfoResult.data.planMaximumDuration;
+    planStatus = employeeLeaveClaimInfoResult.data.planStatus
+
+  } else {
+
+  }
+
+  res.render('pages/decision', {
+    title: 'Leave Overview',
+    employeeLeaveClaimInfoData: employeeLeaveClaimInfoData,
+    planMaximumDuration: planMaximumDuration,
+    planStatus: planStatus,
+
+  });
+});
+
 module.exports = router;
 
 

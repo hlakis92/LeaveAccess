@@ -23,7 +23,7 @@
                     <a href="#">Provider Information</a>
                 </p>
                 <p>
-                    <a href="#">Decision</a>
+                    <a href="/decision/<%= employeeLeaveClaimInfoData.leave_info_id %>">Decision</a>
                 </p>
                 <p>
                     <a href="#">Eligibility Requirements</a>
@@ -271,7 +271,7 @@
                         </div>
                         <div class="row">
                             <div class="col-md-12">
-                                <div class="planStatus"></div>
+                                <div class="<%= employeeLeaveClaimInfoData.leave_type_status %>"></div>
                             </div>
                         </div>
                     </div>
@@ -303,114 +303,113 @@
                                                              style="padding-left: 25px;">MM/DD/YYYY</span></div>
                 <!-- Trigger the Paperwork modal with a button -->
                 <div class="outputTask" data-toggle="modal" data-target="#myModal2"><a>Paperwork Review</a><span
-                            class="taskDate" style="padding-left: 25px;">MM/DD/YYYY</span>
-                    <!-- Modal -->
-                    <div class="modal fade" id="myModal2" role="dialog">
-                        <div class="modal-dialog">
+                            class="taskDate" style="padding-left: 25px;">MM/DD/YYYY</span>                    
+                </div>
+                <!-- Modal -->
+                <div class="modal fade" id="myModal2" role="dialog">
+                    <div class="modal-dialog">
 
-                            <!-- Modal content-->
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                    <h4 class="modal-title">Paperwork Review</h4>
-                                </div>
-                                <div class="modal-body">
-                                    <p>Some text in the modal.</p>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-default"
-                                            data-dismiss="modal">Close</button>
-                                </div>
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">Paperwork Review</h4>
                             </div>
-
+                            <div class="modal-body">
+                                <p>Some text in the modal.</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default"
+                                        data-dismiss="modal">Close</button>
+                            </div>
                         </div>
+
                     </div>
                 </div>
                 <!-- Trigger the ERTW modal with a button -->
                 <div class="outputTask" data-toggle="modal" data-target="#myModal3"><a>ERTW
-                        Confirmation</a><span class="taskDate" style="padding-left: 25px;">MM/DD/YYYY</span>
-                    <!-- Modal -->
-                    <div class="modal fade" id="myModal3" role="dialog">
-                        <div class="modal-dialog">
+                        Confirmation</a><span class="taskDate" style="padding-left: 25px;">MM/DD/YYYY</span>                    
+                </div>
+                <!-- Modal -->
+                <div class="modal fade" id="myModal3" role="dialog">
+                    <div class="modal-dialog">
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">Estimated Return To Work Confirmation</h4>
+                            </div>
+                            <br>
+                            <div id="pickManager">
+                                <form action="">
+                                    <select name="managers" required>
+                                        <option value="All">All Claim Handler</option>
+                                        <option value="Hassan">Hassan</option>
+                                        <option value="Hassan">Emilee</option>
+                                        <option value="Hassan">Carrie</option>
+                                    </select>
+                            </div>
 
-                            <!-- Modal content-->
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                    <h4 class="modal-title">Estimated Return To Work Confirmation</h4>
-                                </div>
-                                <br>
-                                <div id="pickManager">
-                                    <form action="">
-                                        <select name="managers" required>
-                                            <option value="All">All Claim Handler</option>
-                                            <option value="Hassan">Hassan</option>
-                                            <option value="Hassan">Emilee</option>
-                                            <option value="Hassan">Carrie</option>
-                                        </select>
-                                </div>
-
-                                <div class="modal-body">
-                                    <p>What is the estimated return to work date?</p>
-                                    <div>
-                                        <input type="date" id="start" name="trip" value="2018-07-22"
-                                               min="1990-01-01" max="2088-12-31" />
-                                    </div>
-                                </div>
-
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-default"
-                                            data-dismiss="modal">Close</button>
-                                    <button type="sumbmit" class="btn btn-default"
-                                            data-dismiss="modal">submit</button>
+                            <div class="modal-body">
+                                <p>What is the estimated return to work date?</p>
+                                <div>
+                                    <input type="date" id="start" name="trip" value="2018-07-22"
+                                           min="1990-01-01" max="2088-12-31" />
                                 </div>
                             </div>
 
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default"
+                                        data-dismiss="modal">Close</button>
+                                <button type="sumbmit" class="btn btn-default"
+                                        data-dismiss="modal">submit</button>
+                            </div>
                         </div>
+
                     </div>
                 </div>
 
                 <!-- Trigger the Paperwork modal with a button -->
                 <div class="outputTask" data-toggle="modal" data-target="#myModal4"><a>ARTW
-                        Confirmation</a><span class="taskDate" style="padding-left: 25px;">MM/DD/YYYY</span>
-                    <!-- Modal -->
-                    <div class="modal fade" id="myModal4" role="dialog">
-                        <div class="modal-dialog">
+                        Confirmation</a><span class="taskDate" style="padding-left: 25px;">MM/DD/YYYY</span>                   
+                </div>
+                 <!-- Modal -->
+                <div class="modal fade" id="myModal4" role="dialog">
+                    <div class="modal-dialog">
 
-                            <!-- Modal content-->
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                    <h4 class="modal-title">Actual Return To Work Confirmation</h4>
-                                </div>
-                                <br>
-                                <div id="pickManager">
-                                    <form action="">
-                                        <select name="managers" required>
-                                            <option value="All">All Claim Handler</option>
-                                            <option value="Hassan">Hassan</option>
-                                            <option value="Hassan">Emilee</option>
-                                            <option value="Hassan">Carrie</option>
-                                        </select>
-                                </div>
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">Actual Return To Work Confirmation</h4>
+                            </div>
+                            <br>
+                            <div id="pickManager">
+                                <form action="">
+                                    <select name="managers" required>
+                                        <option value="All">All Claim Handler</option>
+                                        <option value="Hassan">Hassan</option>
+                                        <option value="Hassan">Emilee</option>
+                                        <option value="Hassan">Carrie</option>
+                                    </select>
+                            </div>
 
-                                <div class="modal-body">
-                                    <p>What is the Actual return to work date?</p>
-                                    <div>
-                                        <input type="date" id="start" name="trip" value="2018-07-22"
-                                               min="1990-01-01" max="2088-12-31" />
-                                    </div>
-                                </div>
-
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-default"
-                                            data-dismiss="modal">Close</button>
-                                    <button type="sumbmit" class="btn btn-default"
-                                            data-dismiss="modal">submit</button>
+                            <div class="modal-body">
+                                <p>What is the Actual return to work date?</p>
+                                <div>
+                                    <input type="date" id="start" name="trip" value="2018-07-22"
+                                           min="1990-01-01" max="2088-12-31" />
                                 </div>
                             </div>
 
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default"
+                                        data-dismiss="modal">Close</button>
+                                <button type="sumbmit" class="btn btn-default"
+                                        data-dismiss="modal">submit</button>
+                            </div>
                         </div>
+
                     </div>
                 </div>
             </div>

@@ -132,6 +132,37 @@ tr:nth-child(even) {
   background: lightgray;
   border-radius: 5px;
 }
+.pending {
+  word-wrap: break-word;
+  border: 1px solid black;
+  padding: 15px;
+  background: rgb(253, 208, 8);
+  border-radius: 5px;
+}
+
+.notapplicable {
+  word-wrap: break-word;
+  border: 1px solid black;
+  padding: 15px;
+  background: lightgray;
+  border-radius: 5px;
+}
+
+.approved {
+  word-wrap: break-word;
+  border: 1px solid black;
+  padding: 15px;
+  background: lightgreen;
+  border-radius: 5px;
+}
+
+.denied {
+  word-wrap: break-word;
+  border: 1px solid black;
+  padding: 15px;
+  background: rgb(218, 115, 115);
+  border-radius: 5px;
+}
 
 h5 {
   text-decoration: underline;

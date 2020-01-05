@@ -124,6 +124,21 @@ let getEmployeeLeavePlanStatusByClaimNumber = async (claimNumber) => {
   return await common.executeQuery(getEmployeeLeavePlanStatusByClaimNumberQuery);
 };
 
+let editLeaveInfoByLeaveInfoId = async (leaveInfoId, fieldValueUpdate) => {
+  debug("user.DAL -> editLeaveInfoByLeaveInfoId");
+  let editLeaveInfoByLeaveInfoIdQuery = common.cloneObject(query.editLeaveInfoByLeaveInfoIdQuery);
+  editLeaveInfoByLeaveInfoIdQuery.update = fieldValueUpdate;
+  editLeaveInfoByLeaveInfoIdQuery.filter.value = leaveInfoId;
+  return await common.executeQuery(editLeaveInfoByLeaveInfoIdQuery);
+};
+
+let editEmployeeLeaveByLeaveInfoId = async (leaveInfoId, fieldValueUpdate) => {
+  debug("user.DAL -> editEmployeeLeaveByLeaveInfoId");
+  let editEmployeeLeaveByLeaveInfoIdQuery = common.cloneObject(query.editEmployeeLeaveByLeaveInfoIdQuery);
+  editEmployeeLeaveByLeaveInfoIdQuery.update = fieldValueUpdate;
+  editEmployeeLeaveByLeaveInfoIdQuery.filter.value = leaveInfoId;
+  return await common.executeQuery(editEmployeeLeaveByLeaveInfoIdQuery);
+};
 
 module.exports = {
   addEmployeeDetail: addEmployeeDetail,
@@ -135,4 +150,6 @@ module.exports = {
   getEmployeeLeaveClaimInfoServiceByClaimNumber: getEmployeeLeaveClaimInfoServiceByClaimNumber,
   getEmployeeLeavePlanSummaryMaxDurationByClaimNumber: getEmployeeLeavePlanSummaryMaxDurationByClaimNumber,
   getEmployeeLeavePlanStatusByClaimNumber: getEmployeeLeavePlanStatusByClaimNumber,
+  editLeaveInfoByLeaveInfoId: editLeaveInfoByLeaveInfoId,
+  editEmployeeLeaveByLeaveInfoId: editEmployeeLeaveByLeaveInfoId,
 };

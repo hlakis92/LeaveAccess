@@ -24,7 +24,7 @@
                     <a href="#">Provider Information</a>
                 </p>
                 <p>
-                    <a href="#">Decision</a>
+                    <a href="/decision/<%= employeeLeaveClaimInfoData.leave_info_id %>">Decision</a>
                 </p>
                 <p>
                     <a href="#">Eligibility Requirements</a>
@@ -272,7 +272,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
-                                    <div class="planStatus"></div>
+                                    <div class="<%= employeeLeaveClaimInfoData.leave_type_status %>"></div>
                                 </div>
                             </div>
                         </div>

@@ -183,6 +183,10 @@ let query = {
       field: 'leaveType',
       alias: 'leave_type'
     }, {
+      field: 'LI.leaveTypeStatus',
+      encloseField: false,
+      alias: 'leave_type_status'
+    }, {
       field: 'leaveReason',
       alias: 'leave_reason'
     }, {
@@ -193,6 +197,14 @@ let query = {
       field: 'DATE_FORMAT(LI.endDate, "%m/%d/%Y")',
       encloseField: false,
       alias: 'to_date'
+    }, {
+      field: 'DATE_FORMAT(LI.startDate, "%Y-%m-%d")',
+      encloseField: false,
+      alias: 'from_date_db'
+    }, {
+      field: 'DATE_FORMAT(LI.endDate, "%Y-%m-%d")',
+      encloseField: false,
+      alias: 'to_date_db'
     }, {
       field: '"open"',
       encloseField: false,
@@ -247,6 +259,27 @@ let query = {
       value: ''
     },
   },
+  /* edit leave_info by leave_info_id query start */
+  editLeaveInfoByLeaveInfoIdQuery: {
+    table: tbl_LeaveInfo,
+    update: [],
+    filter: {
+      field: 'pk_leaveInfoId',
+      operator: 'EQ',
+      value: ''
+    },
+  }, // edit leave_info by leave_info_id query end
+  /* edit employee_leave by leave_info_id query start */
+  editEmployeeLeaveByLeaveInfoIdQuery: {
+    table: tbl_EmployeeLeave,
+    update: [],
+    filter: {
+      field: 'leaveInfoId',
+      operator: 'EQ',
+      value: ''
+    },
+  }, // edit employee_leave by leave_info_id query end
+
 };
 
 module.exports = query;

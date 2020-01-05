@@ -77,11 +77,26 @@ let getEmployeeLeaveClaimInfo = async (request, response) => {
   return response.send(result);
 };
 
+/**
+ * Created By: AV
+ * Updated By: AV
+ *
+ * @param  {object} request
+ * @param  {object} response
+ * @return {object}
+ */
+let editLeaveDecision = async (request, response) => {
+  debug("leave.controller -> editLeaveDecision");
+  let result = await leaveService.editLeaveDecisionService(request);
+  return response.send(result);
+};
+
 module.exports = {
   // addEmployee: addEmployee,
   checkLeaveEligibility: checkLeaveEligibility,
   addAllData: addAllData,
   getEmployeeLeave: getEmployeeLeave,
   getEmployeeLeaveSummary: getEmployeeLeaveSummary,
-  getEmployeeLeaveClaimInfo:getEmployeeLeaveClaimInfo,
+  getEmployeeLeaveClaimInfo: getEmployeeLeaveClaimInfo,
+  editLeaveDecision: editLeaveDecision,
 };

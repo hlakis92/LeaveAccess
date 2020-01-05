@@ -7,6 +7,7 @@ let submitLeaveURL = windowLocation.origin + '/api/leave/add-all-data';
 let getAllEmployeeLeaveURL = windowLocation.origin + '/api/leave/get-employee-leave';
 let getAllEmployeeURL = windowLocation.origin + '/api/employee/get-all-employee';
 let getEmployeeLeaveSummaryURL = windowLocation.origin + '/api/leave/get-employee-leave-summary';
+let editLeaveDecisionURL = windowLocation.origin + '/api/leave/edit-leave-decision';
 
 $('#signinButton').on('click', function (e) {
   e.preventDefault();
@@ -69,7 +70,7 @@ $('#signinButton').on('click', function (e) {
       // console.log("success...........", result)
       if (result.status === true) {
         $("#messageSuccess").text(result.data.message);
-        window.location.href = 'dashboard';
+        window.location.href = 'searchemployee';
       } else {
         let errorHtml = '<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
           result.error.message +
@@ -263,10 +264,10 @@ $('#leaveProviderAddButton').on('click', function (e) {
     beforeSend: function (xhr) {
       if (
         (type == 1 &&
-           $("#inputFirst4").val() == '' ||
-            $("#inputLast4").val() == '' || $("#inputFamilyMemberDOB4").val() == '' ||
-            $("#inputRelation").val() == ''
-          )) {
+          $("#inputFirst4").val() == '' ||
+          $("#inputLast4").val() == '' || $("#inputFamilyMemberDOB4").val() == '' ||
+          $("#inputRelation").val() == ''
+        )) {
         return false
       } else {
         e.preventDefault();
@@ -334,8 +335,8 @@ $('#leaveTypeAddButtonNext').on('click', function (e) {
     gender: employeeInfo['gender'],
     locationState: (locationInfo['state']).toLowerCase(),
     last_12_month_work_hours: (locationInfo['_12MonthHours']),
-    is_loco_parentis:leaveProviderInfo['inLocoParent'],
-    family_relation:leaveProviderInfo['familyRelation'],
+    is_loco_parentis: leaveProviderInfo['inLocoParent'],
+    family_relation: leaveProviderInfo['familyRelation'],
     doj: (locationInfo['DOJ']),
     leave_type: (data['leaveType']).toLowerCase(),
     from_date: (data['startDate']).toLowerCase(),
@@ -386,7 +387,6 @@ $('#leaveSubmit').on('click', function (e) {
     leaveProviderInfo: leaveProviderInfo,
     leaveTypeInfo: leaveTypeInfo,
     leaveEligibilityList: leaveEligibilityList
-
   };
   // requireData=JSON.parse(requireData)
   console.log(requireData)
@@ -411,6 +411,31 @@ $('#leaveSubmit').on('click', function (e) {
   });
 });
 
+$('#leaveDecisionSubmitButton').on('click', function (e) {
+  let leaveInfoId = $("#leaveInfoId").val();
+  let leaveTypeStatus = $("#selectLeaveTypeOptions").val();
+  let leaveType = $("#leaveType").val();
+  let startDate = $("#fromDate").val();
+  let endDate = $("#toDate").val();
+  let requireData = {
+    leaveInfoId: leaveInfoId,
+    leaveType: leaveTypeStatus,
+    startDate: startDate,
+    endDate: endDate
+  };
+  $.ajax({
+    type: 'POST',
+    url: editLeaveDecisionURL,
+    dataType: "json",
+    data: requireData,
+    success: result => {
+      window.location.href = windowLocation.origin + '/claim' + leaveType + '/' + leaveInfoId;
+    },
+    error: result => {
+      console.log(result)
+    }
+  });
+});
 
 $('#locationBackButton').on('click', function (e) {
   window.location.href = windowLocation.origin + '/employee';

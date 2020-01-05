@@ -139,7 +139,6 @@ let getEmployeeLeaveClaimInfoService = async (request) => {
       }
     });
   }
-
   if (employeeLeaveClaimInfoResult.status === true && employeeLeaveClaimInfoResult.content.length !== 0) {
     return {
       status: true, data: {
@@ -153,6 +152,47 @@ let getEmployeeLeaveClaimInfoService = async (request) => {
   }
 };
 
+/**
+ * Created By: AV
+ * Updated By: AV
+ *
+ * editLeaveDecisionService
+ * @param  {object}  request
+ * @return {object}
+ *
+ */
+let editLeaveDecisionService = async (request) => {
+  debug("leave.service -> editLeaveDecisionService");
+  let data = common.cloneObject(request.body);
+  let leaveInfoId = data['leaveInfoId'];
+  // let employeeInfo = common.cloneObject(data['employeeInfo']);
+  debug("...............................................", data);
+  let fieldValueUpdateLeaveInfo = [{
+    field: 'startDate',
+    fValue: data['startDate']
+  }, {
+    field: 'endDate',
+    fValue: data['endDate']
+  }, {
+    field: 'leaveTypeStatus',
+    fValue: data['leaveType']
+  }];
+  let fieldValueUpdateEmployeeLeave = [{
+    field: 'from_date',
+    fValue: data['startDate']
+  }, {
+    field: 'to_date',
+    fValue: data['endDate']
+  }, {
+    field: 'leaveTypeStatus',
+    fValue: data['leaveType']
+  }];
+
+  await leaveDAL.editLeaveInfoByLeaveInfoId(leaveInfoId, fieldValueUpdateLeaveInfo);
+  await leaveDAL.editEmployeeLeaveByLeaveInfoId(leaveInfoId, fieldValueUpdateEmployeeLeave);
+  return {status: true, data: {}};
+};
+
 
 module.exports = {
   checkLeaveEligibilityService: checkLeaveEligibilityService,
@@ -160,4 +200,5 @@ module.exports = {
   getEmployeeLeaveService: getEmployeeLeaveService,
   getEmployeeLeaveSummaryService: getEmployeeLeaveSummaryService,
   getEmployeeLeaveClaimInfoService: getEmployeeLeaveClaimInfoService,
+  editLeaveDecisionService: editLeaveDecisionService,
 };
