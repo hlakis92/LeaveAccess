@@ -1,6 +1,6 @@
 let tbl_tasklist = "tbl_tasklist";
 let tbl_EmployeeMaster = "tbl_EmployeeMaster";
-let tbl_usermaster = "tbl_usermaster";
+let tbl_usermaster = "tbl_UserMaster";
 let tbl_LeaveInfo = "tbl_LeaveInfo";
 let tbl_notes = "tbl_notes";
 let query = {
