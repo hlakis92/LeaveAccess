@@ -527,7 +527,11 @@
                 alert_message('Please enter Task Name', 'fail');
                 return false;  
             }
-       
+            if(dueDate == '')
+            {
+                alert_message('Please select Due Date', 'fail');
+                return false;  
+            }
             e.preventDefault();
             $.ajax({
                 type: 'post',
