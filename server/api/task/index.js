@@ -8,11 +8,11 @@ module.exports = router;
 
 
 router.get('/tasks', controller.tasks);
-//router.post('/deletetask', controller.deletetask);
+// router.post('/deletetask', controller.deletetask);
 router.post('/addtask', controller.addtask);
-//router.post('/updatetask', controller.updatetask);
+// router.post('/updatetask', controller.updatetask);
 
-// router.get('/notes', controller.notes);
-//router.post('/deletetask', controller.deletetask);
-// router.post('/addnotes', controller.addnotes);
-//router.post('/updatetask', controller.updatetask);
+router.get('/notes', controller.notes);
+// router.post('/deletetask', controller.deletetask);
+router.post('/addnotes', controller.addnotes);
+// router.post('/updatetask', controller.updatetask);
