@@ -75,3 +75,36 @@ function generatingTemplate(template, data, dataWrapperStartSign, dataWrapperEnd
   }
   return returnTemplate;
 };
+
+function getQueryString(field) {
+  var href = window.location.href;
+  var reg = new RegExp('[?&]' + field + '=([^&#]*)', 'i');
+  var string = reg.exec(href);
+  return string ? string[1] : null;
+};
+
+function getUDID() {
+  let udid = (window.navigator.userAgent.replace(/\D+/g, '')) + parseInt(Math.random() * 10000) + (new Date()).getTime();
+  udid = checkCookie('udid', udid);
+  return udid;
+}
+
+function getToken() {
+  let token = getCookie('token');
+  return token;
+}
+
+
+function deleteAllLeaveCookie() {
+  deleteCookie('employeeInfo');
+  deleteCookie('locationInfo');
+  deleteCookie('leaveReasonInfo');
+  deleteCookie('leaveProviderInfo');
+  deleteCookie('leaveTypeInfo');
+  deleteCookie('leaveEligibilityList');
+  // deleteCookie('leaveReasonInfo');
+}
+
+// 5010064645373679039451305373646187050981580644187129
+// 501006464537367903945130537367281911580644305223
+// 5010064645373679039451305373698541580644335858

@@ -50,7 +50,60 @@ let signin = async (request, response) => {
   }
 };
 
+/**
+ * Created By: AV
+ * Updated By: AV
+ *
+ * logout
+ *
+ * @param  {object} request
+ * @param  {object} response
+ * @return {object}
+ */
+let logout = async (request, response) => {
+  debug("user.controller -> logout");
+  let result = await userService.logoutService(request);
+  return response.send(result);
+};
+
+/**
+ * Created By: MB
+ * Updated By: MB
+ *
+ * @param  {object} request
+ * @param  {object} response
+ * @return {object}
+ */
+let users = async (request, response) => {
+  debug("user.controller -> users");
+  let result = await userService.getUserListService(request);
+  return response.send(result);
+};
+
+let adduser = async (request, response) => {
+  debug("user.controller -> adduser");
+  let result = await userService.addUserService(request);
+  return response.send(result);
+};
+
+let updateuser = async (request, response) => {
+  debug("user.controller -> updateuser");
+  let result = await userService.userUpdateService(request);
+  return response.send(result);
+};
+
+let deleteuser = async (request, response) => {
+  debug("user.controller -> deleteuser");
+  let result = await userService.userDeleteService(request);
+  return response.send(result);
+};
+
 module.exports = {
   signup: signup,
   signin: signin,
+  logout: logout,
+  users: users,
+  adduser: adduser,
+  updateuser: updateuser,
+  deleteuser: deleteuser
 };

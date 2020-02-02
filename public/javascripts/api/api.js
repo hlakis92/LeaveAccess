@@ -1,13 +1,18 @@
 let windowLocation = window.location;
 let userSignURL = windowLocation.origin + '/api/user/user-signin';
+let logoutURL = windowLocation.origin + '/api/user/logout';
 let addEmployeeURL = windowLocation.origin + '/api/employee/add-employee';
-let dummyCallURL = windowLocation.origin + '/api/employee/dummy-call';
+let syncDataURL = windowLocation.origin + '/api/leave/sync-data';
 let checkLeaveEligibility = windowLocation.origin + '/api/leave/check-leave-eligibility';
 let submitLeaveURL = windowLocation.origin + '/api/leave/add-all-data';
 let getAllEmployeeLeaveURL = windowLocation.origin + '/api/leave/get-employee-leave';
 let getAllEmployeeURL = windowLocation.origin + '/api/employee/get-all-employee';
 let getEmployeeLeaveSummaryURL = windowLocation.origin + '/api/leave/get-employee-leave-summary';
 let editLeaveDecisionURL = windowLocation.origin + '/api/leave/edit-leave-decision';
+
+let getUsersURL = windowLocation.origin + '/api/user';
+
+let getTaskURL = windowLocation.origin + '/api/task';
 
 $('#signinButton').on('click', function (e) {
   e.preventDefault();
@@ -51,7 +56,8 @@ $('#signinButton').on('click', function (e) {
         return false;
       }
       // xhr.setRequestHeader('api-key', apiKey); //For Local
-      // xhr.setRequestHeader('udid', getUDID());
+      xhr.setRequestHeader('udid', getUDID());
+      xhr.setRequestHeader('token', getToken());
       // xhr.setRequestHeader('device-type', getDeviceType());
 
       // $('#loginForm :input:visible[required="required"]').each(function()
@@ -65,10 +71,9 @@ $('#signinButton').on('click', function (e) {
       // });
     },
     success: function (result) {
-      // $("#inputEmail").val("");
-      // $("#inputPassword").val("");
-      // console.log("success...........", result)
       if (result.status === true) {
+        debugger;
+        setCookie('token', result['access_token'], 1);
         $("#messageSuccess").text(result.data.message);
         window.location.href = 'searchemployee';
       } else {
@@ -77,27 +82,43 @@ $('#signinButton').on('click', function (e) {
           '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
           '<span aria-hidden="true">&times;</span>' +
           '</button>' +
-          '</div>'
+          '</div>';
         $("#messageError").html(errorHtml);
       }
-      // $("#comment").val("");
-      // $('#thank-you-contactus-dialog').modal('show');
-      // setTimeout(function () {
-      //   $('#thank-you-contactus-dialog').modal('hide');
-      // }, 10000);
     },
     error: function (result) {
       console.log("error..............")
-      // $('#contact-us-dialog').modal('hide');
-      // $("#name").val("");
-      // $("#mobile").val("");
-      // $("#comment").val("");
+    }
+  });
+});
+
+$('#logoutButton').on('click', function (e) {
+  $.ajax({
+    type: 'POST',
+    url: logoutURL,
+    dataType: "json",
+    beforeSend: function (xhr) {
+      xhr.setRequestHeader('udid', getUDID());
+      xhr.setRequestHeader('token', getToken());
+    },
+    success: function (result) {
+      if (result.status === true) {
+        deleteCookie('udid');
+        deleteCookie('token');
+        window.location.href = '/';
+      } else {
+
+      }
+    },
+    error: function (result) {
+      console.log("error..............")
     }
   });
 });
 
 $('#employeeAddButton').on('click', function (e) {
   // e.preventDefault();
+  empId = $("#inputEmpId").val();
   firstName = $("#inputFirstName").val();
   lastName = $("#inputLastName").val();
   email = $("#inputEmail").val();
@@ -109,6 +130,7 @@ $('#employeeAddButton').on('click', function (e) {
   state = $("#inputState").val();
   pincode = $("#inputZip").val();
   let data = {
+    empId: empId,
     first_name: firstName,
     last_name: lastName,
     email: email,
@@ -123,7 +145,7 @@ $('#employeeAddButton').on('click', function (e) {
 
   $.ajax({
     type: 'POST',
-    url: dummyCallURL,
+    url: syncDataURL,
     dataType: "json",
     data: data,
     beforeSend: function (xhr) {
@@ -138,7 +160,11 @@ $('#employeeAddButton').on('click', function (e) {
       console.log(result);
       deleteCookie('employeeInfo');
       setCookie('employeeInfo', JSON.stringify(data), 1);
-      window.location.href = windowLocation.origin + '/location';
+      if (empId > 0) {
+        window.location.href = windowLocation.origin + '/location?empId=' + empId;
+      } else {
+        window.location.href = windowLocation.origin + '/location';
+      }
     },
     error: result => {
       console.log(result)
@@ -148,6 +174,7 @@ $('#employeeAddButton').on('click', function (e) {
 
 $('#locationAddButton').on('click', function (e) {
   let data = {
+    empId: $("#inputEmpId").val(),
     employeeId: $("#inputEmployeeId").val(),
     employeeStatus: $("#inputEmployeeStatus").val(),
     locationEmail: $("#inputLocationEmail").val(),
@@ -166,17 +193,17 @@ $('#locationAddButton').on('click', function (e) {
     payrollPhone: $("#payrollPhone").val(),
     payrollName: $("#payrollName").val(),
     payrollEmail: $("#payrollEmail").val(),
-    inputsundayRSHours: $("#inputsundayRSHours").val(),
-    inputmondayRSHours: $("#inputmondayRSHours").val(),
-    inputtuesdayRSHours: $("#inputtuesdayRSHours").val(),
-    inputwednesdayRSHours: $("#inputwednesdayRSHours").val(),
-    inputthursdayRSHours: $("#inputthursdayRSHours").val(),
-    inputfridayRSHours: $("#inputfridayRSHours").val(),
-    inputSaturdayRSHours: $("#inputSaturdayRSHours").val(),
+    inputsundayRSHours: $("#inputsundayRSHours").val() || 0,
+    inputmondayRSHours: $("#inputmondayRSHours").val() || 0,
+    inputtuesdayRSHours: $("#inputtuesdayRSHours").val() || 0,
+    inputwednesdayRSHours: $("#inputwednesdayRSHours").val() || 0,
+    inputthursdayRSHours: $("#inputthursdayRSHours").val() || 0,
+    inputfridayRSHours: $("#inputfridayRSHours").val() || 0,
+    inputsaturdayRSHours: $("#inputsaturdayRSHours").val() || 0,
   };
   $.ajax({
     type: 'POST',
-    url: dummyCallURL,
+    url: syncDataURL + "?page=location",
     dataType: "json",
     data: data,
     beforeSend: function (xhr) {
@@ -191,9 +218,14 @@ $('#locationAddButton').on('click', function (e) {
     },
     success: result => {
       console.log(result);
-      deleteCookie('locationInfo');
-      setCookie('locationInfo', JSON.stringify(data), 1);
-      window.location.href = windowLocation.origin + '/leavereason';
+      if (result.status === false) {
+        $("#errMsg").html(result.error.message);
+      } else {
+        deleteCookie('locationInfo');
+        setCookie('locationInfo', JSON.stringify(data), 1);
+        window.location.href = windowLocation.origin + '/leavereason';
+      }
+
     },
     error: result => {
       console.log(result)
@@ -203,16 +235,12 @@ $('#locationAddButton').on('click', function (e) {
 
 $('#leaveReasonAddButton').on('click', function (e) {
   let radioValue = $("input[name='gridRadios']:checked").val();
-  console.log(radioValue)
-  // debugger;
-  // alert(radioValue)
   let data = {
     leaveReason: radioValue,
   };
-
   $.ajax({
     type: 'POST',
-    url: dummyCallURL,
+    url: syncDataURL,
     dataType: "json",
     data: data,
     beforeSend: function (xhr) {
@@ -245,10 +273,10 @@ $('#leaveReasonAddButton').on('click', function (e) {
 $('#leaveProviderAddButton').on('click', function (e) {
   let type = (getQueryStringValue("type"));
   let data = {
-    familyFirst: $("#inputFirst4").val(),
-    familyLast: $("#inputLast4").val(),
-    familyMemberDOB: $("#inputFamilyMemberDOB4").val(),
-    familyRelation: $("#inputRelation").val(),
+    familyFirst: $("#inputFirst4").val() || "",
+    familyLast: $("#inputLast4").val() || "",
+    familyMemberDOB: $("#inputFamilyMemberDOB4").val() || "",
+    familyRelation: $("#inputRelation").val() || "",
     inLocoParent: $("#gridCheck").prop('checked'),
     providerName: $("#providerName").val(),
     providerType: $("#providerType").val(),
@@ -258,7 +286,7 @@ $('#leaveProviderAddButton').on('click', function (e) {
   };
   $.ajax({
     type: 'POST',
-    url: dummyCallURL,
+    url: syncDataURL,
     dataType: "json",
     data: data,
     beforeSend: function (xhr) {
@@ -294,7 +322,7 @@ $('#leaveProviderAddButton').on('click', function (e) {
   console.log(data);
   $.ajax({
     type: 'POST',
-    url: dummyCallURL,
+    url: syncDataURL,
     dataType: "json",
     data: data,
     beforeSend: function (xhr) {

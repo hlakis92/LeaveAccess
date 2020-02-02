@@ -40,6 +40,7 @@ let addEmployeeService = async (request) => {
     return {status: false, error: constant.employeeMessages.ERR_IN_ADD_EMPLOYEE};
   }
 };
+
 /**
  * Created By: AV
  * Updated By: AV
@@ -54,7 +55,6 @@ let getAllEmployeeService = async (request) => {
   let firstName = (request.query.firstname || "").toLowerCase();
   let lastName = (request.query.lastname || "").toLowerCase();
   let empId = (request.query.empid || "").toLowerCase();
-  debug("...............................",firstName, lastName, empId)
   let customFilter = {and: []};
   if (firstName !== "") {
     customFilter.and.push({
@@ -90,7 +90,47 @@ let getAllEmployeeService = async (request) => {
   return {status: true, data: getAllEmployeeByCustomFilterResult.content};
 };
 
+/**
+ * Created By: AV
+ * Updated By: AV
+ *
+ * getEmployeeInfoService
+ * @param  {object}  request
+ * @return {object}
+ *
+ */
+let getEmployeeInfoService = async (request) => {
+  debug("employee.service -> getAllEmployeeService");
+  let empId = request.query.empId;
+  let getEmployeeInfoResult = await employeeDAL.getEmployeeInfoByEmpId(empId);
+  if (getEmployeeInfoResult.status === false || getEmployeeInfoResult.length === 0) {
+    return {status: false, error: constant.employeeMessages.ERR_EMPLOYEE_NOT_FOUND}
+  }
+  return {status: true, data: getEmployeeInfoResult.content[0]};
+};
+
+/**
+ * Created By: AV
+ * Updated By: AV
+ *
+ * getEmployeeLocationInfoService
+ * @param  {object}  request
+ * @return {object}
+ *
+ */
+let getEmployeeLocationInfoService = async (request) => {
+  debug("employee.service -> getEmployeeLocationInfoService");
+  let empId = request.query.empId;
+  let getEmployeeLocationInfoResult = await employeeDAL.getEmployeeLocationInfoByEmpId(empId);
+  if (getEmployeeLocationInfoResult.status === false || getEmployeeLocationInfoResult.length === 0) {
+    return {status: false, error: constant.employeeMessages.ERR_EMPLOYEE_NOT_FOUND}
+  }
+  return {status: true, data: getEmployeeLocationInfoResult.content[0]};
+};
+
 module.exports = {
   addEmployeeService: addEmployeeService,
-  getAllEmployeeService: getAllEmployeeService
+  getAllEmployeeService: getAllEmployeeService,
+  getEmployeeInfoService: getEmployeeInfoService,
+  getEmployeeLocationInfoService: getEmployeeLocationInfoService,
 };

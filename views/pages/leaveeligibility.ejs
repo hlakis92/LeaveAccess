@@ -193,6 +193,10 @@
             </div>
         </div>
     </div>
+    <h2 style="display:none;" id="employeeInfoDiv"><%= employeeInfo %></h2>
+    <h2 style="display:none;" id="employeeLocationInfoDiv"><%= employeeLocationInfo %></h2>
+    <h2 style="display:none;" id="employeeLeaveProviderInfoDiv"><%= employeeLeaveProviderInfo %></h2>
+    <h2 style="display:none;" id="employeeLeaveEligibilityInfoDiv"><%= employeeLeaveEligibilityInfo %></h2>
 </div>
 </body>
 <% include ../partials/footer %>
@@ -224,21 +228,56 @@
     '        </div>';
   $(document).ready(function () {
     let leaveEligibilityList = getCookie('leaveEligibilityList');
-    // console.log(leaveEligibilityList)
+
+    let employeeInfo = $("#employeeInfoDiv").html();
+    if (employeeInfo !== "") {
+      setCookie('employeeInfo', (employeeInfo), 1);
+    }
+    let locationInfo = $("#employeeLocationInfoDiv").html();
+    if (locationInfo !== "") {
+      setCookie('locationInfo', (locationInfo), 1);
+    }
+
+    let leaveProviderInfo = $("#employeeLeaveProviderInfoDiv").html();
+    if (leaveProviderInfo !== "") {
+      let leaveReasonInfoData = {
+        leaveReason: JSON.parse(leaveProviderInfo)['leaveReason'],
+      };
+      let leaveTypeInfoData = {
+        startDate: JSON.parse(leaveProviderInfo)['startDate'],
+        endDate: JSON.parse(leaveProviderInfo)['endDate'],
+        leaveType: JSON.parse(leaveProviderInfo)['leaveType'],
+      };
+      setCookie('leaveReasonInfo', JSON.stringify(leaveReasonInfoData), 1);
+      setCookie('leaveTypeInfo', JSON.stringify(leaveTypeInfoData), 1);
+      setCookie('leaveProviderInfo', (leaveProviderInfo), 1);
+    }
+    if (leaveEligibilityList === '' || leaveEligibilityList === undefined || getQueryString('empId') > 0) {
+      leaveEligibilityList = $("#employeeLeaveEligibilityInfoDiv").html();
+      setCookie('leaveEligibilityList', (leaveEligibilityList), 1);
+    }
+
     if (leaveEligibilityList !== '' && leaveEligibilityList !== undefined) {
       leaveEligibilityList = JSON.parse(leaveEligibilityList)
       // console.log(leaveEligibilityList)
       leaveEligibilityList.forEach(data => {
         let eligibilityText = '';
+        if(typeof (data.eligibilityData) === 'string'){
+          data.eligibilityData = JSON.parse(data.eligibilityData);
+        }
+        if (data['eligible'] === undefined){
+          data['eligible'] = 1;
+        }
         (data.eligibilityData).forEach(d => {
           if (d.value === 'met') {
             eligibilityText += generatingTemplate(selectTemplateMet, d);
           } else {
+            data['eligible'] = 0;
             eligibilityText += generatingTemplate(selectTemplateNotMet, d);
           }
         });
         data['eligibilityText'] = eligibilityText;
-        console.log(data);
+        // console.log(data);
         data['from_date_format'] = d3.time.format("%m/%d/%Y")(new Date(data['from_date']));
         data['to_date_format'] = d3.time.format("%m/%d/%Y")(new Date(data['to_date']));
 
@@ -250,32 +289,15 @@
           $('#notEligibleTable').append(templateData);
 
         }
-
-        /*if (data['eligibility'].hasOwnProperty('hours') === true
-          && data['eligibility']['hours'] === 'met') {
-          $('#hoursSelect').val('met');
-          // console.log('...................')
-
-        } else if (data['eligibility'].hasOwnProperty('hours') === false) {
-          $('#hoursDiv').remove();
-        }
-        if (data['eligibility'].hasOwnProperty('month') === true
-          && data['eligibility']['month'] === 'met') {
-          $('#monthSelect').val('met');
-          // console.log('...................')
-
-        } else if (data['eligibility'].hasOwnProperty('month') === false) {
-          $('#monthDiv').remove();
-        }*/
       })
     }
-    $('select').on('change', function() {
+    $('select').on('change', function () {
       // alert( this.value );
 
-      if(this.value==="not met"){
+      if (this.value === "not met") {
         $('#notEligibleTable').append($(this).parent().parent().parent())
       }
-      if(this.value==="met") {
+      if (this.value === "met") {
         console.log($(this).parent().parent())
         // console.log($(this).parent().parent().childList());
         var selecteditems = [];
@@ -285,7 +307,7 @@
         });
         const uniqueValue = [...new Set(selecteditems)]
         // console.log(uniqueValue,uniqueValue.length);
-        if(uniqueValue.length==1){
+        if (uniqueValue.length == 1) {
           $('#eligibleTable').append($(this).parent().parent().parent())
         }
       }

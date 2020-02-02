@@ -91,6 +91,31 @@ let editLeaveDecision = async (request, response) => {
   return response.send(result);
 };
 
+/**
+ * Created By: AV
+ * Updated By: AV
+ *
+ *
+ * @param  {object} request
+ * @param  {object} response
+ * @return {object}
+ */
+let syncData = async (request, response) => {
+  debug("leave.controller -> syncData");
+  debug(request.body);
+  let page = request.query.page;
+  if (page === 'location') {
+    let result = await leaveService.checkEmployeeExistOrNotService(request);
+    return response.send(result);
+  } else {
+    return response.send({
+      status: true,
+      data: {}
+    });
+  }
+
+};
+
 module.exports = {
   // addEmployee: addEmployee,
   checkLeaveEligibility: checkLeaveEligibility,
@@ -99,4 +124,5 @@ module.exports = {
   getEmployeeLeaveSummary: getEmployeeLeaveSummary,
   getEmployeeLeaveClaimInfo: getEmployeeLeaveClaimInfo,
   editLeaveDecision: editLeaveDecision,
+  syncData: syncData
 };

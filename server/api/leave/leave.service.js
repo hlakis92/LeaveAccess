@@ -40,27 +40,40 @@ let addAllDataService = async (request) => {
   debug("leave.service -> addAllDataService");
   let data = common.cloneObject(request.body);
   debug("all data", common.cloneObject(data));
+
   let employeeInfo = common.cloneObject(data['employeeInfo']);
   let locationInfo = common.cloneObject(data['locationInfo']);
   let leaveReasonInfo = common.cloneObject(data['leaveReasonInfo']);
   let leaveProviderInfo = common.cloneObject(data['leaveProviderInfo']);
   let leaveTypeInfo = common.cloneObject(data['leaveTypeInfo']);
   let leaveEligibilityList = common.cloneObject(data['leaveEligibilityList']);
+  let empId = JSON.parse(data['employeeInfo'])['empId'] || 0;
+  let locationId = JSON.parse(data['locationInfo'])['empId'] || 0;
+  let leaveInfoId = JSON.parse(leaveProviderInfo)['leave_info_id'] || 0;
+  if (empId === 0) {
+    let employeeInfoResult = await leaveDAL.addEmployeeDetail(employeeInfo);
 
-  let employeeInfoResult = await leaveDAL.addEmployeeDetail(employeeInfo);
-  let empId;
-  if (employeeInfoResult.status === true) {
-    empId = employeeInfoResult.content['insertId']
+    if (employeeInfoResult.status === true) {
+      empId = employeeInfoResult.content['insertId'];
+    }
+    let locationId;
+    let locationInfoResult = await leaveDAL.addLocationDetail(locationInfo, empId);
+    if (employeeInfoResult.status === true) {
+      locationId = locationInfoResult.content['insertId'];
+    }
+    if (locationId !== undefined) {
+      await leaveDAL.addEmployeeWorkSchedule(empId,locationId,locationInfo);
+    }
   }
-  let locationInfoResult = await leaveDAL.addLocationDetail(locationInfo, empId);
-  let leaveInfoResult = await leaveDAL.addLeaveInfo(leaveReasonInfo, leaveProviderInfo, leaveTypeInfo, empId);
-  let leaveInfoId;
-  if (leaveInfoResult.status === true) {
-    leaveInfoId = leaveInfoResult.content['insertId']
+  if (leaveInfoId === 0) {
+    let leaveInfoResult = await leaveDAL.addLeaveInfo(leaveReasonInfo, leaveProviderInfo, leaveTypeInfo, empId);
+    if (leaveInfoResult.status === true) {
+      leaveInfoId = leaveInfoResult.content['insertId']
+    }
+    let addLeaveResult = await leaveDAL.addEmployeeLeave(leaveEligibilityList, empId, leaveInfoId);
+    debug("employeeInfoResult", empId);
   }
 
-  let addLeaveResult = await leaveDAL.addEmployeeLeave(leaveEligibilityList, empId, leaveInfoId);
-  debug("employeeInfoResult", empId);
   return {status: true, data: {}}
 };
 
@@ -82,7 +95,7 @@ let getEmployeeLeaveService = async (request) => {
   } else {
     return {status: false, error: {}}
   }
-}
+};
 
 /**
  * Created By: AV
@@ -193,6 +206,105 @@ let editLeaveDecisionService = async (request) => {
   return {status: true, data: {}};
 };
 
+/**
+ * Created By: AV
+ * Updated By: AV
+ *
+ * checkEmployeeExistOrNotService
+ * @param  {object}  request
+ * @return {object}
+ *
+ */
+let checkEmployeeExistOrNotService = async (request) => {
+  debug("leave.service -> checkEmployeeExistOrNotService");
+  let data = common.cloneObject(request.body);
+  let employeeId = data.employeeId;
+  let empId = data.empId;
+  debug("............................", empId)
+  if (empId > 0) {
+    return {
+      status: true,
+      data: {}
+    };
+  }
+  let result = await leaveDAL.checkEmployeeExistOrNotByEmployeeId(employeeId);
+  if (result.status === true && result.content.length > 0) {
+    return {
+      status: false,
+      error: constant.leaveMessages.ERR_IN_EMPLOYEE_ID_ALREADY_EXIST
+    };
+  } else {
+    return {
+      status: true,
+      data: {}
+    };
+  }
+};
+
+/**
+ * Created By: AV
+ * Updated By: AV
+ *
+ * leaveCloseService
+ * @param  {object}  request
+ * @return {object}
+ *
+ */
+let leaveCloseService = async (request) => {
+  debug("leave.service -> leaveCloseService");
+  let leaveInfoId = request.params.claimNumber;
+  let result = await leaveDAL.leaveCloseByLeaveInfoId(leaveInfoId);
+  return {
+    status: true,
+    data: {}
+  };
+};
+
+/**
+ * Created By: AV
+ * Updated By: AV
+ *
+ * getEmployeeLeaveProviderService
+ * @param  {object}  request
+ * @return {object}
+ *
+ */
+let getEmployeeLeaveProviderService = async (request) => {
+  debug("leave.service -> getEmployeeLeaveProviderService");
+  let leaveInfoId = request.query.claimNumber;
+  let result = await leaveDAL.getEmployeeLeaveProviderByLeaveInfoId(leaveInfoId);
+  return {
+    status: true,
+    data: result.content[0]
+  };
+};
+
+/**
+ * Created By: AV
+ * Updated By: AV
+ *
+ * getEmployeeLeaveEligibilityService
+ * @param  {object}  request
+ * @return {object}
+ *
+ */
+let getEmployeeLeaveEligibilityService = async (request) => {
+  debug("leave.service -> getEmployeeLeaveEligibilityService");
+  let leaveInfoId = request.query.claimNumber;
+  let result = await leaveDAL.getEmployeeLeaveEligibilityByLeaveInfoId(leaveInfoId);
+  return {
+    status: true,
+    data: result.content
+  };
+};
+
+
+/*a();
+
+async function a() {
+  let result = await leaveDAL.getEmployeeLeaveEligibilityByLeaveInfoId(100004);
+  debug(result)
+}*/
 
 module.exports = {
   checkLeaveEligibilityService: checkLeaveEligibilityService,
@@ -201,4 +313,8 @@ module.exports = {
   getEmployeeLeaveSummaryService: getEmployeeLeaveSummaryService,
   getEmployeeLeaveClaimInfoService: getEmployeeLeaveClaimInfoService,
   editLeaveDecisionService: editLeaveDecisionService,
+  checkEmployeeExistOrNotService: checkEmployeeExistOrNotService,
+  leaveCloseService: leaveCloseService,
+  getEmployeeLeaveProviderService: getEmployeeLeaveProviderService,
+  getEmployeeLeaveEligibilityService: getEmployeeLeaveEligibilityService,
 };

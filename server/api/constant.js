@@ -1,6 +1,6 @@
 let applicationConfiguration = {
   "APPLICATION_API_KEY": ["1", "b2236bde3ffbe7b27f425ae889ca1e08"], // local and 2.16
-  "MAX_ACCESS_TOKEN_EXPIRY_HOURS": 720, // 30 days
+  "MAX_ACCESS_TOKEN_EXPIRY_HOURS": 24, // 1 days
   "PAGE_SIZE": 10, //
   "API_START_PATH": '/api/',
   "DB_DATE_FORMAT_DOB": '%Y-%m-%d',
@@ -35,11 +35,11 @@ let requestMessages = {
   },
   'ERR_INVALID_SIGNUP_REQUEST': {
     code: 2005,
-    message: 'invalid signup request'
+    message: 'Invalid signup request'
   },
   'ERR_INVALID_ADD_EMPLOYEE_REQUEST': {
     code: 2006,
-    message: 'invalid add employee request'
+    message: 'Invalid add employee request'
   },
 };
 
@@ -50,23 +50,86 @@ let userMessages = {
   },
   MSG_SIGNIN_SUCCESSFULLY: {
     code: 2002,
-    message: 'signin successfully.'
+    message: 'Signin successfully.'
+  },
+  NO_RECORD_FOUND: {
+    code: 2003,
+    message: 'No Record Found.'
+  },
+  USER_ADDDED: {
+    code: 2004,
+    message: 'User has been added successfully.'
+  },
+  USER_UPDATED: {
+    code: 2005,
+    message: 'User has been updated successfully.'
+  },
+  USER_DELETED: {
+    code: 2006,
+    message: 'User has been deleted successfully.'
+  }, 
+  USER_ERROR: {
+    code: 2007,
+    message: 'User module error.'
+  },
+  USER_ALREADY_EXIST: {
+    code: 2008,
+    message: 'User already exist!'
+  },
+};
+
+
+let taskMessages = {
+  NO_RECORD_FOUND: {
+    code: 2001,
+    message: 'No Record Found.'
+  },
+  TASK_ADDDED: {
+    code: 2002,
+    message: 'Task has been added successfully.'
+  },
+  TASK_UPDATED: {
+    code: 2003,
+    message: 'Task has been updated successfully.'
+  },
+  TASK_DELETED: {
+    code: 2004,
+    message: 'Task has been deleted successfully.'
+  }, 
+  TASK_ERROR: {
+    code: 2005,
+    message: 'Task module error.'
+  },
+  NOTES_ADDDED: {
+    code: 2002,
+    message: 'Notes has been added successfully.'
+  },
+  NOTES_ERROR: {
+    code: 2005,
+    message: 'Notes module error.'
   },
 };
 
 let employeeMessages = {
   ERR_IN_ADD_EMPLOYEE: {
     code: 3001,
-    message: 'error while adding employee.'
+    message: 'Error while adding employee.'
   },
   MSG_ADD_EMPLOYEE_SUCCESSFULLY: {
     code: 3002,
-    message: 'employee added successfully.'
+    message: 'Employee has been added successfully.'
   },
   ERR_EMPLOYEE_NOT_FOUND:{
     code: 3003,
-    message: 'employees not found.'
+    message: 'Employees does not found.'
   }
+};
+
+let leaveMessages = {
+  ERR_IN_EMPLOYEE_ID_ALREADY_EXIST: {
+    code: 4001,
+    message: 'Employee ID already exist.'
+  },
 };
 
 module.exports = {
@@ -74,4 +137,6 @@ module.exports = {
   requestMessages: requestMessages,
   userMessages: userMessages,
   employeeMessages: employeeMessages,
+  leaveMessages: leaveMessages,
+  taskMessages: taskMessages,
 };

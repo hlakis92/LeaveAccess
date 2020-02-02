@@ -1,5 +1,7 @@
 var express = require('express');
 var router = express.Router();
+let middleware = require('./../server/middleware')
+let common = require('./../server/api/common');
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -7,15 +9,28 @@ router.get('/', function (req, res, next) {
   res.render('login', {title: 'LAM'});
 });
 
-router.get('/dashboard', function (req, res, next) {
+// router.get('/dashboard', function (req, res, next) {
+//   // res.send('respond with a resource');
+//   res.status(200);
+//   res.render('pages/searchleave', {title: 'LAM'});
+// });
+
+router.get('/employee', middleware.checkAccessToken, async function (req, res, next) {
   // res.send('respond with a resource');
   res.status(200);
-  res.render('pages/searchleave', {title: 'LAM'});
-});
-router.get('/employee', function (req, res, next) {
-  // res.send('respond with a resource');
-  res.status(200);
-  res.render('pages/employee', {title: 'LAM'});
+  let empId = req.query.empId;
+  if (empId !== undefined) {
+    let employeeService = require('./../server/api/employee/employee.service');
+    let employeeInfoResult = await employeeService.getEmployeeInfoService(req);
+    // let employeeLocationInfoResult = await employeeService.getEmployeeLocationInfoService(req);
+    res.render('pages/employee', {
+      title: 'LAM',
+      employeeInfo: JSON.stringify(employeeInfoResult.data),
+    });
+  } else {
+    res.render('pages/employee', {title: 'LAM', employeeInfo: undefined});
+  }
+  // res.render('pages/employee', {title: 'LAM'});
 });
 
 router.get('/search', function (req, res, next) {
@@ -24,21 +39,72 @@ router.get('/search', function (req, res, next) {
   res.render('pages/search', {title: 'LAM'});
 });
 
-router.get('/location', function (req, res, next) {
+router.get('/location', async function (req, res, next) {
   // res.send('respond with a resource');
   res.status(200);
-  res.render('pages/location', {title: 'LAM'});
+  let empId = req.query.empId;
+  if (empId !== undefined) {
+    let employeeService = require('./../server/api/employee/employee.service');
+    let employeeInfoResult = await employeeService.getEmployeeInfoService(req);
+    let employeeLocationInfoResult = await employeeService.getEmployeeLocationInfoService(req);
+    res.render('pages/location', {
+      title: 'LAM',
+      employeeInfo: JSON.stringify(employeeInfoResult.data),
+      employeeLocationInfo: JSON.stringify(employeeLocationInfoResult.data),
+    });
+  } else {
+    res.render('pages/location', {title: 'LAM', employeeInfo: undefined, employeeLocationInfo: undefined});
+  }
 });
 
-router.get('/leavereason', function (req, res, next) {
+router.get('/leavereason', async function (req, res, next) {
   res.status(200);
-  res.render('pages/leavereason', {title: 'LAM'});
+  let empId = req.query.empId;
+  if (empId !== undefined) {
+    let employeeService = require('./../server/api/employee/employee.service');
+    let employeeInfoResult = await employeeService.getEmployeeInfoService(req);
+    let employeeLocationInfoResult = await employeeService.getEmployeeLocationInfoService(req);
+    res.render('pages/leavereason', {
+      title: 'LAM',
+      employeeInfo: JSON.stringify(employeeInfoResult.data),
+      employeeLocationInfo: JSON.stringify(employeeLocationInfoResult.data),
+    });
+  } else {
+    res.render('pages/leavereason', {title: 'LAM', employeeInfo: undefined, employeeLocationInfo: undefined});
+  }
 });
 
-router.get('/leaveprovider', function (req, res, next) {
-  res.status(200);
-  let type = req.query.type || 1;
-  res.render('pages/leaveprovider', {title: 'LAM', type: type});
+router.get('/leaveprovider', async (request, response, next) => {
+  response.status(200);
+  let type = request.query.type || 1;
+  let empId = request.query.empId;
+  let claimNumber = request.query.claimNumber;
+  if (empId !== undefined) {
+    let employeeService = require('./../server/api/employee/employee.service');
+    let leaveService = require('./../server/api/leave/leave.service');
+    let employeeInfoResult = await employeeService.getEmployeeInfoService(request);
+    let employeeLocationInfoResult = await employeeService.getEmployeeLocationInfoService(request);
+    let employeeLeaveProviderInfoResult = await leaveService.getEmployeeLeaveProviderService(request);
+    let type = 1;
+    if (employeeLeaveProviderInfoResult.data['leaveReason'] === 'Employees Own Health Condition') {
+      type = 0
+    }
+    response.render('pages/leaveprovider', {
+      title: 'LAM',
+      type: type,
+      employeeInfo: JSON.stringify(employeeInfoResult.data),
+      employeeLocationInfo: JSON.stringify(employeeLocationInfoResult.data),
+      employeeLeaveProviderInfo: JSON.stringify(employeeLeaveProviderInfoResult.data),
+    });
+  } else {
+    response.render('pages/leaveprovider', {
+      title: 'LAM',
+      type: type,
+      employeeInfo: undefined,
+      employeeLocationInfo: undefined,
+      employeeLeaveProviderInfo: undefined
+    });
+  }
 });
 
 router.get('/leavetype', function (req, res, next) {
@@ -46,19 +112,51 @@ router.get('/leavetype', function (req, res, next) {
   res.render('pages/leavetype', {title: 'LAM'});
 });
 
-router.get('/leaveeligibility', function (req, res, next) {
-  res.status(200);
-  console.log("......................render.....", req.co);
+router.get('/leaveeligibility', async (request, response, next) => {
+  response.status(200);
+  let type = 1;
+  let empId = request.query.empId;
+  let claimNumber = request.query.claimNumber;
+  if (empId !== undefined) {
+    let employeeService = require('./../server/api/employee/employee.service');
+    let leaveService = require('./../server/api/leave/leave.service');
+    let employeeInfoResult = await employeeService.getEmployeeInfoService(request);
+    let employeeLocationInfoResult = await employeeService.getEmployeeLocationInfoService(request);
+    let employeeLeaveProviderInfoResult = await leaveService.getEmployeeLeaveProviderService(request);
+    // let employeeLeaveTypeInfoResult = await leaveService.getEmployeeLeaveEligibilityService(request);
+    let employeeLeaveEligibilityInfoResult = await leaveService.getEmployeeLeaveEligibilityService(request);
 
-  res.render('pages/leaveeligibility', {title: 'LAM'});
+    if (employeeLeaveProviderInfoResult.data['leaveReason'] === 'Employees Own Health Condition') {
+      type = 0
+    }
+    response.render('pages/leaveeligibility', {
+      title: 'LAM',
+      type: type,
+      employeeInfo: JSON.stringify(employeeInfoResult.data),
+      employeeLocationInfo: JSON.stringify(employeeLocationInfoResult.data),
+      employeeLeaveProviderInfo: JSON.stringify(employeeLeaveProviderInfoResult.data),
+      employeeLeaveEligibilityInfo: JSON.stringify(employeeLeaveEligibilityInfoResult.data),
+    });
+  } else {
+    response.render('pages/leaveeligibility', {
+      title: 'LAM',
+      type: type,
+      employeeInfo: undefined,
+      employeeLocationInfo: undefined,
+      employeeLeaveProviderInfo: undefined,
+      employeeLeaveEligibilityInfo: undefined,
+    });
+  }
+  // res.render('pages/leaveeligibility', {title: 'LAM'});
 });
-router.get('/d', function (req, res, next) {
+
+/*router.get('/d', function (req, res, next) {
   // res.send('respond with a resource');
   res.status(200);
   res.render('pages/dashboard', {title: 'LAM'});
-});
+});*/
 
-router.get('/searchemployee', function (req, res, next) {
+router.get('/searchemployee', middleware.checkAccessToken, function (req, res, next) {
   // res.send('respond with a resource');
   res.status(200);
   res.render('pages/searchemployee', {title: 'searchemployee'});
@@ -95,6 +193,13 @@ router.get('/leavesummary/:empId', async function (req, res, next) {
 router.get('/claimcontinuous/:claimNumber', async function (req, res, next) {
   let leaveService = require('./../server/api/leave/leave.service');
   let employeeLeaveClaimInfoResult = await leaveService.getEmployeeLeaveClaimInfoService(req);
+
+  //Get Manager Data.
+  let userService = require('./../server/api/user/user.service');
+  let getManager = await userService.getManagerService(req);
+
+  getManagerData = getManager.data;
+  
   // let common = require('./../server/api/common');
   let employeeLeaveClaimInfoData, planMaximumDuration, planStatus;
 
@@ -106,12 +211,12 @@ router.get('/claimcontinuous/:claimNumber', async function (req, res, next) {
   } else {
 
   }
-  console.log(employeeLeaveClaimInfoData)
   res.render('pages/claimcontinuous', {
     title: 'Leave Overview',
     employeeLeaveClaimInfoData: employeeLeaveClaimInfoData,
     planMaximumDuration: planMaximumDuration,
     planStatus: planStatus,
+    getManagerData: getManagerData,
   });
 });
 
@@ -172,7 +277,6 @@ router.get('/decision/:claimNumber', async function (req, res, next) {
   } else {
 
   }
-
   res.render('pages/decision', {
     title: 'Leave Overview',
     employeeLeaveClaimInfoData: employeeLeaveClaimInfoData,
@@ -182,13 +286,12 @@ router.get('/decision/:claimNumber', async function (req, res, next) {
   });
 });
 
+router.get('/closeLeave/:claimNumber', async function (req, res, next) {
+  let leaveService = require('./../server/api/leave/leave.service');
+  let employeeLeaveClaimInfoResult = await leaveService.leaveCloseService(req);
+  let claimNumber = req.params.claimNumber;
+  res.redirect('/claimcontinuous/' + claimNumber);
+});
+
+
 module.exports = router;
-
-
-// http://127.0.0.1:3000/cliamintermittent/100001
-// http://127.0.0.1:3000/claimintermittent/100001
-// http://127.0.0.1:3000/claimintermittent/100001
-// http://127.0.0.1:3000/claimintermittent/100001
-
-// http://127.0.0.1:3000/cliamintermittent/100001
-// http://127.0.0.1:3000/claimintermittent/100001

@@ -6,6 +6,8 @@
 
 </head>
 <body>
+<input type="hidden" name="empId" id="empId" value="<%= employeeLeaveClaimInfoData.emp_id %>">
+<input type="hidden" name="leaveInfoId" id="leaveInfoId" value="<%= employeeLeaveClaimInfoData.leave_info_id %>">
 
 <div class="container">
 <% include ../partials/topnav %>
@@ -20,19 +22,24 @@
                     <a href="#">Manual Letters</a>
                 </p>
                 <p>
-                    <a href="#">Provider Information</a>
+                    <a href="/leaveprovider?type=1&empId=<%= employeeLeaveClaimInfoData.emp_id %>&claimNumber=<%= employeeLeaveClaimInfoData.leave_info_id %>">
+                        Provider Information
+                    </a>
                 </p>
                 <p>
                     <a href="/decision/<%= employeeLeaveClaimInfoData.leave_info_id %>">Decision</a>
                 </p>
                 <p>
-                    <a href="#">Eligibility Requirements</a>
+                    <a href="/leaveeligibility?empId=<%= employeeLeaveClaimInfoData.emp_id %>&claimNumber=<%= employeeLeaveClaimInfoData.leave_info_id %>">
+                        Eligibility Requirements
+                    </a>
+<!--                    <a href="#">Eligibility Requirements</a>-->
                 </p>
                 <p>
                     <a href="../Ancillary/leaveChronologyFamilyMember.html">Leave Chronology</a>
                 </p>
                 <p>
-                    <a href="#">Close Leave</a>
+                    <a href="/closeLeave/<%= employeeLeaveClaimInfoData.leave_info_id %>">Close Leave</a>
                 </p>
             </div>
             <div class="col-sm-8 text-left well">
@@ -54,8 +61,7 @@
                         <th id="leavePlan">State/FMLA Plan</th>
                         <th id="leaveNotes">
                             <!-- Trigger the Task modal with a button -->
-                            <button type="button" class="btn btn-info btn-md" class="outputTask" data-toggle="modal"
-                                    data-target="#noteModal" data-spy="scroll">
+                            <button type="button" class="btn btn-info btn-md" class="outputTask" id="notesList"  data-toggle="modal" data-target="#noteModal" data-spy="scroll">
                                 <i class="fa fa-sticky-note" aria-hidden="true"></i> Notes</i>
 
                             </button>
@@ -76,39 +82,8 @@
                                                         class="fa fa-sticky-note" aria-hidden="true"
                                                         style="margin-left: 0%;"></i>New Note</i></a>
                                         </div>
-                                        <div class="modal-body" style="font-size: small; font-weight: normal ;">
-
-                                            <p style="color: blue;">Hassan Lakis 06/30/2019</p>
-                                            <p>Employee called and requested that paperwork be faxed to doctor</p>
-                                            <p
-                                                    style="font-size: small; color: rgba(0, 0, 255, 0.789); float: right;">
-                                                Edit note</p>
-                                            <br>
-                                            <hr class="noteLines">
-
-                                            <p style="color: blue;">Emilee Smith 06/29/2019</p>
-                                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat iure
-                                                tempora,
-                                                magni ipsum ipsa nesciunt reiciendis suscipit beatae porro quae iste
-                                                eius cumque sapiente placeat,
-                                                voluptatibus quis vero excepturi. Eum.</p>
-                                            <p
-                                                    style="font-size: small; color: rgba(0, 0, 255, 0.789); float: right;">
-                                                view note</p>
-                                            <br>
-                                            <hr class="noteLines">
-
-                                            <p style="color: blue;">Carrie Joe 06/29/2019</p>
-                                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat iure
-                                                tempora,
-                                                magni ipsum ipsa nesciunt reiciendis suscipit beatae porro quae iste
-                                                eius cumque sapiente placeat,
-                                                voluptatibus quis vero excepturi. Eum.</p>
-                                            <p
-                                                    style="font-size: small; color: rgba(0, 0, 255, 0.789); float: right;">
-                                                view note</p>
-                                            <br>
-                                            <hr class="noteLines">
+                                        <div id="loadnotes" class="modal-body" style="font-size: small; font-weight: normal ;">
+                                            
 
                                         </div>
                                         <div class="modal-footer">
@@ -125,27 +100,25 @@
                             <!-- Modal -->
                             <div class="modal fade" id="newNoteModal2" role="dialog">
                                 <div class="modal-dialog">
-
+                                    <form>
                                     <!-- Modal content-->
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <button type="button" class="close"
-                                                    data-dismiss="modal">&times;</button>
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
                                             <h4 class="modal-title">Create A New Note</h4>
                                         </div>
-                                        <div class="form-group">
+                                        <div class="modal-body form-group">
                                             <label for="FormControlTextarea1">Note Information</label>
-                                            <textarea class="form-control" id="exampleFormControlTextarea1"
-                                                      rows="4"> </textarea>
+                                            <textarea class="form-control" id="notes" id="notes" rows="4"> </textarea>
                                         </div>
 
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-default"
                                                     data-dismiss="modal">Close</button>
-                                            <button type="sumbmit" class="btn btn-success"
-                                                    data-dismiss="modal">Save</button>
+                                            <button type="button" id="createNoteBtn" class="btn btn-primary">Save</button>
                                         </div>
                                     </div>
+                                    </form>
                                 </div>
                             </div>
             </div>
@@ -154,7 +127,7 @@
             <!-- Modal -->
             <div class="modal fade" id="myModal" role="dialog">
                 <div class="modal-dialog">
-                    <p id="employeeStatus">Status:Active</p>
+                    <!-- <p id="employeeStatus">Status:Active</p> -->
 
                     <!-- Modal content-->
                     <div class="modal-content">
@@ -165,24 +138,25 @@
                         </div>
 
                         <div class="modal-body">
+                            <form>
                             <div class="row">
                                 <div class="col-md-6">
 
-                                    <div id="pickManager">
-                                        <form action="">
-                                            <select name="managers" required>
-                                                <option value="All">All Claim Manager</option>
-                                                <option value="Hassan">Hassan</option>
-                                                <option value="Hassan">Emilee</option>
-                                                <option value="Hassan">Carrie</option>
+                                    <div id="pickManager">                                       
+                                            <select name="userId" id="task_userId" required>
+                                                <option value="">All Claim Manager</option>
+                                                 <% getManagerData.forEach(function(data) { %> 
+                                                 <option value="<%= data.userId %>"><%= data.name %></option>
+                                                 <% }); %>
+                                               
                                             </select>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div>
                                         <label for="start">Task Due Date</label>
-                                        <input class="form-control1 input-sm" type="date" id="start" name="trip"
-                                               value="2018-07-22" min="1990-01-01" max="2088-12-31" />
+                                        <input class="form-control1 input-sm" type="date" id="task_dueDate" name="dueDate"
+                                               value="" min="1990-01-01" max="2088-12-31" required />
                                     </div>
 
                                 </div>
@@ -190,14 +164,14 @@
                             <br> <br>
                             <div class="form-group">
                                 <label for="taskName">Task Name</label>
-                                <input type="text" class="form-control" id="taskName" placeholder="Write Task Name">
+                                <input type="text" class="form-control" id="task_taskName" name="tastName" placeholder="Write Task Name" required>
                             </div>
 
 
                             <div class="form-group">
 
                                 <label for="FormControlTextarea1">Description </label>
-                                <textarea class="form-control" id="exampleFormControlTextarea1"
+                                <textarea  class="form-control" name="taskDesc" id="task_taskDesc"
                                           rows="4"> </textarea>
                             </div>
 
@@ -205,17 +179,17 @@
                             <!-- Modal Task Completed Check box -->
                             <div class="row taskcheckoff">
                                 <div class="col-md-12">
-                                    <input type="checkbox" class="taskCheckBox">Task Completed</div>
+                                    <input type="checkbox" id="task_status" name="status" value="1" class="taskCheckBox">Task Completed</div>
                             </div>
 
                             <div class="row>">
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-default"
+                                    <button type="button" id="foo" class="btn btn-default"
                                             data-dismiss="modal">Close</button>
-                                    <button type="sumbmit" class="btn btn-default"
-                                            data-dismiss="modal">submit</button>
+                                    <button type="button" id="createTaskBtn" class="btn btn-primary">submit</button>
                                 </div>
                             </div>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -376,7 +350,6 @@
                  <!-- Modal -->
                 <div class="modal fade" id="myModal4" role="dialog">
                     <div class="modal-dialog">
-
                         <!-- Modal content-->
                         <div class="modal-content">
                             <div class="modal-header">
@@ -393,7 +366,6 @@
                                         <option value="Hassan">Carrie</option>
                                     </select>
                             </div>
-
                             <div class="modal-body">
                                 <p>What is the Actual return to work date?</p>
                                 <div>
@@ -530,8 +502,127 @@
 </body>
 <% include ../partials/footer %>
 
-<script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#createTaskBtn').on('click', function (e) {       
+            let userId = $("#task_userId").val();  
+            let dueDate = $("#task_dueDate").val();  
+            let taskName = $("#task_taskName").val();  
+            let taskDesc = $("#task_taskDesc").val();
+            
+            let leaveInfoId = $('#leaveInfoId').val();
+            let empId = $('#empId').val();
+            let status = 0;
+            if ($('#task_status').prop('checked')==true){ 
+                status = 1;  
+            }
+            
+            if(userId == '')
+            {
+                alert_message('Please select Manager', 'fail');
+                return false;  
+            }
+            if(taskName == '')
+            {
+                alert_message('Please enter Task Name', 'fail');
+                return false;  
+            }
+       
+            e.preventDefault();
+            $.ajax({
+                type: 'post',
+                url:  getTaskURL+'/addtask',
+                data: { "taskName": taskName, "userId": userId, "dueDate": dueDate, "taskDesc": taskDesc, "status": status, "leaveInfoId": leaveInfoId, "empId":empId },
+                success: result => {
+                //alert_message(result.data.message, 'success');
+                    if(result.status === true){
+                        alert_message(result.data.message, 'success'); 
+                        $("#myModal").modal("hide");
+                        $('.modal-backdrop').css('display', 'none');
+                        // window.location.href = windowLocation.origin + '/claimcontinuous/'+leaveInfoId;
+                    }
+                    else
+                    {
+                        alert_message(result.error.message, 'fail');   
+                    }
 
+                },
+                error: result => {
+                    console.log(result)
+                }
+            });
+        });
 
+        $('#createNoteBtn').on('click', function (e) {
+            let notes = $("#notes").val();
+            let leaveInfoId = $('#leaveInfoId').val();
+            let empId = $('#empId').val();
+            let status = 0;           
+            
+            if(notes == '')
+            {
+                alert_message('Please enter Notes', 'fail');
+                return false;  
+            }
+       
+            e.preventDefault();
+            $.ajax({
+                type: 'post',
+                url:  getTaskURL+'/addnotes',
+                data: { "notes": notes, "leaveInfoId": leaveInfoId, "empId":empId },
+                success: result => {
+                //alert_message(result.data.message, 'success');
+                    if(result.status === true){
+                        alert_message(result.data.message, 'success'); 
+                        $("#newNoteModal2").modal("hide");
+                        //$('.modal-backdrop').css('display', 'none');
+                        // window.location.href = windowLocation.origin + '/claimcontinuous/'+leaveInfoId;
+                    }
+                    else
+                    {
+                        alert_message(result.error.message, 'fail');   
+                    }
+
+                },
+                error: result => {
+                    console.log(result)
+                }
+            });
+        });
+
+          let template = '<p style="color: blue;">{{empName}} {{createdDate}}</p>\n' +
+    '                     <p>{{notes}}</p>\n' +
+    '                     <p style="font-size: small; color: rgba(0, 0, 255, 0.789); float: right;">Edit note</p><br>\n' +
+    '                     <hr class="noteLines">';
+        $('#notesList').click(function(){
+            $.ajax({
+                type: "GET",
+                url: getTaskURL+'/notes',
+                dataType: 'json',
+                success: result => {
+                //alert_message(result.data.message, 'success');
+                    if(result.status === true){
+                        $('#loadnotes').html('');
+                        (result.data).forEach(d => {
+                            $("#loadnotes").append(generatingTemplate(template, d))
+                        });
+                        // update modal content
+                      //  $('#noteModal .modal-body').text(data.someval);
+                        // show modal
+                        $('#noteModal').modal('toggle');
+                        //$('#noteModal').modal('show');
+                    }
+                    else
+                    {
+                        alert_message(result.error.message, 'fail');   
+                    }
+
+                },
+                error: result => {
+                    console.log(result)
+                }
+            });
+        });
+    });
 </script>
 </html>

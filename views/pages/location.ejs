@@ -21,10 +21,12 @@
             <form>
                 <div class="form-row">
                     <!--Employee Identification information and -->
+                    <input type="hidden" id="inputEmpId">
                     <div class="form-group col-md-6">
                         <label for="inputEmployeeId">Employee Identification Number</label>
                         <input type="text" class="form-control" id="inputEmployeeId"
                                placeholder="Employee ID Number" required>
+                        <span id="errMsg" style="color: red"></span>
                     </div>
                     <div class="form-group col-md-6">
                         <label for="inputEmployeeStatus">Employee Status</label>
@@ -74,7 +76,7 @@
                         <div class="form-group col-md-4">
                             <label for="inputState">State</label>
                             <select id="inputState" class="form-control" required>
-                                <option value ="" selected>Choose...</option>
+                                <option value="" selected>Choose...</option>
                                 <option value="Alabama">Alabama</option>
                                 <option value="Arizona">Arizona</option>
                                 <option value="California">California</option>
@@ -147,11 +149,11 @@
                                     </td>
                                     <td>
                                         <input type="text" class="form-control" id="supervisorName"
-                                               placeholder="First and Last Name" >
+                                               placeholder="First and Last Name">
                                     </td>
                                     <td>
                                         <input type="email" class="form-control" id="supervisorEmail"
-                                               placeholder="Email" >
+                                               placeholder="Email">
                                     </td>
                                 </tr>
 
@@ -206,30 +208,44 @@
                                     <tr id="WorkSched">
                                         <label for="inputWorkSched">Enter Work Schedule</label>
 
-                                        <td id="sundayRSHours"><input type="number" class="form-control"
-                                                                      id="inputsundayRSHours" placeholder="0" required>
+                                        <td id="sundayRSHours">
+                                            <input type="number" class="form-control"
+                                                   min="0" max="24"
+                                                   id="inputsundayRSHours" placeholder="0" required>
                                         </td>
-                                        <td id="mondayRSHours"><input type="number" class="form-control"
-                                                                      id="inputmondayRSHours" placeholder="0" required>
+                                        <td id="mondayRSHours">
+                                            <input type="number" class="form-control"
+                                                   min="0" max="24"
+                                                   id="inputmondayRSHours" placeholder="0" required>
                                         </td>
-                                        <td id="tuesdayRSHours"><input type="number" class="form-control"
-                                                                       id="inputtuesdayRSHours" placeholder="0"
-                                                                       required>
+                                        <td id="tuesdayRSHours">
+                                            <input type="number" class="form-control"
+                                                   min="0" max="24"
+                                                   id="inputtuesdayRSHours" placeholder="0"
+                                                   required>
                                         </td>
-                                        <td id="wednesdayRSHours"><input type="number" class="form-control"
-                                                                         id="inputwednesdayRSHours" placeholder="0"
-                                                                         required>
+                                        <td id="wednesdayRSHours">
+                                            <input type="number" class="form-control"
+                                                   min="0" max="24"
+                                                   id="inputwednesdayRSHours" placeholder="0"
+                                                   required>
                                         </td>
-                                        <td id="thursdayRSHours"><input type="number" class="form-control"
-                                                                        id="inputthursdayRSHours" placeholder="0"
-                                                                        required>
+                                        <td id="thursdayRSHours">
+                                            <input type="number" class="form-control"
+                                                   min="0" max="24"
+                                                   id="inputthursdayRSHours" placeholder="0"
+                                                   required>
                                         </td>
-                                        <td id="fridayRSHours"><input type="number" class="form-control"
-                                                                      id="inputfridayRSHours" placeholder="0" required>
+                                        <td id="fridayRSHours">
+                                            <input type="number" class="form-control"
+                                                   min="0" max="24"
+                                                   id="inputfridayRSHours" placeholder="0" required>
                                         </td>
-                                        <td id="SaturdayRSHours"><input type="number" class="form-control"
-                                                                        id="inputSaturdayRSHours" placeholder="0"
-                                                                        required>
+                                        <td id="SaturdayRSHours">
+                                            <input type="number" class="form-control"
+                                                   min="0" max="24"
+                                                   id="inputsaturdayRSHours" placeholder="0"
+                                                   required>
                                         </td>
                                     </tr>
                                 </table>
@@ -250,7 +266,8 @@
                         </div>
                     </div>
                 </div>
-
+                <h2 style="display:none;" id="employeeInfoDiv"><%= employeeInfo %></h2>
+                <h2 style="display:none;" id="employeeLocationInfoDiv"><%= employeeLocationInfo %></h2>
             </form>
         </div>
     </div>
@@ -259,9 +276,21 @@
 <% include ../partials/footer %>
 <script>
   $(document).ready(function () {
+    let employeeInfo = $("#employeeInfoDiv").html();
+    if (employeeInfo !== "") {
+      setCookie('employeeInfo', (employeeInfo), 1);
+    }
     let locationInfo = getCookie('locationInfo');
+    if (locationInfo === '' || locationInfo === undefined || getQueryString('empId') > 0) {
+      locationInfo = $("#employeeLocationInfoDiv").html();
+      setCookie('locationInfo', (locationInfo), 1);
+    }
     if (locationInfo !== '' && locationInfo !== undefined) {
       locationInfo = JSON.parse(locationInfo)
+      if (locationInfo['empId'] > 0) {
+        $("#inputEmployeeId")[0].disabled = true;
+      }
+      $("#inputEmpId").val(locationInfo['empId']);
       $("#inputEmployeeId").val(locationInfo['employeeId']);
       $("#inputEmployeeStatus").val(locationInfo['employeeStatus']);
       $("#inputLocationEmail").val(locationInfo['locationEmail']);
@@ -286,7 +315,7 @@
       $("#inputwednesdayRSHours").val(locationInfo['inputwednesdayRSHours']);
       $("#inputthursdayRSHours").val(locationInfo['inputthursdayRSHours']);
       $("#inputfridayRSHours").val(locationInfo['inputfridayRSHours']);
-      $("#inputSaturdayRSHours").val(locationInfo['inputSaturdayRSHours']);
+      $("#inputsaturdayRSHours").val(locationInfo['inputsaturdayRSHours']);
     }
   });
 </script>

@@ -55,22 +55,253 @@ let signinService = async (request) => {
       error: constant.requestMessages.ERR_INVALID_SIGNUP_REQUEST
     };
   }
+
+  let deviceId = request.headers["udid"];
+  debug('.....................................', deviceId)
+  let expiryDateTime = DateLibrary.getRelativeDate(new Date(), {
+    operationType: "Absolute_DateTime",
+    granularityType: "hours",
+    value: constant.appConfig.MAX_ACCESS_TOKEN_EXPIRY_HOURS
+  });
+  let token = uuid.v1();
   let email = request.body.email;
   let password = md5(request.body.password);
 
   let signinResult = await userDAL.userLogin(email, password);
   if (signinResult.status === true && signinResult.content.length !== 0) {
-    return {status: true, data: constant.userMessages.MSG_SIGNIN_SUCCESSFULLY};
+    request.session.userInfo = signinResult.content[0];
+    let userId = signinResult.content[0]['userId'];
+    await userDAL.expireAccessToken(deviceId, token);
+    await userDAL.addAccessToken(userId, deviceId, token, expiryDateTime);
+    return {status: true, "access_token": token, data: constant.userMessages.MSG_SIGNIN_SUCCESSFULLY};
   } else {
     return {status: false, error: constant.userMessages.ERR_IN_SIGNIN};
   }
 };
 
-module.exports = {
-  signupService: signupService,
-  signinService: signinService
+/**
+ * Created By: AV
+ * Updated By: AV
+ *
+ * signin service
+ * @param  {object}  request
+ * @return {object}
+ *
+ */
+let logoutService = async (request) => {
+  debug("user.service -> logoutService");
+  let deviceId = request.headers["udid"];
+  let token = request.headers["token"];
+  await userDAL.expireAccessToken(deviceId, token);
+  // debug("............................",request.session.userInfo)
+  request.session.destroy();
+  // debug("............................",request.session.userInfo)
+  return {status: true, data: {}}
 };
 
+
+/**
+ * Created By: MB
+ * Updated By: MB
+ *
+ * User List service
+ * @param  {object}  request
+ * @return {object}
+ *
+ */
+let getUserListService = async (request) => {
+  debug("user.service -> getUserListService");
+
+  let getUserListResult = await userDAL.getUserList();
+  if (getUserListResult.status === true && getUserListResult.content.length !== 0) {
+    return {status: true, data: getUserListResult.content};
+  } else {
+    return {status: false, error: constant.userMessages.NO_RECORD_FOUND};
+  }
+};
+
+/**
+ * Created By: MB
+ * Updated By: MB
+ *
+ * User List service
+ * @param  {object}  request
+ * @return {object}
+ *
+ */
+let getManagerService = async (request) => {
+  debug("user.service -> getManagerService");
+
+  let getManagerResult = await userDAL.getManagerList();
+  if (getManagerResult.status === true && getManagerResult.content.length !== 0) {
+    return {status: true, data: getManagerResult.content};
+  } else {
+    return {status: false, error: constant.userMessages.NO_RECORD_FOUND};
+  }
+};
+
+/**
+ * Created By: MB
+ * Updated By: MB
+ *
+ * Get User service
+ * @param  {object}  request
+ * @return {object}
+ *
+ */
+let getUserService = async (request) => {
+  debug("user.service -> getUserService");
+  let id = request.params.id;
+  let getUserResult = await userDAL.getUser(id);
+
+  if (getUserResult.status === true && getUserResult.content.length !== 0) {
+    return {status: true, data: getUserResult.content[0]};
+  } else {
+    return {status: false, error: constant.userMessages.NO_RECORD_FOUND};
+  }
+};
+/**
+ * Created By: MB
+ * Updated By: MB
+ *
+ * Add User service
+ * @param  {object}  request
+ * @return {object}
+ *
+ */
+let addUserService = async (request) => {
+  debug("user.service -> addUserService");
+  if (request.body.name === undefined || request.body.password === undefined
+    || request.body.email === undefined) {
+    return {
+      status: false,
+      error: constant.requestMessages.ERR_INVALID_SIGNUP_REQUEST
+    };
+  }
+  let name = request.body.name;
+  let email = request.body.email;
+  let usertype = request.body.usertype;
+  let password = request.body.password;
+
+  let filter = {
+    field: 'email',
+    operator: 'EQ',
+    value: request.body.email
+  };
+  let checkUserResult = await userDAL.checkUserExist(filter);
+  if (checkUserResult.status === true && checkUserResult.content.length !== 0) {
+    return {status: false, error: constant.userMessages.USER_ALREADY_EXIST};
+  }
+
+  let addUserResult = await userDAL.addUser(name, email, usertype, password);
+  if (addUserResult.status === true) {
+    return {
+      status: true,
+      data: constant.userMessages.USER_ADDDED
+    };
+  } else {
+    return {status: false, error: constant.userMessages.USER_ERROR};
+  }
+};
+
+/**
+ * Created By: MB
+ * Updated By: MB
+ *
+ * Update User service
+ * @param  {object}  request
+ * @return {object}
+ *
+ */
+
+let userUpdateService = async (request) => {
+  debug("user.service -> userUpdateService");
+  let id = request.body.user_id;
+  // console.log(request.body.password);
+  // console.log(request.body.status);
+  let fieldValueUpdate = [{
+    field: 'name',
+    fValue: request.body.name
+  }, {
+    field: 'email',
+    fValue: request.body.email
+  },
+    {
+      field: 'usertype',
+      fValue: request.body.usertype
+    },
+    {
+      field: 'status',
+      fValue: request.body.status
+    }];
+  if (request.body.password != '' && request.body.password != undefined) {
+    fieldValueUpdate.push({
+      field: 'password',
+      // encloseValue: false,
+      fValue: md5(request.body.password),
+    });
+  }
+  let filter = {
+    and: [{
+      field: 'pk_userID',
+      operator: 'NotEQ',
+      value: id
+
+    }, {
+      field: 'email',
+      operator: 'EQ',
+      value: request.body.email
+    }]
+  };
+  let checkUserResult = await userDAL.checkUserExist(filter);
+  if (checkUserResult.status === true && checkUserResult.content.length !== 0) {
+    return {status: false, error: constant.userMessages.USER_ALREADY_EXIST};
+  }
+
+  let updateUserResult = await userDAL.updateUser(id, fieldValueUpdate);
+  if (updateUserResult.status === true) {
+    return {
+      status: true,
+      data: constant.userMessages.USER_UPDATED
+    };
+  } else {
+    return {status: false, error: constant.userMessages.USER_ERROR};
+  }
+};
+/**
+ * Created By: MB
+ * Updated By: MB
+ *
+ * Delete User service
+ * @param  {object}  request
+ * @return {object}
+ *
+ */
+let userDeleteService = async (request) => {
+  debug("user.service -> userDeleteService");
+  let id = request.body.id;
+  let deleteUserResult = await userDAL.deleteUser(id);
+
+  if (deleteUserResult.status === true) {
+    return {
+      status: true,
+      data: constant.userMessages.USER_DELETED
+    };
+  } else {
+    return {status: false, error: constant.userMessages.USER_ERROR};
+  }
+};
+module.exports = {
+  signupService: signupService,
+  signinService: signinService,
+  logoutService: logoutService,
+  getUserListService: getUserListService,
+  getUserService: getUserService,
+  addUserService: addUserService,
+  userUpdateService: userUpdateService,
+  userDeleteService: userDeleteService,
+  getManagerService: getManagerService
+};
 // console.log(DateLibrary.getWeekNumber(new Date()),'Week_of_Year')
 
 

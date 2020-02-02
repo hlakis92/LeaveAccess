@@ -7,7 +7,7 @@ let query = require('./leave.query');
 let dbDateFormat = constant.appConfig.DB_DATE_FORMAT;
 
 let addEmployeeDetail = async (employeeInfo) => {
-  debug("user.DAL -> addEmployeeDetail");
+  debug("leave.DAL -> addEmployeeDetail");
   employeeInfo = JSON.parse(employeeInfo);
   let firstName = employeeInfo['first_name'];
   let lastName = employeeInfo['last_name'];
@@ -25,7 +25,7 @@ let addEmployeeDetail = async (employeeInfo) => {
 };
 
 let addLocationDetail = async (locationInfo, empId) => {
-  debug("user.DAL -> addLocationDetail");
+  debug("leave.DAL -> addLocationDetail");
   locationInfo = JSON.parse(locationInfo);
   let DOJ = locationInfo['DOJ'];
   let employeeId = locationInfo['employeeId'];
@@ -40,14 +40,29 @@ let addLocationDetail = async (locationInfo, empId) => {
   return await common.executeQuery(addLocationDetailsQuery);
 };
 
+let addEmployeeWorkSchedule = async (empId, locationId, locationInfo) => {
+  debug("leave.DAL -> addEmployeeWorkSchedule");
+  locationInfo = JSON.parse(locationInfo);
+  let sundayRSHours = locationInfo['inputsundayRSHours'];
+  let mondayRSHours = locationInfo['inputmondayRSHours'];
+  let tuesdayRSHours = locationInfo['inputtuesdayRSHours'];
+  let wednesdayRSHours = locationInfo['inputwednesdayRSHours'];
+  let thursdayRSHours = locationInfo['inputthursdayRSHours'];
+  let fridayRSHours = locationInfo['inputfridayRSHours'];
+  let saturdayRSHours = locationInfo['inputsaturdayRSHours'];
+  let addEmployeeWorkScheduleQuery = common.cloneObject(query.addEmployeeWorkScheduleQuery);
+  addEmployeeWorkScheduleQuery.insert.fValue = [empId, locationId, sundayRSHours, mondayRSHours, tuesdayRSHours, wednesdayRSHours, thursdayRSHours, fridayRSHours, saturdayRSHours];
+  return await common.executeQuery(addEmployeeWorkScheduleQuery);
+};
+
 let addLeaveInfo = async (leaveReasonInfo, leaveProviderInfo, leaveTypeInfo, empId) => {
-  debug("user.DAL -> addLeaveInfo");
+  debug("leave.DAL -> addLeaveInfo");
   leaveReasonInfo = JSON.parse(leaveReasonInfo);
   leaveProviderInfo = JSON.parse(leaveProviderInfo);
   leaveTypeInfo = JSON.parse(leaveTypeInfo);
   let leaveReason = leaveReasonInfo['leaveReason'];
-  let familyFirst = leaveProviderInfo['familyFirst'];
-  let familyLast = leaveProviderInfo['familyLast'];
+  let familyFirst = leaveProviderInfo['familyFirst'] || 'NULL';
+  let familyLast = leaveProviderInfo['familyLast'] || 'NULL';
   let familyMemberDOB = leaveProviderInfo['familyMemberDOB'] || 'NULL';
   let familyRelation = leaveProviderInfo['familyRelation'] || 'NULL';
   let inLocoParent = leaveProviderInfo['inLocoParent'] || 'NULL';
@@ -67,7 +82,7 @@ let addLeaveInfo = async (leaveReasonInfo, leaveProviderInfo, leaveTypeInfo, emp
 };
 
 let addEmployeeLeave = async (leaveEligibilityList, empId, leaveInfoId) => {
-  debug("user.DAL -> addEmployeeLeave");
+  debug("leave.DAL -> addEmployeeLeave");
   leaveEligibilityList = JSON.parse(leaveEligibilityList);
   let rawData = [];
   leaveEligibilityList.forEach(data => {
@@ -90,42 +105,41 @@ let addEmployeeLeave = async (leaveEligibilityList, empId, leaveInfoId) => {
 
 
 let getAllEmployeeLeave = async () => {
-  debug("user.DAL -> getAllEmployeeLeave");
+  debug("leave.DAL -> getAllEmployeeLeave");
   let getAllEmployeeLeaveQuery = common.cloneObject(query.getAllEmployeeLeaveQuery);
   return await common.executeQuery(getAllEmployeeLeaveQuery);
 };
 
 let getEmployeeLeaveSummaryByEmpId = async (empId) => {
-  debug("user.DAL -> getEmployeeLeaveSummaryByEmpId");
+  debug("leave.DAL -> getEmployeeLeaveSummaryByEmpId");
   let getEmployeeLeaveSummaryByEmpIdQuery = common.cloneObject(query.getEmployeeLeaveSummaryByEmpIdQuery);
   getEmployeeLeaveSummaryByEmpIdQuery.filter.value = empId;
   return await common.executeQuery(getEmployeeLeaveSummaryByEmpIdQuery);
 };
 
-
 let getEmployeeLeaveClaimInfoServiceByClaimNumber = async (claimNumber) => {
-  debug("user.DAL -> getEmployeeLeaveClaimInfoServiceByClaimNumber");
+  debug("leave.DAL -> getEmployeeLeaveClaimInfoServiceByClaimNumber");
   let getEmployeeLeaveClaimInfoServiceByClaimNumberQuery = common.cloneObject(query.getEmployeeLeaveClaimInfoServiceByClaimNumberQuery);
   getEmployeeLeaveClaimInfoServiceByClaimNumberQuery.filter.value = claimNumber;
   return await common.executeQuery(getEmployeeLeaveClaimInfoServiceByClaimNumberQuery);
 };
 
 let getEmployeeLeavePlanSummaryMaxDurationByClaimNumber = async (claimNumber) => {
-  debug("user.DAL -> getEmployeeLeaveClaimInfoServiceByClaimNumber");
+  debug("leave.DAL -> getEmployeeLeaveClaimInfoServiceByClaimNumber");
   let getEmployeeLeavePlanSummaryMaxDurationByClaimNumberQuery = common.cloneObject(query.getEmployeeLeavePlanSummaryMaxDurationByClaimNumberQuery);
   getEmployeeLeavePlanSummaryMaxDurationByClaimNumberQuery.filter.value = claimNumber;
   return await common.executeQuery(getEmployeeLeavePlanSummaryMaxDurationByClaimNumberQuery);
 };
 
 let getEmployeeLeavePlanStatusByClaimNumber = async (claimNumber) => {
-  debug("user.DAL -> getEmployeeLeavePlanStatusByClaimNumber");
+  debug("leave.DAL -> getEmployeeLeavePlanStatusByClaimNumber");
   let getEmployeeLeavePlanStatusByClaimNumberQuery = common.cloneObject(query.getEmployeeLeavePlanStatusByClaimNumberQuery);
   getEmployeeLeavePlanStatusByClaimNumberQuery.filter.value = claimNumber;
   return await common.executeQuery(getEmployeeLeavePlanStatusByClaimNumberQuery);
 };
 
 let editLeaveInfoByLeaveInfoId = async (leaveInfoId, fieldValueUpdate) => {
-  debug("user.DAL -> editLeaveInfoByLeaveInfoId");
+  debug("leave.DAL -> editLeaveInfoByLeaveInfoId");
   let editLeaveInfoByLeaveInfoIdQuery = common.cloneObject(query.editLeaveInfoByLeaveInfoIdQuery);
   editLeaveInfoByLeaveInfoIdQuery.update = fieldValueUpdate;
   editLeaveInfoByLeaveInfoIdQuery.filter.value = leaveInfoId;
@@ -133,16 +147,45 @@ let editLeaveInfoByLeaveInfoId = async (leaveInfoId, fieldValueUpdate) => {
 };
 
 let editEmployeeLeaveByLeaveInfoId = async (leaveInfoId, fieldValueUpdate) => {
-  debug("user.DAL -> editEmployeeLeaveByLeaveInfoId");
+  debug("leave.DAL -> editEmployeeLeaveByLeaveInfoId");
   let editEmployeeLeaveByLeaveInfoIdQuery = common.cloneObject(query.editEmployeeLeaveByLeaveInfoIdQuery);
   editEmployeeLeaveByLeaveInfoIdQuery.update = fieldValueUpdate;
   editEmployeeLeaveByLeaveInfoIdQuery.filter.value = leaveInfoId;
   return await common.executeQuery(editEmployeeLeaveByLeaveInfoIdQuery);
 };
 
+let checkEmployeeExistOrNotByEmployeeId = async (employeeId) => {
+  debug("leave.DAL -> checkEmployeeExistOrNotByEmployeeId");
+  let checkEmployeeExistOrNotByEmployeeIdQuery = common.cloneObject(query.checkEmployeeExistOrNotByEmployeeIdQuery);
+  checkEmployeeExistOrNotByEmployeeIdQuery.filter.value = employeeId;
+  return await common.executeQuery(checkEmployeeExistOrNotByEmployeeIdQuery);
+};
+
+let leaveCloseByLeaveInfoId = async (leaveInfoId) => {
+  debug("leave.DAL -> leaveCloseByLeaveInfoId");
+  let leaveCloseByLeaveInfoIdQuery = common.cloneObject(query.leaveCloseByLeaveInfoIdQuery);
+  leaveCloseByLeaveInfoIdQuery.filter.value = leaveInfoId;
+  return await common.executeQuery(leaveCloseByLeaveInfoIdQuery);
+};
+
+let getEmployeeLeaveProviderByLeaveInfoId = async (leaveInfoId) => {
+  debug("leave.DAL -> getEmployeeLeaveProviderByLeaveInfoId");
+  let getEmployeeLeaveProviderByLeaveInfoIdQuery = common.cloneObject(query.getEmployeeLeaveProviderByLeaveInfoIdQuery);
+  getEmployeeLeaveProviderByLeaveInfoIdQuery.filter.value = leaveInfoId;
+  return await common.executeQuery(getEmployeeLeaveProviderByLeaveInfoIdQuery);
+};
+
+let getEmployeeLeaveEligibilityByLeaveInfoId = async (leaveInfoId) => {
+  debug("leave.DAL -> getEmployeeLeaveEligibilityByLeaveInfoId");
+  let getEmployeeLeaveEligibilityByLeaveInfoIdQuery = common.cloneObject(query.getEmployeeLeaveEligibilityByLeaveInfoIdQuery);
+  getEmployeeLeaveEligibilityByLeaveInfoIdQuery.filter.value = leaveInfoId;
+  return await common.executeQuery(getEmployeeLeaveEligibilityByLeaveInfoIdQuery);
+};
+
 module.exports = {
   addEmployeeDetail: addEmployeeDetail,
   addLocationDetail: addLocationDetail,
+  addEmployeeWorkSchedule: addEmployeeWorkSchedule,
   addLeaveInfo: addLeaveInfo,
   addEmployeeLeave: addEmployeeLeave,
   getAllEmployeeLeave: getAllEmployeeLeave,
@@ -152,4 +195,8 @@ module.exports = {
   getEmployeeLeavePlanStatusByClaimNumber: getEmployeeLeavePlanStatusByClaimNumber,
   editLeaveInfoByLeaveInfoId: editLeaveInfoByLeaveInfoId,
   editEmployeeLeaveByLeaveInfoId: editEmployeeLeaveByLeaveInfoId,
+  checkEmployeeExistOrNotByEmployeeId: checkEmployeeExistOrNotByEmployeeId,
+  leaveCloseByLeaveInfoId: leaveCloseByLeaveInfoId,
+  getEmployeeLeaveProviderByLeaveInfoId: getEmployeeLeaveProviderByLeaveInfoId,
+  getEmployeeLeaveEligibilityByLeaveInfoId: getEmployeeLeaveEligibilityByLeaveInfoId,
 };

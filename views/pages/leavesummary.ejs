@@ -53,7 +53,9 @@
                         <% employeeLeaveSummaryData['open'].forEach(function(data) { %>
 
                             <tr>
-                                <td><a href=/claim<%= data.leave_type %>/<%= data.leave_info_id %>><%= data.leave_info_id %></a></td>
+                                <td>
+                                    <a href=/claim<%= data.leave_type %>/<%= data.leave_info_id %>><%= data.leave_info_id %></a>
+                                </td>
                                 <td><%= data.leave_type %></td>
                                 <td><%= data.from_date %> - <%= data.to_date %></td>
                             </tr>
@@ -92,7 +94,9 @@
                         </tr>
                         <% employeeLeaveSummaryData['closed'].forEach(function(data) { %>
                             <tr>
-                                <td><%= data.leave_info_id %></td>
+                                <td>
+                                    <a href=/claim<%= data.leave_type %>/<%= data.leave_info_id %>><%= data.leave_info_id %>
+                                </td>
                                 <td><%= data.leave_type %></td>
                                 <td><%= data.from_date %> - <%= data.to_date %></td>
                             </tr>
@@ -117,22 +121,13 @@
             <div class="col-sm-2 sidenav2">
                 <div class="row">
                     <p>
-                        <a class="active" href="#">Employee Information</a>
+                        <a href="/employee/?empId=<%= empId %>">Employee Information</a>
                     </p>
                     <p>
-                        <a href="#">Location Information</a>
+                        <a href="/location/?empId=<%= empId %>">Location Information</a>
                     </p>
                     <p>
-                        <a href="#">Leave Reason</a>
-                    </p>
-                    <p>
-                        <a href="#">Provider Information</a>
-                    </p>
-                    <p>
-                        <a href="#">Leave Information</a>
-                    </p>
-                    <p>
-                        <a href="#">Create New Leave</a>
+                        <a href="/leavereason?empId=<%= empId %>">Create New Leave</a>
                     </p>
                     <br>
                     <!-- <div class="col-sm-12"> -->
@@ -187,7 +182,8 @@
 <% include ../partials/footer %>
 
 <script>
-
-
+  $(document).ready(function () {
+    deleteAllLeaveCookie();
+  });
 </script>
 </html>

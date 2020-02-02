@@ -20,7 +20,9 @@
                     <a href="#">Manual Letters</a>
                 </p>
                 <p>
-                    <a href="#">Provider Information</a>
+                    <a href="/leaveprovider?type=1&empId=<%= employeeLeaveClaimInfoData.emp_id %>&claimNumber=<%= employeeLeaveClaimInfoData.leave_info_id %>">
+                        Provider Information
+                    </a>
                 </p>
                 <p>
                     <a href="/decision/<%= employeeLeaveClaimInfoData.leave_info_id %>">Decision</a>
@@ -32,7 +34,7 @@
                     <a href="../Ancillary/leaveChronologyFamilyMember.html">Leave Chronology</a>
                 </p>
                 <p>
-                    <a href="#">Close Leave</a>
+                    <a href="/closeLeave/<%= employeeLeaveClaimInfoData.leave_info_id %>">Close Leave</a>
                 </p>
             </div>
             <div class="col-sm-8 text-left well">
