@@ -62,7 +62,7 @@ let addAllDataService = async (request) => {
       locationId = locationInfoResult.content['insertId'];
     }
     if (locationId !== undefined) {
-      await leaveDAL.addEmployeeWorkSchedule(empId,locationId,locationInfo);
+      await leaveDAL.addEmployeeWorkSchedule(empId, locationId, locationInfo);
     }
   }
   if (leaveInfoId === 0) {
@@ -134,6 +134,7 @@ let getEmployeeLeaveClaimInfoService = async (request) => {
   let employeeLeaveClaimInfoResult = await leaveDAL.getEmployeeLeaveClaimInfoServiceByClaimNumber(claimNumber);
   let employeeLeaveMaximumDurationResult = await leaveDAL.getEmployeeLeavePlanSummaryMaxDurationByClaimNumber(claimNumber);
   let employeeLeavePlanStatusByClaimNumberResult = await leaveDAL.getEmployeeLeavePlanStatusByClaimNumber(claimNumber);
+  let employeePaperWorkReviewResult = await leaveDAL.getEmployeeLeavePaperWorkReviewDataByClaimNumber(claimNumber);
   let employeeLeaveMaximumDurationData;
   if (employeeLeaveMaximumDurationResult.status === true && employeeLeaveMaximumDurationResult.content.length !== 0) {
     employeeLeaveMaximumDurationData = employeeLeaveMaximumDurationResult.content;
@@ -157,7 +158,8 @@ let getEmployeeLeaveClaimInfoService = async (request) => {
       status: true, data: {
         leaveInfo: employeeLeaveClaimInfoResult.content[0],
         planMaximumDuration: employeeLeaveMaximumDurationData,
-        planStatus: employeeLeavePlanStatusByClaimNumberResult.content
+        planStatus: employeeLeavePlanStatusByClaimNumberResult.content,
+        paperWorkReview: employeePaperWorkReviewResult.content
       }
     }
   } else {
@@ -298,13 +300,78 @@ let getEmployeeLeaveEligibilityService = async (request) => {
   };
 };
 
+/**
+ * Created By: AV
+ * Updated By: AV
+ *
+ * getEmployeeLeaveEligibilityService
+ * @param  {object}  request
+ * @return {object}
+ *
+ */
+let returnToWorkConfirmationService = async (request) => {
+  debug("leave.service -> returnToWorkConfirmationService");
+  let leaveInfoId = request.body.leaveInfoId;
+  let type = request.body.type; // [ERTW | ARTW]
+  let fieldValueUpdate;
+  if (type === "ERTW") {
+    fieldValueUpdate = [{
+      field: 'ERTW_userId',
+      fValue: request.body['ERTW_userId']
+    }, {
+      field: 'ERTWDate',
+      fValue: request.body['ERTWDate']
+    }]
+  } else if (type === "ARTW") {
+    fieldValueUpdate = [{
+      field: 'ARTW_userId',
+      fValue: request.body['ARTW_userId']
+    }, {
+      field: 'ARTWDate',
+      fValue: request.body['ARTWDate']
+    }]
+  }
+  let result = await leaveDAL.editLeaveInfoByLeaveInfoId(leaveInfoId, fieldValueUpdate);
+  let successMessage = constant.leaveMessages.MSG_RETURN_TO_WORK_CONFIRMATION_ADDED_SUCCESSFULLY;
+  successMessage.message = common.generatingTemplate(successMessage.message, {type: type});
+  return {
+    status: true,
+    data: successMessage,
+  };
+};
 
-/*a();
-
-async function a() {
-  let result = await leaveDAL.getEmployeeLeaveEligibilityByLeaveInfoId(100004);
-  debug(result)
-}*/
+/**
+ * Created By: AV
+ * Updated By: AV
+ *
+ * getEmployeeLeaveEligibilityService
+ * @param  {object}  request
+ * @return {object}
+ *
+ */
+let paperWorkReviewService = async (request) => {
+  debug("leave.service -> paperWorkReviewService");
+  let leaveInfoId = request.body.leaveInfoId;
+  let paperWorkDataSelected = (request.body.paperWorkDataSelected).split(",");
+  let paperWorkDataUnSelected = (request.body.paperWorkDataUnSelected).split(",");
+  let addValueArray = [];
+  paperWorkDataSelected.forEach(data => {
+    if (data !== "") {
+      addValueArray.push([leaveInfoId, data, 1]);
+    }
+  });
+  paperWorkDataUnSelected.forEach(data => {
+    if (data !== "") {
+      addValueArray.push([leaveInfoId, data, 0]);
+    }
+  });
+  await leaveDAL.removePaperWorkReviewByLeaveInfoId(leaveInfoId);
+  await leaveDAL.addPaperWorkReview(addValueArray);
+  return {
+    status: true,
+    data: constant.leaveMessages.MSG_PAPER_WORK_REVIEW_UPDATED_SUCCESSFULLY
+  }
+};
 
 module.exports = {
   checkLeaveEligibilityService: checkLeaveEligibilityService,
@@ -317,4 +384,6 @@ module.exports = {
   leaveCloseService: leaveCloseService,
   getEmployeeLeaveProviderService: getEmployeeLeaveProviderService,
   getEmployeeLeaveEligibilityService: getEmployeeLeaveEligibilityService,
+  returnToWorkConfirmationService: returnToWorkConfirmationService,
+  paperWorkReviewService: paperWorkReviewService,
 };

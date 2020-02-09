@@ -94,9 +94,6 @@ CREATE TABLE IF NOT EXISTS `tbl_AccessToken` (
   `isExpired` TINYINT(1) NULL DEFAULT 0,
   PRIMARY KEY (`pk_tokenID`, `fk_userID`));
 
-
-
-
 CREATE TABLE `tbl_notes` (
   `pk_noteId` int(11) NOT NULL,
   `leaveInfoId` int(11) NOT NULL,
@@ -145,4 +142,17 @@ ALTER TABLE `tbl_notes`
 
 ALTER TABLE `tbl_tasklist`
   MODIFY `pk_taskId` int(11) NOT NULL AUTO_INCREMENT;
-COMMIT;
+
+ALTER TABLE `tbl_LeaveInfo`
+ADD COLUMN `ERTW_userId` INT AFTER `leaveStatus`,
+ADD COLUMN `ERTWDate` DATE AFTER `ERTW_userId`,
+ADD COLUMN `ARTW_userId` INT AFTER `ERTWDate`,
+ADD COLUMN `ARTWDate` DATE AFTER `ARTW_userId`;
+
+CREATE TABLE `tbl_PaperWorkReview` (
+  `pk_paperWorkReviewId` INT NOT NULL AUTO_INCREMENT,
+  `leaveInfoId` INT NOT NULL,
+  `paperWorkName` VARCHAR(45) NOT NULL,
+  `isPaperWorkReview` TINYINT(1) NOT NULL DEFAULT 0,
+  `createdDate` DATETIME NOT NULL DEFAULT current_timestamp(),
+PRIMARY KEY (`pk_paperWorkReviewId`));

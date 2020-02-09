@@ -27,11 +27,29 @@ let addNotes = async (notes, empId, leaveInfoId, userId, modifyBy) => {
   return await common.executeQuery(addNotesQuery);
 };
 
+let updateNotes = async (noteId, fieldValueUpdate) => {
+  debug("task.DAL -> updateNotes");
+  let updateNotesQuery = common.cloneObject(query.updateNotesQuery);
+  //let updateUserQuery = common.cloneObject(query.updateUserQuery);
+   updateNotesQuery.update = fieldValueUpdate
+  updateNotesQuery.filter.value = noteId;
+  return await common.executeQuery(updateNotesQuery);
+};
+
 let getNotesList = async () => {
   debug("task.DAL -> getNotesList");
   let getNotesListQuery = common.cloneObject(query.getNotesListQuery);
   return await common.executeQuery(getNotesListQuery);
 };
+
+let getNotes = async (id) => {
+  debug("task.DAL -> getNotes");
+  let getNotesQuery = common.cloneObject(query.getNotesQuery);
+  getNotesQuery.filter.value = id;
+  return await common.executeQuery(getNotesQuery);
+};
+
+
 /*let getManagerList = async () => {
   debug("task.DAL -> getManagerList");
   let getManagerListQuery = common.cloneObject(query.getManagerListQuery);
@@ -65,7 +83,9 @@ module.exports = {
   addTask: addTask,
   getTaskList: getTaskList,
   addNotes:addNotes,
-  getNotesList:getNotesList
+  getNotesList:getNotesList,
+  getNotes: getNotes,
+  updateNotes:updateNotes
   /*getManagerList: getManagerList,
   getTask: getTask,
   updateTask:updateTask,

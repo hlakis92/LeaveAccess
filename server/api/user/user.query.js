@@ -32,6 +32,14 @@ let query = {
         field: 'password',
         operator: 'EQ',
         value: ''
+      }, {
+        field: 'isDeleted',
+        operator: 'EQ',
+        value: '0'
+      }, {
+        field: 'status',
+        operator: 'EQ',
+        value: '1'
       }]
     }
   }, //end

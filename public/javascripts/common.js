@@ -105,6 +105,11 @@ function deleteAllLeaveCookie() {
   // deleteCookie('leaveReasonInfo');
 }
 
+function getDateInUSFormat(date) {
+  let dates = date.split("-");
+  return dates[1] + "/" + dates[2] + "/" + dates[0];
+}
+
 // 5010064645373679039451305373646187050981580644187129
 // 501006464537367903945130537367281911580644305223
 // 5010064645373679039451305373698541580644335858

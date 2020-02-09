@@ -9,6 +9,8 @@ let getAllEmployeeLeaveURL = windowLocation.origin + '/api/leave/get-employee-le
 let getAllEmployeeURL = windowLocation.origin + '/api/employee/get-all-employee';
 let getEmployeeLeaveSummaryURL = windowLocation.origin + '/api/leave/get-employee-leave-summary';
 let editLeaveDecisionURL = windowLocation.origin + '/api/leave/edit-leave-decision';
+let returnToWorkConfirmationURL = windowLocation.origin + '/api/leave/return-to-work-confirmation';
+let paperWorkReviewURL = windowLocation.origin + '/api/leave/paper-work-review';
 
 let getUsersURL = windowLocation.origin + '/api/user';
 
@@ -74,6 +76,8 @@ $('#signinButton').on('click', function (e) {
       if (result.status === true) {
         debugger;
         setCookie('token', result['access_token'], 1);
+        $.cookie('token', result['access_token']);
+        $.cookie('udid', getUDID());
         $("#messageSuccess").text(result.data.message);
         window.location.href = 'searchemployee';
       } else {
@@ -105,6 +109,8 @@ $('#logoutButton').on('click', function (e) {
       if (result.status === true) {
         deleteCookie('udid');
         deleteCookie('token');
+        $.removeCookie('udid');
+        $.removeCookie('token');
         window.location.href = '/';
       } else {
 
@@ -499,6 +505,103 @@ $('#leaveEligibilityBackButton').on('click', function (e) {
   window.location.href = windowLocation.origin + '/leavetype';
 });
 
+
+$('#ERTWModelButton').on('click', function (e) {
+  let data = {
+    type: 'ERTW',
+    ERTWDate: $("#ERTWDate").val(),
+    ERTW_userId: $("#managersERTWId").val(),
+    leaveInfoId: $("#leaveInfoId").val(),
+  };
+  $.ajax({
+    type: 'POST',
+    url: returnToWorkConfirmationURL,
+    dataType: "json",
+    data: data,
+    beforeSend: function (xhr) {
+      if ($("#ERTWDate").val() == '' || $("#managersERTWId").val() == '') {
+        return false
+      } else {
+        e.preventDefault();
+        $("#ERTWModelClose").trigger("click");
+        $("#ERTWDateDisplayDate").html(getDateInUSFormat($("#ERTWDate").val()))
+      }
+    },
+    success: result => {
+      console.log(result);
+      alert_message(result.data.message, "success");
+    },
+    error: result => {
+      console.log(result)
+    }
+  });
+});
+
+$('#ARTWModelButton').on('click', function (e) {
+  let data = {
+    type: 'ARTW',
+    ARTWDate: $("#ARTWDate").val(),
+    ARTW_userId: $("#managersARTWId").val(),
+    leaveInfoId: $("#leaveInfoId").val(),
+  };
+  $.ajax({
+    type: 'POST',
+    url: returnToWorkConfirmationURL,
+    dataType: "json",
+    data: data,
+    beforeSend: function (xhr) {
+      if ($("#ARTWDate").val() == '' || $("#managersARTWId").val() == '') {
+        return false
+      } else {
+        e.preventDefault();
+        $("#ARTWModelClose").trigger("click");
+        $("#ARTWDateDisplayDate").html(getDateInUSFormat($("#ARTWDate").val()))
+      }
+    },
+    success: result => {
+      console.log(result);
+      alert_message(result.data.message, "success");
+    },
+    error: result => {
+      console.log(result)
+    }
+  });
+});
+
+$('#paperWorkReviewButton').on('click', function (e) {
+  let paperWorkDataSelected = [];
+  let paperWorkDataUnSelected = [];
+  $.each($("input[name='paperWork']"), function () {
+    if (this.checked) {
+      paperWorkDataSelected.push($(this).val());
+    } else {
+      paperWorkDataUnSelected.push($(this).val());
+    }
+
+  });
+  let data = {
+    leaveInfoId: $("#leaveInfoId").val(),
+    paperWorkDataSelected: (paperWorkDataSelected).toString(),
+    paperWorkDataUnSelected: paperWorkDataUnSelected.toString(),
+  };
+  console.log(data)
+  $.ajax({
+    type: 'POST',
+    url: paperWorkReviewURL,
+    dataType: "json",
+    data: data,
+    beforeSend: function (xhr) {
+      $("#paperWorkModelClose").trigger("click");
+    },
+    success: result => {
+      console.log(result);
+      alert_message(result.data.message, "success");
+    },
+    error: result => {
+      console.log(result)
+    }
+  });
+});
 
 function getQueryStringValue(key) {
   return decodeURIComponent(window.location.search.replace(new RegExp("^(?:.*[&\\?]" + encodeURIComponent(key).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"));

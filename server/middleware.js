@@ -3,7 +3,9 @@ let queryExecutor = require('./helper/mySql');
 
 let checkAccessToken = async (request, response, next) => {
   debug("middleware -> checkAccessToken");
-  if (request.session.userInfo === undefined) {
+  let deviceId = request.headers["udid"] || request.cookies.udid;
+  let token = request.headers["token"] || request.cookies.token;
+ /* if (request.session.userInfo === undefined) {
     request.session.userInfo = {
       userId: 1,
       name: 'Admin',
@@ -11,10 +13,9 @@ let checkAccessToken = async (request, response, next) => {
     };
   }
   debug("Session: ", request.session.userInfo);
-  next();
+  next();*/
   /*let deviceId = request.headers["udid"];
-  let token = request.headers["token"];
-  debug("..................")
+  let token = request.headers["token"]; */
   if (request.session.userInfo === undefined) {
     let jsonQuery = {
       join: {
@@ -78,8 +79,6 @@ let checkAccessToken = async (request, response, next) => {
       // });
       response.redirect('/');
     } else {
-      debug(request.session.userInfo)
-      debug(".........................",result)
       if (request.session.userInfo === undefined) {
         request.session.userInfo = {
           accessToken: token,
@@ -94,7 +93,7 @@ let checkAccessToken = async (request, response, next) => {
   } else {
 
     next();
-  }*/
+  }
 };
 
 

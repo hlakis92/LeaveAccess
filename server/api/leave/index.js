@@ -13,6 +13,8 @@ router.get('/get-employee-leave-summary/:empId', controller.getEmployeeLeaveSumm
 router.get('/get-employee-leave-claim-info/:claimNumber', controller.getEmployeeLeaveClaimInfo);
 router.post('/edit-leave-decision', controller.editLeaveDecision);
 router.post('/sync-data', controller.syncData);
+router.post('/return-to-work-confirmation', controller.returnToWorkConfirmation);
+router.post('/paper-work-review', controller.paperWorkReview);
 
 
 

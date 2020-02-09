@@ -44,7 +44,11 @@ let addnotes = async (request, response) => {
   let result = await taskService.addNotesService(request);
   return response.send(result);
 };
-
+let editnotes = async (request, response) => {
+  debug("task.controller -> editnotes");
+  let result = await taskService.editNotesService(request);
+  return response.send(result);
+};
 module.exports = {
   tasks: tasks,
   addtask: addtask,
@@ -52,4 +56,5 @@ module.exports = {
   //deletetask: deletetask,
   notes: notes,
   addnotes: addnotes,
+  editnotes: editnotes
 };

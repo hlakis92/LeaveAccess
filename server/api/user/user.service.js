@@ -57,7 +57,6 @@ let signinService = async (request) => {
   }
 
   let deviceId = request.headers["udid"];
-  debug('.....................................', deviceId)
   let expiryDateTime = DateLibrary.getRelativeDate(new Date(), {
     operationType: "Absolute_DateTime",
     granularityType: "hours",
@@ -131,7 +130,8 @@ let getUserListService = async (request) => {
  */
 let getManagerService = async (request) => {
   debug("user.service -> getManagerService");
-
+  //let userId = request.session.userInfo.userId;
+  //console.log('================'+ userId);
   let getManagerResult = await userDAL.getManagerList();
   if (getManagerResult.status === true && getManagerResult.content.length !== 0) {
     return {status: true, data: getManagerResult.content};
@@ -181,7 +181,7 @@ let addUserService = async (request) => {
   let name = request.body.name;
   let email = request.body.email;
   let usertype = request.body.usertype;
-  let password = request.body.password;
+  let password = md5(request.body.password);
 
   let filter = {
     field: 'email',

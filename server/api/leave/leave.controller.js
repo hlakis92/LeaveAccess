@@ -113,7 +113,36 @@ let syncData = async (request, response) => {
       data: {}
     });
   }
+};
 
+/**
+ * Created By: AV
+ * Updated By: AV
+ *
+ *
+ * @param  {object} request
+ * @param  {object} response
+ * @return {object}
+ */
+let returnToWorkConfirmation = async (request, response) => {
+  debug("leave.controller -> returnToWorkConfirmation");
+  let result = await leaveService.returnToWorkConfirmationService(request);
+  return response.send(result);
+};
+
+/**
+ * Created By: AV
+ * Updated By: AV
+ *
+ *
+ * @param  {object} request
+ * @param  {object} response
+ * @return {object}
+ */
+let paperWorkReview = async (request, response) => {
+  debug("leave.controller -> paperWorkReview");
+  let result = await leaveService.paperWorkReviewService(request);
+  return response.send(result);
 };
 
 module.exports = {
@@ -124,5 +153,7 @@ module.exports = {
   getEmployeeLeaveSummary: getEmployeeLeaveSummary,
   getEmployeeLeaveClaimInfo: getEmployeeLeaveClaimInfo,
   editLeaveDecision: editLeaveDecision,
-  syncData: syncData
+  syncData: syncData,
+  returnToWorkConfirmation: returnToWorkConfirmation,
+  paperWorkReview: paperWorkReview,
 };

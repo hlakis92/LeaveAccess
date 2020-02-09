@@ -101,11 +101,15 @@ let taskMessages = {
     message: 'Task module error.'
   },
   NOTES_ADDDED: {
-    code: 2002,
+    code: 2006,
     message: 'Notes has been added successfully.'
   },
+  NOTES_UPDATED:{
+     code: 2007,
+    message: 'Notes has been updated successfully.'
+  },
   NOTES_ERROR: {
-    code: 2005,
+    code: 2008,
     message: 'Notes module error.'
   },
 };
@@ -130,6 +134,14 @@ let leaveMessages = {
     code: 4001,
     message: 'Employee ID already exist.'
   },
+  MSG_RETURN_TO_WORK_CONFIRMATION_ADDED_SUCCESSFULLY:{
+    code: 4002,
+    message: '{{type}} added successfully.'
+  },
+  MSG_PAPER_WORK_REVIEW_UPDATED_SUCCESSFULLY:{
+    code: 4003,
+    message: 'paper work review updated successfully.'
+  }
 };
 
 module.exports = {

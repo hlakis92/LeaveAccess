@@ -3,6 +3,7 @@ let tbl_LocationMaster = "tbl_LocationMaster";
 let tbl_LeaveInfo = "tbl_LeaveInfo";
 let tbl_EmployeeLeave = "tbl_EmployeeLeave";
 let tbl_EmployeeWorkScheduleMapping = "tbl_EmployeeWorkScheduleMapping";
+let tbl_PaperWorkReview = "tbl_PaperWorkReview";
 
 
 let query = {
@@ -23,7 +24,7 @@ let query = {
     }
   }, // create user query end
   /* add employee work schedule query start  */
-  addEmployeeWorkScheduleQuery:{
+  addEmployeeWorkScheduleQuery: {
     table: tbl_EmployeeWorkScheduleMapping,
     insert: {
       field: ['empId', 'fk_locationId', 'sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'],
@@ -222,6 +223,22 @@ let query = {
       field: 'GROUP_CONCAT(leave_name SEPARATOR "\n")',
       encloseField: false,
       alias: 'leave_name'
+    }, {
+      field: 'IFNULL(ERTW_userId, 0)',
+      encloseField: false,
+      alias: 'ERTW_userId'
+    }, {
+      field: 'IFNULL(DATE_FORMAT(ERTWDate,  "%m/%d/%Y"), "MM/DD/YYYY")',
+      encloseField: false,
+      alias: 'ERTWDate'
+    }, {
+      field: 'IFNULL(ARTW_userId, 0)',
+      encloseField: false,
+      alias: 'ARTW_userId'
+    }, {
+      field: 'IFNULL(DATE_FORMAT(ARTWDate,  "%m/%d/%Y"), "MM/DD/YYYY")',
+      encloseField: false,
+      alias: 'ARTWDate'
     }],
     filter: {
       field: 'pk_leaveInfoId',
@@ -429,6 +446,40 @@ let query = {
       value: ''
     },
   }, // get employee leave eligibility  by leave_info_id query end
+  /* remove paper work review by leave_info_id start*/
+  removePaperWorkReviewByLeaveInfoIdQuery: {
+    table: tbl_PaperWorkReview,
+    delete: [],
+    filter: {
+      field: 'leaveInfoId',
+      operator: 'EQ',
+      value: ''
+    },
+  }, // remove paper work review by leave_info_id query end
+  /* add paper work review query start */
+  addPaperWorkReviewQuery: {
+    table: tbl_PaperWorkReview,
+    insert: {
+      field: ['leaveInfoId', 'paperWorkName', 'isPaperWorkReview'],
+      fValue: []
+    }
+  }, // add paper work review query end
+  /* get employee leave paper work review data by claim_number query start */
+  getEmployeeLeavePaperWorkReviewDataByClaimNumberQuery: {
+    table: tbl_PaperWorkReview,
+    select: [{
+      field: 'paperWorkName',
+      alias: 'paperWorkName'
+    }, {
+      field: 'isPaperWorkReview',
+      alias: 'isPaperWorkReview'
+    }],
+    filter: {
+      field: 'leaveInfoId',
+      operator: 'EQ',
+      value: ''
+    },
+  }, // get employee leave paper work review data by claim_number query end
 };
 
 module.exports = query;

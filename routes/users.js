@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+let middleware = require('./../server/middleware');
 
 /* GET users listing. */
 // router.get('/index', function(req, res, next) {
@@ -8,7 +9,7 @@ var router = express.Router();
 // });
 
 
-router.get('/users', function (req, res, next) {
+router.get('/users', middleware.checkAccessToken,function (req, res, next) {
   // res.send('respond with a resource');
   res.status(200);
   res.render('user/list', {title: 'User List'});
@@ -39,7 +40,7 @@ router.get('/users', function (req, res, next) {
 })*/
 
 
-router.get('/users/edit/:id', async  function(req, res, next) {
+router.get('/users/edit/:id',middleware.checkAccessToken, async  function(req, res, next) {
     let userService = require('./../server/api/user/user.service')
     let getUser = await userService.getUserService(req);
     if (getUser.status === true) {
@@ -71,7 +72,7 @@ router.get('/users/edit/:id', async  function(req, res, next) {
         res.redirect('/users');        
     } 
 })*/
-router.get('/users/add', async function (req, res, next) {
+router.get('/users/add',middleware.checkAccessToken, async function (req, res, next) {
   res.render('user/add', {
         title: 'Add New User',
         name: '',

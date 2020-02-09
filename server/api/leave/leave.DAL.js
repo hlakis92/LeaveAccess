@@ -182,6 +182,27 @@ let getEmployeeLeaveEligibilityByLeaveInfoId = async (leaveInfoId) => {
   return await common.executeQuery(getEmployeeLeaveEligibilityByLeaveInfoIdQuery);
 };
 
+let removePaperWorkReviewByLeaveInfoId = async (leaveInfoId) => {
+  debug("leave.DAL -> removePaperWorkReviewByLeaveInfoId");
+  let removePaperWorkReviewByLeaveInfoIdQuery = common.cloneObject(query.removePaperWorkReviewByLeaveInfoIdQuery);
+  removePaperWorkReviewByLeaveInfoIdQuery.filter.value = leaveInfoId;
+  return await common.executeQuery(removePaperWorkReviewByLeaveInfoIdQuery);
+};
+
+let addPaperWorkReview = async (addValueArray) => {
+  debug("leave.DAL -> removePaperWorkReviewByLeaveInfoId");
+  let addPaperWorkReviewQuery = common.cloneObject(query.addPaperWorkReviewQuery);
+  addPaperWorkReviewQuery.insert.fValue = addValueArray;
+  return await common.executeQuery(addPaperWorkReviewQuery);
+};
+
+let getEmployeeLeavePaperWorkReviewDataByClaimNumber = async (claimNumber) => {
+  debug("leave.DAL -> getEmployeeLeavePaperWorkReviewDataByClaimNumber");
+  let getEmployeeLeavePaperWorkReviewDataByClaimNumberQuery = common.cloneObject(query.getEmployeeLeavePaperWorkReviewDataByClaimNumberQuery);
+  getEmployeeLeavePaperWorkReviewDataByClaimNumberQuery.filter.value = claimNumber;
+  return await common.executeQuery(getEmployeeLeavePaperWorkReviewDataByClaimNumberQuery);
+};
+
 module.exports = {
   addEmployeeDetail: addEmployeeDetail,
   addLocationDetail: addLocationDetail,
@@ -199,4 +220,7 @@ module.exports = {
   leaveCloseByLeaveInfoId: leaveCloseByLeaveInfoId,
   getEmployeeLeaveProviderByLeaveInfoId: getEmployeeLeaveProviderByLeaveInfoId,
   getEmployeeLeaveEligibilityByLeaveInfoId: getEmployeeLeaveEligibilityByLeaveInfoId,
+  removePaperWorkReviewByLeaveInfoId: removePaperWorkReviewByLeaveInfoId,
+  addPaperWorkReview: addPaperWorkReview,
+  getEmployeeLeavePaperWorkReviewDataByClaimNumber: getEmployeeLeavePaperWorkReviewDataByClaimNumber,
 };

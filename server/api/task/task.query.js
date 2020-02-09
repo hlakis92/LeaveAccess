@@ -96,8 +96,70 @@ let query = {
       fValue: []
     }
   }, // create task query end
-
+  updateNotesQuery: {
+    table: tbl_notes,
+    update: [],
+    filter: {
+      field: 'pk_noteId',
+      operator: 'EQ',
+      value: ''
+    },
+  }, // create task query end
   getNotesListQuery:{
+    join: {
+      table: tbl_notes,
+      alias: 'tn',
+      joinwith: [{
+        table: tbl_EmployeeMaster,
+        alias: 'EM',
+        joincondition: {
+          table: 'EM',
+          field: 'pk_empID',
+          operator: 'eq',
+          value: {
+            table: 'tn',
+            field: 'empId'
+          }
+        }
+      }, {
+        table: tbl_usermaster,
+        alias: 'UM',
+        joincondition: {
+          table: 'UM',
+          field: 'pk_userID',
+          operator: 'eq',
+          value: {
+            table: 'tn',
+            field: 'userId'
+          }
+        }
+      }]
+    },
+    select: [{
+      field: 'pk_noteId',
+      alias: 'noteId'
+    }, {
+      field: 'firstName',
+      alias: 'empName'
+    }, {
+      field: 'notes',
+      alias: 'notes'
+    }, {
+      field: 'userId',
+      alias: 'userId'
+    }, {
+      field: 'DATE_FORMAT(tn.createdDate, "%m/%d/%Y")',
+      encloseField: false,
+      alias: 'createdDate'
+    }],
+    /*filter: {
+      field: 'pk_empID',
+      operator: 'eq',
+      value: ''
+    }*/
+  },
+
+  getNotesQuery:{
     join: {
       table: tbl_notes,
       alias: 'tn',
@@ -141,11 +203,11 @@ let query = {
       encloseField: false,
       alias: 'createdDate'
     }],
-    /*filter: {
-      field: 'pk_empID',
+    filter: {
+      field: 'pk_noteId',
       operator: 'eq',
       value: ''
-    }*/
+    }
   },
 };
 

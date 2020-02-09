@@ -158,15 +158,72 @@ let addNotesService = async (request) => {
   let modifyBy = userId;
   let addNotesResult = await taskDAL.addNotes(notes, empId, leaveInfoId, userId, modifyBy);
   if (addNotesResult.status === true) {
+    let notes = '';
+
+  let getNotesResult = await taskDAL.getNotes(addNotesResult.content.insertId);
+  if (getNotesResult.status === true && getNotesResult.content.length !== 0) {
+    notes = getNotesResult.content[0];
+  } 
     return {
       status: true,
-      data: constant.taskMessages.NOTES_ADDDED
+      data: constant.taskMessages.NOTES_ADDDED,
+      data1: notes
     };
   } else {
     return {status: false, error: constant.taskMessages.NOTES_ERROR};
   }
 };
 
+
+/**
+ * Created By: MB
+ * Updated By: MB
+ *
+ * Edit Note service
+ * @param  {object}  request
+ * @return {object}
+ *
+ */
+let editNotesService = async (request) => {
+  debug("task.service -> editNotesService");
+  if (request.body.notes === undefined) {
+    return {
+      status: false,
+      error: constant.requestMessages.NOTES_ERROR
+    };
+  }
+ 
+  let noteId = request.body.noteId;
+
+
+  let userId = request.session.userInfo.userId;
+  
+
+  let fieldValueUpdate = [{
+    field: 'notes',
+    fValue: request.body.notes
+    }, {
+      field: 'modifyBy',
+      fValue: userId
+    }];
+
+  let updateNotesResult = await taskDAL.updateNotes(noteId, fieldValueUpdate);
+  if (updateNotesResult.status === true) {
+    let notes = '';
+
+  let getNotesResult = await taskDAL.getNotes(noteId);
+  if (getNotesResult.status === true && getNotesResult.content.length !== 0) {
+    notes = getNotesResult.content[0];
+  } 
+    return {
+      status: true,
+      data: constant.taskMessages.NOTES_UPDATED,
+      data1: notes
+    };
+  } else {
+    return {status: false, error: constant.taskMessages.NOTES_ERROR};
+  }
+};
 
 /**
  * Created By: MB
@@ -262,7 +319,8 @@ module.exports = {
  // taskUpdateService: taskUpdateService,
   //taskDeleteService: taskDeleteService,
  // getManagerService: getManagerService,
-  addNotesService:addNotesService
+  addNotesService:addNotesService,
+  editNotesService:editNotesService
 };
 // console.log(DateLibrary.getWeekNumber(new Date()),'Week_of_Year')
 
