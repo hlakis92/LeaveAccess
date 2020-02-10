@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <% include ../partials/head %>
+
+</head>
+<body>
+
+<div class="container">
+    <% include ../partials/topnav %>
+    <div class="container-fluid text-center well margin-auto">
+     
+ 
+    <table width='80%' border=0>
+         <head><h1>User List</h1>
+                <div style="padding-bottom: 50px">
+                    <button type="button" class="btn btn-primary pull-right"
+                            onclick="location.href = '/users/add'"
+                    >Add New User
+                    </button>
+                </div>
+
+            </head>
+            <thead>
+        <tr style='text-align:left; background-color:#CCC'>
+            <th>Name</th>
+            <th>User Type</th>
+            <th>Email</th>
+            <th>Action</th>
+        </tr>
+        
+        <!--
+            Using FOREACH LOOP for the users array
+            
+            myArray.forEach(function(el, index) {
+                // el - current element, i - index
+            });
+        -->
+        <% if (data) { %>
+        <% data.forEach(function(user){ %>
+            <tr>
+                <td><%= user.name %></td>
+                <td><%= user.usertype %></td>
+                <td><%= user.email %></td>
+                <td>
+                    <div style="float:left">
+                        <a href='/users/edit/<%= user.user_id %>' class="btn btn-success">Edit</a> &nbsp; 
+                        <% if ( user.pk_userID != 1) { %>                           
+                        <form method="post" action="/users/delete/<%= user.user_id %>" style="float:right">
+                            <input type="submit" class="btn btn-warning" name="delete" value='Delete' onClick="return confirm('Are you sure you want to delete?')" />
+                            <input type="hidden" name="_method" value="POST" />
+                        </form>
+                        <% } %>
+                    </div>
+                </td>
+            </tr>
+        <% }) %>
+        <% } %>
+     
+</table>
+</html>
