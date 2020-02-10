@@ -39,6 +39,7 @@
                     <br>
                     <!-- this will be the beginning of the form that will contain the employee's information -->
                     <!--Input for first and last name-->
+                    <input type="hidden" id="inputEmpId">
                     <form action="">
                         <div class="form-row">
                             <div class="form-group col-md-6">
@@ -87,7 +88,7 @@
                                     <label for="inputAddress2">Address 2 (optional)</label>
                                     <input type="text" class="form-control" id="inputAddress2"
                                            placeholder="Apartment, studio, or floor"
-                                           >
+                                    >
                                 </div>
                             </div>
 
@@ -106,7 +107,6 @@
                                         <option value="Canada-Ontario">Canada-Ontario</option>
                                         <option value="Colorado">Colorado</option>
                                         <option value="Company">Company</option>
-                                        <option value="Federal">Federal</option>
                                         <option value="Florida">Florida</option>
                                         <option value="Georgia">Georgia</option>
                                         <option value="Illinois">Illinois</option>
@@ -234,15 +234,15 @@
 
 
                             <!--                            Sign In Button-->
-                           <!-- <div class="form-row">
-                                <div class="col-md-4">
-                                    <button type="submit" class="btn btn-primary" id="employeeAddButton">Submit</button>
-                                </div>
-                            </div>-->
+                            <!-- <div class="form-row">
+                                 <div class="col-md-4">
+                                     <button type="submit" class="btn btn-primary" id="employeeAddButton">Submit</button>
+                                 </div>
+                             </div>-->
                             <div class="form-row">
                                 <div class="col-md-4">
                                     <!--back and next page button-->
-<!--                                    <button type="submit" class="btn btn-secondary"> ← Back</button>-->
+                                    <!--                                    <button type="submit" class="btn btn-secondary"> ← Back</button>-->
                                     <button type="submit" class="btn btn-primary" id="employeeAddButton">Next Page →
                                     </button>
                                 </div>
@@ -250,6 +250,7 @@
                         </div>
                     </form>
                 </div>
+                <h2 style="display:none;" id="employeeInfoDiv"><%= employeeInfo %></h2>
 
             </div>
             <!--side bar where employee and supervisor info will populate-->
@@ -308,8 +309,12 @@
 <script>
   $(document).ready(function () {
     let employeeInfo = getCookie('employeeInfo');
-    if(employeeInfo!==''&& employeeInfo!==undefined){
-      employeeInfo=JSON.parse(employeeInfo)
+    if (employeeInfo === '' || employeeInfo === undefined || getQueryString('empId') > 0) {
+      employeeInfo = $("#employeeInfoDiv").html();
+    }
+    if (employeeInfo !== '' && employeeInfo !== undefined) {
+      employeeInfo = JSON.parse(employeeInfo)
+      $("#inputEmpId").val(employeeInfo['empId']);
       $("#inputFirstName").val(employeeInfo['first_name']);
       $("#inputLastName").val(employeeInfo['last_name']);
       $("#inputEmail").val(employeeInfo['email']);

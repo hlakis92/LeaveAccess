@@ -60,6 +60,12 @@ require('./server/routes')(app);
 var routes = require('./routes/index');
 app.use('/', routes);
 
+var routesUser = require('./routes/users');
+app.use('/', routesUser);
+
+var routesTask = require('./routes/task');
+app.use('/', routesTask)
+
 // app.use(express.static(path.join(__dirname, 'public')));
 // app.use('/users', usersRouter);
 
@@ -79,6 +85,9 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-process.on('unhandledRejection', up => { throw up });
+// process.on('unhandledRejection', up => { throw up });
+process.on('unhandledRejection', (reason, promise) => {
+  console.log('Unhandled Rejection at:', reason.stack || reason);
+});
 
 module.exports = app;

@@ -51,7 +51,8 @@
                                     <div class="col-sm-12">
                                         <button type="button" class="btn btn-primary" id="employeeSearchBtn">Submit
                                         </button>
-                                        <button type="button" class="btn btn-secondary" id="employeeSearchResetBtn">Reset
+                                        <button type="button" class="btn btn-secondary" id="employeeSearchResetBtn">
+                                            Reset
                                         </button>
                                     </div>
                                     <br>
@@ -135,6 +136,7 @@
     '                </tr>';
 
   $(document).ready(function () {
+    deleteAllLeaveCookie();
     getAllEmployeeData();
     $('#employeeSearchBtn').on('click', function (e) {
 
@@ -157,6 +159,10 @@
       type: 'GET',
       url: getAllEmployeeURL + (query || ""),
       dataType: "json",
+      beforeSend: xhr => {
+        xhr.setRequestHeader('udid', getUDID());
+        xhr.setRequestHeader('token', getToken());
+      },
       success: result => {
         console.log(result);
         $("#empTableData").html("");

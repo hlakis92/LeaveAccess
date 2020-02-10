@@ -40,27 +40,40 @@ let addAllDataService = async (request) => {
   debug("leave.service -> addAllDataService");
   let data = common.cloneObject(request.body);
   debug("all data", common.cloneObject(data));
+
   let employeeInfo = common.cloneObject(data['employeeInfo']);
   let locationInfo = common.cloneObject(data['locationInfo']);
   let leaveReasonInfo = common.cloneObject(data['leaveReasonInfo']);
   let leaveProviderInfo = common.cloneObject(data['leaveProviderInfo']);
   let leaveTypeInfo = common.cloneObject(data['leaveTypeInfo']);
   let leaveEligibilityList = common.cloneObject(data['leaveEligibilityList']);
+  let empId = JSON.parse(data['employeeInfo'])['empId'] || 0;
+  let locationId = JSON.parse(data['locationInfo'])['empId'] || 0;
+  let leaveInfoId = JSON.parse(leaveProviderInfo)['leave_info_id'] || 0;
+  if (empId === 0) {
+    let employeeInfoResult = await leaveDAL.addEmployeeDetail(employeeInfo);
 
-  let employeeInfoResult = await leaveDAL.addEmployeeDetail(employeeInfo);
-  let empId;
-  if (employeeInfoResult.status === true) {
-    empId = employeeInfoResult.content['insertId']
+    if (employeeInfoResult.status === true) {
+      empId = employeeInfoResult.content['insertId'];
+    }
+    let locationId;
+    let locationInfoResult = await leaveDAL.addLocationDetail(locationInfo, empId);
+    if (employeeInfoResult.status === true) {
+      locationId = locationInfoResult.content['insertId'];
+    }
+    if (locationId !== undefined) {
+      await leaveDAL.addEmployeeWorkSchedule(empId, locationId, locationInfo);
+    }
   }
-  let locationInfoResult = await leaveDAL.addLocationDetail(locationInfo, empId);
-  let leaveInfoResult = await leaveDAL.addLeaveInfo(leaveReasonInfo, leaveProviderInfo, leaveTypeInfo, empId);
-  let leaveInfoId;
-  if (leaveInfoResult.status === true) {
-    leaveInfoId = leaveInfoResult.content['insertId']
+  if (leaveInfoId === 0) {
+    let leaveInfoResult = await leaveDAL.addLeaveInfo(leaveReasonInfo, leaveProviderInfo, leaveTypeInfo, empId);
+    if (leaveInfoResult.status === true) {
+      leaveInfoId = leaveInfoResult.content['insertId']
+    }
+    let addLeaveResult = await leaveDAL.addEmployeeLeave(leaveEligibilityList, empId, leaveInfoId);
+    debug("employeeInfoResult", empId);
   }
 
-  let addLeaveResult = await leaveDAL.addEmployeeLeave(leaveEligibilityList, empId, leaveInfoId);
-  debug("employeeInfoResult", empId);
   return {status: true, data: {}}
 };
 
@@ -82,7 +95,7 @@ let getEmployeeLeaveService = async (request) => {
   } else {
     return {status: false, error: {}}
   }
-}
+};
 
 /**
  * Created By: AV
@@ -121,6 +134,7 @@ let getEmployeeLeaveClaimInfoService = async (request) => {
   let employeeLeaveClaimInfoResult = await leaveDAL.getEmployeeLeaveClaimInfoServiceByClaimNumber(claimNumber);
   let employeeLeaveMaximumDurationResult = await leaveDAL.getEmployeeLeavePlanSummaryMaxDurationByClaimNumber(claimNumber);
   let employeeLeavePlanStatusByClaimNumberResult = await leaveDAL.getEmployeeLeavePlanStatusByClaimNumber(claimNumber);
+  let employeePaperWorkReviewResult = await leaveDAL.getEmployeeLeavePaperWorkReviewDataByClaimNumber(claimNumber);
   let employeeLeaveMaximumDurationData;
   if (employeeLeaveMaximumDurationResult.status === true && employeeLeaveMaximumDurationResult.content.length !== 0) {
     employeeLeaveMaximumDurationData = employeeLeaveMaximumDurationResult.content;
@@ -139,13 +153,13 @@ let getEmployeeLeaveClaimInfoService = async (request) => {
       }
     });
   }
-
   if (employeeLeaveClaimInfoResult.status === true && employeeLeaveClaimInfoResult.content.length !== 0) {
     return {
       status: true, data: {
         leaveInfo: employeeLeaveClaimInfoResult.content[0],
         planMaximumDuration: employeeLeaveMaximumDurationData,
-        planStatus: employeeLeavePlanStatusByClaimNumberResult.content
+        planStatus: employeeLeavePlanStatusByClaimNumberResult.content,
+        paperWorkReview: employeePaperWorkReviewResult.content
       }
     }
   } else {
@@ -153,6 +167,211 @@ let getEmployeeLeaveClaimInfoService = async (request) => {
   }
 };
 
+/**
+ * Created By: AV
+ * Updated By: AV
+ *
+ * editLeaveDecisionService
+ * @param  {object}  request
+ * @return {object}
+ *
+ */
+let editLeaveDecisionService = async (request) => {
+  debug("leave.service -> editLeaveDecisionService");
+  let data = common.cloneObject(request.body);
+  let leaveInfoId = data['leaveInfoId'];
+  // let employeeInfo = common.cloneObject(data['employeeInfo']);
+  debug("...............................................", data);
+  let fieldValueUpdateLeaveInfo = [{
+    field: 'startDate',
+    fValue: data['startDate']
+  }, {
+    field: 'endDate',
+    fValue: data['endDate']
+  }, {
+    field: 'leaveTypeStatus',
+    fValue: data['leaveType']
+  }];
+  let fieldValueUpdateEmployeeLeave = [{
+    field: 'from_date',
+    fValue: data['startDate']
+  }, {
+    field: 'to_date',
+    fValue: data['endDate']
+  }, {
+    field: 'leaveTypeStatus',
+    fValue: data['leaveType']
+  }];
+
+  await leaveDAL.editLeaveInfoByLeaveInfoId(leaveInfoId, fieldValueUpdateLeaveInfo);
+  await leaveDAL.editEmployeeLeaveByLeaveInfoId(leaveInfoId, fieldValueUpdateEmployeeLeave);
+  return {status: true, data: {}};
+};
+
+/**
+ * Created By: AV
+ * Updated By: AV
+ *
+ * checkEmployeeExistOrNotService
+ * @param  {object}  request
+ * @return {object}
+ *
+ */
+let checkEmployeeExistOrNotService = async (request) => {
+  debug("leave.service -> checkEmployeeExistOrNotService");
+  let data = common.cloneObject(request.body);
+  let employeeId = data.employeeId;
+  let empId = data.empId;
+  debug("............................", empId)
+  if (empId > 0) {
+    return {
+      status: true,
+      data: {}
+    };
+  }
+  let result = await leaveDAL.checkEmployeeExistOrNotByEmployeeId(employeeId);
+  if (result.status === true && result.content.length > 0) {
+    return {
+      status: false,
+      error: constant.leaveMessages.ERR_IN_EMPLOYEE_ID_ALREADY_EXIST
+    };
+  } else {
+    return {
+      status: true,
+      data: {}
+    };
+  }
+};
+
+/**
+ * Created By: AV
+ * Updated By: AV
+ *
+ * leaveCloseService
+ * @param  {object}  request
+ * @return {object}
+ *
+ */
+let leaveCloseService = async (request) => {
+  debug("leave.service -> leaveCloseService");
+  let leaveInfoId = request.params.claimNumber;
+  let result = await leaveDAL.leaveCloseByLeaveInfoId(leaveInfoId);
+  return {
+    status: true,
+    data: {}
+  };
+};
+
+/**
+ * Created By: AV
+ * Updated By: AV
+ *
+ * getEmployeeLeaveProviderService
+ * @param  {object}  request
+ * @return {object}
+ *
+ */
+let getEmployeeLeaveProviderService = async (request) => {
+  debug("leave.service -> getEmployeeLeaveProviderService");
+  let leaveInfoId = request.query.claimNumber;
+  let result = await leaveDAL.getEmployeeLeaveProviderByLeaveInfoId(leaveInfoId);
+  return {
+    status: true,
+    data: result.content[0]
+  };
+};
+
+/**
+ * Created By: AV
+ * Updated By: AV
+ *
+ * getEmployeeLeaveEligibilityService
+ * @param  {object}  request
+ * @return {object}
+ *
+ */
+let getEmployeeLeaveEligibilityService = async (request) => {
+  debug("leave.service -> getEmployeeLeaveEligibilityService");
+  let leaveInfoId = request.query.claimNumber;
+  let result = await leaveDAL.getEmployeeLeaveEligibilityByLeaveInfoId(leaveInfoId);
+  return {
+    status: true,
+    data: result.content
+  };
+};
+
+/**
+ * Created By: AV
+ * Updated By: AV
+ *
+ * getEmployeeLeaveEligibilityService
+ * @param  {object}  request
+ * @return {object}
+ *
+ */
+let returnToWorkConfirmationService = async (request) => {
+  debug("leave.service -> returnToWorkConfirmationService");
+  let leaveInfoId = request.body.leaveInfoId;
+  let type = request.body.type; // [ERTW | ARTW]
+  let fieldValueUpdate;
+  if (type === "ERTW") {
+    fieldValueUpdate = [{
+      field: 'ERTW_userId',
+      fValue: request.body['ERTW_userId']
+    }, {
+      field: 'ERTWDate',
+      fValue: request.body['ERTWDate']
+    }]
+  } else if (type === "ARTW") {
+    fieldValueUpdate = [{
+      field: 'ARTW_userId',
+      fValue: request.body['ARTW_userId']
+    }, {
+      field: 'ARTWDate',
+      fValue: request.body['ARTWDate']
+    }]
+  }
+  let result = await leaveDAL.editLeaveInfoByLeaveInfoId(leaveInfoId, fieldValueUpdate);
+  let successMessage = constant.leaveMessages.MSG_RETURN_TO_WORK_CONFIRMATION_ADDED_SUCCESSFULLY;
+  successMessage.message = common.generatingTemplate(successMessage.message, {type: type});
+  return {
+    status: true,
+    data: successMessage,
+  };
+};
+
+/**
+ * Created By: AV
+ * Updated By: AV
+ *
+ * getEmployeeLeaveEligibilityService
+ * @param  {object}  request
+ * @return {object}
+ *
+ */
+let paperWorkReviewService = async (request) => {
+  debug("leave.service -> paperWorkReviewService");
+  let leaveInfoId = request.body.leaveInfoId;
+  let paperWorkDataSelected = (request.body.paperWorkDataSelected).split(",");
+  let paperWorkDataUnSelected = (request.body.paperWorkDataUnSelected).split(",");
+  let addValueArray = [];
+  paperWorkDataSelected.forEach(data => {
+    if (data !== "") {
+      addValueArray.push([leaveInfoId, data, 1]);
+    }
+  });
+  paperWorkDataUnSelected.forEach(data => {
+    if (data !== "") {
+      addValueArray.push([leaveInfoId, data, 0]);
+    }
+  });
+  await leaveDAL.removePaperWorkReviewByLeaveInfoId(leaveInfoId);
+  await leaveDAL.addPaperWorkReview(addValueArray);
+  return {
+    status: true,
+    data: constant.leaveMessages.MSG_PAPER_WORK_REVIEW_UPDATED_SUCCESSFULLY
+  }
+};
 
 module.exports = {
   checkLeaveEligibilityService: checkLeaveEligibilityService,
@@ -160,4 +379,11 @@ module.exports = {
   getEmployeeLeaveService: getEmployeeLeaveService,
   getEmployeeLeaveSummaryService: getEmployeeLeaveSummaryService,
   getEmployeeLeaveClaimInfoService: getEmployeeLeaveClaimInfoService,
+  editLeaveDecisionService: editLeaveDecisionService,
+  checkEmployeeExistOrNotService: checkEmployeeExistOrNotService,
+  leaveCloseService: leaveCloseService,
+  getEmployeeLeaveProviderService: getEmployeeLeaveProviderService,
+  getEmployeeLeaveEligibilityService: getEmployeeLeaveEligibilityService,
+  returnToWorkConfirmationService: returnToWorkConfirmationService,
+  paperWorkReviewService: paperWorkReviewService,
 };

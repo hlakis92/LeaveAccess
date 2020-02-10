@@ -1,5 +1,6 @@
 let tbl_EmployeeMaster = "tbl_EmployeeMaster";
 let tbl_LocationMaster = "tbl_LocationMaster";
+let tbl_EmployeeWorkScheduleMapping = "tbl_EmployeeWorkScheduleMapping";
 
 
 let query = {
@@ -58,7 +59,133 @@ let query = {
       encloseField: false,
       alias: 'location_state_name'
     }]
-  }
+  },
+  /* get employee info by emp_id query start */
+  getEmployeeInfoByEmpIdQuery: {
+    table: tbl_EmployeeMaster,
+    select: [{
+      field: 'pk_empID',
+      alias: 'empId'
+    }, {
+      field: 'firstName',
+      alias: 'first_name'
+    }, {
+      field: 'lastName',
+      alias: 'last_name'
+    }, {
+      field: 'email',
+      alias: 'email'
+    }, {
+      field: 'DATE_FORMAT(DOB, "%Y-%m-%d")',
+      encloseField: false,
+      alias: 'DOB'
+    }, {
+      field: 'gender',
+      alias: 'gender'
+    }, {
+      field: 'address1',
+      alias: 'address1'
+    }, {
+      field: 'address2',
+      alias: 'address2'
+    }, {
+      field: 'cityName',
+      alias: 'city'
+    }, {
+      field: 'stateName',
+      alias: 'state'
+    }, {
+      field: 'pincode',
+      alias: 'pincode'
+    }],
+    filter: {
+      field: 'pk_empID',
+      operator: 'eq',
+      value: ''
+    }
+  }, // get employee info by emp_id query end
+  // get employee location info by emp_id query start
+  getEmployeeLocationInfoByEmpIdQuery: {
+    join: {
+      table: tbl_LocationMaster,
+      alias: 'LM',
+      joinwith: [{
+        table: tbl_EmployeeWorkScheduleMapping,
+        alias: 'EWSM',
+        type: 'LEFT',
+        joincondition: {
+          table: 'LM',
+          field: 'empId',
+          operator: 'eq',
+          value: {
+            table: 'EWSM',
+            field: 'empId'
+          }
+        }
+      }]
+    },
+    select: [{
+      field: 'LM.empId',
+      encloseField: false,
+      alias: 'empId'
+    }, {
+      field: 'employeeId',
+      alias: 'employeeId'
+    }, {
+      field: '"active"',
+      encloseField: false,
+      alias: 'employeeStatus'
+    }, {
+      field: 'locationEmail',
+      alias: 'locationEmail'
+    }, {
+      field: 'DATE_FORMAT(DOJ, "%Y-%m-%d")',
+      encloseField: false,
+      alias: 'DOJ'
+    }, {
+      field: '_12MonthHours',
+      alias: '_12MonthHours'
+    }, {
+      field: 'address',
+      alias: 'address'
+    }, {
+      field: 'city',
+      alias: 'city'
+    }, {
+      field: 'state',
+      alias: 'state'
+    }, {
+      field: 'pincode',
+      alias: 'pincode'
+    }, {
+      field: 'sunday',
+      alias: 'inputsundayRSHours'
+    }, {
+      field: 'monday',
+      alias: 'inputmondayRSHours'
+    }, {
+      field: 'tuesday',
+      alias: 'inputtuesdayRSHours'
+    }, {
+      field: 'wednesday',
+      alias: 'inputwednesdayRSHours'
+    }, {
+      field: 'thursday',
+      alias: 'inputthursdayRSHours'
+    }, {
+      field: 'friday',
+      alias: 'inputfridayRSHours'
+    }, {
+      field: 'saturday',
+      alias: 'inputsaturdayRSHours'
+    }],
+    filter: {
+      field: 'LM.empID',
+      encloseField: false,
+      operator: 'eq',
+      value: ''
+    }
+  }, // get employee location info by emp_id query end
 };
 
 module.exports = query;

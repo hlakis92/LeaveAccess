@@ -1,12 +1,20 @@
 let windowLocation = window.location;
 let userSignURL = windowLocation.origin + '/api/user/user-signin';
+let logoutURL = windowLocation.origin + '/api/user/logout';
 let addEmployeeURL = windowLocation.origin + '/api/employee/add-employee';
-let dummyCallURL = windowLocation.origin + '/api/employee/dummy-call';
+let syncDataURL = windowLocation.origin + '/api/leave/sync-data';
 let checkLeaveEligibility = windowLocation.origin + '/api/leave/check-leave-eligibility';
 let submitLeaveURL = windowLocation.origin + '/api/leave/add-all-data';
 let getAllEmployeeLeaveURL = windowLocation.origin + '/api/leave/get-employee-leave';
 let getAllEmployeeURL = windowLocation.origin + '/api/employee/get-all-employee';
 let getEmployeeLeaveSummaryURL = windowLocation.origin + '/api/leave/get-employee-leave-summary';
+let editLeaveDecisionURL = windowLocation.origin + '/api/leave/edit-leave-decision';
+let returnToWorkConfirmationURL = windowLocation.origin + '/api/leave/return-to-work-confirmation';
+let paperWorkReviewURL = windowLocation.origin + '/api/leave/paper-work-review';
+
+let getUsersURL = windowLocation.origin + '/api/user';
+
+let getTaskURL = windowLocation.origin + '/api/task';
 
 $('#signinButton').on('click', function (e) {
   e.preventDefault();
@@ -50,7 +58,8 @@ $('#signinButton').on('click', function (e) {
         return false;
       }
       // xhr.setRequestHeader('api-key', apiKey); //For Local
-      // xhr.setRequestHeader('udid', getUDID());
+      xhr.setRequestHeader('udid', getUDID());
+      xhr.setRequestHeader('token', getToken());
       // xhr.setRequestHeader('device-type', getDeviceType());
 
       // $('#loginForm :input:visible[required="required"]').each(function()
@@ -64,39 +73,58 @@ $('#signinButton').on('click', function (e) {
       // });
     },
     success: function (result) {
-      // $("#inputEmail").val("");
-      // $("#inputPassword").val("");
-      // console.log("success...........", result)
       if (result.status === true) {
+        debugger;
+        setCookie('token', result['access_token'], 1);
+        $.cookie('token', result['access_token']);
+        $.cookie('udid', getUDID());
         $("#messageSuccess").text(result.data.message);
-        window.location.href = 'dashboard';
+        window.location.href = 'searchemployee';
       } else {
         let errorHtml = '<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
           result.error.message +
           '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
           '<span aria-hidden="true">&times;</span>' +
           '</button>' +
-          '</div>'
+          '</div>';
         $("#messageError").html(errorHtml);
       }
-      // $("#comment").val("");
-      // $('#thank-you-contactus-dialog').modal('show');
-      // setTimeout(function () {
-      //   $('#thank-you-contactus-dialog').modal('hide');
-      // }, 10000);
     },
     error: function (result) {
       console.log("error..............")
-      // $('#contact-us-dialog').modal('hide');
-      // $("#name").val("");
-      // $("#mobile").val("");
-      // $("#comment").val("");
+    }
+  });
+});
+
+$('#logoutButton').on('click', function (e) {
+  $.ajax({
+    type: 'POST',
+    url: logoutURL,
+    dataType: "json",
+    beforeSend: function (xhr) {
+      xhr.setRequestHeader('udid', getUDID());
+      xhr.setRequestHeader('token', getToken());
+    },
+    success: function (result) {
+      if (result.status === true) {
+        deleteCookie('udid');
+        deleteCookie('token');
+        $.removeCookie('udid');
+        $.removeCookie('token');
+        window.location.href = '/';
+      } else {
+
+      }
+    },
+    error: function (result) {
+      console.log("error..............")
     }
   });
 });
 
 $('#employeeAddButton').on('click', function (e) {
   // e.preventDefault();
+  empId = $("#inputEmpId").val();
   firstName = $("#inputFirstName").val();
   lastName = $("#inputLastName").val();
   email = $("#inputEmail").val();
@@ -108,6 +136,7 @@ $('#employeeAddButton').on('click', function (e) {
   state = $("#inputState").val();
   pincode = $("#inputZip").val();
   let data = {
+    empId: empId,
     first_name: firstName,
     last_name: lastName,
     email: email,
@@ -122,7 +151,7 @@ $('#employeeAddButton').on('click', function (e) {
 
   $.ajax({
     type: 'POST',
-    url: dummyCallURL,
+    url: syncDataURL,
     dataType: "json",
     data: data,
     beforeSend: function (xhr) {
@@ -137,7 +166,11 @@ $('#employeeAddButton').on('click', function (e) {
       console.log(result);
       deleteCookie('employeeInfo');
       setCookie('employeeInfo', JSON.stringify(data), 1);
-      window.location.href = windowLocation.origin + '/location';
+      if (empId > 0) {
+        window.location.href = windowLocation.origin + '/location?empId=' + empId;
+      } else {
+        window.location.href = windowLocation.origin + '/location';
+      }
     },
     error: result => {
       console.log(result)
@@ -147,6 +180,7 @@ $('#employeeAddButton').on('click', function (e) {
 
 $('#locationAddButton').on('click', function (e) {
   let data = {
+    empId: $("#inputEmpId").val(),
     employeeId: $("#inputEmployeeId").val(),
     employeeStatus: $("#inputEmployeeStatus").val(),
     locationEmail: $("#inputLocationEmail").val(),
@@ -165,17 +199,17 @@ $('#locationAddButton').on('click', function (e) {
     payrollPhone: $("#payrollPhone").val(),
     payrollName: $("#payrollName").val(),
     payrollEmail: $("#payrollEmail").val(),
-    inputsundayRSHours: $("#inputsundayRSHours").val(),
-    inputmondayRSHours: $("#inputmondayRSHours").val(),
-    inputtuesdayRSHours: $("#inputtuesdayRSHours").val(),
-    inputwednesdayRSHours: $("#inputwednesdayRSHours").val(),
-    inputthursdayRSHours: $("#inputthursdayRSHours").val(),
-    inputfridayRSHours: $("#inputfridayRSHours").val(),
-    inputSaturdayRSHours: $("#inputSaturdayRSHours").val(),
+    inputsundayRSHours: $("#inputsundayRSHours").val() || 0,
+    inputmondayRSHours: $("#inputmondayRSHours").val() || 0,
+    inputtuesdayRSHours: $("#inputtuesdayRSHours").val() || 0,
+    inputwednesdayRSHours: $("#inputwednesdayRSHours").val() || 0,
+    inputthursdayRSHours: $("#inputthursdayRSHours").val() || 0,
+    inputfridayRSHours: $("#inputfridayRSHours").val() || 0,
+    inputsaturdayRSHours: $("#inputsaturdayRSHours").val() || 0,
   };
   $.ajax({
     type: 'POST',
-    url: dummyCallURL,
+    url: syncDataURL + "?page=location",
     dataType: "json",
     data: data,
     beforeSend: function (xhr) {
@@ -190,9 +224,14 @@ $('#locationAddButton').on('click', function (e) {
     },
     success: result => {
       console.log(result);
-      deleteCookie('locationInfo');
-      setCookie('locationInfo', JSON.stringify(data), 1);
-      window.location.href = windowLocation.origin + '/leavereason';
+      if (result.status === false) {
+        $("#errMsg").html(result.error.message);
+      } else {
+        deleteCookie('locationInfo');
+        setCookie('locationInfo', JSON.stringify(data), 1);
+        window.location.href = windowLocation.origin + '/leavereason';
+      }
+
     },
     error: result => {
       console.log(result)
@@ -202,16 +241,12 @@ $('#locationAddButton').on('click', function (e) {
 
 $('#leaveReasonAddButton').on('click', function (e) {
   let radioValue = $("input[name='gridRadios']:checked").val();
-  console.log(radioValue)
-  // debugger;
-  // alert(radioValue)
   let data = {
     leaveReason: radioValue,
   };
-
   $.ajax({
     type: 'POST',
-    url: dummyCallURL,
+    url: syncDataURL,
     dataType: "json",
     data: data,
     beforeSend: function (xhr) {
@@ -244,10 +279,10 @@ $('#leaveReasonAddButton').on('click', function (e) {
 $('#leaveProviderAddButton').on('click', function (e) {
   let type = (getQueryStringValue("type"));
   let data = {
-    familyFirst: $("#inputFirst4").val(),
-    familyLast: $("#inputLast4").val(),
-    familyMemberDOB: $("#inputFamilyMemberDOB4").val(),
-    familyRelation: $("#inputRelation").val(),
+    familyFirst: $("#inputFirst4").val() || "",
+    familyLast: $("#inputLast4").val() || "",
+    familyMemberDOB: $("#inputFamilyMemberDOB4").val() || "",
+    familyRelation: $("#inputRelation").val() || "",
     inLocoParent: $("#gridCheck").prop('checked'),
     providerName: $("#providerName").val(),
     providerType: $("#providerType").val(),
@@ -257,16 +292,16 @@ $('#leaveProviderAddButton').on('click', function (e) {
   };
   $.ajax({
     type: 'POST',
-    url: dummyCallURL,
+    url: syncDataURL,
     dataType: "json",
     data: data,
     beforeSend: function (xhr) {
       if (
         (type == 1 &&
-           $("#inputFirst4").val() == '' ||
-            $("#inputLast4").val() == '' || $("#inputFamilyMemberDOB4").val() == '' ||
-            $("#inputRelation").val() == ''
-          )) {
+          $("#inputFirst4").val() == '' ||
+          $("#inputLast4").val() == '' || $("#inputFamilyMemberDOB4").val() == '' ||
+          $("#inputRelation").val() == ''
+        )) {
         return false
       } else {
         e.preventDefault();
@@ -293,7 +328,7 @@ $('#leaveProviderAddButton').on('click', function (e) {
   console.log(data);
   $.ajax({
     type: 'POST',
-    url: dummyCallURL,
+    url: syncDataURL,
     dataType: "json",
     data: data,
     beforeSend: function (xhr) {
@@ -334,8 +369,8 @@ $('#leaveTypeAddButtonNext').on('click', function (e) {
     gender: employeeInfo['gender'],
     locationState: (locationInfo['state']).toLowerCase(),
     last_12_month_work_hours: (locationInfo['_12MonthHours']),
-    is_loco_parentis:leaveProviderInfo['inLocoParent'],
-    family_relation:leaveProviderInfo['familyRelation'],
+    is_loco_parentis: leaveProviderInfo['inLocoParent'],
+    family_relation: leaveProviderInfo['familyRelation'],
     doj: (locationInfo['DOJ']),
     leave_type: (data['leaveType']).toLowerCase(),
     from_date: (data['startDate']).toLowerCase(),
@@ -386,7 +421,6 @@ $('#leaveSubmit').on('click', function (e) {
     leaveProviderInfo: leaveProviderInfo,
     leaveTypeInfo: leaveTypeInfo,
     leaveEligibilityList: leaveEligibilityList
-
   };
   // requireData=JSON.parse(requireData)
   console.log(requireData)
@@ -411,6 +445,31 @@ $('#leaveSubmit').on('click', function (e) {
   });
 });
 
+$('#leaveDecisionSubmitButton').on('click', function (e) {
+  let leaveInfoId = $("#leaveInfoId").val();
+  let leaveTypeStatus = $("#selectLeaveTypeOptions").val();
+  let leaveType = $("#leaveType").val();
+  let startDate = $("#fromDate").val();
+  let endDate = $("#toDate").val();
+  let requireData = {
+    leaveInfoId: leaveInfoId,
+    leaveType: leaveTypeStatus,
+    startDate: startDate,
+    endDate: endDate
+  };
+  $.ajax({
+    type: 'POST',
+    url: editLeaveDecisionURL,
+    dataType: "json",
+    data: requireData,
+    success: result => {
+      window.location.href = windowLocation.origin + '/claim' + leaveType + '/' + leaveInfoId;
+    },
+    error: result => {
+      console.log(result)
+    }
+  });
+});
 
 $('#locationBackButton').on('click', function (e) {
   window.location.href = windowLocation.origin + '/employee';
@@ -446,6 +505,103 @@ $('#leaveEligibilityBackButton').on('click', function (e) {
   window.location.href = windowLocation.origin + '/leavetype';
 });
 
+
+$('#ERTWModelButton').on('click', function (e) {
+  let data = {
+    type: 'ERTW',
+    ERTWDate: $("#ERTWDate").val(),
+    ERTW_userId: $("#managersERTWId").val(),
+    leaveInfoId: $("#leaveInfoId").val(),
+  };
+  $.ajax({
+    type: 'POST',
+    url: returnToWorkConfirmationURL,
+    dataType: "json",
+    data: data,
+    beforeSend: function (xhr) {
+      if ($("#ERTWDate").val() == '' || $("#managersERTWId").val() == '') {
+        return false
+      } else {
+        e.preventDefault();
+        $("#ERTWModelClose").trigger("click");
+        $("#ERTWDateDisplayDate").html(getDateInUSFormat($("#ERTWDate").val()))
+      }
+    },
+    success: result => {
+      console.log(result);
+      alert_message(result.data.message, "success");
+    },
+    error: result => {
+      console.log(result)
+    }
+  });
+});
+
+$('#ARTWModelButton').on('click', function (e) {
+  let data = {
+    type: 'ARTW',
+    ARTWDate: $("#ARTWDate").val(),
+    ARTW_userId: $("#managersARTWId").val(),
+    leaveInfoId: $("#leaveInfoId").val(),
+  };
+  $.ajax({
+    type: 'POST',
+    url: returnToWorkConfirmationURL,
+    dataType: "json",
+    data: data,
+    beforeSend: function (xhr) {
+      if ($("#ARTWDate").val() == '' || $("#managersARTWId").val() == '') {
+        return false
+      } else {
+        e.preventDefault();
+        $("#ARTWModelClose").trigger("click");
+        $("#ARTWDateDisplayDate").html(getDateInUSFormat($("#ARTWDate").val()))
+      }
+    },
+    success: result => {
+      console.log(result);
+      alert_message(result.data.message, "success");
+    },
+    error: result => {
+      console.log(result)
+    }
+  });
+});
+
+$('#paperWorkReviewButton').on('click', function (e) {
+  let paperWorkDataSelected = [];
+  let paperWorkDataUnSelected = [];
+  $.each($("input[name='paperWork']"), function () {
+    if (this.checked) {
+      paperWorkDataSelected.push($(this).val());
+    } else {
+      paperWorkDataUnSelected.push($(this).val());
+    }
+
+  });
+  let data = {
+    leaveInfoId: $("#leaveInfoId").val(),
+    paperWorkDataSelected: (paperWorkDataSelected).toString(),
+    paperWorkDataUnSelected: paperWorkDataUnSelected.toString(),
+  };
+  console.log(data)
+  $.ajax({
+    type: 'POST',
+    url: paperWorkReviewURL,
+    dataType: "json",
+    data: data,
+    beforeSend: function (xhr) {
+      $("#paperWorkModelClose").trigger("click");
+    },
+    success: result => {
+      console.log(result);
+      alert_message(result.data.message, "success");
+    },
+    error: result => {
+      console.log(result)
+    }
+  });
+});
 
 function getQueryStringValue(key) {
   return decodeURIComponent(window.location.search.replace(new RegExp("^(?:.*[&\\?]" + encodeURIComponent(key).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"));

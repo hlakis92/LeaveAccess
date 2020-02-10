@@ -195,6 +195,9 @@
                     <% } %>
                 </div>
             </div>
+            <h2 style="display:none;" id="employeeInfoDiv"><%= employeeInfo %></h2>
+            <h2 style="display:none;" id="employeeLocationInfoDiv"><%= employeeLocationInfo %></h2>
+            <h2 style="display:none;" id="employeeLeaveProviderInfoDiv"><%= employeeLeaveProviderInfo %></h2>
 
 
             <!--side bar where employee and supervisor info will populate-->
@@ -254,6 +257,22 @@
 <script>
   $(document).ready(function () {
     let leaveProviderInfo = getCookie('leaveProviderInfo');
+    let employeeInfo = $("#employeeInfoDiv").html();
+    if (employeeInfo !== "") {
+      setCookie('employeeInfo', (employeeInfo), 1);
+    }
+    let locationInfo = $("#employeeLocationInfoDiv").html();
+    if (locationInfo !== "") {
+      setCookie('locationInfo', (locationInfo), 1);
+    }
+    if (leaveProviderInfo === '' || leaveProviderInfo === undefined || getQueryString('empId') > 0) {
+      leaveProviderInfo = $("#employeeLeaveProviderInfoDiv").html();
+      let data = {
+        leaveReason: JSON.parse(leaveProviderInfo)['leaveReason'],
+      };
+      setCookie('leaveReasonInfo', JSON.stringify(data), 1);
+      setCookie('leaveProviderInfo', (leaveProviderInfo), 1);
+    }
     if (leaveProviderInfo !== '' && leaveProviderInfo !== undefined) {
       leaveProviderInfo = JSON.parse(leaveProviderInfo)
       $("#inputFirst4").val(leaveProviderInfo['familyFirst']);

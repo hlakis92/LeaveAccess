@@ -12,7 +12,7 @@
     <div class="container-fluid text-center well margin-auto">
      
  
-    <table width='80%' border=0>
+    <table width='80%' border="0" id="totalUser">
          <head><h1>User List</h1>
                 <div style="padding-bottom: 50px">
                     <button type="button" class="btn btn-primary pull-right"
@@ -22,14 +22,14 @@
                 </div>
 
             </head>
-            <thead>
-        <tr style='text-align:left; background-color:#CCC'>
+            <tbody>
+                    <tr style='text-align:left; background-color:#CCC'>
             <th>Name</th>
             <th>User Type</th>
             <th>Email</th>
             <th>Action</th>
         </tr>
-        
+              
         <!--
             Using FOREACH LOOP for the users array
             
@@ -37,26 +37,92 @@
                 // el - current element, i - index
             });
         -->
-        <% if (data) { %>
-        <% data.forEach(function(user){ %>
-            <tr>
-                <td><%= user.name %></td>
-                <td><%= user.usertype %></td>
-                <td><%= user.email %></td>
-                <td>
-                    <div style="float:left">
-                        <a href='/users/edit/<%= user.user_id %>' class="btn btn-success">Edit</a> &nbsp; 
-                        <% if ( user.pk_userID != 1) { %>                           
-                        <form method="post" action="/users/delete/<%= user.user_id %>" style="float:right">
-                            <input type="submit" class="btn btn-warning" name="delete" value='Delete' onClick="return confirm('Are you sure you want to delete?')" />
-                            <input type="hidden" name="_method" value="POST" />
-                        </form>
-                        <% } %>
-                    </div>
-                </td>
-            </tr>
-        <% }) %>
-        <% } %>
+        
      
+</tbody>
 </table>
+</div></div></body>
+
+<% include ../partials/footer %>
+<script>
+  let template = '<tr id="row_{{user_id}}">\n' +
+    '                    <td>{{name}}</td>\n' +
+    '                    <td>{{usertype}}</td>\n' +
+    '                    <td>{{email}}</td>\n' +
+    '                    <td><a href="/users/edit/{{user_id}}" class="btn btn-success">Edit</a> <a href="javascript:void(0);" data-id="{{user_id}}" class="btn btn-warning" onClick="deleetfun({{user_id}});">Delete</a> </td>'
+    '                </tr>';
+
+  $(document).ready(function () {
+
+
+    // alert('...................call')
+   
+    $.ajax({
+      type: 'GET',
+      url: getUsersURL+'/users',
+      dataType: "json",
+      success: result => {
+        if(result.status === true){
+            (result.data).forEach(d => {
+              $("#totalUser").append(generatingTemplate(template, d))
+            });
+            if(getCookie('success') != '')
+            {
+                alert_message(getCookie('success'), 'success');
+                deleteCookie('success')
+            }
+        }
+        else
+        {
+           alert_message(result.error.message, 'fail');   
+        }
+        
+        //$('#totalLeave').DataTable();
+      },
+      error: result => {
+        console.log(result)
+      }
+    });   
+
+  });
+
+  function deleetfun(id)
+  {
+    var r = confirm("Are you sure you want to delete?");
+      if (r == true) {      
+       //console.log('test'+id);
+        let requireData = {
+          id: id
+        };
+        $.ajax({
+          type: 'POST',
+          url: getUsersURL+'/deleteuser',
+          dataType: "json",
+          data: requireData,
+          success: result => {
+            if(result.status === true){
+               $('#row_'+id).remove();
+                alert_message(result.data.message, 'success')
+            }
+            else
+            {
+               alert_message(result.error.message, 'fail');   
+            }
+            //window.location.href = windowLocation.origin + '/claim' + leaveType + '/' + leaveInfoId;
+          },
+          error: result => {
+            console.log(result)
+          }
+        });
+      }
+  }
+/*  $('.ttt').on('click', function(e) {
+    e.preventDefault();
+    alert('test');
+  });
+   $('.ttt').click(function(){
+    //$('.deleteUserButton').on('click', function (e) {
+        alert('test');
+    });*/
+</script>
 </html>

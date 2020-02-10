@@ -1,13 +1,46 @@
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"
-        crossorigin="anonymous"></script>
+<!-- Display a success alert at the top-right position of the window -->
+<button id="btnsucess" type="button" data-positionX="right" data-positionY="top" data-effect="fadeInUp" data-message=""
+        data-type="success" class="btn pmd-ripple-effect btn-success pmd-z-depth pmd-alert-toggle"
+        style="display: none;">Alert Success
+</button>
+<!-- Display an error alert at the top-right position of the window -->
+<button id="btnfail" type="button" data-positionX="right" data-positionY="top" data-effect="fadeInUp" data-message=""
+        data-type="error" class="btn pmd-ripple-effect btn-danger pmd-z-depth pmd-alert-toggle" style="display: none;">
+    Alert Error
+</button>
+
+<button id="btnwarning" type="button" data-positionX="right" data-positionY="top" data-effect="fadeInUp"
+        data-message="" data-type="warning" style="display: none;"
+        class="btn pmd-ripple-effect btn-warning pmd-z-depth pmd-alert-toggle">Alert Warning
+</button>
+
+<!--<script src="https://code.jquery.com/jquery-3.3.1.min.js"
+        crossorigin="anonymous"></script>-->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
         integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
         crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+<!--<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-        crossorigin="anonymous"></script>
+        crossorigin="anonymous"></script>-->
 <script type="text/javascript" language="javascript"
         src="//cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
 <script src="/javascripts/common.js"></script>
 <script src="/javascripts/api/api.js"></script>
 <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+<script src="/components/alert/js/alert.js"></script>
+<script>
+function alert_message(message, type) {
+    if (type == 'success') {
+      $('#btnsucess').attr("data-message", message);
+      $('#btnsucess').click();
+    } else if (type == 'fail') {
+      $('#btnfail').attr("data-message", message);
+      $('#btnfail').click();
+    }
+    else if (type == 'warning') {
+      $('#btnwarning').attr("data-message", message);
+      $('#btnwarning').click();
+    }
+  }
+</script>

@@ -53,7 +53,9 @@
                         <% employeeLeaveSummaryData['open'].forEach(function(data) { %>
 
                             <tr>
-                                <td><a href=/claim<%= data.leave_type %>/<%= data.leave_info_id %>><%= data.leave_info_id %></a></td>
+                                <td>
+                                    <a href=/claim<%= data.leave_type %>/<%= data.leave_info_id %>><%= data.leave_info_id %></a>
+                                </td>
                                 <td><%= data.leave_type %></td>
                                 <td><%= data.from_date %> - <%= data.to_date %></td>
                             </tr>
@@ -92,7 +94,9 @@
                         </tr>
                         <% employeeLeaveSummaryData['closed'].forEach(function(data) { %>
                             <tr>
-                                <td><%= data.leave_info_id %></td>
+                                <td>
+                                    <a href=/claim<%= data.leave_type %>/<%= data.leave_info_id %>><%= data.leave_info_id %>
+                                </td>
                                 <td><%= data.leave_type %></td>
                                 <td><%= data.from_date %> - <%= data.to_date %></td>
                             </tr>
@@ -112,7 +116,63 @@
 
                     </div>
                 </div>
+            </div>
+            <!--side bar where employee and supervisor info will populate-->
+            <div class="col-sm-2 sidenav2">
+                <div class="row">
+                    <p>
+                        <a href="/employee/?empId=<%= empId %>">Employee Information</a>
+                    </p>
+                    <p>
+                        <a href="/location/?empId=<%= empId %>">Location Information</a>
+                    </p>
+                    <p>
+                        <a href="/leavereason?empId=<%= empId %>">Create New Leave</a>
+                    </p>
+                    <br>
+                    <!-- <div class="col-sm-12"> -->
+                    <div class="well">
+                        <p id="addName">First Last</p>
+                        <p id="addAddress">100 someplace ave, somewhere, AN, 00000</p>
+                        <p id="employeePhoneNumber">Phone Number: </p>
+                        <p id="employeeGender">Gender:</p>
+                        <p id="addEmail">Email: someone@place.com</p>
+                        <p id="employeeStatus">Status:Active</p>
+                    </div>
+                    <!-- </div> -->
+                </div>
 
+                <div class="row">
+                    <!-- <div class="col-sm-12"> -->
+                    <div class="noteArea">
+
+                    </div>
+                    <!-- </div> -->
+                </div>
+
+                <br>
+
+                <div class="row">
+                    <!-- <div class="col-sm-12"> -->
+                    <div class="well sidenav2">
+                        <div id="supervisorcontacts">
+                            <p id="supervisorName">Supervisor Name:</p>
+                            <p id="supervisorPhoneNumber">Supervisor Number:</p>
+                            <p id="supervisorEmail">Supervisor Email:</p>
+                        </div>
+                        <div id="HRcontacts">
+                            <p id="supervisorName">Human Resources Name:</p>
+                            <p id="supervisorPhoneNumber">Human Resources Number:</p>
+                            <p id="supervisorEmail">Human Resources Email:</p>
+                        </div>
+                        <div id="payrollcontacts">
+                            <p id="supervisorName">Payroll/Benefits Name:</p>
+                            <p id="supervisorPhoneNumber">Payroll/Benefits Number:</p>
+                            <p id="supervisorEmail">Payroll/Benefits Email:</p>
+                        </div>
+                        <!-- </div> -->
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -122,7 +182,8 @@
 <% include ../partials/footer %>
 
 <script>
-
-
+  $(document).ready(function () {
+    deleteAllLeaveCookie();
+  });
 </script>
 </html>

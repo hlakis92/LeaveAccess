@@ -18,7 +18,23 @@ let getAllEmployeeByCustomFilter = async (customFilter) => {
   return await common.executeQuery(getAllEmployeeByCustomFilterQuery);
 };
 
+let getEmployeeInfoByEmpId = async (empId) => {
+  debug("employee.DAL -> getEmployeeInfoByEmpId");
+  let getEmployeeInfoByEmpIdQuery = common.cloneObject(query.getEmployeeInfoByEmpIdQuery);
+  getEmployeeInfoByEmpIdQuery.filter.value = empId;
+  return await common.executeQuery(getEmployeeInfoByEmpIdQuery);
+};
+
+let getEmployeeLocationInfoByEmpId = async (empId) => {
+  debug("employee.DAL -> getEmployeeLocationInfoByEmpId");
+  let getEmployeeLocationInfoByEmpIdQuery = common.cloneObject(query.getEmployeeLocationInfoByEmpIdQuery);
+  getEmployeeLocationInfoByEmpIdQuery.filter.value = empId;
+  return await common.executeQuery(getEmployeeLocationInfoByEmpIdQuery);
+};
+
 module.exports = {
   addEmployeeDetails: addEmployeeDetails,
   getAllEmployeeByCustomFilter: getAllEmployeeByCustomFilter,
+  getEmployeeInfoByEmpId: getEmployeeInfoByEmpId,
+  getEmployeeLocationInfoByEmpId: getEmployeeLocationInfoByEmpId,
 };

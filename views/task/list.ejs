@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <% include ../partials/head %>
+
+</head>
+<body>
+
+<div class="container">
+    <% include ../partials/topnav %>
+    <div class="container-fluid text-center well margin-auto">
+     
+ 
+    <table width='80%' border="0" id="totalTask">
+         <head><h1>Task List</h1>
+               
+
+            </head>
+            <tbody>
+                    <tr style='text-align:left; background-color:#CCC'>
+            <th>Claim Number</th>
+            <th>Employee Name</th>
+            <th>Manager</th>
+            <th>Task</th>
+            <th>Due Date</th>
+            <th>Action</th>
+        </tr>
+              
+        <!--
+            Using FOREACH LOOP for the users array
+            
+            myArray.forEach(function(el, index) {
+                // el - current element, i - index
+            });
+        -->
+        
+     
+</tbody>
+</table>
+</div></div></body>
+
+<% include ../partials/footer %>
+<script>
+  let template = '<tr id="row_{{taskId}}">\n' +
+    '                    <td> <a href=/claim{{leave_type}}/{{leave_info_id}}>{{leave_info_id}}</a></td>\n' +
+    '                    <td>{{empName}}</td>\n' +
+    '                    <td>{{name}}</td>\n' +
+    '                    <td>{{taskName}}</td>\n' +
+    '                    <td>{{dueDate}}</td>\n' +
+    '                    <td></td>'
+   // '                    <td><a href="/task/edit/{{taskId}}" class="btn btn-success">Edit</a> <a href="javascript:void(0);" data-id="{{taskId}}" class="btn btn-warning" onClick="deleetfun({{taskId}});">Delete</a> </td>'
+    '                </tr>';
+
+  $(document).ready(function () {
+
+
+    // alert('...................call')
+   
+    $.ajax({
+      type: 'GET',
+      url: getTaskURL+'/tasks',
+      dataType: "json",
+      success: result => {
+        if(result.status === true){
+            (result.data).forEach(d => {
+              $("#totalTask").append(generatingTemplate(template, d))
+            });
+            if(getCookie('success') != '')
+            {
+                alert_message(getCookie('success'), 'success');
+                deleteCookie('success')
+            }
+        }
+        else
+        {
+           alert_message(result.error.message, 'fail');   
+        }
+        
+        //$('#totalLeave').DataTable();
+      },
+      error: result => {
+        console.log(result)
+      }
+    });   
+
+  });
+
+ 
+</script>
+</html>
