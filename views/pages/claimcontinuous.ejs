@@ -77,26 +77,18 @@
                                             </button>
                                             <p class="modal-title">Leave Notes</p>
                                             <br>
-                                            <a href="#newNoteModal2" data-toggle="modal" data-dismiss="modal"><i
-                                                        class="fa fa-sticky-note" aria-hidden="true"
-                                                        style="margin-left: 0%;"></i>New Note</i></a>
+                                            <a href="#newNoteModal2" data-toggle="modal" data-dismiss="modal"><i class="fa fa-sticky-note" aria-hidden="true" style="margin-left: 0%;"></i>New Note</i></a>
                                         </div>
-                                        <div id="loadnotes" class="modal-body"
-                                             style="font-size: small; font-weight: normal; height: 550px; overflow-y: auto;">
-
-
-                                        </div>
+                                        <div id="loadnotes" class="modal-body" style="font-size: small; font-weight: normal; height: 550px; overflow-y: auto;"></div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-default"
-                                                    data-dismiss="modal">Close
-                                            </button>
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                                         </div>
                                     </div>
                                 </div>
                             </div>                            <!-- Modal -->
                             <div class="modal fade" id="newNoteModal2" role="dialog">
                                 <div class="modal-dialog">
-                                    <form>
+                                    <form id="frmCreateNotes">
                                         <!-- Modal content-->
                                         <div class="modal-content">
                                             <div class="modal-header">
@@ -106,16 +98,12 @@
                                             </div>
                                             <div class="modal-body form-group">
                                                 <label for="FormControlTextarea1">Note Information</label>
-                                                <textarea class="form-control" name="notes" id="notes"
-                                                          rows="4"></textarea>
+                                                <textarea class="form-control" name="notes" id="notes" rows="4"></textarea>
                                             </div>
 
                                             <div class="modal-footer">
-                                                <button type="button" class="btn btn-default"
-                                                        data-dismiss="modal">Close
-                                                </button>
-                                                <button type="button" id="createNoteBtn" class="btn btn-primary">Save
-                                                </button>
+                                                <button type="button" id="createNoteModalClose" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                <button type="button" id="createNoteBtn" class="btn btn-primary">Save</button>
                                             </div>
                                         </div>
                                     </form>
@@ -124,7 +112,7 @@
 
                             <div class="modal fade" id="editNotesModal" role="dialog">
                                 <div class="modal-dialog">
-                                    <form>
+                                    <form id="frmEditNotes">
                                         <input type="hidden" id="noteId" name="noteId" value="">
                                         <!-- Modal content-->
                                         <div class="modal-content">
@@ -135,16 +123,12 @@
                                             </div>
                                             <div class="modal-body form-group">
                                                 <label for="FormControlTextarea1">Note Information</label>
-                                                <textarea class="form-control" name="notes" id="edit_notes"
-                                                          rows="4"></textarea>
+                                                <textarea class="form-control" name="notes" id="edit_notes" rows="4"></textarea>
                                             </div>
 
                                             <div class="modal-footer">
-                                                <button type="button" class="btn btn-default"
-                                                        data-dismiss="modal">Close
-                                                </button>
-                                                <button type="button" id="editNoteBtn" class="btn btn-primary">Save
-                                                </button>
+                                                <button type="button" id="editNoteCloseModal" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                <button type="button" id="editNoteBtn" class="btn btn-primary">Save</button>
                                             </div>
                                         </div>
                                     </form>
@@ -153,29 +137,23 @@
 
                             <div class="modal fade" id="viewNotesModal" role="dialog">
                                 <div class="modal-dialog">
-                                    <form>
-
-                                        <!-- Modal content-->
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <button type="button" class="close" data-dismiss="modal">&times;
-                                                </button>
-                                                <h4 class="modal-title">View Note</h4>
-                                            </div>
-                                            <div class="modal-body form-group">
-                                                <label for="FormControlTextarea1">Note Information</label>
-                                                <div style="height: 10px"></div>
-                                                <div id="view_notes" style="font-weight: normal;"></div>
-
-                                            </div>
-
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-default"
-                                                        data-dismiss="modal">Close
-                                                </button>
-                                            </div>
+                                    <!-- Modal content-->
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;
+                                            </button>
+                                            <h4 class="modal-title">View Note</h4>
                                         </div>
-                                    </form>
+                                        <div class="modal-body form-group">
+                                            <label for="FormControlTextarea1">Note Information</label>
+                                            <div style="height: 10px"></div>
+                                            <div id="view_notes" style="font-weight: normal;"></div>
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
@@ -193,62 +171,45 @@
                                         </div>
 
                                         <div class="modal-body">
-                                            <form>
+                                            <form id="frmTask">
                                                 <div class="row">
                                                     <div class="col-md-6">
-
                                                         <div id="pickManager">
                                                             <select name="userId" id="task_userId" required>
                                                                 <option value="">All Claim Manager</option>
                                                                 <% getManagerData.forEach(function(data) { %>
                                                                     <option value="<%= data.userId %>"><%= data.name %></option>
                                                                 <% }); %>
-
                                                             </select>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div>
                                                             <label for="start">Task Due Date</label>
-                                                            <input class="form-control1 input-sm" type="date"
-                                                                   id="task_dueDate" name="dueDate"
-                                                                   value="" min="1990-01-01" max="2088-12-31" required/>
+                                                            <input class="form-control1 input-sm" type="date" id="task_dueDate" name="dueDate" value="" min="1990-01-01" max="2088-12-31" required/>
                                                         </div>
-
                                                     </div>
                                                 </div>
                                                 <br> <br>
                                                 <div class="form-group">
                                                     <label for="taskName">Task Name</label>
-                                                    <input type="text" class="form-control" id="task_taskName"
-                                                           name="tastName" placeholder="Write Task Name" required>
+                                                    <input type="text" class="form-control" id="task_taskName" name="tastName" placeholder="Write Task Name" required>
                                                 </div>
-
-
                                                 <div class="form-group">
-
                                                     <label for="FormControlTextarea1">Description </label>
-                                                    <textarea class="form-control" name="taskDesc" id="task_taskDesc"
-                                                              rows="4"> </textarea>
+                                                    <textarea class="form-control" name="taskDesc" id="task_taskDesc" rows="4"> </textarea>
                                                 </div>
-
-
                                                 <!-- Modal Task Completed Check box -->
                                                 <div class="row taskcheckoff">
                                                     <div class="col-md-12">
-                                                        <input type="checkbox" id="task_status" name="status" value="1"
-                                                               class="taskCheckBox">Task Completed
+                                                        <input type="checkbox" id="task_status" name="status" value="1" class="taskCheckBox">Task Completed
                                                     </div>
                                                 </div>
 
                                                 <div class="row>">
                                                     <div class="modal-footer">
-                                                        <button type="button" id="foo" class="btn btn-default"
-                                                                data-dismiss="modal">Close
-                                                        </button>
-                                                        <button type="button" id="createTaskBtn"
-                                                                class="btn btn-primary">submit
-                                                        </button>
+                                                        <button type="button" id="taskModelclose" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                        <button type="button" id="createTaskBtn" class="btn btn-primary">submit</button>
                                                     </div>
                                                 </div>
                                             </form>
@@ -402,14 +363,8 @@
                                         </div>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-default"
-                                                id="paperWorkModelClose"
-                                                data-dismiss="modal">Close
-                                        </button>
-                                        <button type="button" class="btn btn-primary" id="paperWorkReviewButton"
-                                                type="submit">
-                                            Submit
-                                        </button>
+                                        <button type="button" class="btn btn-default" id="paperWorkModelClose" data-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary" id="paperWorkReviewButton" type="submit">Submit</button>
                                     </div>
                                 </form>
                             </div>
@@ -457,9 +412,7 @@
                                             <div class="form-row">
                                                 <div class="form-group col-md-8">
                                                     <label for="">What is the estimated return to work date?</label>
-                                                    <input type="date" id="ERTWDate" name="trip"
-                                                           value=<%= employeeLeaveClaimInfoData['ERTWDate'] %>
-                                                           min="1990-01-01" max="2088-12-31" required/>
+                                                    <input type="date" id="ERTWDate" name="trip" value=<%= employeeLeaveClaimInfoData['ERTWDate'] %> min="1990-01-01" max="2088-12-31" required/>
                                                 </div>
                                             </div>
                                         </div>
@@ -467,13 +420,8 @@
                                     </div>
 
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-default"
-                                                data-dismiss="modal" id="ERTWModelClose">Close
-                                        </button>
-                                        <button type="sumbmit" class="btn btn-default" id="ERTWModelButton"
-
-                                        >submit
-                                        </button>
+                                        <button type="button" class="btn btn-default" data-dismiss="modal" id="ERTWModelClose">Close</button>
+                                        <button type="sumbmit" class="btn btn-primary" id="ERTWModelButton">Submit</button>
                                     </div>
                                 </form>
                             </div>
@@ -522,9 +470,7 @@
                                             <div class="form-row">
                                                 <div class="form-group col-md-8">
                                                     <label for="">What is the actual return to work date?</label>
-                                                    <input type="date" id="ARTWDate" name="trip"
-                                                           value=<%= employeeLeaveClaimInfoData['ARTWDate'] %>
-                                                           min="1990-01-01" max="2088-12-31" required/>
+                                                    <input type="date" id="ARTWDate" name="trip" value=<%= employeeLeaveClaimInfoData['ARTWDate'] %> min="1990-01-01" max="2088-12-31" required/>
                                                 </div>
                                             </div>
                                         </div>
@@ -532,13 +478,8 @@
                                     </div>
 
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-default"
-                                                data-dismiss="modal" id="ARTWModelClose">Close
-                                        </button>
-                                        <button type="sumbmit" class="btn btn-default" id="ARTWModelButton"
-
-                                        >submit
-                                        </button>
+                                        <button type="button" class="btn btn-default" data-dismiss="modal" id="ARTWModelClose">Close</button>
+                                        <button type="sumbmit" class="btn btn-primary" id="ARTWModelButton">Submit</button>
                                     </div>
                                 </form>
                             </div>
@@ -604,14 +545,9 @@
 
                 </table>
                 <br>
-                <button class="upload-btn-wrapper" type="submit" class="btn btn-primary" type="file" id="attachPw"
-                        onclick="uploadNewPaperwork()">Attach Paperwork<input type="file" name="myfile"/></button>
-
+                <button class="upload-btn-wrapper" type="submit" class="btn btn-primary" type="file" id="attachPw" onclick="uploadNewPaperwork()">Attach Paperwork<input type="file" name="myfile"/></button>
                 <button type="submit" class="btn btn-primary">Upload Paperwork</button>
-
-
             </div>
-
 
             <div class="col-sm-2 sidenav2">
                 <div class="well">
@@ -664,12 +600,6 @@
 <script type="text/javascript">
   $(document).ready(function () {
 
-    /*if(getCookie('note_updaete_success') != '')
-    {
-        alert_message(getCookie('note_updaete_success'), 'success');
-        deleteCookie('note_updaete_success');
-    }*/
-
     $('#createTaskBtn').on('click', function (e) {
       let userId = $("#task_userId").val();
       let dueDate = $("#task_dueDate").val();
@@ -695,7 +625,7 @@
         alert_message('Please select Due Date', 'fail');
         return false;
       }
-      e.preventDefault();
+     
       $.ajax({
         type: 'post',
         url: getTaskURL + '/addtask',
@@ -709,12 +639,14 @@
           "empId": empId
         },
         success: result => {
-          //alert_message(result.data.message, 'success');
           if (result.status === true) {
             alert_message(result.data.message, 'success');
-            $("#myModal").modal("hide");
-            $('.modal-backdrop').css('display', 'none');
-            // window.location.href = windowLocation.origin + '/claimcontinuous/'+leaveInfoId;
+            e.preventDefault();
+            $('#frmTask').trigger("reset");
+            $("#taskModelclose").trigger("click");
+
+            //$("#myModal").modal("hide");
+            //$('.modal-backdrop').css('display', 'none');
           } else {
             alert_message(result.error.message, 'fail');
           }
@@ -726,26 +658,6 @@
       });
     });
 
-    /*$('#noteModal').on('hidden.bs.modal', function () {
-// Load up a new modal...
-$('#myModalNew').modal('show')
-})*/
-
-    /* $("#createnewnotemodel").click(function () {
-         // $("#newNoteModal2").modal('toggle');
-        // $('#noteModal').modal('hide');
-
-         //$("#noteModal").modal("hide");
-         $("#noteModal").on("hidden.bs.modal",function(){
-         $("#newNoteModal2").modal("show");
-         });
-
-     });*/
-
-    /* $("#btnClosePopup").click(function () {
-         $("#MyPopup").modal("hide");
-     });*/
-
     $('#createNoteBtn').on('click', function (e) {
       let notes = $("#notes").val();
       let leaveInfoId = $('#leaveInfoId').val();
@@ -756,29 +668,18 @@ $('#myModalNew').modal('show')
         alert_message('Please enter Notes', 'fail');
         return false;
       }
-
-      e.preventDefault();
+      
       $.ajax({
         type: 'post',
         url: getTaskURL + '/addnotes',
         data: {"notes": notes, "leaveInfoId": leaveInfoId, "empId": empId},
         success: result => {
-          //alert_message(result.data.message, 'success');
           if (result.status === true) {
             alert_message(result.data.message, 'success');
-
-            //$("#newNoteModal2").modal("toggle");
-            // $('.modal-backdrop').css('display', 'none');
-            // $('.modal-backdrop.in').css('opacity', "0")
-            /*                        let template = '<p style="color: blue;">{{empName}} {{createdDate}}</p>\n' +
-               '                     <p>{{notes}}</p>\n' +
-               '                     <p style="font-size: small; color: rgba(0, 0, 255, 0.789); float: right;">Edit note</p><br>\n' +
-               '                     <hr class="noteLines">';
-
-                                   $("#loadnotes").append(generatingTemplate(template, result.data1))
-                                   */
-            $("#notes").val('');
-            // window.location.href = windowLocation.origin + '/claimcontinuous/'+leaveInfoId;
+            e.preventDefault();
+            $('#frmCreateNotes').trigger("reset");
+            $("#createNoteModalClose").trigger("click");
+            //$("#notes").val('');
           } else {
             alert_message(result.error.message, 'fail');
           }
@@ -799,8 +700,7 @@ $('#myModalNew').modal('show')
         alert_message('Please enter Notes', 'fail');
         return false;
       }
-
-      e.preventDefault();
+     
       $.ajax({
         type: 'post',
         url: getTaskURL + '/editnotes',
@@ -808,28 +708,12 @@ $('#myModalNew').modal('show')
         success: result => {
           //alert_message(result.data.message, 'success');
           if (result.status === true) {
-            // alert_message(result.data.message, 'success');
-            //setCookie('note_updaete_success', result.data.message, 1);
-            //$("#newNoteModal2").modal("toggle");
-            // $('.modal-backdrop').css('display', 'none');
-            // $('.modal-backdrop.in').css('opacity', "0")
-            /*                        let template = '<p style="color: blue;">{{empName}} {{createdDate}}</p>\n' +
-               '                     <p>{{notes}}</p>\n' +
-               '                     <p style="font-size: small; color: rgba(0, 0, 255, 0.789); float: right;">Edit note</p><br>\n' +
-               '                     <hr class="noteLines">';
-
-                                   $("#loadnotes").append(generatingTemplate(template, result.data1))
-                                   */
-            /*$("#noteId").val('');
-            $("#edit_notes").val('');
-            $("#editNotesModal").modal("hide");
-
-            $("#editNotesModal").on("hidden.bs.modal",function(){
-             $("#notesList").trigger('click');
-            });*/
-
-
-            window.location.href = windowLocation.origin + '/claimcontinuous/' + $('#leaveInfoId').val();
+            
+            alert_message(result.data.message, 'success');
+            e.preventDefault();
+            //$('#frmTask').trigger("reset");
+            $("#editNoteCloseModal").trigger("click");
+            //window.location.href = windowLocation.origin + '/claimcontinuous/' + $('#leaveInfoId').val();
           } else {
             alert_message(result.error.message, 'fail');
           }
@@ -846,8 +730,6 @@ $('#myModalNew').modal('show')
       '                     <p style="font-size: small; color: rgba(0, 0, 255, 0.789); float: right;">{{editTemplate}}</p><br>\n' +
       '                     <hr class="noteLines">';
 
-    // '         {{editviewlink}}            <p style="font-size: small; color: rgba(0, 0, 255, 0.789); float: right;"><a href="#editNotesModal" data-toggle="modal" data-dismiss="modal" onClick="editNotes({{noteId}}, \'{{notes}}\', {{userId}});" >Edit note</a></p><br>\n' +
-    // '                     <p style="font-size: small; color: rgba(0, 0, 255, 0.789); float: right;"><a href="#viewNotesModal" data-toggle="modal" data-dismiss="modal" onClick="viewNotes(\'{{notes}}\');" >View note</a></p><br>\n' +
     $('#notesList').click(function () {
 
       $.ajax({
@@ -855,25 +737,13 @@ $('#myModalNew').modal('show')
         url: getTaskURL + '/notes',
         dataType: 'json',
         success: result => {
-          //alert_message(result.data.message, 'success');
           if (result.status === true) {
             $('#loadnotes').html('');
 
             (result.data).forEach(d => {
               let editTemplate = '<a href="#editNotesModal" data-toggle="modal" data-dismiss="modal" onClick="editNotes({{noteId}}, \'{{notes}}\', {{userId}});" >Edit note</a>';
               let viewTemplate = '<a href="#viewNotesModal" data-toggle="modal" data-dismiss="modal" onClick="viewNotes(\'{{notes}}\');" >View note</a>';
-              /*console.log(d.userId + '===='+ $('#userId').val());
-              let editviewlink;
-              if(d.userId == $('#userId').val() )
-              {
-                  editviewlink = '<a href="#editNotesModal" data-toggle="modal" data-dismiss="modal" onClick="editNotes({{noteId}}, \'{{notes}}\', {{userId}});" >Edit note</a>';
-
-              }
-              else
-              {
-                   editviewlink = '<a href="#viewNotesModal" data-toggle="modal" data-dismiss="modal" onClick="viewNotes(\'{{notes}}\');" >View note</a>';
-              }
-              $("#loadnotes").append(generatingTemplate(template, editviewlink));*/
+             
               if (d.userId == $('#userId').val()) {
                 let editTemplateWithData = generatingTemplate(editTemplate, d)
                 d['editTemplate'] = editTemplateWithData;
@@ -883,11 +753,7 @@ $('#myModalNew').modal('show')
               }
               $("#loadnotes").append(generatingTemplate(template, d));
             });
-            // update modal content
-            //  $('#noteModal .modal-body').text(data.someval);
-            // show modal
-            //  $('#noteModal').modal('toggle');
-            //$('#noteModal').modal('show');
+            
           } else {
             alert_message(result.error.message, 'fail');
           }
@@ -898,45 +764,8 @@ $('#myModalNew').modal('show')
         }
       });
     });
-
-
-    $('.editNotes').click(function () {
-      //alert('test')
-      /*$.ajax({
-          type: "GET",
-          url: getTaskURL+'/getnotes',
-          dataType: 'json',
-          success: result => {
-          //alert_message(result.data.message, 'success');
-              if(result.status === true){
-                  //$('#loadnotes').html('');
-
-                  // update modal content
-                  $('#newNoteModal2 .modal-title').text('Edit A Note');
-                  $('#notes').val(result.data.notes);
-
-                  //$('#newNoteModal2 .modal-body').text(result.data.notes);
-                  $('#createNoteBtn').hide();
-                  // show modal
-                //  $('#noteModal').modal('toggle');
-                  //$('#noteModal').modal('show');
-              }
-              else
-              {
-                  alert_message(result.error.message, 'fail');
-              }
-
-          },
-          error: result => {
-              console.log(result)
-          }
-      });*/
-    });
-
-
   });
 
-  //<a href="javascript:void(0);" onClick="editNotes({{noteId}}, \'{{notes}}\', {{userId}});" >Edit note</a>
   function editNotes(id, text, userId) {
     $('#edit_notes').val(text);
     $('#noteId').val(id);
