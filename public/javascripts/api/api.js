@@ -11,6 +11,7 @@ let getEmployeeLeaveSummaryURL = windowLocation.origin + '/api/leave/get-employe
 let editLeaveDecisionURL = windowLocation.origin + '/api/leave/edit-leave-decision';
 let returnToWorkConfirmationURL = windowLocation.origin + '/api/leave/return-to-work-confirmation';
 let paperWorkReviewURL = windowLocation.origin + '/api/leave/paper-work-review';
+let uploadMediaURL = windowLocation.origin + '/api/media/upload';
 
 let getUsersURL = windowLocation.origin + '/api/user';
 
@@ -178,7 +179,7 @@ $('#employeeAddButton').on('click', function (e) {
   });
 });
 
-$('#locationAddButton').on('click', function (e) {
+$('#locationAddButton').one('click', function (e) {
   let data = {
     empId: $("#inputEmpId").val(),
     employeeId: $("#inputEmployeeId").val(),
@@ -194,7 +195,7 @@ $('#locationAddButton').on('click', function (e) {
     supervisorName: $("#supervisorName").val(),
     supervisorEmail: $("#supervisorEmail").val(),
     hrPhone: $("#hrPhone").val(),
-    hrPhoneName: $("#hrPhoneName").val(),
+    hrName: $("#hrName").val(),
     hrEmail: $("#hrEmail").val(),
     payrollPhone: $("#payrollPhone").val(),
     payrollName: $("#payrollName").val(),
@@ -408,6 +409,7 @@ function cloneObject(Object) {
 };
 
 $('#leaveSubmit').on('click', function (e) {
+  console.log("........................");
   let employeeInfo = getCookie('employeeInfo');
   let locationInfo = getCookie('locationInfo');
   let leaveReasonInfo = getCookie('leaveReasonInfo');
@@ -605,6 +607,49 @@ $('#paperWorkReviewButton').on('click', function (e) {
 
 function getQueryStringValue(key) {
   return decodeURIComponent(window.location.search.replace(new RegExp("^(?:.*[&\\?]" + encodeURIComponent(key).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"));
+}
+
+
+// media
+let mediaFiles;
+$('#uploadPaperWorkFile').on('change', getFileName);
+function getFileName(event){
+  mediaFiles = event.target.files;
+  // debugger;
+}
+
+$('#UploadPaperWorkDocument').on('click', uploadMedia);
+
+function uploadMedia(event){
+// debugger;
+ 
+  // mediaFiles = event.target.files;
+  if (mediaFiles != undefined && mediaFiles.length > 0) {
+    $('.loaderdiv').show();
+    var mediaData = new FormData();
+    mediaData.append("file", mediaFiles[0]);
+    mediaData.append("leave_info_id", $("#leaveInfoId").val());
+    mediaFiles = undefined;
+    let requestMedia = $.ajax({
+      url: uploadMediaURL,
+      type: "POST",
+      data: mediaData,
+      dataType: "json",
+      cache: false,
+      processData: false,
+      contentType: false,
+    });
+    requestMedia.done(function (data) {
+      if (data.status) {
+        $('.loaderdiv').hide();
+        $("#documentList").append('<div class="form-group col-md-12"><a href='+data.data.url+'>'+data.data.text+'</a></div>');
+        alert_message("Document has been uploaded successfully.", "success");
+      }
+    });
+    requestMedia.fail(function (jqXHR, textStatus) {
+      alert_message(textStatus, "fail");
+    });
+  }
 }
 
 

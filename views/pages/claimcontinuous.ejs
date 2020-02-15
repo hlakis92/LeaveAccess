@@ -3,11 +3,13 @@
 <head>
     <!-- Required meta tags -->
     <% include ../partials/head %>
+
 </head>
 <body>
 <input type="hidden" name="empId" id="empId" value="<%= employeeLeaveClaimInfoData.emp_id %>">
 <input type="hidden" name="leaveInfoId" id="leaveInfoId" value="<%= employeeLeaveClaimInfoData.leave_info_id %>">
 <input type="hidden" name="userId" id="userId" value="<%= userId %>">
+
 <div class="container">
     <% include ../partials/topnav %>
     <div class="container-fluid text-center">
@@ -42,7 +44,9 @@
                             - <%= employeeLeaveClaimInfoData.to_date %></td>
                         <td id="leavePlan"><%= employeeLeaveClaimInfoData.leave_name %> </td>
                     </tr>
+
                 </table>
+
                 <hr>
                 <h5>Plan Summary</h5>
                 <div class="row">
@@ -159,7 +163,9 @@
                                             <div class="form-row">
                                                 <div class="form-group col-md-8">
                                                     <label for="">What is the estimated return to work date?</label>
-                                                    <input type="date" id="ERTWDate" name="trip" value=<%= employeeLeaveClaimInfoData['ERTWDate'] %> min="1990-01-01" max="2088-12-31" required/>
+                                                    <input type="date" id="ERTWDate" name="trip"
+                                                           value=<%= employeeLeaveClaimInfoData['ERTWDate'] %> min="1990-01-01"
+                                                           max="2088-12-31" required/>
                                                 </div>
                                             </div>
                                         </div>
@@ -167,8 +173,11 @@
                                     </div>
 
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-default" data-dismiss="modal" id="ERTWModelClose">Close</button>
-                                        <button type="sumbmit" class="btn btn-primary" id="ERTWModelButton">Submit</button>
+                                        <button type="button" class="btn btn-default" data-dismiss="modal"
+                                                id="ERTWModelClose">Close
+                                        </button>
+                                        <button type="sumbmit" class="btn btn-primary" id="ERTWModelButton">Submit
+                                        </button>
                                     </div>
                                 </form>
                             </div>
@@ -217,7 +226,9 @@
                                             <div class="form-row">
                                                 <div class="form-group col-md-8">
                                                     <label for="">What is the actual return to work date?</label>
-                                                    <input type="date" id="ARTWDate" name="trip" value=<%= employeeLeaveClaimInfoData['ARTWDate'] %> min="1990-01-01" max="2088-12-31" required/>
+                                                    <input type="date" id="ARTWDate" name="trip"
+                                                           value=<%= employeeLeaveClaimInfoData['ARTWDate'] %> min="1990-01-01"
+                                                           max="2088-12-31" required/>
                                                 </div>
                                             </div>
                                         </div>
@@ -225,8 +236,11 @@
                                     </div>
 
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-default" data-dismiss="modal" id="ARTWModelClose">Close</button>
-                                        <button type="sumbmit" class="btn btn-primary" id="ARTWModelButton">Submit</button>
+                                        <button type="button" class="btn btn-default" data-dismiss="modal"
+                                                id="ARTWModelClose">Close
+                                        </button>
+                                        <button type="sumbmit" class="btn btn-primary" id="ARTWModelButton">Submit
+                                        </button>
                                     </div>
                                 </form>
                             </div>
@@ -245,6 +259,8 @@
                         </article>
                     </section>
                 </div>
+
+
                 <br><br>
                 <h5>Notifications</h5>
                 <table id="notifications">
@@ -254,11 +270,12 @@
                         <th>Sent By</th>
                         <th>Date</th>
                     </tr>
+
                     <tr id="employeeInfo">
                         <td id="letterSent">
                             <a href="#"> Decision</a>
                         </td>
-                        <td id="employee">Francisco Chang(TM)</td>
+                        <td id="employee"><%= employeeLeaveInfoData.employeeName%></td>
                         <td id="letterSentMethod">Mail, E-Mail</td>
                         <td id="letterDate">06/25/2018</td>
                     </tr>
@@ -266,7 +283,7 @@
                         <td id="letterSent">
                             <a href="#">Decision</a>
                         </td>
-                        <td id="supervisor">Roland Mendel</td>
+                        <td id="supervisor"><%= employeeLeaveInfoData.supervisorContactName%></td>
                         <td id="letterSentMethod">E-Mail</td>
                         <td id="letterDate">06/25/2018</td>
                     </tr>
@@ -274,7 +291,7 @@
                         <td id="letterSent">
                             <a href="#">Eligibility</a>
                         </td>
-                        <td id="employee">Francisco Chang(TM)</td>
+                        <td id="employee"><%= employeeLeaveInfoData.employeeName%></td>
                         <td id="letterSentMethod">Mail, E-Mail</td>
                         <td id="letterDate">06/25/2018</td>
                     </tr>
@@ -282,15 +299,34 @@
                         <td id="letterSent">
                             <a href="#">Eligibility</a>
                         </td>
-                        <td id="supervisor">Roland Mendel</td>
+                        <td id="supervisor"><%= employeeLeaveInfoData.supervisorContactName%></td>
                         <td id="letterSentMethod">E-Mail</td>
                         <td id="letterDate">06/25/2018</td>
                     </tr>
+
                 </table>
                 <br>
-                <button class="upload-btn-wrapper" type="submit" class="btn btn-primary" type="file" id="attachPw" onclick="uploadNewPaperwork()">Attach Paperwork<input type="file" name="myfile"/></button>
-                <button type="submit" class="btn btn-primary">Upload Paperwork</button>
+                <div style="float: left;"> 
+                    <button class="upload-btn-wrapper" type="submit" class="btn btn-primary"
+                            type="file">Attach Paperwork
+                        <input type="file" name="file" id="uploadPaperWorkFile"/>
+                    </button>
+                    <button type="submit" class="btn btn-primary" id="UploadPaperWorkDocument">Upload Paperwork</button>
+                </div>
+                <div style="float: left; padding-left: 30px;">
+                    <div class="loader loaderdiv"></div>
+                </div>
+                <br><br>
+                <h5>Uploaded Paperwork Document</h5>
+                <div id="documentList">
+                    <% paperWorkReviewDocumentList.forEach(function(data) { %>
+                        <div class="form-group col-md-12">
+                            <a href="<%= data['url'] %>"><%= data['text'] %></a>
+                        </div>
+                    <% }); %>
+                </div>
             </div>
+
 
             <div class="col-sm-2 sidenav2">
                 <div class="well">
@@ -301,8 +337,11 @@
                     <p id="addEmail">Email: someone@place.com</p>
                     <p id="employeeStatus">Status:Active</p>
                 </div>
+
                 <div class="noteArea"></div>
+
                 <br>
+
                 <div class="well sidenav2">
                     <div id="supervisorcontacts">
                         <p id="supervisorName">Supervisor Name:</p>
@@ -319,7 +358,9 @@
                         <p id="supervisorPhoneNumber">Payroll/Benefits Number:</p>
                         <p id="supervisorEmail">Payroll/Benefits Email:</p>
                     </div>
+
                 </div>
+
                 <div class="well">
                     <p id="updateClaimNumber">Leave ID: 2019000001</p>
                     <p id="dateOpened">Date Opened: 00/00/0000</p>
@@ -331,6 +372,8 @@
             </div>
         </div>
     </div>
+
 </body>
 <% include ../partials/footer %>
+
 </html>

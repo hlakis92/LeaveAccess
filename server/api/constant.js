@@ -5,6 +5,19 @@ let applicationConfiguration = {
   "API_START_PATH": '/api/',
   "DB_DATE_FORMAT_DOB": '%Y-%m-%d',
   "DB_DATE_FORMAT": '%Y-%m-%d %H:%M:%S',
+  // "MEDIA_UPLOAD_DIR": '/home/ubuntu/media/tmp/', // live
+  "MEDIA_UPLOAD_DIR": 'C:\\Users\\Admin\\Downloads\\media\\tmp\\', // local - ashish
+  "MEDIA_GET_STATIC_URL": 'https://leave-media.s3.us-east-2.amazonaws.com/',
+  "MEDIA_UPLOAD_FILE_NAME_SETTINGS": {
+    "length": 12,
+  },
+  "S3_CONFIG": {
+    "ACCESS_KEY_ID": "AKIA34BJA5WZCCLHIWPJ",
+    "SECRET_ACCESS_KEY": "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",
+    "MEDIA_DEFAULT_BUCKET_NAME": "leave-media",
+    "REGION": "us-east-2",
+    "API_VERSION": "latest"
+  },
 };
 
 

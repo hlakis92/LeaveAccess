@@ -131,10 +131,17 @@ let getEmployeeLeaveSummaryService = async (request) => {
 let getEmployeeLeaveClaimInfoService = async (request) => {
   debug("leave.service -> getEmployeeLeaveClaimInfoService");
   let claimNumber = request.params.claimNumber;
+  let employeeLeaveInfoResult = await leaveDAL.getEmployeeLeaveClaimInfoByClaimNumber(claimNumber);
   let employeeLeaveClaimInfoResult = await leaveDAL.getEmployeeLeaveClaimInfoServiceByClaimNumber(claimNumber);
   let employeeLeaveMaximumDurationResult = await leaveDAL.getEmployeeLeavePlanSummaryMaxDurationByClaimNumber(claimNumber);
   let employeeLeavePlanStatusByClaimNumberResult = await leaveDAL.getEmployeeLeavePlanStatusByClaimNumber(claimNumber);
   let employeePaperWorkReviewResult = await leaveDAL.getEmployeeLeavePaperWorkReviewDataByClaimNumber(claimNumber);
+  let employeePaperWorkReviewDocumentResult = await leaveDAL.getEmployeeLeavePaperWorkReviewDocumentDataByClaimNumber(claimNumber);
+  if(employeePaperWorkReviewDocumentResult.status===true){
+    (employeePaperWorkReviewDocumentResult.content).forEach(data=>{
+      data['url'] = constant.appConfig.MEDIA_GET_STATIC_URL+data['url'];
+    });
+  }
   let employeeLeaveMaximumDurationData;
   if (employeeLeaveMaximumDurationResult.status === true && employeeLeaveMaximumDurationResult.content.length !== 0) {
     employeeLeaveMaximumDurationData = employeeLeaveMaximumDurationResult.content;
@@ -156,10 +163,12 @@ let getEmployeeLeaveClaimInfoService = async (request) => {
   if (employeeLeaveClaimInfoResult.status === true && employeeLeaveClaimInfoResult.content.length !== 0) {
     return {
       status: true, data: {
+        employeeInfo:employeeLeaveInfoResult.content[0],
         leaveInfo: employeeLeaveClaimInfoResult.content[0],
         planMaximumDuration: employeeLeaveMaximumDurationData,
         planStatus: employeeLeavePlanStatusByClaimNumberResult.content,
-        paperWorkReview: employeePaperWorkReviewResult.content
+        paperWorkReview: employeePaperWorkReviewResult.content,
+        paperWorkReviewDocument: employeePaperWorkReviewDocumentResult.content
       }
     }
   } else {
