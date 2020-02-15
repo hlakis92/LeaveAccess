@@ -1,0 +1,338 @@
+<!-- Trigger the Task modal with a button -->
+<button type="button" class="btn btn-info btn-md" class="outputTask" id="notesList"
+        data-toggle="modal" data-target="#noteModal" data-spy="scroll">
+    <i class="fa fa-sticky-note" aria-hidden="true"></i> Notes</i>
+
+</button>
+<!-- Notes Modal -->
+<div class="modal fade" id="noteModal" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content ">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <p class="modal-title">Leave Notes</p>
+                <br>
+                <a href="#newNoteModal2" data-toggle="modal" data-dismiss="modal">
+                    <i class="fa fa-sticky-note" aria-hidden="true" style="margin-left: 0%;">
+                        New Note
+                    </i>
+                </a>
+            </div>
+            <div id="loadnotes" class="modal-body" style="font-size: small; font-weight: normal; height: 550px; overflow-y: auto;"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="newNoteModal2" role="dialog">
+    <div class="modal-dialog">
+        <form id="frmCreateNotes">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;
+                    </button>
+                    <h4 class="modal-title">Create A New Note</h4>
+                </div>
+                <div class="modal-body form-group">
+                    <label for="FormControlTextarea1">Note Information</label>
+                    <textarea class="form-control" name="notes" id="notes" rows="4"></textarea>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" id="createNoteModalClose" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" id="createNoteBtn" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="modal fade" id="editNotesModal" role="dialog">
+    <div class="modal-dialog">
+        <form id="frmEditNotes">
+            <input type="hidden" id="noteId" name="noteId" value="">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;
+                    </button>
+                    <h4 class="modal-title">Edit Note</h4>
+                </div>
+                <div class="modal-body form-group">
+                    <label for="FormControlTextarea1">Note Information</label>
+                    <textarea class="form-control" name="notes" id="edit_notes" rows="4"></textarea>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" id="editNoteCloseModal" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" id="editNoteBtn" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="modal fade" id="viewNotesModal" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;
+                </button>
+                <h4 class="modal-title">View Note</h4>
+            </div>
+            <div class="modal-body form-group">
+                <label for="FormControlTextarea1">Note Information</label>
+                <div style="height: 10px"></div>
+                <div id="view_notes" style="font-weight: normal;"></div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+        <!-- <p id="employeeStatus">Status:Active</p> -->
+
+        <!-- Modal content-->
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h5 class="modal-title">Set Task</h5>
+            </div>
+
+            <div class="modal-body">
+                <form id="frmTask">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div id="pickManager">
+                                <select name="userId" id="task_userId" required>
+                                    <option value="">All Claim Manager</option>
+                                    <% getManagerData.forEach(function(data) { %>
+                                        <option value="<%= data.userId %>"><%= data.name %></option>
+                                    <% }); %>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div>
+                                <label for="start">Task Due Date</label>
+                                <input class="form-control1 input-sm" type="date" id="task_dueDate" name="dueDate" value="" min="1990-01-01" max="2088-12-31" required/>
+                            </div>
+                        </div>
+                    </div>
+                    <br> <br>
+                    <div class="form-group">
+                        <label for="taskName">Task Name</label>
+                        <input type="text" class="form-control" id="task_taskName" name="tastName" placeholder="Write Task Name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="FormControlTextarea1">Description </label>
+                        <textarea class="form-control" name="taskDesc" id="task_taskDesc" rows="4"> </textarea>
+                    </div>
+                    <!-- Modal Task Completed Check box -->
+                    <div class="row taskcheckoff">
+                        <div class="col-md-12">
+                            <input type="checkbox" id="task_status" name="status" value="1" class="taskCheckBox">Task Completed
+                        </div>
+                    </div>
+
+                    <div class="row>">
+                        <div class="modal-footer">
+                            <button type="button" id="taskModelclose" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="button" id="createTaskBtn" class="btn btn-primary">submit</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+  $(document).ready(function () {
+
+    $('#createTaskBtn').on('click', function (e) {
+      let userId = $("#task_userId").val();
+      let dueDate = $("#task_dueDate").val();
+      let taskName = $("#task_taskName").val();
+      let taskDesc = $("#task_taskDesc").val();
+
+      let leaveInfoId = $('#leaveInfoId').val();
+      let empId = $('#empId').val();
+      let status = 0;
+      if ($('#task_status').prop('checked') == true) {
+        status = 1;
+      }
+
+      if (userId == '') {
+        alert_message('Please select Manager', 'fail');
+        return false;
+      }
+      if (taskName == '') {
+        alert_message('Please enter Task Name', 'fail');
+        return false;
+      }
+      if (dueDate == '') {
+        alert_message('Please select Due Date', 'fail');
+        return false;
+      }
+
+      $.ajax({
+        type: 'post',
+        url: getTaskURL + '/addtask',
+        data: {
+          "taskName": taskName,
+          "userId": userId,
+          "dueDate": dueDate,
+          "taskDesc": taskDesc,
+          "status": status,
+          "leaveInfoId": leaveInfoId,
+          "empId": empId
+        },
+        success: result => {
+          if (result.status === true) {
+            alert_message(result.data.message, 'success');
+            e.preventDefault();
+            $('#frmTask').trigger("reset");
+            $("#taskModelclose").trigger("click");
+
+            //$("#myModal").modal("hide");
+            //$('.modal-backdrop').css('display', 'none');
+          } else {
+            alert_message(result.error.message, 'fail');
+          }
+
+        },
+        error: result => {
+          console.log(result)
+        }
+      });
+    });
+
+    $('#createNoteBtn').on('click', function (e) {
+      let notes = $("#notes").val();
+      let leaveInfoId = $('#leaveInfoId').val();
+      let empId = $('#empId').val();
+      let status = 0;
+
+      if (notes == '') {
+        alert_message('Please enter Notes', 'fail');
+        return false;
+      }
+
+      $.ajax({
+        type: 'post',
+        url: getTaskURL + '/addnotes',
+        data: {"notes": notes, "leaveInfoId": leaveInfoId, "empId": empId},
+        success: result => {
+          if (result.status === true) {
+            alert_message(result.data.message, 'success');
+            e.preventDefault();
+            $('#frmCreateNotes').trigger("reset");
+            $("#createNoteModalClose").trigger("click");
+            //$("#notes").val('');
+          } else {
+            alert_message(result.error.message, 'fail');
+          }
+
+        },
+        error: result => {
+          console.log(result)
+        }
+      });
+    });
+
+
+    $('#editNoteBtn').on('click', function (e) {
+      let notes = $("#edit_notes").val();
+      let noteId = $('#noteId').val();
+      let status = 0;
+      if (notes == '') {
+        alert_message('Please enter Notes', 'fail');
+        return false;
+      }
+
+      $.ajax({
+        type: 'post',
+        url: getTaskURL + '/editnotes',
+        data: {"notes": notes, "noteId": noteId},
+        success: result => {
+          //alert_message(result.data.message, 'success');
+          if (result.status === true) {
+
+            alert_message(result.data.message, 'success');
+            e.preventDefault();
+            //$('#frmTask').trigger("reset");
+            $("#editNoteCloseModal").trigger("click");
+            //window.location.href = windowLocation.origin + '/claimcontinuous/' + $('#leaveInfoId').val();
+          } else {
+            alert_message(result.error.message, 'fail');
+          }
+
+        },
+        error: result => {
+          console.log(result)
+        }
+      });
+    });
+
+    let template = '<p style="color: blue;">{{empName}} {{createdDate}}</p>\n' +
+      '                     <p>{{notes}}</p>\n' +
+      '                     <p style="font-size: small; color: rgba(0, 0, 255, 0.789); float: right;">{{editTemplate}}</p><br>\n' +
+      '                     <hr class="noteLines">';
+
+    $('#notesList').click(function () {
+
+      $.ajax({
+        type: "GET",
+        url: getTaskURL + '/notes',
+        dataType: 'json',
+        success: result => {
+          if (result.status === true) {
+            $('#loadnotes').html('');
+
+            (result.data).forEach(d => {
+              let editTemplate = '<a href="#editNotesModal" data-toggle="modal" data-dismiss="modal" onClick="editNotes({{noteId}}, \'{{notes}}\', {{userId}});" >Edit note</a>';
+              let viewTemplate = '<a href="#viewNotesModal" data-toggle="modal" data-dismiss="modal" onClick="viewNotes(\'{{notes}}\');" >View note</a>';
+
+              if (d.userId == $('#userId').val()) {
+                let editTemplateWithData = generatingTemplate(editTemplate, d)
+                d['editTemplate'] = editTemplateWithData;
+              } else {
+                let viewTemplateWithData = generatingTemplate(viewTemplate, d)
+                d['editTemplate'] = viewTemplateWithData;
+              }
+              $("#loadnotes").append(generatingTemplate(template, d));
+            });
+
+          } else {
+            alert_message(result.error.message, 'fail');
+          }
+
+        },
+        error: result => {
+          console.log(result)
+        }
+      });
+    });
+  });
+
+  function editNotes(id, text, userId) {
+    $('#edit_notes').val(text);
+    $('#noteId').val(id);
+  }
+
+  function viewNotes(text) {
+    $('#view_notes').html(text);
+  }
+</script>

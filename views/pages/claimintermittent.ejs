@@ -4,39 +4,18 @@
     <!-- Required meta tags -->
     <% include ../partials/head %>
     <link rel="stylesheet" href="/stylesheets/pickmeup.css" type="text/css" />
-
 </head>
 <body>
-
+<input type="hidden" name="empId" id="empId" value="<%= employeeLeaveClaimInfoData.emp_id %>">
+<input type="hidden" name="leaveInfoId" id="leaveInfoId" value="<%= employeeLeaveClaimInfoData.leave_info_id %>">
+<input type="hidden" name="userId" id="userId" value="<%= userId %>">
 <div class="container">
     <% include ../partials/topnav %>
     <div class="container-fluid text-center">
 
         <div class="row content">
             <div class="col-sm-2 sidenav">
-                <p>
-                    <a href="/leavesummary/<%= employeeLeaveClaimInfoData.emp_id %>">Leave Summary</a>
-                </p>
-                <p>
-                    <a href="#">Manual Letters</a>
-                </p>
-                <p>
-                    <a href="/leaveprovider?type=1&empId=<%= employeeLeaveClaimInfoData.emp_id %>&claimNumber=<%= employeeLeaveClaimInfoData.leave_info_id %>">
-                        Provider Information
-                    </a>
-                </p>
-                <p>
-                    <a href="/decision/<%= employeeLeaveClaimInfoData.leave_info_id %>">Decision</a>
-                </p>
-                <p>
-                    <a href="#">Eligibility Requirements</a>
-                </p>
-                <p>
-                    <a href="../Ancillary/leaveChronologyFamilyMember.html">Leave Chronology</a>
-                </p>
-                <p>
-                    <a href="/closeLeave/<%= employeeLeaveClaimInfoData.leave_info_id %>">Close Leave</a>
-                </p>
+                <% include ../partials/leavesidebar %>
             </div>
             <div class="col-sm-8 text-left well">
                 <div class="row">
@@ -56,180 +35,16 @@
                         <th id="leaveDates">Dates</th>
                         <th id="leavePlan">State/FMLA Plan</th>
                         <th id="leaveNotes">
-                            <!-- Trigger the Task modal with a button -->
-                            <button type="button" class="btn btn-info btn-md" class="outputTask" data-toggle="modal"
-                                    data-target="#noteModal" data-spy="scroll">
-                                <i class="fa fa-sticky-note" aria-hidden="true"></i> Notes</i>
-
-                            </button>
-
-
-                            <!-- Notes Modal -->
-                            <div class="modal fade" id="noteModal" role="dialog">
-                                <div class="modal-dialog">
-
-                                    <!-- Modal content-->
-                                    <div class="modal-content ">
-                                        <div class="modal-header">
-                                            <button type="button" class="close"
-                                                    data-dismiss="modal">&times;</button>
-                                            <p class="modal-title">Leave Notes</p>
-                                            <br>
-                                            <a href="" data-toggle="modal" data-target="#newNoteModal2"><i
-                                                        class="fa fa-sticky-note" aria-hidden="true"
-                                                        style="margin-left: 0%;"></i>New Note</i></a>
-                                        </div>
-                                        <div class="modal-body" style="font-size: small; font-weight: normal ;">
-
-                                            <p style="color: blue;">Hassan Lakis 06/30/2019</p>
-                                            <p>Employee called and requested that paperwork be faxed to doctor</p>
-                                            <p
-                                                    style="font-size: small; color: rgba(0, 0, 255, 0.789); float: right;">
-                                                Edit note</p>
-                                            <br>
-                                            <hr class="noteLines">
-
-                                            <p style="color: blue;">Emilee Smith 06/29/2019</p>
-                                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat iure
-                                                tempora,
-                                                magni ipsum ipsa nesciunt reiciendis suscipit beatae porro quae iste
-                                                eius cumque sapiente placeat,
-                                                voluptatibus quis vero excepturi. Eum.</p>
-                                            <p
-                                                    style="font-size: small; color: rgba(0, 0, 255, 0.789); float: right;">
-                                                view note</p>
-                                            <br>
-                                            <hr class="noteLines">
-
-                                            <p style="color: blue;">Carrie Joe 06/29/2019</p>
-                                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat iure
-                                                tempora,
-                                                magni ipsum ipsa nesciunt reiciendis suscipit beatae porro quae iste
-                                                eius cumque sapiente placeat,
-                                                voluptatibus quis vero excepturi. Eum.</p>
-                                            <p
-                                                    style="font-size: small; color: rgba(0, 0, 255, 0.789); float: right;">
-                                                view note</p>
-                                            <br>
-                                            <hr class="noteLines">
-
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-default"
-                                                    data-dismiss="modal">Close</button>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-
-
-
-                            <!-- Modal -->
-                            <div class="modal fade" id="newNoteModal2" role="dialog">
-                                <div class="modal-dialog">
-
-                                    <!-- Modal content-->
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <button type="button" class="close"
-                                                    data-dismiss="modal">&times;</button>
-                                            <h4 class="modal-title">Create A New Note</h4>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="FormControlTextarea1">Note Information</label>
-                                            <textarea class="form-control" id="exampleFormControlTextarea1"
-                                                      rows="4"> </textarea>
-                                        </div>
-
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-default"
-                                                    data-dismiss="modal">Close</button>
-                                            <button type="sumbmit" class="btn btn-success"
-                                                    data-dismiss="modal">Save</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-            </div>
-
-
-            <!-- Modal -->
-            <div class="modal fade" id="myModal" role="dialog">
-                <div class="modal-dialog">
-                    <p id="employeeStatus">Status:Active</p>
-
-                    <!-- Modal content-->
-                    <div class="modal-content">
-
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h5 class="modal-title">Set Task</h5>
-                        </div>
-
-                        <div class="modal-body">
-                            <div class="row">
-                                <div class="col-md-6">
-
-                                    <div id="pickManager">
-                                        <form action="">
-                                            <select name="managers" required>
-                                                <option value="All">All Claim Manager</option>
-                                                <option value="Hassan">Hassan</option>
-                                                <option value="Hassan">Emilee</option>
-                                                <option value="Hassan">Carrie</option>
-                                            </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div>
-                                        <label for="start">Task Due Date</label>
-                                        <input class="form-control1 input-sm" type="date" id="start" name="trip"
-                                               value="2018-07-22" min="1990-01-01" max="2088-12-31" />
-                                    </div>
-
-                                </div>
-                            </div>
-                            <br> <br>
-                            <div class="form-group">
-                                <label for="taskName">Task Name</label>
-                                <input type="text" class="form-control" id="taskName" placeholder="Write Task Name">
-                            </div>
-
-
-                            <div class="form-group">
-
-                                <label for="FormControlTextarea1">Description </label>
-                                <textarea class="form-control" id="exampleFormControlTextarea1"
-                                          rows="4"> </textarea>
-                            </div>
-
-
-                            <!-- Modal Task Completed Check box -->
-                            <div class="row taskcheckoff">
-                                <div class="col-md-12">
-                                    <input type="checkbox" class="taskCheckBox">Task Completed</div>
-                            </div>
-
-                            <div class="row>">
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-default"
-                                            data-dismiss="modal">Close</button>
-                                    <button type="sumbmit" class="btn btn-default"
-                                            data-dismiss="modal">submit</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            </th>
-            </tr>
-            <td id="leaveType"><%= employeeLeaveClaimInfoData.leave_type %></td>
-            <td id="leaveReasonCode"><%= employeeLeaveClaimInfoData.leave_reason %></td>
-            <td id="leaveDates"><%= employeeLeaveClaimInfoData.from_date %> - <%= employeeLeaveClaimInfoData.to_date %></td>
-            <td id="leavePlan"><%= employeeLeaveClaimInfoData.leave_name %> </td>
-            </table>
+                            <% include ../partials/note %>
+                        </th>
+                    </tr>
+                    <tr>
+                        <td id="leaveType"><%= employeeLeaveClaimInfoData.leave_type %></td>
+                        <td id="leaveReasonCode"><%= employeeLeaveClaimInfoData.leave_reason %></td>
+                        <td id="leaveDates"><%= employeeLeaveClaimInfoData.from_date %> - <%= employeeLeaveClaimInfoData.to_date %></td>
+                        <td id="leavePlan"><%= employeeLeaveClaimInfoData.leave_name %> </td>
+                    </tr>
+                </table>
 
             <hr>
             <h5>Plan Summary</h5>
@@ -305,30 +120,7 @@
                 <div class="outputTask"><a>Decision</a><span class="taskDate"
                                                              style="padding-left: 25px;">MM/DD/YYYY</span></div>
                 <!-- Trigger the Paperwork modal with a button -->
-                <div class="outputTask" data-toggle="modal" data-target="#myModal2"><a>Paperwork Review</a><span
-                            class="taskDate" style="padding-left: 25px;">MM/DD/YYYY</span>
-                    <!-- Modal -->
-                    <div class="modal fade" id="myModal2" role="dialog">
-                        <div class="modal-dialog">
-
-                            <!-- Modal content-->
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                    <h4 class="modal-title">Paperwork Review</h4>
-                                </div>
-                                <div class="modal-body">
-                                    <p>Some text in the modal.</p>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-default"
-                                            data-dismiss="modal">Close</button>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
+                    <% include ../partials/paperwork.ejs %>
                 <!-- Trigger the ERTW modal with a button -->
                 <!--<div class="outputTask" data-toggle="modal" data-target="#myModal3"><a>ERTW
                         Confirmation</a><span class="taskDate" style="padding-left: 25px;">MM/DD/YYYY</span>
