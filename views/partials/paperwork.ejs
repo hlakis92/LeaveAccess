@@ -1,0 +1,36 @@
+<div class="outputTask" data-toggle="modal" data-target="#paperworkModel"><a>Paperwork
+        Review</a><span
+            class="taskDate" style="padding-left: 25px;">MM/DD/YYYY</span>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="paperworkModel" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Paperwork Review</h4>
+            </div>
+            <form action="">
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="form-row">
+                            <% paperWorkReviewList.forEach(function(data) { %>
+                                <div class="form-group col-md-12 paperworkData">
+                                    <label> <input type="checkbox" value="<%= data['value']%>" <%= data['isChecked']%>
+                                                   name="paperWork"><%= data['text']%></label>
+                                </div>
+                            <% }); %>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" id="paperWorkModelClose" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="paperWorkReviewButton" type="submit">Submit</button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>

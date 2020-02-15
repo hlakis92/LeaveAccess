@@ -35,8 +35,18 @@ let addLocationDetail = async (locationInfo, empId) => {
   let city = locationInfo['city'];
   let state = locationInfo['state'];
   let pincode = locationInfo['pincode'];
+  let supervisorName = locationInfo['supervisorName'] || 'NULL';
+  let supervisorPhone = locationInfo['supervisorPhone'] || 'NULL';
+  let supervisorEmail = locationInfo['supervisorEmail'] || 'NULL';
+  let hrName = locationInfo['hrName'] || 'NULL';
+  let hrPhone = locationInfo['hrPhone'] || 'NULL';
+  let hrEmail = locationInfo['hrEmail'] || 'NULL';
+  let payrollName = locationInfo['payrollName'] || 'NULL';
+  let payrollPhone = locationInfo['payrollPhone'] || 'NULL';
+  let payrollEmail = locationInfo['payrollEmail'] || 'NULL';
   let addLocationDetailsQuery = common.cloneObject(query.addLocationDetailsQuery);
-  addLocationDetailsQuery.insert.fValue = [empId, DOJ, employeeId, locationEmail, _12MonthHours, address, city, state, pincode];
+  addLocationDetailsQuery.insert.fValue = [empId, DOJ, employeeId, locationEmail, _12MonthHours, address, city, state, pincode,
+    supervisorName, supervisorPhone, supervisorEmail, hrName, hrPhone, hrEmail, payrollName, payrollPhone, payrollEmail];
   return await common.executeQuery(addLocationDetailsQuery);
 };
 
@@ -115,6 +125,13 @@ let getEmployeeLeaveSummaryByEmpId = async (empId) => {
   let getEmployeeLeaveSummaryByEmpIdQuery = common.cloneObject(query.getEmployeeLeaveSummaryByEmpIdQuery);
   getEmployeeLeaveSummaryByEmpIdQuery.filter.value = empId;
   return await common.executeQuery(getEmployeeLeaveSummaryByEmpIdQuery);
+};
+
+let getEmployeeLeaveClaimInfoByClaimNumber = async (claimNumber) => {
+  debug("leave.DAL -> getEmployeeLeaveClaimInfoByClaimNumber");
+  let getEmployeeLeaveClaimInfoByClaimNumberQuery = common.cloneObject(query.getEmployeeLeaveClaimInfoByClaimNumberQuery);
+  getEmployeeLeaveClaimInfoByClaimNumberQuery.filter.value = claimNumber;
+  return await common.executeQuery(getEmployeeLeaveClaimInfoByClaimNumberQuery);
 };
 
 let getEmployeeLeaveClaimInfoServiceByClaimNumber = async (claimNumber) => {
@@ -203,6 +220,13 @@ let getEmployeeLeavePaperWorkReviewDataByClaimNumber = async (claimNumber) => {
   return await common.executeQuery(getEmployeeLeavePaperWorkReviewDataByClaimNumberQuery);
 };
 
+let getEmployeeLeavePaperWorkReviewDocumentDataByClaimNumber = async (claimNumber) => {
+  debug("leave.DAL -> getEmployeeLeavePaperWorkReviewDocumentDataByClaimNumber");
+  let getEmployeeLeavePaperWorkReviewDocumentDataByClaimNumberQuery = common.cloneObject(query.getEmployeeLeavePaperWorkReviewDocumentDataByClaimNumberQuery);
+  getEmployeeLeavePaperWorkReviewDocumentDataByClaimNumberQuery.filter.value = claimNumber;
+  return await common.executeQuery(getEmployeeLeavePaperWorkReviewDocumentDataByClaimNumberQuery);
+};
+
 module.exports = {
   addEmployeeDetail: addEmployeeDetail,
   addLocationDetail: addLocationDetail,
@@ -211,6 +235,7 @@ module.exports = {
   addEmployeeLeave: addEmployeeLeave,
   getAllEmployeeLeave: getAllEmployeeLeave,
   getEmployeeLeaveSummaryByEmpId: getEmployeeLeaveSummaryByEmpId,
+  getEmployeeLeaveClaimInfoByClaimNumber: getEmployeeLeaveClaimInfoByClaimNumber,
   getEmployeeLeaveClaimInfoServiceByClaimNumber: getEmployeeLeaveClaimInfoServiceByClaimNumber,
   getEmployeeLeavePlanSummaryMaxDurationByClaimNumber: getEmployeeLeavePlanSummaryMaxDurationByClaimNumber,
   getEmployeeLeavePlanStatusByClaimNumber: getEmployeeLeavePlanStatusByClaimNumber,
@@ -223,4 +248,5 @@ module.exports = {
   removePaperWorkReviewByLeaveInfoId: removePaperWorkReviewByLeaveInfoId,
   addPaperWorkReview: addPaperWorkReview,
   getEmployeeLeavePaperWorkReviewDataByClaimNumber: getEmployeeLeavePaperWorkReviewDataByClaimNumber,
+  getEmployeeLeavePaperWorkReviewDocumentDataByClaimNumber: getEmployeeLeavePaperWorkReviewDocumentDataByClaimNumber,
 };

@@ -32,15 +32,15 @@ CREATE TABLE `tbl_EmployeeMaster` (
   `state` VARCHAR(45) NULL,                                                                                                                           `pincode` VARCHAR(10) NULL,
   PRIMARY KEY (`pk_employeeLocationMappingId`));
 
-CREATE TABLE `tbl_Employeelocataioncontactlistmapping` (
-  `pk_empLocationContactLIstMappingId` INT NOT NULL AUTO_INCREMENT,
+CREATE TABLE `tbl_EmployeeLocataionContactListMapping` (
+  `pk_empLocationContactListMappingId` INT NOT NULL AUTO_INCREMENT,
   `fk_employeeId` INT NOT NULL,
   `fk_employeeLocationMappingId` INT NOT NULL,
   `contactType` VARCHAR(45) NOT NULL,
   `contactNumber` VARCHAR(45) NULL,
   `contactName` VARCHAR(45) NOT NULL,
   `contactEmail` VARCHAR(45) NULL,
-  PRIMARY KEY (`pk_empLocationContactLIstMappingId`));
+  PRIMARY KEY (`pk_empLocationContactListMappingId`));
 
 CREATE TABLE `tbl_EmployeeWorkScheduleMapping` (
   `pk_empWorkSchedukeMappingId` INT NOT NULL AUTO_INCREMENT,
@@ -156,3 +156,21 @@ CREATE TABLE `tbl_PaperWorkReview` (
   `isPaperWorkReview` TINYINT(1) NOT NULL DEFAULT 0,
   `createdDate` DATETIME NOT NULL DEFAULT current_timestamp(),
 PRIMARY KEY (`pk_paperWorkReviewId`));
+
+CREATE TABLE `tbl_PaperWorkReviewDocument` (
+  `pk_paperWorkReviewDocumentId` INT NOT NULL AUTO_INCREMENT,
+  `leaveInfoId` INT NOT NULL,
+  `documentName` VARCHAR(45) NOT NULL,
+  `createdDate` DATETIME NOT NULL DEFAULT current_timestamp(),
+PRIMARY KEY (`pk_paperWorkReviewDocumentId`));
+
+ALTER TABLE `tbl_LocationMaster`
+ADD `supervisorContactName` VARCHAR(45) NULL,
+ADD `supervisorContactNumber` VARCHAR(45) NULL,
+ADD `supervisorContactEmail` VARCHAR(45) NULL,
+ADD `HRContactName` VARCHAR(45) NULL,
+ADD `HRContactNumber` VARCHAR(45) NULL,
+ADD `HRContactEmail` VARCHAR(45) NULL,
+ADD `PBContactName` VARCHAR(45) NULL,
+ADD `PBContactNumber` VARCHAR(45) NULL,
+ADD `PBContactEmail` VARCHAR(45) NULL;

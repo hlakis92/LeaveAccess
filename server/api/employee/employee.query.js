@@ -158,6 +158,33 @@ let query = {
       field: 'pincode',
       alias: 'pincode'
     }, {
+      field: 'supervisorContactName',
+      alias: 'supervisorName'
+    }, {
+      field: 'supervisorContactNumber',
+      alias: 'supervisorName'
+    }, {
+      field: 'supervisorContactEmail',
+      alias: 'supervisorEmail'
+    }, {
+      field: 'HRContactName',
+      alias: 'hrName'
+    }, {
+      field: 'HRContactNumber',
+      alias: 'hrPhone'
+    }, {
+      field: 'HRContactEmail',
+      alias: 'hrEmail'
+    }, {
+      field: 'PBContactName',
+      alias: 'payrollName'
+    }, {
+      field: 'PBContactNumber',
+      alias: 'payrollPhone'
+    }, {
+      field: 'PBContactEmail',
+      alias: 'payrollEmail'
+    }, {
       field: 'sunday',
       alias: 'inputsundayRSHours'
     }, {

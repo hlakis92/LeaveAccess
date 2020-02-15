@@ -6,7 +6,9 @@
 
 </head>
 <body>
-
+<input type="hidden" name="empId" id="empId" value="<%= employeeLeaveClaimInfoData.emp_id %>">
+<input type="hidden" name="leaveInfoId" id="leaveInfoId" value="<%= employeeLeaveClaimInfoData.leave_info_id %>">
+<input type="hidden" name="userId" id="userId" value="<%= userId %>">
 <div class="container">
 <% include ../partials/topnav %>
     <div class="container-fluid text-center">
@@ -443,7 +445,7 @@
                     <td id="letterSent">
                         <a href="#"> Decision</a>
                     </td>
-                    <td id="employee">Francisco Chang(TM)</td>
+                    <td id="employee"><%= employeeLeaveInfoData.employeeName%></td>
                     <td id="letterSentMethod">Mail, E-Mail</td>
                     <td id="letterDate">06/25/2018</td>
                 </tr>
@@ -451,7 +453,7 @@
                     <td id="letterSent">
                         <a href="#">Decision</a>
                     </td>
-                    <td id="supervisor">Roland Mendel</td>
+                    <td id="supervisor"><%= employeeLeaveInfoData.supervisorContactName%></td>
                     <td id="letterSentMethod">E-Mail</td>
                     <td id="letterDate">06/25/2018</td>
                 </tr>
@@ -459,7 +461,7 @@
                     <td id="letterSent">
                         <a href="#">Eligibility</a>
                     </td>
-                    <td id="employee">Francisco Chang(TM)</td>
+                    <td id="employee"><%= employeeLeaveInfoData.employeeName%></td>
                     <td id="letterSentMethod">Mail, E-Mail</td>
                     <td id="letterDate">06/25/2018</td>
                 </tr>
@@ -467,17 +469,27 @@
                     <td id="letterSent">
                         <a href="#">Eligibility</a>
                     </td>
-                    <td id="supervisor">Roland Mendel</td>
+                    <td id="supervisor"><%= employeeLeaveInfoData.supervisorContactName%></td>
                     <td id="letterSentMethod">E-Mail</td>
                     <td id="letterDate">06/25/2018</td>
                 </tr>
 
             </table>
             <br>
-            <button class="upload-btn-wrapper" type="submit" class="btn btn-primary" type="file" id="attachPw"
-                    onclick="uploadNewPaperwork()">Attach Paperwork<input type="file" name="myfile" /></button>
-
-            <button type="submit" class="btn btn-primary">Upload Paperwork </button>
+            <button class="upload-btn-wrapper" type="submit" class="btn btn-primary"
+                    type="file">Attach Paperwork
+                <input type="file" name="file" id="uploadPaperWorkFile"/>
+            </button>
+            <button type="submit" class="btn btn-primary" id="UploadPaperWorkDocument">Upload Paperwork</button>
+            <br><br>
+            <h5>Uploaded Paperwork Document</h5>
+            <div id="documentList">
+                <% paperWorkReviewDocumentList.forEach(function(data) { %>
+                    <div class="form-group col-md-12">
+                        <a href="<%= data['url'] %>"><%= data['text'] %></a>
+                    </div>
+                <% }); %>
+            </div>
 
 
 

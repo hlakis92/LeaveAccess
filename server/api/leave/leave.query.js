@@ -4,7 +4,7 @@ let tbl_LeaveInfo = "tbl_LeaveInfo";
 let tbl_EmployeeLeave = "tbl_EmployeeLeave";
 let tbl_EmployeeWorkScheduleMapping = "tbl_EmployeeWorkScheduleMapping";
 let tbl_PaperWorkReview = "tbl_PaperWorkReview";
-
+let tbl_PaperWorkReviewDocument = "tbl_PaperWorkReviewDocument";
 
 let query = {
   /* create user query start */
@@ -19,7 +19,7 @@ let query = {
   addLocationDetailsQuery: {
     table: tbl_LocationMaster,
     insert: {
-      field: ['empId', 'DOJ', 'employeeId', 'locationEmail', '_12MonthHours', 'address', 'city', 'state', 'pincode'],
+      field: ['empId', 'DOJ', 'employeeId', 'locationEmail', '_12MonthHours', 'address', 'city', 'state', 'pincode', 'supervisorContactName', 'supervisorContactNumber', 'supervisorContactEmail', 'HRContactName', 'HRContactNumber', 'HRContactEmail', 'PBContactName', 'PBContactNumber', 'PBContactEmail'],
       fValue: []
     }
   }, // create user query end
@@ -164,6 +164,52 @@ let query = {
       value: ''
     }
   },
+  /* get employee leave claim info by claim_number query start */
+  getEmployeeLeaveClaimInfoByClaimNumberQuery: {
+    join: {
+      table: tbl_EmployeeMaster,
+      alias: 'EM',
+      joinwith: [{
+        table: tbl_LocationMaster,
+        alias: 'LM',
+        joincondition: {
+          table: 'EM',
+          field: 'pk_empID',
+          operator: 'eq',
+          value: {
+            table: 'LM',
+            field: 'empId'
+          }
+        }
+      }, {
+        table: tbl_LeaveInfo,
+        alias: 'LI',
+        joincondition: {
+          table: 'Em',
+          field: 'pk_empID',
+          operator: 'eq',
+          value: {
+            table: 'LI',
+            field: 'empId'
+          }
+        }
+      }]
+    },
+    select: [{
+      field: 'CONCAT(firstName," ",lastName)',
+      encloseField: false,
+      alias: 'employeeName'
+    }, {
+      field: 'IFNULL(supervisorContactName, "-")',
+      encloseField: false,
+      alias: 'supervisorContactName'
+    }],
+    filter: {
+      field: 'pk_leaveInfoId',
+      operator: 'eq',
+      value: ''
+    }
+  }, // get employee leave claim info by claim_number query end
   getEmployeeLeaveClaimInfoServiceByClaimNumberQuery: {
     join: {
       table: tbl_EmployeeLeave,
@@ -480,6 +526,22 @@ let query = {
       value: ''
     },
   }, // get employee leave paper work review data by claim_number query end
+  /* get employee leave paper work review document data by claim_number query start */
+  getEmployeeLeavePaperWorkReviewDocumentDataByClaimNumberQuery: {
+    table: tbl_PaperWorkReviewDocument,
+    select: [{
+      field: 'documentName',
+      alias: 'text'
+    }, {
+      field: 'documentName',
+      alias: 'url'
+    }],
+    filter: {
+      field: 'leaveInfoId',
+      operator: 'EQ',
+      value: ''
+    },
+  }, // get employee leave paper work review document data by claim_number query end
 };
 
 module.exports = query;

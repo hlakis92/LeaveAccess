@@ -206,14 +206,17 @@ router.get('/claimcontinuous/:claimNumber', middleware.checkAccessToken, async f
   let userService = require('./../server/api/user/user.service');
   let getManager = await userService.getManagerService(req);
   let getManagerData = getManager.data;
-  let employeeLeaveClaimInfoData, planMaximumDuration, planStatus, paperWorkReview=[];
+  let employeeLeaveClaimInfoData, planMaximumDuration, planStatus, paperWorkReview = [],
+    paperWorkReviewDocumentList = [], employeeLeaveInfoData;
 
 
   if (employeeLeaveClaimInfoResult.status === true) {
+    employeeLeaveInfoData = employeeLeaveClaimInfoResult.data.employeeInfo;
     employeeLeaveClaimInfoData = employeeLeaveClaimInfoResult.data.leaveInfo;
     planMaximumDuration = employeeLeaveClaimInfoResult.data.planMaximumDuration;
     planStatus = employeeLeaveClaimInfoResult.data.planStatus;
-    paperWorkReview = employeeLeaveClaimInfoResult.data.paperWorkReview
+    paperWorkReview = employeeLeaveClaimInfoResult.data.paperWorkReview;
+    paperWorkReviewDocumentList = employeeLeaveClaimInfoResult.data.paperWorkReviewDocument
 
   } else {
   }
@@ -234,10 +237,12 @@ router.get('/claimcontinuous/:claimNumber', middleware.checkAccessToken, async f
   });
   res.render('pages/claimcontinuous', {
     title: 'Leave Overview',
+    employeeLeaveInfoData: employeeLeaveInfoData,
     employeeLeaveClaimInfoData: employeeLeaveClaimInfoData,
     planMaximumDuration: planMaximumDuration,
     planStatus: planStatus,
     paperWorkReviewList: paperWorkReviewList,
+    paperWorkReviewDocumentList: paperWorkReviewDocumentList,
     getManagerData: getManagerData,
     userId: userId
   });
@@ -246,22 +251,54 @@ router.get('/claimcontinuous/:claimNumber', middleware.checkAccessToken, async f
 router.get('/claimintermittent/:claimNumber', middleware.checkAccessToken, async function (req, res, next) {
   let leaveService = require('./../server/api/leave/leave.service');
   let employeeLeaveClaimInfoResult = await leaveService.getEmployeeLeaveClaimInfoService(req);
+
+  //Get Login User Info
+  let userId = req.session.userInfo.userId
+
+  let userService = require('./../server/api/user/user.service');
+  let getManager = await userService.getManagerService(req);
+  let getManagerData = getManager.data;
+
   // let common = require('./../server/api/common');
-  let employeeLeaveClaimInfoData, planMaximumDuration, planStatus;
+  let employeeLeaveClaimInfoData, planMaximumDuration, planStatus, paperWorkReview = [],
+    paperWorkReviewDocumentList = [], employeeLeaveInfoData;
 
   if (employeeLeaveClaimInfoResult.status === true) {
+    employeeLeaveInfoData = employeeLeaveClaimInfoResult.data.employeeInfo;
     employeeLeaveClaimInfoData = employeeLeaveClaimInfoResult.data.leaveInfo;
     planMaximumDuration = employeeLeaveClaimInfoResult.data.planMaximumDuration;
-    planStatus = employeeLeaveClaimInfoResult.data.planStatus
+    planStatus = employeeLeaveClaimInfoResult.data.planStatus;
+    paperWorkReview = employeeLeaveClaimInfoResult.data.paperWorkReview;
+    paperWorkReviewDocumentList = employeeLeaveClaimInfoResult.data.paperWorkReviewDocument
 
   } else {
 
   }
+  let paperWorkReviewList = [
+    {value: "provider\'s name", text: "Provider\'s Name", isChecked: ""},
+    {value: "provider\'s specialty", text: "Provider\'s Specialty", isChecked: ""},
+    {value: "serious health condition", text: "Serious Health Condition", isChecked: ""},
+    {value: "dates / parameters", text: "Dates / Parameters", isChecked: ""},
+    {value: "provider signature", text: "Provider Signature", isChecked: ""},
+    {value: "date signed", text: "Date Signed", isChecked: ""},
+  ];
+  paperWorkReviewList.forEach(data => {
+    paperWorkReview.forEach(paperWorkData => {
+      if (paperWorkData['paperWorkName'] === data['value'] && paperWorkData['isPaperWorkReview'] == 1) {
+        data['isChecked'] = 'checked';
+      }
+    });
+  });
   res.render('pages/claimintermittent', {
     title: 'Leave Overview',
+    employeeLeaveInfoData: employeeLeaveInfoData,
     employeeLeaveClaimInfoData: employeeLeaveClaimInfoData,
     planMaximumDuration: planMaximumDuration,
     planStatus: planStatus,
+    paperWorkReviewList: paperWorkReviewList,
+    paperWorkReviewDocumentList: paperWorkReviewDocumentList,
+    getManagerData: getManagerData,
+    userId: userId
   });
 });
 
@@ -269,21 +306,55 @@ router.get('/claimreducedschedule/:claimNumber', middleware.checkAccessToken, as
   let leaveService = require('./../server/api/leave/leave.service');
   let employeeLeaveClaimInfoResult = await leaveService.getEmployeeLeaveClaimInfoService(req);
   // let common = require('./../server/api/common');
-  let employeeLeaveClaimInfoData, planMaximumDuration, planStatus;
+
+  //Get Login User Info
+  let userId = req.session.userInfo.userId;
+
+  let userService = require('./../server/api/user/user.service');
+  let getManager = await userService.getManagerService(req);
+  let getManagerData = getManager.data;;
+
+  let employeeLeaveClaimInfoData, planMaximumDuration, planStatus, paperWorkReview = [],
+    paperWorkReviewDocumentList = [], employeeLeaveInfoData;
 
   if (employeeLeaveClaimInfoResult.status === true) {
+    employeeLeaveInfoData = employeeLeaveClaimInfoResult.data.employeeInfo;
     employeeLeaveClaimInfoData = employeeLeaveClaimInfoResult.data.leaveInfo;
     planMaximumDuration = employeeLeaveClaimInfoResult.data.planMaximumDuration;
-    planStatus = employeeLeaveClaimInfoResult.data.planStatus
+    planStatus = employeeLeaveClaimInfoResult.data.planStatus;
+    planStatus = employeeLeaveClaimInfoResult.data.planStatus;
+    paperWorkReview = employeeLeaveClaimInfoResult.data.paperWorkReview;
+    paperWorkReviewDocumentList = employeeLeaveClaimInfoResult.data.paperWorkReviewDocument
+
 
   } else {
 
   }
+  let paperWorkReviewList = [
+    {value: "provider\'s name", text: "Provider\'s Name", isChecked: ""},
+    {value: "provider\'s specialty", text: "Provider\'s Specialty", isChecked: ""},
+    {value: "serious health condition", text: "Serious Health Condition", isChecked: ""},
+    {value: "dates / parameters", text: "Dates / Parameters", isChecked: ""},
+    {value: "provider signature", text: "Provider Signature", isChecked: ""},
+    {value: "date signed", text: "Date Signed", isChecked: ""},
+  ];
+  paperWorkReviewList.forEach(data => {
+    paperWorkReview.forEach(paperWorkData => {
+      if (paperWorkData['paperWorkName'] === data['value'] && paperWorkData['isPaperWorkReview'] == 1) {
+        data['isChecked'] = 'checked';
+      }
+    });
+  });
   res.render('pages/claimreducedschedule', {
     title: 'Leave Overview',
+    employeeLeaveInfoData: employeeLeaveInfoData,
     employeeLeaveClaimInfoData: employeeLeaveClaimInfoData,
     planMaximumDuration: planMaximumDuration,
     planStatus: planStatus,
+    paperWorkReviewList: paperWorkReviewList,
+    paperWorkReviewDocumentList: paperWorkReviewDocumentList,
+    getManagerData: getManagerData,
+    userId: userId
   });
 });
 

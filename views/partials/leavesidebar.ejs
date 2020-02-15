@@ -1,0 +1,25 @@
+<p>
+    <a href="/leavesummary/<%= employeeLeaveClaimInfoData.emp_id %>">Leave Summary</a>
+</p>
+<p>
+    <a href="#">Manual Letters</a>
+</p>
+<p>
+    <a href="/leaveprovider?type=1&empId=<%= employeeLeaveClaimInfoData.emp_id %>&claimNumber=<%= employeeLeaveClaimInfoData.leave_info_id %>">
+        Provider Information
+    </a>
+</p>
+<p>
+    <a href="/decision/<%= employeeLeaveClaimInfoData.leave_info_id %>">Decision</a>
+</p>
+<p>
+    <a href="/leaveeligibility?empId=<%= employeeLeaveClaimInfoData.emp_id %>&claimNumber=<%= employeeLeaveClaimInfoData.leave_info_id %>">
+        Eligibility Requirements
+    </a>
+</p>
+<p>
+    <a href="../Ancillary/leaveChronologyFamilyMember.html">Leave Chronology</a>
+</p>
+<p>
+    <a href="/closeLeave/<%= employeeLeaveClaimInfoData.leave_info_id %>">Close Leave</a>
+</p>
