@@ -60,7 +60,7 @@ CREATE TABLE IF NOT EXISTS `tbl_CityMaster` (
   INDEX `fk_table1_1_idx` (`fk_countryID` ASC),
   INDEX `fk_table1_2_idx` (`fk_stateID` ASC),
   CONSTRAINT `fk_table1_1`
-    FOREIGN KEY (`fk_countryID`)
+    FOREIGN KEY (`fk_countryID`)tbl_EmployeeMaster
     REFERENCES `tbl_CountryMaster` (`pk_countryID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,

@@ -5,8 +5,8 @@ let applicationConfiguration = {
   "API_START_PATH": '/api/',
   "DB_DATE_FORMAT_DOB": '%Y-%m-%d',
   "DB_DATE_FORMAT": '%Y-%m-%d %H:%M:%S',
-  "MEDIA_UPLOAD_DIR": '/home/ubuntu/media/tmp/', // live
-  // "MEDIA_UPLOAD_DIR": 'C:\\Users\\Ashish Vaghasiya\\Downloads\\media\\tmp\\', // local - ashish
+  // "MEDIA_UPLOAD_DIR": '/home/ubuntu/media/tmp/', // live
+  "MEDIA_UPLOAD_DIR": 'C:\\Users\\Admin\\Downloads\\media\\tmp\\', // local - ashish
   "MEDIA_GET_STATIC_URL": 'https://leave-media.s3.us-east-2.amazonaws.com/',
   "MEDIA_UPLOAD_FILE_NAME_SETTINGS": {
     "length": 12,
