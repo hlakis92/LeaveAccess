@@ -95,6 +95,20 @@ let editLeaveDecision = async (request, response) => {
  * Created By: AV
  * Updated By: AV
  *
+ * @param  {object} request
+ * @param  {object} response
+ * @return {object}
+ */
+let addLeaveDeterminationDecision = async (request, response) => {
+  debug("leave.controller -> addLeaveDeterminationDecision");
+  let result = await leaveService.addLeaveDeterminationDecisionService(request);
+  return response.send(result);
+};
+
+/**
+ * Created By: AV
+ * Updated By: AV
+ *
  *
  * @param  {object} request
  * @param  {object} response
@@ -153,6 +167,7 @@ module.exports = {
   getEmployeeLeaveSummary: getEmployeeLeaveSummary,
   getEmployeeLeaveClaimInfo: getEmployeeLeaveClaimInfo,
   editLeaveDecision: editLeaveDecision,
+  addLeaveDeterminationDecision: addLeaveDeterminationDecision,
   syncData: syncData,
   returnToWorkConfirmation: returnToWorkConfirmation,
   paperWorkReview: paperWorkReview,

@@ -42,7 +42,8 @@ let signupService = async (request) => {
  * Created By: AV
  * Updated By: AV
  *
- * signin service
+ * sign in / login for user
+ *
  * @param  {object}  request
  * @return {object}
  *
@@ -82,7 +83,7 @@ let signinService = async (request) => {
  * Created By: AV
  * Updated By: AV
  *
- * signin service
+ * logout form site
  * @param  {object}  request
  * @return {object}
  *
@@ -103,7 +104,8 @@ let logoutService = async (request) => {
  * Created By: MB
  * Updated By: MB
  *
- * User List service
+ * get user list
+ *
  * @param  {object}  request
  * @return {object}
  *
@@ -123,7 +125,8 @@ let getUserListService = async (request) => {
  * Created By: MB
  * Updated By: MB
  *
- * User List service
+ * get mangers list
+ *
  * @param  {object}  request
  * @return {object}
  *
@@ -164,7 +167,8 @@ let getUserService = async (request) => {
  * Created By: MB
  * Updated By: MB
  *
- * Add User service
+ * Add new user
+ *
  * @param  {object}  request
  * @return {object}
  *
@@ -302,6 +306,10 @@ module.exports = {
   userDeleteService: userDeleteService,
   getManagerService: getManagerService
 };
-// console.log(DateLibrary.getWeekNumber(new Date()),'Week_of_Year')
+
+// let sendMail = require("./../../helper/sendmail");
+// sendMail.sendMail("asys.vaghasiya@gmail.com", "hello ,....", undefined, "htmlData", result=>{
+//   debug(result);
+// });
 
 

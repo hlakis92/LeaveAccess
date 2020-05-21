@@ -690,3 +690,8 @@ module.exports.getUnique = function (array, key) {
 module.exports.randomFixedInteger = function (length) {
   return Math.floor(Math.pow(10, length - 1) + Math.random() * (Math.pow(10, length) - Math.pow(10, length - 1) - 1));
 };
+
+module.exports.getDateInUSFormat = function(date) {
+  let dates = date.split("-");
+  return dates[1] + "/" + dates[2] + "/" + dates[0];
+}

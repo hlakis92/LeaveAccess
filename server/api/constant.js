@@ -5,8 +5,8 @@ let applicationConfiguration = {
   "API_START_PATH": '/api/',
   "DB_DATE_FORMAT_DOB": '%Y-%m-%d',
   "DB_DATE_FORMAT": '%Y-%m-%d %H:%M:%S',
-  // "MEDIA_UPLOAD_DIR": '/home/ubuntu/media/tmp/', // live
-  "MEDIA_UPLOAD_DIR": 'C:\\Users\\Admin\\Downloads\\media\\tmp\\', // local - ashish
+  "MEDIA_UPLOAD_DIR": '/home/ubuntu/media/tmp/', // live
+  // "MEDIA_UPLOAD_DIR": 'C:\\Users\\Ashish Vaghasiya\\Downloads\\media\\tmp\\', // local - ashish
   "MEDIA_GET_STATIC_URL": 'https://leave-media.s3.us-east-2.amazonaws.com/',
   "MEDIA_UPLOAD_FILE_NAME_SETTINGS": {
     "length": 12,
@@ -154,8 +154,55 @@ let leaveMessages = {
   MSG_PAPER_WORK_REVIEW_UPDATED_SUCCESSFULLY:{
     code: 4003,
     message: 'paper work review updated successfully.'
+  },
+  MSG_LEAVE_DETERMINATION_DECISION_ADDED_SUCCESSFULLY:{
+    code: 4004,
+    message: 'Leave determination decision added successfully'
   }
 };
+
+let emailTemplates = {
+  ARTWLetter:'' +
+    '<h4 class="dateOfLetter">Date: {{letter_date}}</h4>\n' +
+    '    <h4 class="employeeName">{{first_name}} {{last_name}}</h4>\n' +
+    '    <p class="employeeAddress">{{address1}} <br> {{city}}, {{state}}, {{pincode}}</p>\n' +
+    '    <br><br>\n' +
+    '    <p class="employeenFirstName">Dear Name,</p>\n' +
+    '    <p class="firstP">We understand that your leave is set to end on <span>{{endDate}}</span>!We have already\n' +
+    '        received your return to work note.</p>\n' +
+    '    <p class="secondP">We further understand that you returned on <span>{{ARTWDate}}</span>.</p>\n' +
+    '    <p class="endPar">Please feel free to email company@company.com, or call 888-888-8888 with any questions!</p>\n' +
+    '    <p class="ep">Sincerely,</p>\n' +
+    '\n' +
+    '\n' +
+    '    <h2 class="signatureOfER">Signature</h2>\n' +
+    '\n' +
+    '    <p class="leaveManager">Leave Admin Name<br>\n' +
+    '        Leave of Absence Representative</p>'
+  ,
+  ERTWLetter : '' +
+    '<h4 class="dateOfLetter">Date:{{letter_date}}</h4>\n' +
+    '    <h4 class="employeeName">{{first_name}} {{last_name}}</h4>\n' +
+    '    <p class="employeeAddress">{{address1}} <br> {{city}}, {{state}}, {{pincode}}</p>\n' +
+    '    <br><br>\n' +
+    '    <p class="employeenFirstName">Dear Name,</p>\n' +
+    '    <p class="firstP">We understand that your leave is set to end on <span>{{endDate}}</span>! Unfortunately, we have\n' +
+    '        not received a return to work note and cannot release you to return to work until\n' +
+    '        we have a release on file.</p>\n' +
+    '    <p class="secondP">Please have your attending provider complete the attached "Return to Work\n' +
+    '        Note" or send a return to work note on letterhead before returning to work. If\n' +
+    '        you have any further questions, please do not hesitate to ask!</p>\n' +
+    '    <p class="endPar">Please feel free to email it in to company@company.com, or fax: 888-888-8888 it\n' +
+    '        in!</p>\n' +
+    '    <p class="ep">Sincerely,</p>\n' +
+    '    \n' +
+    '    \n' +
+    '    <h2 class="signatureOfER">Signature</h2>\n' +
+    '    \n' +
+    '    <p class="leaveManager">Leave Admin Name<br>\n' +
+    '        Leave of Absence Representative</p>'
+
+}
 
 module.exports = {
   appConfig: applicationConfiguration,
@@ -164,4 +211,5 @@ module.exports = {
   employeeMessages: employeeMessages,
   leaveMessages: leaveMessages,
   taskMessages: taskMessages,
+  emailTemplates:emailTemplates
 };

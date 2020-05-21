@@ -71,17 +71,23 @@
                                     <label for="fromDate">Start Date</label>
                                     <input type="date" class="form-control" id="fromDate"
                                            value="<%= employeeLeaveClaimInfoData.from_date_db %>"
+                                           min="<%= employeeLeaveClaimInfoData.from_date_db %>"
+                                           max="<%= employeeLeaveClaimInfoData.to_date_db %>"
                                            required>
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label for="toDate">End Date</label>
                                     <input type="date" class="form-control" id="toDate"
                                            value="<%= employeeLeaveClaimInfoData.to_date_db %>"
+                                           min="<%= employeeLeaveClaimInfoData.from_date_db %>"
+                                           max="<%= employeeLeaveClaimInfoData.to_date_db %>"
                                            required>
                                     <input type="hidden" value="<%= employeeLeaveClaimInfoData.leave_info_id %>"
                                            id="leaveInfoId">
                                     <input type="hidden" value="<%= employeeLeaveClaimInfoData.leave_type %>"
                                            id="leaveType">
+                                    <input type="hidden" value="<%= employeeLeaveClaimInfoData.emp_id %>"
+                                           id="empId">
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label for="input-leavetype">Leave Type</label>
@@ -103,7 +109,7 @@
                                         <% }); %>
                                     </select>
                                 </div>
-                                <div class="form-group col-md-3">
+                                <div class="form-group col-md-3Determination">
                                     <label for="inputEndDate4">Submit Change</label>
                                     <button type="button" class="btn btn-primary" id="leaveDecisionButton">Submit >
                                     </button>

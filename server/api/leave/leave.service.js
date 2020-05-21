@@ -5,14 +5,16 @@ let common = require('../common');
 let d3 = require('d3');
 let leaveDAL = require('./leave.DAL');
 let constant = require('../constant');
-// let dbDateFormatDOB = constant.appConfig.DB_DATE_FORMAT_DOB;
+let dbDateFormatDOB = constant.appConfig.DB_DATE_FORMAT_DOB;
+// let dbDateFormat = constant.appConfig.DB_DATE_FORMAT;
 
 
 /**
  * Created By: AV
  * Updated By: AV
  *
- * checkLeaveEligibilityService
+ * this service use for check leave eligibility
+ *
  * @param  {object}  request
  * @return {object}
  *
@@ -21,17 +23,25 @@ let checkLeaveEligibilityService = async (request) => {
   debug("leave.service -> checkLeaveEligibilityService");
   let data = request.body;
   data['service_period_in_month'] = parseInt((DateLibrary.getDateDifference(new Date(data['doj']), new Date(), {granularityType: 'days'})) / 30);
-  debug(data);
-  let leaveEligiblityList = leaveRule.checkLeaveEligibilty(data);
-  debug("leave match", leaveEligiblityList);
-  return {status: true, data: leaveEligiblityList}
+  // debug(data);
+  let leaveEligibilityList = leaveRule.checkLeaveEligibility(data);
+  // debug("leave match", leaveEligibittyList);
+  return {status: true, data: leaveEligibilityList}
 };
 
 /**
  * Created By: AV
  * Updated By: AV
  *
- * checkLeaveEligibilityService
+ * add all employee leave data
+ * step 1 to 5
+ * employee information
+ * location information
+ * leave reason
+ * leave type
+ * provider information
+ * leave eligibility
+ *
  * @param  {object}  request
  * @return {object}
  *
@@ -40,7 +50,6 @@ let addAllDataService = async (request) => {
   debug("leave.service -> addAllDataService");
   let data = common.cloneObject(request.body);
   debug("all data", common.cloneObject(data));
-
   let employeeInfo = common.cloneObject(data['employeeInfo']);
   let locationInfo = common.cloneObject(data['locationInfo']);
   let leaveReasonInfo = common.cloneObject(data['leaveReasonInfo']);
@@ -81,7 +90,7 @@ let addAllDataService = async (request) => {
  * Created By: AV
  * Updated By: AV
  *
- * checkLeaveEligibilityService
+ * get all employee leave list
  *
  * @param  {object}  request
  * @return {object}
@@ -101,7 +110,7 @@ let getEmployeeLeaveService = async (request) => {
  * Created By: AV
  * Updated By: AV
  *
- * getEmployeeLeaveSummaryService
+ * get employee leave summary
  *
  * @param  {object}  request
  * @return {object}
@@ -122,7 +131,7 @@ let getEmployeeLeaveSummaryService = async (request) => {
  * Created By: AV
  * Updated By: AV
  *
- * getEmployeeLeaveClaimInfoService
+ * get employee leave claim info
  *
  * @param  {object}  request
  * @return {object}
@@ -137,9 +146,9 @@ let getEmployeeLeaveClaimInfoService = async (request) => {
   let employeeLeavePlanStatusByClaimNumberResult = await leaveDAL.getEmployeeLeavePlanStatusByClaimNumber(claimNumber);
   let employeePaperWorkReviewResult = await leaveDAL.getEmployeeLeavePaperWorkReviewDataByClaimNumber(claimNumber);
   let employeePaperWorkReviewDocumentResult = await leaveDAL.getEmployeeLeavePaperWorkReviewDocumentDataByClaimNumber(claimNumber);
-  if(employeePaperWorkReviewDocumentResult.status===true){
-    (employeePaperWorkReviewDocumentResult.content).forEach(data=>{
-      data['url'] = constant.appConfig.MEDIA_GET_STATIC_URL+data['url'];
+  if (employeePaperWorkReviewDocumentResult.status === true) {
+    (employeePaperWorkReviewDocumentResult.content).forEach(data => {
+      data['url'] = constant.appConfig.MEDIA_GET_STATIC_URL + data['url'];
     });
   }
   let employeeLeaveMaximumDurationData;
@@ -163,7 +172,7 @@ let getEmployeeLeaveClaimInfoService = async (request) => {
   if (employeeLeaveClaimInfoResult.status === true && employeeLeaveClaimInfoResult.content.length !== 0) {
     return {
       status: true, data: {
-        employeeInfo:employeeLeaveInfoResult.content[0],
+        employeeInfo: employeeLeaveInfoResult.content[0],
         leaveInfo: employeeLeaveClaimInfoResult.content[0],
         planMaximumDuration: employeeLeaveMaximumDurationData,
         planStatus: employeeLeavePlanStatusByClaimNumberResult.content,
@@ -180,7 +189,7 @@ let getEmployeeLeaveClaimInfoService = async (request) => {
  * Created By: AV
  * Updated By: AV
  *
- * editLeaveDecisionService
+ * edit leave decision
  * @param  {object}  request
  * @return {object}
  *
@@ -189,8 +198,6 @@ let editLeaveDecisionService = async (request) => {
   debug("leave.service -> editLeaveDecisionService");
   let data = common.cloneObject(request.body);
   let leaveInfoId = data['leaveInfoId'];
-  // let employeeInfo = common.cloneObject(data['employeeInfo']);
-  debug("...............................................", data);
   let fieldValueUpdateLeaveInfo = [{
     field: 'startDate',
     fValue: data['startDate']
@@ -221,7 +228,31 @@ let editLeaveDecisionService = async (request) => {
  * Created By: AV
  * Updated By: AV
  *
- * checkEmployeeExistOrNotService
+ * add leave determination details decision
+ *
+ * @param  {object}  request
+ * @return {object}
+ *
+ */
+let addLeaveDeterminationDecisionService = async (request) => {
+  debug("leave.service -> addLeaveDeterminationDecisionService");
+  let data = common.cloneObject(request.body);
+  let leaveInfoId = data['leaveInfoId'];
+  let empId = data['empId'];
+  let startDate = data['startDate'];
+  let endDate = data['endDate'];
+  let leaveTypeStatus = data['leaveTypeStatus'];
+  await leaveDAL.addLeaveDeterminationDecision(leaveInfoId, empId, startDate, endDate, leaveTypeStatus);
+  return {status: true, data: constant.leaveMessages.MSG_LEAVE_DETERMINATION_DECISION_ADDED_SUCCESSFULLY}
+
+};
+
+/**
+ * Created By: AV
+ * Updated By: AV
+ *
+ * check employee already exist or not by employee_id
+ *
  * @param  {object}  request
  * @return {object}
  *
@@ -256,7 +287,8 @@ let checkEmployeeExistOrNotService = async (request) => {
  * Created By: AV
  * Updated By: AV
  *
- * leaveCloseService
+ * employee leave close by claim_number (leave_info_id)
+ *
  * @param  {object}  request
  * @return {object}
  *
@@ -275,7 +307,8 @@ let leaveCloseService = async (request) => {
  * Created By: AV
  * Updated By: AV
  *
- * getEmployeeLeaveProviderService
+ * get employee leave provider information by claim_number (leave_info_id)
+ *
  * @param  {object}  request
  * @return {object}
  *
@@ -294,7 +327,8 @@ let getEmployeeLeaveProviderService = async (request) => {
  * Created By: AV
  * Updated By: AV
  *
- * getEmployeeLeaveEligibilityService
+ * get employee leave eligibility by claim_number (leave_info_id)
+ *
  * @param  {object}  request
  * @return {object}
  *
@@ -313,7 +347,8 @@ let getEmployeeLeaveEligibilityService = async (request) => {
  * Created By: AV
  * Updated By: AV
  *
- * getEmployeeLeaveEligibilityService
+ * update ERTW and ARTW base on by claim_number (leave_info_id)
+ *
  * @param  {object}  request
  * @return {object}
  *
@@ -341,6 +376,26 @@ let returnToWorkConfirmationService = async (request) => {
     }]
   }
   let result = await leaveDAL.editLeaveInfoByLeaveInfoId(leaveInfoId, fieldValueUpdate);
+  if (result.status == true) {
+    let getEmployeeInfo = await leaveDAL.getEmployeeAndLeaveInfoByLeaveInfoId(leaveInfoId);
+    if (getEmployeeInfo.status === true && getEmployeeInfo.content.length !== 0) {
+      let emailData = getEmployeeInfo.content[0];
+      let htmlData = "";
+      emailData['letter_date'] = common.getDateInUSFormat(d3.timeFormat(dbDateFormatDOB)(new Date()));
+      if (type === "ERTW") {
+        emailData['ERTWDate'] = common.getDateInUSFormat(request.body['ERTWDate']);
+        htmlData = common.generatingTemplate(constant.emailTemplates.ERTWLetter, emailData);
+      } else {
+        emailData['ARTWDate'] = common.getDateInUSFormat(request.body['ARTWDate']);
+        htmlData = common.generatingTemplate(constant.emailTemplates.ARTWLetter, emailData);
+      }
+      let sendMail = require("./../../helper/sendmail");
+      debug(htmlData)
+      sendMail.sendMail(emailData['email'], "email template", undefined, htmlData, result => {
+        debug(result);
+      });
+    }
+  }
   let successMessage = constant.leaveMessages.MSG_RETURN_TO_WORK_CONFIRMATION_ADDED_SUCCESSFULLY;
   successMessage.message = common.generatingTemplate(successMessage.message, {type: type});
   return {
@@ -353,7 +408,8 @@ let returnToWorkConfirmationService = async (request) => {
  * Created By: AV
  * Updated By: AV
  *
- * getEmployeeLeaveEligibilityService
+ * add employee leave paper work review by claim_number (leave_info_id)
+ *
  * @param  {object}  request
  * @return {object}
  *
@@ -389,6 +445,7 @@ module.exports = {
   getEmployeeLeaveSummaryService: getEmployeeLeaveSummaryService,
   getEmployeeLeaveClaimInfoService: getEmployeeLeaveClaimInfoService,
   editLeaveDecisionService: editLeaveDecisionService,
+  addLeaveDeterminationDecisionService: addLeaveDeterminationDecisionService,
   checkEmployeeExistOrNotService: checkEmployeeExistOrNotService,
   leaveCloseService: leaveCloseService,
   getEmployeeLeaveProviderService: getEmployeeLeaveProviderService,

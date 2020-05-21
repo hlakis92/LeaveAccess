@@ -21,7 +21,7 @@ let s3 = new AWS.S3();
  * Created By: AV
  * Updated By: AV
  *
- * uploadMediaService
+ * upload media service for file upload
  *
  * @param  {object}   request
  * @param  {Function} cb

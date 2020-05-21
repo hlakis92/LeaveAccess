@@ -1,21 +1,16 @@
 let debug = require('debug')('server:middleware');
 let queryExecutor = require('./helper/mySql');
 
+
+/*
+*
+* this function use for the validating access token
+*
+* */
 let checkAccessToken = async (request, response, next) => {
   debug("middleware -> checkAccessToken");
   let deviceId = request.headers["udid"] || request.cookies.udid;
   let token = request.headers["token"] || request.cookies.token;
- /* if (request.session.userInfo === undefined) {
-    request.session.userInfo = {
-      userId: 1,
-      name: 'Admin',
-      userType: 'Admin',
-    };
-  }
-  debug("Session: ", request.session.userInfo);
-  next();*/
-  /*let deviceId = request.headers["udid"];
-  let token = request.headers["token"]; */
   if (request.session.userInfo === undefined) {
     let jsonQuery = {
       join: {

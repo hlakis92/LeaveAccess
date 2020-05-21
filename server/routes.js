@@ -1,6 +1,5 @@
-let middleware = require('./middleware');
-// console.log("...........................");
 
+// route for the api
 module.exports = function (app) {
   app.use('/api', require('./api'));
 };

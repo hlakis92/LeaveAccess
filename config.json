@@ -14,5 +14,14 @@
     "database": "leave_access",
     "type": "database",
     "databaseType": "mysql"
+  },
+  "mailConfig": {
+    "service": "gmail",
+    "username": "",
+    "password": "",
+    "host": "smtp.googlemail.com",
+    "port": "465",
+    "fromAddress": "",
+    "toAddress": ""
   }
 }

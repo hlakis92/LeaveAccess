@@ -8,7 +8,8 @@ let dbDateFormatDOB = constant.appConfig.DB_DATE_FORMAT_DOB;
  * Created By: AV
  * Updated By: AV
  *
- * addEmployeeService
+ * add employee information
+ *
  * @param  {object}  request
  * @return {object}
  *
@@ -45,7 +46,8 @@ let addEmployeeService = async (request) => {
  * Created By: AV
  * Updated By: AV
  *
- * getAllEmployeeService
+ * get all employee list
+ *
  * @param  {object}  request
  * @return {object}
  *
@@ -94,7 +96,7 @@ let getAllEmployeeService = async (request) => {
  * Created By: AV
  * Updated By: AV
  *
- * getEmployeeInfoService
+ * get employee info by emp_id
  * @param  {object}  request
  * @return {object}
  *
@@ -113,7 +115,7 @@ let getEmployeeInfoService = async (request) => {
  * Created By: AV
  * Updated By: AV
  *
- * getEmployeeLocationInfoService
+ * get employee location info by emp_id
  * @param  {object}  request
  * @return {object}
  *

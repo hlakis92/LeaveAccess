@@ -1,3 +1,16 @@
+/*
+this file is same as your given excel file
+here all data in arrange/set as per JSON format
+
+_comment => leave_id
+state => state
+leave_name =>  Leave Name / plan name
+eligibility => Eligibility criteria
+qualifying_reason => Qualifying Reason
+leave_type => Intermittent, Reduced Work Schedule, Continuous
+maximum_duration => Maximum Duration
+ */
+
 exports.leaveMatrix = [{
   _comment: 1,
   state: 'federal',

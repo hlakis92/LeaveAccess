@@ -5,6 +5,7 @@ let tbl_EmployeeLeave = "tbl_EmployeeLeave";
 let tbl_EmployeeWorkScheduleMapping = "tbl_EmployeeWorkScheduleMapping";
 let tbl_PaperWorkReview = "tbl_PaperWorkReview";
 let tbl_PaperWorkReviewDocument = "tbl_PaperWorkReviewDocument";
+let tbl_LeaveDeterminationDecision = "tbl_LeaveDeterminationDecision";
 
 let query = {
   /* create user query start */
@@ -185,7 +186,7 @@ let query = {
         table: tbl_LeaveInfo,
         alias: 'LI',
         joincondition: {
-          table: 'Em',
+          table: 'EM',
           field: 'pk_empID',
           operator: 'eq',
           value: {
@@ -542,6 +543,84 @@ let query = {
       value: ''
     },
   }, // get employee leave paper work review document data by claim_number query end
+  /* add leave  determination decision query start */
+  addLeaveDeterminationDecisionQuery: {
+    table: tbl_LeaveDeterminationDecision,
+    insert: {
+      field: ['fk_empId', 'fk_leaveInfoId', 'startDate', 'endDate', 'leaveTypeStatus'],
+      fValue: []
+    }
+  }, //  add leave  determination decision query end
+  getEmployeeAndLeaveInfoByLeaveInfoIdQuery: {
+    join: {
+      table: tbl_EmployeeMaster,
+      alias: 'EM',
+      joinwith: [{
+        table: tbl_LocationMaster,
+        alias: 'LM',
+        joincondition: {
+          table: 'EM',
+          field: 'pk_empId',
+          operator: 'eq',
+          value: {
+            table: 'LM',
+            field: 'empId'
+          }
+        }
+      }, {
+        table: tbl_LeaveInfo,
+        alias: 'LI',
+        joincondition: {
+          table: 'LI',
+          field: 'empId',
+          operator: 'eq',
+          value: {
+            table: 'EM',
+            field: 'pk_empId'
+          }
+        }
+      }]
+    },
+    select: [ {
+      field: 'firstName',
+      alias: 'first_name'
+    }, {
+      field: 'lastName',
+      alias: 'last_name'
+    }, {
+      field: 'email',
+      alias: 'email'
+    }, {
+      field: 'EM.address1',
+      encloseField: false,
+      alias: 'address1'
+    }, {
+      field: 'EM.address2',
+      encloseField: false,
+      alias: 'address2'
+    }, {
+      field: 'EM.cityName',
+      encloseField: false,
+      alias: 'city'
+    }, {
+      field: 'EM.stateName',
+      encloseField: false,
+      alias: 'state'
+    }, {
+      field: 'EM.pincode',
+      encloseField: false,
+      alias: 'pincode'
+    }, {
+      field: 'DATE_FORMAT(endDate, "%m/%d/%Y")',
+      encloseField: false,
+      alias: 'endDate'
+    }],
+    filter: {
+      field: 'pk_leaveInfoId',
+      operator: 'EQ',
+      value: ''
+    },
+  },
 };
 
 module.exports = query;

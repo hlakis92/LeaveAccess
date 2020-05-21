@@ -31,25 +31,26 @@ let addEmployee = async (request, response) => {
  * Created By: AV
  * Updated By: AV
  *
+ * no longer to use
  *
  * @param  {object} request
  * @param  {object} response
  * @return {object}
  */
-let dummyCall = async (request, response) => {
+/*let dummyCall = async (request, response) => {
   debug("employee.controller -> dummyCall");
   debug(request.body);
   return response.send({
     status: true,
     data: {}
   });
-};
+};*/
 
 /**
  * Created By: AV
  * Updated By: AV
  *
- * add employee information
+ * get all employee
  *
  * @param  {object} request
  * @param  {object} response
@@ -63,6 +64,6 @@ let getAllEmployee = async (request, response) => {
 
 module.exports = {
   addEmployee: addEmployee,
-  dummyCall: dummyCall,
+  // dummyCall: dummyCall,
   getAllEmployee: getAllEmployee,
 };

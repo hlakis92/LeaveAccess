@@ -3,10 +3,16 @@ let DateLibrary = require('date-management');
 let d3 = require('d3');
 let ruleList = leaveConstant.leaveMatrix;
 
-module.exports.checkLeaveEligibilty = (data) => {
+
+/*
+  this function is core part of the system
+  here check all leave eligibility criteria state wise
+*/
+module.exports.checkLeaveEligibility = (data) => {
   let leaveMatch = 0;
-  let leaveElibleList = [];
+  let leaveEligibleList = [];
   ruleList.forEach((ruleData, index) => {
+    // this if is only for debug purpose, there no longer to use in system further
     if (ruleData['state'] === data['locationState']) {
       console.log('......', ruleData['_comment'])
       console.log(ruleData['qualifying_reason'].includes(data['type_of_leave']), ruleData['qualifying_reason'], (data['type_of_leave']));
@@ -18,7 +24,10 @@ module.exports.checkLeaveEligibilty = (data) => {
     }
 
     let maxToDateForValidation;
+    // getting maximum duration of leave list
     if (ruleData['maximum_duration'] !== undefined) {
+      // getting maximum duration of leave as per leave plan
+      // here leave maximum duration in hours, days or week
       maxToDateForValidation =
         DateLibrary.getRelativeDate(new Date(data['from_date']),
           {
@@ -29,6 +38,7 @@ module.exports.checkLeaveEligibilty = (data) => {
     }
 
     // console.log(maxToDateForValidation);
+    // checking leave matrix as per excel sheet
     if (
       (ruleData['state'] === data['locationState'] || ruleData['state']==='federal') &&
       ((data['type_of_leave'] === 'family members health condition' &&
@@ -59,6 +69,7 @@ module.exports.checkLeaveEligibilty = (data) => {
         'text': 'Specific Reason',
         'value': eligibleType
       });
+      // checking  Override eligibility criteria and prepare met not met list
       if (ruleData['eligibility'].hasOwnProperty('state') === true
         && ruleData['eligibility']['state'] == data['locationState']) {
 
@@ -70,6 +81,7 @@ module.exports.checkLeaveEligibilty = (data) => {
           });
         // ruleData['eligibility']['state'] = 'met';
       }
+      // checking Hours in Past 12 Month eligibility criteria and prepare met not met list
       if (ruleData['eligibility'].hasOwnProperty('hours') === true) {
         if (ruleData['eligibility']['hours'] <= data['last_12_month_work_hours']) {
 
@@ -88,6 +100,7 @@ module.exports.checkLeaveEligibilty = (data) => {
           }
         }
       }
+      // checking Months of Service eligibility criteria and prepare met not met list
       if (ruleData['eligibility'].hasOwnProperty('month') === true) {
         if (ruleData['eligibility']['month'] <= data['service_period_in_month']) {
 
@@ -110,41 +123,11 @@ module.exports.checkLeaveEligibilty = (data) => {
       ruleData['to_date'] = data['to_date'];
       // ruleData['from_date_format'] = d3.time.format("%m/%d/%Y")(new Date(ruleData['from_date']));
       // ruleData['to_date_format'] = d3.time.format("%m/%d/%Y")(new Date(ruleData['to_date']));
-      leaveElibleList.push(ruleData);
+      leaveEligibleList.push(ruleData);
       console.log("pass..................", ruleData);
       leaveMatch++;
     }
   });
-  return leaveElibleList;
+  return leaveEligibleList;
 };
 
-/*
-let qulityResonList = [
-  "employees own health condition",
-  "family members health condition",
-  "workplace accommodation",
-  "maternity",
-  "care for newborn",
-  "adoption",
-  "foster care",
-  "military",
-  "military duty",
-  "family military exigency",
-  "emergency duty",
-  "marrow/organ/blood donation",
-  "political proceedings",
-  "domestic violence",
-  "school activities",
-  "legal/court proceedings",
-  "jury duty",
-  "voting",
-];
-
-ruleList.forEach((data,index)=>{
-  // console.log((index+1),data['_comment'])
-  data['qualifying_reason'].forEach(qr=>{
-    if(qulityResonList.includes(qr)===false){
-      console.log(data['_comment'],qr);
-    }
-  });
-})*/

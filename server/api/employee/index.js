@@ -6,7 +6,7 @@ let router = express.Router();
 module.exports = router;
 
 router.post('/add-employee', controller.addEmployee);
-router.post('/dummy-call', controller.dummyCall);
+// router.post('/dummy-call', controller.dummyCall);
 router.get('/get-all-employee', controller.getAllEmployee);
 
 

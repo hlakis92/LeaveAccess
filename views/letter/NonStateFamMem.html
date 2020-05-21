@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Fam Letter to Send</title>
+</head>
+<style>
+    body {
+        font-family: Cambria,Georgia,serif; 
+        margin-top: 75px;
+        margin-bottom: 100px;
+        margin-right: 50px;
+        margin-left: 50px;
+    }
+    .employeeName {
+        margin: 0;
+        margin-block-start: 0;
+        margin-block-end: 0;
+    }
+    .employeeAddress {
+        margin: 0;
+        margin-block-start: 0;
+        margin-block-end: 0;
+    }
+    
+    .signatureOfER {
+        font-size: 40px;
+        font-family: Brush Script MT, Brush Script Std, cursive; 
+    }
+    .secondP {
+        font-weight: bold;
+    }
+    .leavetable {
+        position:absolute;
+    }
+    table { 
+            border: 1px solid black; 
+            border-collapse: collapse; 
+            width: 100%;
+        } 
+    th {
+        border: 1px solid black; 
+        border-collapse: collapse; 
+        width: auto;
+    }
+    td {
+        border: 1px solid black; 
+        border-collapse: collapse; 
+        width: 100%;
+    }
+    .tableStatusDenied {
+        background-color: red;
+    }
+    .tableStatusPending {
+        background-color: lightgray;
+    }
+    .leaveTypeTableEdit {
+        width: 15%;
+    }
+    .leaveNameTableEdit {
+        width: 15%;
+    }
+    .leaveDatesTableEdit {
+        width: 31%;
+    }
+    .leaveReasonTableEdit {
+        width: 39%;
+    }
+    .leaveTypeUpdate {
+        width: 15%;
+    }
+    .leaveReasonUpdate {
+        width: 40%;
+    }
+    .leaveDatesUpdate {
+        width: 31%;
+    }
+
+</style>
+<body>
+    <h4 class="dateOfLetter">Date:</h4>
+    <h4 class="employeeName">First Last</h4>
+    <p class="employeeAddress">4865 Address Place <br> city, ST, 22222</p>
+    <br>
+    <p class="employeenFirstName">Dear Name,</p>
+
+    <p class="firstP">We have received notification on your <span class="leaveType">Continuous</span> 
+        request for Leave of Absence
+        due to <span class="leaveReason">Family Member's Serious Health Condition</span> 
+        beginning <span class="leaveDates">10/1/2019 through 10/2/2020</span>. This letter serves as notification of your
+        rights and responsibilities for leave under federal and state entitlements.</p>
+
+    <p class="endPar">Listed below are the leave type(s) 
+        you are eligible for today and the status of each plan:</p>
+        <table class="leaveTable" BORDER="1">
+            <tr>
+               <th align="center" class="tableStatusPending" style="font-weight: 100%;"COLSPAN="4">
+                  Pending
+               </th>
+            </tr>
+            <tr align="left">    
+               <th class="leaveTypeTableEdit">Leave Type</th>
+               <th class="leaveNameTableEdit">Leave Name</th>
+               <th class="leaveDatesTableEdit">Dates</th>
+            </tr>
+             <tr align="left">
+                <th class="leaveTypeUpdate">Federal</th>
+                <th class="leaveReasonUpdate">Family & Medical Leave Act (FMLA)</th>
+                <th class="leaveDatesUpdate">01/16/2020 - 02/15/2020</th>
+             </tr>
+             <tr align="left">
+                <th class="leaveTypeUpdate">State</th>
+                <th class="leaveReasonUpdate">Put State Leave Here</th>
+                <th class="leaveDatesUpdate">01/16/2020 - 02/15/2020</th>
+             </tr>
+        </table>
+        <br>
+        <table class="leaveTable" BORDER="1">
+            <tr>
+               <th align="center" class="tableStatusDenied" style="font-weight: 100%;"COLSPAN="4">
+                  Denied
+               </th>
+            </tr>
+            <tr align="left">    
+               <th class="leaveTypeTableEdit">Leave Type</th>
+               <th class="leaveNameTableEdit">Leave Name</th>
+               <th class="leaveDatesTableEdit">Dates</th>
+               <th class="leaveReasonTableEdit">Reason</th>
+            </tr>
+            <tr align="left">
+                <th>Federal</th>
+                <th>Family & Medical Leave Act (FMLA)</th>
+                <th>01/16/2020 - 02/15/2020</th>
+                <th>Eligibility Not Met:<br> 
+                    <ul style="margin-top: 0;" align="left" >
+                    <li>1250 hours worked in previous 12 Month</li>
+                    <li> 12 Months of Service</li>
+                </ul> </th>
+             </tr>
+             <tr align="left">
+                <th>Company</th>
+                <th>Company Medical</th>
+                <th>01/16/2020 - 02/15/2020</th>
+                <th>Relationship Not Covered</th>
+             </tr>
+        </table>
+        <p class="firstP">Company, Inc. utilizes a rolling backward calculation method to determine your available leave time under
+            FMLA and/or applicable state law. A “rolling 12-month period” is measured backwards from the first day
+            leave time is used.
+        </p>
+        <p>The final determination on your leave request is based on your eligibility and entitlement as of your first day of
+            absence, as well as timely submission of any supporting documentation, if applicable, as noted below. Once we
+            obtain this information, we will inform you whether your leave is designated as Family and Medical Leave Act.
+            You will be notified of any change in your leave status.</p>
+
+        <p>PLEASE SUBMIT THE REQUESTED SUPPORTING DOCUMENTATION NO LATER THAN 15 CALENDAR DAYS
+            FROM THE DATE OF THIS NOTICE OR THE START DATE OF YOUR LEAVE REQUEST. PLEASE SUBMIT THE
+            REQUESTED SUPPORTING DOCUMENTATION BY 8/30/2018.</p>
+
+        <p class="firstP">Provided review the following important information 
+            and/or enclosures relating to your leave: 
+        </p>
+    
+        <ul>
+            <li>Employee Rights and Responsibilities under FMLA: This document provides
+                leave of absence information and eligibility requirements for FMLA.</li>
+            <li> 
+                Frequently Asked Questions: This document provides answers to the most
+                commonly asked questions about the effect this leave will have on your benefits
+                and pay.
+            </li>
+            <li>Certification of Health Care Provider: Enclosed you will find a Certification of Health Care Provider
+                form which must be completed and signed by your family member’s healthcare provider and
+                submitted to CompanyEmail@gmail.com or via fax at PHONE NUMBER no later than 15 calendar days
+                from the date of this notice, as outlined above. Failure to timely submit a completed Certification form
+                may result in the denial of FMLA coverage.</li>
+        </ul>
+        <p>If you are not approved for any requested time, you will need to contact company@company.com to
+            discuss your work schedule or other leave options that might be available to you. While on leave you are required to furnish CompanyEmail@gmail.com with periodic reports of your
+            status and availability to return to work. If you have any questions as to whether you will be entitled to paid
+            time off during your leave, please contact CompanyEmail@gmail.com. If the circumstances of your leave change and you are able to return to work earlier than anticipated, you
+            are required to notify CompanyEmail@gmail.com within five workdays prior to the date you will be returning
+            to work.</p>
+
+        <p>The Genetic Information Nondiscrimination Act of 2008 (GINA) prohibits employers and other
+            entities covered by GINA Title II from requesting or requiring genetic information of an individual
+            or family member of the individual, except as specifically allowed by this law. To comply with this
+            law, we are asking that you and your physicians not provide any genetic information when
+            responding to any request for medical information, such as in the Healthcare Certification
+            response from a physician. “Genetic information,” as defined by GINA, includes an individual’s
+            family medical history, the results of an individual’s or family member’s genetic tests, the fact that
+            an individual or an individual’s family member sought or received genetic services, and genetic
+            information of a fetus carried by an individual or an individual’s family member or an embryo
+            lawfully held by an individual or family member receiving assistive reproductive services.</p>
+        
+        <p>If your leave is under FMLA or State Leave, then upon your return from leave, you will be restored to the
+            same or an equivalent job with equivalent pay and benefits. If your leave is the result of a company policy,
+            please refer to CompanyEmail@gmail.com for your return to work guidelines.</p>
+        <p>If you have any questions regarding the status of your leave request please contact
+            CompanyEmail@gmail.com.</p>
+       
+        <p>Sincerely,</p>
+        <p class="leaveManager">
+            Company Leave of Absence</p>
+</body>
+</html>
