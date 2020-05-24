@@ -11,7 +11,7 @@
     "port": "3306",
     "user": "root",
     "password": "LeaveAcce55",
-    "database": "leave_access",
+    "database": "Leave_Access",
     "type": "database",
     "databaseType": "mysql"
   },
