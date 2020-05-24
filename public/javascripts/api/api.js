@@ -9,6 +9,7 @@ let getAllEmployeeLeaveURL = windowLocation.origin + '/api/leave/get-employee-le
 let getAllEmployeeURL = windowLocation.origin + '/api/employee/get-all-employee';
 let getEmployeeLeaveSummaryURL = windowLocation.origin + '/api/leave/get-employee-leave-summary';
 let editLeaveDecisionURL = windowLocation.origin + '/api/leave/edit-leave-decision';
+let addLeaveDeterminationDecisionURL = windowLocation.origin + '/api/leave/add-leave-determination-decision';
 let returnToWorkConfirmationURL = windowLocation.origin + '/api/leave/return-to-work-confirmation';
 let paperWorkReviewURL = windowLocation.origin + '/api/leave/paper-work-review';
 let uploadMediaURL = windowLocation.origin + '/api/media/upload';
@@ -453,15 +454,17 @@ $('#leaveDecisionSubmitButton').on('click', function (e) {
   let leaveType = $("#leaveType").val();
   let startDate = $("#fromDate").val();
   let endDate = $("#toDate").val();
+  let empId = $("#empId").val();
   let requireData = {
     leaveInfoId: leaveInfoId,
-    leaveType: leaveTypeStatus,
+    leaveTypeStatus: leaveTypeStatus,
+    empId: empId,
     startDate: startDate,
     endDate: endDate
   };
   $.ajax({
     type: 'POST',
-    url: editLeaveDecisionURL,
+    url: addLeaveDeterminationDecisionURL,
     dataType: "json",
     data: requireData,
     success: result => {

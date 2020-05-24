@@ -201,7 +201,178 @@ let emailTemplates = {
     '    \n' +
     '    <p class="leaveManager">Leave Admin Name<br>\n' +
     '        Leave of Absence Representative</p>'
-
+  ,
+  DeniedLetter: '' +
+    '<h4 class="dateOfLetter">Date: {{letter_date}}</h4>\n' +
+    '    <h4 class="employeeName">{{first_name}} {{last_name}}</h4>\n' +
+    '    <p class="employeeAddress">{{address1}} <br> {{city}}, {{state}}, {{pincode}}</p>\n' +
+    '    <br>\n' +
+    '    <p class="employeenFirstName">Dear {{first_name}} {{last_name}},</p>\n' +
+    '\n' +
+    '    <p class="firstP">This letter provides you with information about your \n' +
+    '        <span class="leaveType">{{leave_type_of_leave}}</span>\n' +
+    '        leave requested on \n' +
+    '        <span class="dateOpened">{{startDate}}</span>\n' +
+    '        due to <span class="leaveReason">New Job Opportunity</span> \n' +
+    '        beginning <span class="leaveDates">{{startDate}} through {{endDate}}</span>.</p>\n' +
+    '\n' +
+    '    <p class="secondP">PLEASE NOTE: If you have received a previous leave status notification from Company\n' +
+    '        Leave Administration for this leave, this notice will supersede the previously communicated\n' +
+    '        information. Please see below for your current leave status based on the most recent\n' +
+    '        information available.</p>\n' +
+    '\n' +
+    '    <p class="endPar">As of the date of this letter, listed below are the leave type(s) and dates for which you have been\n' +
+    '        determined to be ineligible/denied:</p>\n' +
+    '        <table class="leaveTable" BORDER="1">\n' +
+    '            <tr>\n' +
+    '               <th align="center" class="tableStatusDenied" style="font-weight: 100%;"COLSPAN="4">\n' +
+    '                  Denied\n' +
+    '               </th>\n' +
+    '            </tr>\n' +
+    '            <tr align="left">    \n' +
+    '               <th class="leaveTypeTableEdit">Leave Type</th>\n' +
+    '               <th class="leaveNameTableEdit">Leave Name</th>\n' +
+    '               <th class="leaveDatesTableEdit">Dates</th>\n' +
+    '               <th class="leaveReasonTableEdit">Reason</th>\n' +
+    '            </tr>\n' +
+    '            <tr align="left">\n' +
+    '                <th class="leaveTypeTableEdit">{{state}}</th>\n' +
+    '                <th class="leaveNameTableEdit">{{leave_name}}</th>\n' +
+    '                <th class="leaveDatesTableEdit">{{startDate}} - {{endDate}}</th>\n' +
+    '                <th class="leaveReasonTableEdit">{{reason}}</th>\n' +
+    '             </tr>\n' +
+    '        </table>\n' +
+    '        <p class="firstP">Please review the following important information \n' +
+    '            and/or enclosures relating to your leave: \n' +
+    '        </p>\n' +
+    '    \n' +
+    '        <ul>\n' +
+    '            <li>Employee Rights and Responsibilities under FMLA: This document provides\n' +
+    '                leave of absence information and eligibility requirements for FMLA.</li>\n' +
+    '            <li> \n' +
+    '                Frequently Asked Questions: This document provides answers to the most\n' +
+    '                commonly asked questions about the effect this leave will have on your benefits\n' +
+    '                and pay.\n' +
+    '            </li>\n' +
+    '        </ul>\n' +
+    '    \n' +
+    '        <p>If you are not approved for any requested time, you will need to contact\n' +
+    '            Companyaddress@address.com to discuss your work schedule or other leave options that might\n' +
+    '            be available to you.</p>\n' +
+    '        <p>Please call us at Companyaddress@address.com if you have \n' +
+    '            any questions or if the circumstances\n' +
+    '            or dates of your leave change.You should also inform \n' +
+    '            Companyaddress@address.com of any changes to your leave status.</p>\n' +
+    '       \n' +
+    '        <p>Sincerely,</p>\n' +
+    '        <p class="leaveManager">Leave Admin Name<br>\n' +
+    '            Leave of Absence Representative</p>'
+  ,
+  leaveEligibilityTable:'' +
+    '<th>Federal</th>\n' +
+    '                <th>Family & Medical Leave Act (FMLA)</th>\n' +
+    '                <th>01/16/2020 - 02/15/2020</th>\n' +
+    '                <th>Eligibility Not Met:<br> \n' +
+    '                    <ul style="margin-top: 0;" align="left" >\n' +
+    '                    <li>1250 hours worked in previous 12 Month</li>\n' +
+    '                    <li> 12 Months of Service</li>\n' +
+    '                </ul> </th>' +
+    ''
+  ,
+  incompleteLetter:'' +
+    '<h4 class="dateOfLetter">Date: {{letter_date}}</h4>\n' +
+    '    <h4 class="employeeName">{{first_name}} {{last_name}}</h4>\n' +
+    '    <p class="employeeAddress">{{address1}} <br> {{city}}, {{state}}, {{pincode}}</p>\n' +
+    '    <br>\n' +
+    '    <p class="employeenFirstName">Dear {{first_name}} {{last_name}},</p>\n' +
+    '\n' +
+    '    <p class="firstP">We have received notification on your <span class="leaveType">{{leave_type_of_leave}}</span>\n' +
+    '        request for Leave of Absence\n' +
+    '        due to <span class="leaveReason">{{leave_name}}</span>\n' +
+    '        beginning <span class="leaveDates">{{startDate}} through {{endDate}}</span>. This letter serves as notification of your\n' +
+    '        rights and responsibilities for leave under federal and state entitlements.</p>\n' +
+    '\n' +
+    '    <p class="endPar">Listed below are the leave type(s) \n' +
+    '        you are eligible for today and the status of each plan:</p>\n' +
+    '        <table class="leaveTable" BORDER="1">\n' +
+    '            <tr>\n' +
+    '               <th align="center" class="tableStatusPending" style="font-weight: 100%;"COLSPAN="4">\n' +
+    '                   {{leave_type_status}}\n' +
+    '               </th>\n' +
+    '            </tr>\n' +
+    '            <tr align="left">    \n' +
+    '               <th class="leaveTypeTableEdit">Leave Type</th>\n' +
+    '               <th class="leaveNameTableEdit">Leave Name</th>\n' +
+    '               <th class="leaveDatesTableEdit">Dates</th>\n' +
+    '            </tr>\n' +
+    '             <tr align="left">\n' +
+    '                <th class="leaveTypeUpdate">{{state}}</th>\n' +
+    '                <th class="leaveReasonUpdate">{{leave_name}}</th>\n' +
+    '                <th class="leaveDatesUpdate">{{startDate}} - {{endDate}}</th>\n' +
+    '             </tr>\n' +
+    '        </table>\n' +
+    '        <br>\n' +
+    '\n' +
+    '        <p class="firstP">The documentation requested in support of the leave types above has been received; however, it is\n' +
+    '            incomplete and we are unable to take action regarding your leave request at this time. <br>The updated paperwork will be due within 10 calendar days from the first date of absence. The\n' +
+    '            specific information below is required to support this leave:\n' +
+    '        </p>\n' +
+    '    \n' +
+    '        <ul>\n' +
+    '            <li>Missing Licensed Health Care Profession Information such as name/practice type.</li>\n' +
+    '            <li>Missing Serious Health Condition </li>\n' +
+    '            <li>Missing Estimated Start date and/or End date for leave/Missing Parameters for Time Off.</li>\n' +
+    '            <li>Missing Doctor\'s hand signature and/or date form was filled out.</li>\n' +
+    '            <li>Missing Important/Necessary Information.</li>\n' +
+    '        </ul>\n' +
+    '    \n' +
+    '        <p>Your updated information can be mailed to us at the address shown above, or faxed to\n' +
+    '            855-616-8288. Please note that any changes/updates made to the incomplete\n' +
+    '            Certification of Healthcare Provider must be initialed and dated by the healthcare provider.</p>\n' +
+    '        <p>Failure to provide the requested information by the due date may result in denial of leave\n' +
+    '            protection. If this occurs, then any time you have missed may be considered an unexcused\n' +
+    '            absence under Life Time’s attendance policy.</p>\n' +
+    '        <p>The final determination on your leave request is based on your eligibility and entitlement as of\n' +
+    '            your first day of absence, as well as timely submission of any supporting documentation, if\n' +
+    '            applicable, as note below. Once we obtain this information, we will inform you whether your leave\n' +
+    '            is designated as Family and Medical Leave Act. You will be notified of any change in your leave\n' +
+    '            status.</p>\n' +
+    '        <p>SUBMIT THE REQUESTED SUPPORTING DOCUMENTATION BY {{last_date}}.</p>\n' +
+    '\n' +
+    '        <p class="firstP">Provided review the following important information \n' +
+    '            and/or enclosures relating to your leave: \n' +
+    '        </p>\n' +
+    '    \n' +
+    '        <ul>\n' +
+    '            <li>Employee Rights and Responsibilities under FMLA: This document provides\n' +
+    '                leave of absence information and eligibility requirements for FMLA.</li>\n' +
+    '            <li> \n' +
+    '                Frequently Asked Questions: This document provides answers to the most\n' +
+    '                commonly asked questions about the effect this leave will have on your benefits\n' +
+    '                and pay.\n' +
+    '            </li>\n' +
+    '        </ul>\n' +
+    '        <p>If you are not approved for any requested time, you will need to contact company@company.com to\n' +
+    '            discuss your work schedule or other leave options that might be available to you.</p>\n' +
+    '\n' +
+    '        <p>The Genetic Information Nondiscrimination Act of 2008 (GINA) prohibits employers and other\n' +
+    '            entities covered by GINA Title II from requesting or requiring genetic information of an individual\n' +
+    '            or family member of the individual, except as specifically allowed by this law. To comply with this\n' +
+    '            law, we are asking that you and your physicians not provide any genetic information when\n' +
+    '            responding to any request for medical information, such as in the Healthcare Certification\n' +
+    '            response from a physician. “Genetic information,” as defined by GINA, includes an individual’s\n' +
+    '            family medical history, the results of an individual’s or family member’s genetic tests, the fact that\n' +
+    '            an individual or an individual’s family member sought or received genetic services, and genetic\n' +
+    '            information of a fetus carried by an individual or an individual’s family member or an embryo\n' +
+    '            lawfully held by an individual or family member receiving assistive reproductive services.</p>\n' +
+    '        \n' +
+    '        <p>If your leave is the result of a company policy, please refer to company@company.com for your\n' +
+    '            return to work guidelines.</p>\n' +
+    '        <p>You should also inform company@company.com of any changes to your leave status.</p>\n' +
+    '       \n' +
+    '        <p>Sincerely,</p>\n' +
+    '        <p class="leaveManager">\n' +
+    '            Company Leave of Absence</p>'
 }
 
 module.exports = {

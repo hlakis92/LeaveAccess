@@ -16,12 +16,12 @@
     "databaseType": "mysql"
   },
   "mailConfig": {
-    "service": "gmail",
-    "username": "",
-    "password": "",
-    "host": "smtp.googlemail.com",
-    "port": "465",
-    "fromAddress": "",
+    "service": "smtp",
+    "username": "3c5903c869e0656cee6233712fcd726b",
+    "password": "5052db86e68d54780607884c56d08951",
+    "host": "in-v3.mailjet.com",
+    "port": "587",
+    "fromAddress": "hello@briskbraintech.com",
     "toAddress": ""
   }
 }

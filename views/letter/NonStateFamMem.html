@@ -80,16 +80,16 @@
 
 </style>
 <body>
-    <h4 class="dateOfLetter">Date:</h4>
-    <h4 class="employeeName">First Last</h4>
-    <p class="employeeAddress">4865 Address Place <br> city, ST, 22222</p>
+    <h4 class="dateOfLetter">Date: {{letter_date}}</h4>
+    <h4 class="employeeName">{{first_name}} {{last_name}}</h4>
+    <p class="employeeAddress">{{address1}} <br> {{city}}, {{state}}, {{pincode}}</p>
     <br>
-    <p class="employeenFirstName">Dear Name,</p>
+    <p class="employeenFirstName">Dear {{first_name}} {{last_name}},</p>
 
-    <p class="firstP">We have received notification on your <span class="leaveType">Continuous</span> 
+    <p class="firstP">We have received notification on your <span class="leaveType">{{leave_type}}</span>
         request for Leave of Absence
-        due to <span class="leaveReason">Family Member's Serious Health Condition</span> 
-        beginning <span class="leaveDates">10/1/2019 through 10/2/2020</span>. This letter serves as notification of your
+        due to <span class="leaveReason">{{leave_name}}</span>
+        beginning <span class="leaveDates">{{start_date}} through {{end_date}}</span>. This letter serves as notification of your
         rights and responsibilities for leave under federal and state entitlements.</p>
 
     <p class="endPar">Listed below are the leave type(s) 
@@ -97,7 +97,7 @@
         <table class="leaveTable" BORDER="1">
             <tr>
                <th align="center" class="tableStatusPending" style="font-weight: 100%;"COLSPAN="4">
-                  Pending
+                   {{leave_status}}
                </th>
             </tr>
             <tr align="left">    

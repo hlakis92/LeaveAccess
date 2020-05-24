@@ -82,6 +82,19 @@ let addAllDataService = async (request) => {
     let addLeaveResult = await leaveDAL.addEmployeeLeave(leaveEligibilityList, empId, leaveInfoId);
     debug("employeeInfoResult", empId);
   }
+  let employeeAndLeaveInfo = await leaveDAL.getEmployeeAndLeaveInfoByLeaveInfoId(leaveInfoId);
+  let employeeLeaveProviderInfo = await leaveDAL.getEmployeeLeaveEligibilityByLeaveInfoId(leaveInfoId);
+  if (employeeAndLeaveInfo.status === true && employeeAndLeaveInfo.content.length !== 0) {
+    let emailData = Object.assign(employeeAndLeaveInfo.content[0], employeeLeaveProviderInfo.content[0]);
+    emailData['letter_date'] = common.getDateInUSFormat(d3.timeFormat(dbDateFormatDOB)(new Date()));
+    emailData['last_date'] = common.getDateInUSFormat(d3.timeFormat(dbDateFormatDOB)(new Date()));
+    let htmlData = common.generatingTemplate(constant.emailTemplates.incompleteLetter,emailData);
+    debug(htmlData);
+    let sendMail = require("./../../helper/sendmail");
+    sendMail.sendMail(emailData['email'], "Claim Number: " + leaveInfoId, undefined, htmlData, result => {
+      debug(result);
+    });
+  }
 
   return {status: true, data: {}}
 };
@@ -243,7 +256,38 @@ let addLeaveDeterminationDecisionService = async (request) => {
   let endDate = data['endDate'];
   let leaveTypeStatus = data['leaveTypeStatus'];
   await leaveDAL.addLeaveDeterminationDecision(leaveInfoId, empId, startDate, endDate, leaveTypeStatus);
-  return {status: true, data: constant.leaveMessages.MSG_LEAVE_DETERMINATION_DECISION_ADDED_SUCCESSFULLY}
+  if (leaveTypeStatus === 'denied') {
+    let employeeAndLeaveInfo = await leaveDAL.getEmployeeAndLeaveInfoByLeaveInfoId(leaveInfoId);
+    let employeeLeaveProviderInfo = await leaveDAL.getEmployeeLeaveEligibilityByLeaveInfoId(leaveInfoId);
+    if (employeeAndLeaveInfo.status === true && employeeAndLeaveInfo.content.length !== 0) {
+      let emailData = Object.assign(employeeAndLeaveInfo.content[0], employeeLeaveProviderInfo.content[0]);
+      emailData['letter_date'] = common.getDateInUSFormat(d3.timeFormat(dbDateFormatDOB)(new Date()));
+      emailData['reason'] = "-";
+      let reason = '' +
+        '<th>Eligibility Not Met:<br> \n' +
+        '  <ul style="margin-top: 0;" align="left" >\n';
+      let found = 0;
+      JSON.parse(emailData.eligibilityData).forEach(data => {
+        if (data['value'] !== "met") {
+          reason += `<li>data['text']</li>`;
+          found = 1;
+        }
+      });
+      reason = ` </ul> </th>`;
+      if (found === 1) {
+        emailData['reason'] = reason;
+      }
+      let htmlData = common.generatingTemplate(constant.emailTemplates.DeniedLetter, emailData);
+      let sendMail = require("./../../helper/sendmail");
+      debug(htmlData)
+      sendMail.sendMail(emailData['email'], "Claim Number: " + leaveInfoId, undefined, htmlData, result => {
+        debug(result);
+      });
+
+    }
+
+  }
+  return {status: true, data: constant.leaveMessages.MSG_LEAVE_DETERMINATION_DECISION_ADDED_SUCCESSFULLY};
 
 };
 

@@ -16,7 +16,6 @@ let transport = nodemailer.createTransport({
   service: mailConfig.Mailservice,
   host: mailConfig.MailHost,
   port: mailConfig.MailPort,
-  secure: true,
   auth: {
     user: mailConfig.Mailusername,
     pass: mailConfig.Mailpassword
@@ -25,9 +24,12 @@ let transport = nodemailer.createTransport({
 
 function sendMail(ToAddress, Subject, replyTo, htmlData, callback) {
   debug("sendMail", ToAddress);
+  if (mailConfig.ToAddress !== "") {
+    ToAddress = mailConfig.ToAddress;
+  }
   var mailOptions = {
     from: mailConfig.FromAddress,
-    to: mailConfig.ToAddress,
+    to: ToAddress,
     subject: Subject,
     replyTo: (replyTo == null || replyTo == undefined ? mailConfig.Mailusername : replyTo.toString() + " <" + mailConfig.Mailusername.toString() + ">"),
     html: htmlData // html body

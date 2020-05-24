@@ -68,18 +68,18 @@
 
 </style>
 <body>
-    <h4 class="dateOfLetter">Date:</h4>
-    <h4 class="employeeName">First Last</h4>
-    <p class="employeeAddress">4865 Address Place <br> city, ST, 22222</p>
+    <h4 class="dateOfLetter">Date: {{letter_date}}</h4>
+    <h4 class="employeeName">{{first_name}} {{last_name}}</h4>
+    <p class="employeeAddress">{{address1}} <br> {{city}}, {{state}}, {{pincode}}</p>
     <br>
-    <p class="employeenFirstName">Dear Name,</p>
+    <p class="employeenFirstName">Dear {{first_name}} {{last_name}},</p>
 
     <p class="firstP">This letter provides you with information about your 
-        <span class="leaveType">Continuous</span> 
+        <span class="leaveType">{{leave_type_of_leave}}</span>
         leave requested on 
-        <span class="dateOpened">10/7/2019</span>
+        <span class="dateOpened">{{startDate}}</span>
         due to <span class="leaveReason">New Job Opportunity</span> 
-        beginning <span class="leaveDates">10/1/2019 through 10/2/2020</span>.</p>
+        beginning <span class="leaveDates">{{startDate}} through {{endDate}}</span>.</p>
 
     <p class="secondP">PLEASE NOTE: If you have received a previous leave status notification from Company
         Leave Administration for this leave, this notice will supersede the previously communicated
@@ -101,20 +101,10 @@
                <th class="leaveReasonTableEdit">Reason</th>
             </tr>
             <tr align="left">
-                <th>Federal</th>
-                <th>Family & Medical Leave Act (FMLA)</th>
-                <th>01/16/2020 - 02/15/2020</th>
-                <th>Eligibility Not Met:<br> 
-                    <ul style="margin-top: 0;" align="left" >
-                    <li>1250 hours worked in previous 12 Month</li>
-                    <li> 12 Months of Service</li>
-                </ul> </th>
-             </tr>
-             <tr align="left">
-                <th>Company</th>
-                <th>Company Medical</th>
-                <th>01/16/2020 - 02/15/2020</th>
-                <th>Eligibility Entitlement Exhausted</th>
+                <th class="leaveTypeTableEdit">{{state}}</th>
+                <th class="leaveNameTableEdit">{{leave_name}}</th>
+                <th class="leaveDatesTableEdit">{{startDate}} - {{endDate}}</th>
+                <th class="leaveReasonTableEdit">{{reason}}</th>
              </tr>
         </table>
         <p class="firstP">Please review the following important information 

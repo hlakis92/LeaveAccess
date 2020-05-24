@@ -8,7 +8,7 @@
 </head>
 <style>
     body {
-        font-family: Cambria,Georgia,serif; 
+        font-family: Cambria,Georgia,serif;
         margin-top: 75px;
         margin-bottom: 100px;
         margin-right: 50px;
@@ -24,10 +24,10 @@
         margin-block-start: 0;
         margin-block-end: 0;
     }
-    
+
     .signatureOfER {
         font-size: 40px;
-        font-family: Brush Script MT, Brush Script Std, cursive; 
+        font-family: Brush Script MT, Brush Script Std, cursive;
     }
     .secondP {
         font-weight: bold;
@@ -35,19 +35,19 @@
     .leavetable {
         position:absolute;
     }
-    table { 
-            border: 1px solid black; 
-            border-collapse: collapse; 
+    table {
+            border: 1px solid black;
+            border-collapse: collapse;
             width: 100%;
-        } 
+        }
     th {
-        border: 1px solid black; 
-        border-collapse: collapse; 
+        border: 1px solid black;
+        border-collapse: collapse;
         width: auto;
     }
     td {
-        border: 1px solid black; 
-        border-collapse: collapse; 
+        border: 1px solid black;
+        border-collapse: collapse;
         width: 100%;
     }
     .tableStatusDenied {
@@ -84,15 +84,15 @@
     <h4 class="employeeName">First Last</h4>
     <p class="employeeAddress">4865 Address Place <br> city, ST, 22222</p>
     <br>
-    <p class="employeenFirstName">Dear Name,</p>
+    <p class="employeenFirstName">Dear {{first_name}} {{last_name}},</p>
 
-    <p class="firstP">We have received notification on your <span class="leaveType">Continuous</span> 
+    <p class="firstP">We have received notification on your <span class="leaveType">Continuous</span>
         request for Leave of Absence
-        due to <span class="leaveReason">Employee Pregnancy / Employee’s Own Serious Health Condition</span> 
+        due to <span class="leaveReason">Employee Pregnancy / Employee’s Own Serious Health Condition</span>
         beginning <span class="leaveDates">10/1/2019 through 10/2/2020</span>. This letter serves as notification of your
         rights and responsibilities for leave under federal and state entitlements.</p>
 
-    <p class="endPar">Listed below are the leave type(s) 
+    <p class="endPar">Listed below are the leave type(s)
         you are eligible for today and the status of each plan:</p>
         <table class="leaveTable" BORDER="1">
             <tr>
@@ -100,7 +100,7 @@
                   Pending
                </th>
             </tr>
-            <tr align="left">    
+            <tr align="left">
                <th class="leaveTypeTableEdit">Leave Type</th>
                <th class="leaveNameTableEdit">Leave Name</th>
                <th class="leaveDatesTableEdit">Dates</th>
@@ -128,7 +128,7 @@
                   Denied
                </th>
             </tr>
-            <tr align="left">    
+            <tr align="left">
                <th class="leaveTypeTableEdit">Leave Type</th>
                <th class="leaveNameTableEdit">Leave Name</th>
                <th class="leaveDatesTableEdit">Dates</th>
@@ -138,7 +138,7 @@
                 <th>Federal</th>
                 <th>Family & Medical Leave Act (FMLA)</th>
                 <th>01/16/2020 - 02/15/2020</th>
-                <th>Eligibility Not Met:<br> 
+                <th>Eligibility Not Met:<br>
                     <ul style="margin-top: 0;" align="left" >
                     <li>1250 hours worked in previous 12 Month</li>
                     <li> 12 Months of Service</li>
@@ -164,14 +164,14 @@
             FROM THE DATE OF THIS NOTICE OR THE START DATE OF YOUR LEAVE REQUEST. PLEASE SUBMIT THE
             REQUESTED SUPPORTING DOCUMENTATION BY 8/30/2018.</p>
 
-        <p class="firstP">Provided review the following important information 
-            and/or enclosures relating to your leave: 
+        <p class="firstP">Provided review the following important information
+            and/or enclosures relating to your leave:
         </p>
-    
+
         <ul>
             <li>Employee Rights and Responsibilities under FMLA: This document provides
                 leave of absence information and eligibility requirements for FMLA.</li>
-            <li> 
+            <li>
                 Frequently Asked Questions: This document provides answers to the most
                 commonly asked questions about the effect this leave will have on your benefits
                 and pay.
@@ -203,13 +203,13 @@
             an individual or an individual’s family member sought or received genetic services, and genetic
             information of a fetus carried by an individual or an individual’s family member or an embryo
             lawfully held by an individual or family member receiving assistive reproductive services.</p>
-        
+
         <p>If your leave is under FMLA or State Leave, then upon your return from leave, you will be restored to the
             same or an equivalent job with equivalent pay and benefits. If your leave is the result of a company policy,
             please refer to CompanyEmail@gmail.com for your return to work guidelines.</p>
         <p>If you have any questions regarding the status of your leave request please contact
             CompanyEmail@gmail.com.</p>
-       
+
         <p>Sincerely,</p>
         <p class="leaveManager">
             Company Leave of Absence</p>

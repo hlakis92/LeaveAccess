@@ -611,6 +611,18 @@ let query = {
       encloseField: false,
       alias: 'pincode'
     }, {
+      field: 'leaveType',
+      encloseField: false,
+      alias: 'leave_type_of_leave'
+    }, {
+      field: 'leaveTypeStatus',
+      encloseField: false,
+      alias: 'leave_type_status'
+    }, {
+      field: 'DATE_FORMAT(startDate, "%m/%d/%Y")',
+      encloseField: false,
+      alias: 'startDate'
+    }, {
       field: 'DATE_FORMAT(endDate, "%m/%d/%Y")',
       encloseField: false,
       alias: 'endDate'
