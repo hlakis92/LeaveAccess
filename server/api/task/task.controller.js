@@ -22,6 +22,12 @@ let addtask = async (request, response) => {
   return response.send(result);
 };
 
+let updateTask = async (request, response) => {
+  debug("task.controller -> updateTask");
+  let result = await taskService.updateTaskService(request);
+  return response.send(result);
+};
+
 /*let updatetask = async (request, response) => {
   debug("task.controller -> updatetask");
   let result = await taskService.taskUpdateService(request);
@@ -52,7 +58,7 @@ let editnotes = async (request, response) => {
 module.exports = {
   tasks: tasks,
   addtask: addtask,
-  //updatetask: updatetask,
+  updateTask: updateTask,
   //deletetask: deletetask,
   notes: notes,
   addnotes: addnotes,

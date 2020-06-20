@@ -212,7 +212,7 @@
     '  </tr>';
   let selectTemplateMet = '         <div>' +
     '        <h5>{{text}}</h5>' +
-    '            <select>' +
+    '            <select name={{_id}} id={{_id}}>' +
     '                <option value="met" selected>Met</option>' +
     '                <option value="not met">Not Met</option>' +
     '            </select>' +
@@ -220,7 +220,7 @@
     '        </div>';
   let selectTemplateNotMet = '         <div>' +
     '        <h5>{{text}}</h5>' +
-    '            <select>' +
+    '            <select name={{_id}} id={{_id}}>' +
     '                <option value="met">Met</option>' +
     '                <option value="not met" selected>Not Met</option>' +
     '            </select>' +
@@ -262,19 +262,22 @@
       // console.log(leaveEligibilityList)
       leaveEligibilityList.forEach(data => {
         let eligibilityText = '';
-        if(typeof (data.eligibilityData) === 'string'){
+        if (typeof (data.eligibilityData) === 'string') {
           data.eligibilityData = JSON.parse(data.eligibilityData);
         }
-        if (data['eligible'] === undefined){
+        if (data['eligible'] === undefined) {
           data['eligible'] = 1;
         }
-        (data.eligibilityData).forEach(d => {
+
+        (data.eligibilityData).forEach((d, index) => {
+          d['_id'] = data['_comment'] + "-" + index;
           if (d.value === 'met') {
             eligibilityText += generatingTemplate(selectTemplateMet, d);
           } else {
             data['eligible'] = 0;
             eligibilityText += generatingTemplate(selectTemplateNotMet, d);
           }
+          delete d['_id'];
         });
         data['eligibilityText'] = eligibilityText;
         // console.log(data);
@@ -293,6 +296,16 @@
     }
     $('select').on('change', function () {
       // alert( this.value );
+      let triggerValue = ($(this).attr('id') + "-" + $(this).val());
+      // debugger
+      triggerValue = triggerValue.split("-");
+      leaveEligibilityList.forEach(data => {
+
+        if (data['_comment'] == triggerValue[0]) {
+          data['eligibilityData'][triggerValue[1]]['value'] = triggerValue[2]
+        }
+      });
+      setCookie('leaveEligibilityList', JSON.stringify(leaveEligibilityList), 1);
 
       if (this.value === "not met") {
         $('#notEligibleTable').append($(this).parent().parent().parent())

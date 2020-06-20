@@ -38,13 +38,17 @@ let uploadMediaService = (request, cb) => {
   let fileExt = fileExtension(fileObj.name);
   let newFileName = (new Date().getTime()) + "_" + randomString.generate(constant.appConfig.MEDIA_UPLOAD_FILE_NAME_SETTINGS) + '.' + fileExt;
   let addValueArray = [leaveInfoId, newFileName];
-
   let params = {Bucket: s3Config.MEDIA_DEFAULT_BUCKET_NAME, Key: newFileName, Body: file, ACL: 'public-read'};
   s3.upload(params, async (s3Err, data) => {
     console.log(s3Err, data);
     console.log(`File uploaded successfully at ${data.Location}`);
     fs.unlinkSync(fileObj.path);
     await mediaDAL.addPaperWorkReviewDocument(addValueArray);
+    let leaveDAL = require('./../leave/leave.DAL');
+    let cdata = {
+      file_name: fileObj.name
+    };
+    let addLeaveChronology = leaveDAL.addLeaveChronology('', 3, leaveInfoId, JSON.stringify(cdata), request.session.userInfo.userId)
     return cb({
       status: true, data: {
         text: newFileName,

@@ -312,7 +312,7 @@ router.get('/claimreducedschedule/:claimNumber', middleware.checkAccessToken, as
 
   let userService = require('./../server/api/user/user.service');
   let getManager = await userService.getManagerService(req);
-  let getManagerData = getManager.data;;
+  let getManagerData = getManager.data;
 
   let employeeLeaveClaimInfoData, planMaximumDuration, planStatus, paperWorkReview = [],
     paperWorkReviewDocumentList = [], employeeLeaveInfoData;
@@ -376,6 +376,31 @@ router.get('/decision/:claimNumber', middleware.checkAccessToken, async function
     employeeLeaveClaimInfoData: employeeLeaveClaimInfoData,
     planMaximumDuration: planMaximumDuration,
     planStatus: planStatus,
+
+  });
+});
+
+router.get('/leavechoronology/:claimNumber', middleware.checkAccessToken, async function (req, res, next) {
+  let leaveService = require('./../server/api/leave/leave.service');
+  let employeeLeaveClaimInfoResult = await leaveService.getEmployeeLeaveClaimInfoService(req);
+  let employeeLeaveClaimInfoData, planMaximumDuration, planStatus;
+  let getLeaveChronologyResult = await leaveService.getLeaveChronologyServiceService(req);
+  console.log(getLeaveChronologyResult);
+
+  if (employeeLeaveClaimInfoResult.status === true) {
+    employeeLeaveClaimInfoData = employeeLeaveClaimInfoResult.data.leaveInfo;
+    planMaximumDuration = employeeLeaveClaimInfoResult.data.planMaximumDuration;
+    planStatus = employeeLeaveClaimInfoResult.data.planStatus
+
+  } else {
+
+  }
+  res.render('pages/leavechronology', {
+    title: 'Leave Overview',
+    employeeLeaveClaimInfoData: employeeLeaveClaimInfoData,
+    planMaximumDuration: planMaximumDuration,
+    planStatus: planStatus,
+    leaveChronologyData : getLeaveChronologyResult.data
 
   });
 });

@@ -14,6 +14,8 @@ var dbDateFormat = constant.appConfig.DB_DATE_FORMAT;
 // var config = require('../../../../config');
 var async = require("async");
 // let ruleParser = require('rule-parser-engine');
+let dbDateFormatDOB = constant.appConfig.DB_DATE_FORMAT_DOB;
+// let dbDateFormat = constant.appConfig.DB_DATE_FORMAT;
 
 
 /**
@@ -76,6 +78,7 @@ let getTaskListService = async (request) => {
     return {status: false, error: constant.taskMessages.NO_RECORD_FOUND};
   }
 };*/
+
 /**
  * Created By: MB
  * Updated By: MB
@@ -99,11 +102,22 @@ let addTaskService = async (request) => {
   let taskDesc = request.body.taskDesc;
   let empId = request.body.empId;
   let leaveInfoId = request.body.leaveInfoId;
-  let dueDate = request.body.dueDate;
+  let dueDate = d3.timeFormat(dbDateFormatDOB)(new Date(request.body.dueDate));
 
   let modifyBy = request.session.userInfo.userId;
-  let addTaskResult = await taskDAL.addTask(userId, taskName, status, taskDesc, empId, leaveInfoId,dueDate, modifyBy);
+  let addTaskResult = await taskDAL.addTask(userId, taskName, status, taskDesc, empId, leaveInfoId, dueDate, modifyBy);
   if (addTaskResult.status === true) {
+    let leaveDAL = require('./../leave/leave.DAL');
+    if (status === 1) {
+      let addLeaveChronology1 = await leaveDAL.addLeaveChronology('', 2, leaveInfoId, JSON.stringify({}), request.session.userInfo.userId)
+      let addLeaveChronology2 = await leaveDAL.addLeaveChronology('', 9, leaveInfoId, JSON.stringify({task_comment: taskDesc}), request.session.userInfo.userId)
+    }
+    let data = {
+      date: common.getDateInUSFormat(d3.timeFormat(dbDateFormatDOB)(new Date(dueDate))),
+      task_name: taskName,
+      task_comment: taskDesc
+    }
+    let addLeaveChronology = await leaveDAL.addLeaveChronology('', 6, leaveInfoId, JSON.stringify(data), request.session.userInfo.userId)
     return {
       status: true,
       data: constant.taskMessages.TASK_ADDDED
@@ -112,6 +126,76 @@ let addTaskService = async (request) => {
     return {status: false, error: constant.taskMessages.TASK_ERROR};
   }
 };
+
+/**
+ * Created By: MB
+ * Updated By: MB
+ *
+ * Update Task service
+ * @param  {object}  request
+ * @return {object}
+ *
+ */
+let updateTaskService = async (request) => {
+  debug("task.service -> updateTaskService");
+  if (request.body.taskId === undefined
+    || request.body.taskName === undefined
+    || request.body.userId === undefined) {
+    return {
+      status: false,
+      error: constant.requestMessages.TASK_ERROR
+    };
+  }
+  let taskId = request.body.taskId;
+  let userId = request.body.userId;
+  let taskName = request.body.taskName;
+  let status = request.body.status;
+  let taskDesc = request.body.taskDesc;
+  let empId = request.body.empId;
+  let leaveInfoId = request.body.leaveInfoId;
+  let dueDate = d3.timeFormat(dbDateFormatDOB)(new Date(request.body.dueDate));
+  let modifyBy = request.session.userInfo.userId;
+
+  let fieldValueUpdate = [{
+    field: 'userId',
+    fValue: userId
+  }, {
+    field: 'empId',
+    fValue: empId
+  }, {
+    field: 'taskName',
+    fValue: taskName
+  }, {
+    field: 'taskDesc',
+    fValue: taskDesc
+  }, {
+    field: 'dueDate',
+    fValue: dueDate
+  }, {
+    field: 'status',
+    fValue: status
+  }, {
+    field: 'modifyBy',
+    fValue: modifyBy
+  }];
+  let oldTaskData = await taskDAL.getTaskDetailById(taskId);
+  leaveInfoId = oldTaskData.content[0]['leave_info_id'];
+  let data = {
+    old_task_name: oldTaskData.content[0]['taskName'],
+    task_name: taskName,
+    task_comment: (taskDesc).replace(/\n/g, '\\n'),
+  }
+  let leaveDAL = require('./../leave/leave.DAL');
+  let addLeaveChronology = await leaveDAL.addLeaveChronology('', 7, leaveInfoId, JSON.stringify(data), request.session.userInfo.userId)
+  if (status == 1) {
+    let addLeaveChronology1 = await leaveDAL.addLeaveChronology('', 2, leaveInfoId, JSON.stringify({}), request.session.userInfo.userId)
+    let addLeaveChronology2 = await leaveDAL.addLeaveChronology('', 9, leaveInfoId, JSON.stringify({task_comment: taskDesc}), request.session.userInfo.userId)
+  }
+  let editTaskResult = await taskDAL.editTask(taskId, fieldValueUpdate)
+  // debug(request.body);
+  return {status: true, data: constant.taskMessages.TASK_UPDATED}
+}
+
 
 /**
  * Created By: MB
@@ -150,20 +234,26 @@ let addNotesService = async (request) => {
       error: constant.requestMessages.NOTES_ERROR
     };
   }
-   let notes = request.body.notes;
+  let notes = request.body.notes;
   let empId = request.body.empId;
   let leaveInfoId = request.body.leaveInfoId;
 
   let userId = request.session.userInfo.userId;
   let modifyBy = userId;
   let addNotesResult = await taskDAL.addNotes(notes, empId, leaveInfoId, userId, modifyBy);
+
   if (addNotesResult.status === true) {
+    let leaveDAL = require('./../leave/leave.DAL');
+    let data = {
+      note_comment: request.body.notes,
+    }
+    let addLeaveChronology = await leaveDAL.addLeaveChronology('', 8, leaveInfoId, JSON.stringify(data), request.session.userInfo.userId)
     let notes = '';
 
-  let getNotesResult = await taskDAL.getNotes(addNotesResult.content.insertId);
-  if (getNotesResult.status === true && getNotesResult.content.length !== 0) {
-    notes = getNotesResult.content[0];
-  } 
+    let getNotesResult = await taskDAL.getNotes(addNotesResult.content.insertId);
+    if (getNotesResult.status === true && getNotesResult.content.length !== 0) {
+      notes = getNotesResult.content[0];
+    }
     return {
       status: true,
       data: constant.taskMessages.NOTES_ADDDED,
@@ -192,29 +282,29 @@ let editNotesService = async (request) => {
       error: constant.requestMessages.NOTES_ERROR
     };
   }
- 
+
   let noteId = request.body.noteId;
 
 
   let userId = request.session.userInfo.userId;
-  
+
 
   let fieldValueUpdate = [{
     field: 'notes',
     fValue: request.body.notes
-    }, {
-      field: 'modifyBy',
-      fValue: userId
-    }];
+  }, {
+    field: 'modifyBy',
+    fValue: userId
+  }];
 
   let updateNotesResult = await taskDAL.updateNotes(noteId, fieldValueUpdate);
   if (updateNotesResult.status === true) {
     let notes = '';
 
-  let getNotesResult = await taskDAL.getNotes(noteId);
-  if (getNotesResult.status === true && getNotesResult.content.length !== 0) {
-    notes = getNotesResult.content[0];
-  } 
+    let getNotesResult = await taskDAL.getNotes(noteId);
+    if (getNotesResult.status === true && getNotesResult.content.length !== 0) {
+      notes = getNotesResult.content[0];
+    }
     return {
       status: true,
       data: constant.taskMessages.NOTES_UPDATED,
@@ -235,18 +325,16 @@ let editNotesService = async (request) => {
  *
  */
 
-/*let taskUpdateService = async (request) => {
+let taskUpdateService = async (request) => {
   debug("task.service -> taskUpdateService");
-  let id = request.body.task_id;  
- // console.log(request.body.password);
- // console.log(request.body.status);
+  let id = request.body.task_id;
   let fieldValueUpdate = [{
-      field: 'name',
-      fValue: request.body.name
-    },{
-      field: 'email',
-      fValue: request.body.email
-    },
+    field: 'name',
+    fValue: request.body.name
+  }, {
+    field: 'email',
+    fValue: request.body.email
+  },
     {
       field: 'tasktype',
       fValue: request.body.tasktype
@@ -255,30 +343,24 @@ let editNotesService = async (request) => {
       field: 'status',
       fValue: request.body.status
     }];
-    if(request.body.password != '' && request.body.password != undefined )
-    {
-      fieldValueUpdate.push({
-        field: 'password',
-       // encloseValue: false,
-        fValue: md5(request.body.password),
-      });
-    }
-  let filter = {and:[{
+  let filter = {
+    and: [{
       field: 'pk_taskID',
       operator: 'NotEQ',
-      value: id    
+      value: id
 
-    },{
+    }, {
       field: 'email',
       operator: 'EQ',
       value: request.body.email
-    }]};
+    }]
+  };
   let checkTaskResult = await taskDAL.checkTaskExist(filter);
   if (checkTaskResult.status === true && checkTaskResult.content.length !== 0) {
     return {status: false, error: constant.taskMessages.USER_ALREADY_EXIST};
   }
 
-  let updateTaskResult = await taskDAL.updateTask(id,fieldValueUpdate);
+  let updateTaskResult = await taskDAL.updateTask(id, fieldValueUpdate);
   if (updateTaskResult.status === true) {
     return {
       status: true,
@@ -287,7 +369,8 @@ let editNotesService = async (request) => {
   } else {
     return {status: false, error: constant.taskMessages.USER_ERROR};
   }
-};*/
+};
+
 /**
  * Created By: MB
  * Updated By: MB
@@ -313,15 +396,18 @@ let editNotesService = async (request) => {
 };*/
 module.exports = {
   getTaskListService: getTaskListService,
- // getTaskService: getTaskService,
-  addTaskService:addTaskService,
+  // getTaskService: getTaskService,
+  addTaskService: addTaskService,
+  updateTaskService: updateTaskService,
   getNotesListService: getNotesListService,
- // taskUpdateService: taskUpdateService,
+  // taskUpdateService: taskUpdateService,
   //taskDeleteService: taskDeleteService,
- // getManagerService: getManagerService,
-  addNotesService:addNotesService,
-  editNotesService:editNotesService
+  // getManagerService: getManagerService,
+  addNotesService: addNotesService,
+  editNotesService: editNotesService
 };
 // console.log(DateLibrary.getWeekNumber(new Date()),'Week_of_Year')
 
 
+let t = {"old_task_name": "aaaa", "task_name": "Edit task ", "task_comment": "   aaa \n\n\na\n\n\na\n\na  "}
+debug(JSON.stringify(t))

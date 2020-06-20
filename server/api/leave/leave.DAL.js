@@ -91,7 +91,7 @@ let addLeaveInfo = async (leaveReasonInfo, leaveProviderInfo, leaveTypeInfo, emp
   return await common.executeQuery(addLeaveInfoQuery);
 };
 
-let addEmployeeLeave = async (leaveEligibilityList, empId, leaveInfoId) => {
+let addEmployeeLeave = async (leaveEligibilityList, empId, leaveInfoId, type) => {
   debug("leave.DAL -> addEmployeeLeave");
   leaveEligibilityList = JSON.parse(leaveEligibilityList);
   let rawData = [];
@@ -99,18 +99,28 @@ let addEmployeeLeave = async (leaveEligibilityList, empId, leaveInfoId) => {
     let leaveId = data['_comment'];
     let state = data['state'];
     let leave_name = data['leave_name'];
+
     let eligibility = JSON.stringify(data['eligibilityData']) || 'NULL';
-    let qualifying_reason = JSON.stringify(data['qualifying_reason']) || "NULL";
+    let qualifying_reason = JSON.stringify(data['qualifying_reason']) || 'NULL';
     let leave_type = data['leave_type'];
     let maximum_duration = JSON.stringify(data['maximum_duration']) || 'NULL';
     let from_date = data['from_date'];
     let to_date = data['to_date'];
+    maximum_duration = maximum_duration === 'null' ? 'NULL' : maximum_duration;
+
     rawData.push([empId, leaveInfoId, leaveId, leave_name, state, eligibility, qualifying_reason, leave_type, maximum_duration, from_date, to_date]);
   });
 
   let addEmployeeLeaveQuery = common.cloneObject(query.addEmployeeLeaveQuery);
   addEmployeeLeaveQuery.insert.fValue = rawData;
   return await common.executeQuery(addEmployeeLeaveQuery);
+};
+
+let removeEmployeeLeave = async (leaveInfoId) => {
+  debug("leave.DAL -> removeEmployeeLeave");
+  let removeEmployeeLeaveQuery = common.cloneObject(query.removeEmployeeLeaveQuery);
+  removeEmployeeLeaveQuery.filter.value = leaveInfoId;
+  return await common.executeQuery(removeEmployeeLeaveQuery);
 };
 
 
@@ -207,7 +217,7 @@ let removePaperWorkReviewByLeaveInfoId = async (leaveInfoId) => {
 };
 
 let addPaperWorkReview = async (addValueArray) => {
-  debug("leave.DAL -> removePaperWorkReviewByLeaveInfoId");
+  debug("leave.DAL -> addPaperWorkReview");
   let addPaperWorkReviewQuery = common.cloneObject(query.addPaperWorkReviewQuery);
   addPaperWorkReviewQuery.insert.fValue = addValueArray;
   return await common.executeQuery(addPaperWorkReviewQuery);
@@ -230,7 +240,7 @@ let getEmployeeLeavePaperWorkReviewDocumentDataByClaimNumber = async (claimNumbe
 let addLeaveDeterminationDecision = async (leaveInfoId, empId, startDate, endDate, leaveTypeStatus) => {
   debug("leave.DAL -> addLeaveDeterminationDecision");
   let addLeaveDeterminationDecisionQuery = common.cloneObject(query.addLeaveDeterminationDecisionQuery);
-  addLeaveDeterminationDecisionQuery.insert.fValue = [empId,leaveInfoId,  startDate, endDate, leaveTypeStatus];
+  addLeaveDeterminationDecisionQuery.insert.fValue = [empId, leaveInfoId, startDate, endDate, leaveTypeStatus];
   return await common.executeQuery(addLeaveDeterminationDecisionQuery);
 };
 
@@ -241,12 +251,27 @@ let getEmployeeAndLeaveInfoByLeaveInfoId = async (leaveInfoId) => {
   return await common.executeQuery(getEmployeeAndLeaveInfoByLeaveInfoIdQuery);
 };
 
+let addLeaveChronology = async (leaveType, leaveChronologyId, leaveInfoId, data, fk_createdBy) => {
+  debug("leave.DAL -> addLeaveChronology");
+  let addLeaveChronologyQuery = common.cloneObject(query.addLeaveChronologyQuery);
+  addLeaveChronologyQuery.insert.fValue = [leaveType, leaveChronologyId, leaveInfoId, data, fk_createdBy];
+  return await common.executeQuery(addLeaveChronologyQuery);
+};
+
+let getLeaveChronologyByLeaveInfoId = async (leaveInfoId) => {
+  debug("leave.DAL -> getLeaveChronologyByLeaveInfoId");
+  let getLeaveChronologyByLeaveInfoIdQuery = common.cloneObject(query.getLeaveChronologyByLeaveInfoIdQuery);
+  getLeaveChronologyByLeaveInfoIdQuery.filter.value = leaveInfoId;
+  return await common.executeQuery(getLeaveChronologyByLeaveInfoIdQuery);
+};
+
 module.exports = {
   addEmployeeDetail: addEmployeeDetail,
   addLocationDetail: addLocationDetail,
   addEmployeeWorkSchedule: addEmployeeWorkSchedule,
   addLeaveInfo: addLeaveInfo,
   addEmployeeLeave: addEmployeeLeave,
+  removeEmployeeLeave: removeEmployeeLeave,
   getAllEmployeeLeave: getAllEmployeeLeave,
   getEmployeeLeaveSummaryByEmpId: getEmployeeLeaveSummaryByEmpId,
   getEmployeeLeaveClaimInfoByClaimNumber: getEmployeeLeaveClaimInfoByClaimNumber,
@@ -263,6 +288,8 @@ module.exports = {
   addPaperWorkReview: addPaperWorkReview,
   getEmployeeLeavePaperWorkReviewDataByClaimNumber: getEmployeeLeavePaperWorkReviewDataByClaimNumber,
   getEmployeeLeavePaperWorkReviewDocumentDataByClaimNumber: getEmployeeLeavePaperWorkReviewDocumentDataByClaimNumber,
-  addLeaveDeterminationDecision:addLeaveDeterminationDecision,
-  getEmployeeAndLeaveInfoByLeaveInfoId:getEmployeeAndLeaveInfoByLeaveInfoId,
+  addLeaveDeterminationDecision: addLeaveDeterminationDecision,
+  getEmployeeAndLeaveInfoByLeaveInfoId: getEmployeeAndLeaveInfoByLeaveInfoId,
+  addLeaveChronology: addLeaveChronology,
+  getLeaveChronologyByLeaveInfoId: getLeaveChronologyByLeaveInfoId,
 };

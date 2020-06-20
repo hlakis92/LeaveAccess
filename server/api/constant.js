@@ -163,6 +163,38 @@ let leaveMessages = {
 
 let emailTemplates = {
   ARTWLetter:'' +
+    '<!DOCTYPE html>\n' +
+    '<html lang="en">\n' +
+    '<head>\n' +
+    '    <meta charset="UTF-8">\n' +
+    '    <meta name="viewport" content="width=device-width, initial-scale=1.0">\n' +
+    '    <meta http-equiv="X-UA-Compatible" content="ie=edge">\n' +
+    '    <title>ARTW Letter to Send</title>\n' +
+    '</head>\n' +
+    '<style>\n' +
+    '    .employeeName {\n' +
+    '        margin: 0;\n' +
+    '        margin-block-start: 0;\n' +
+    '        margin-block-end: 0;\n' +
+    '    }\n' +
+    '    .employeeAddress {\n' +
+    '        margin: 0;\n' +
+    '        margin-block-start: 0;\n' +
+    '        margin-block-end: 0;\n' +
+    '    }\n' +
+    '    body {\n' +
+    '        font-family: Cambria,Georgia,serif; \n' +
+    '        margin-top: 100px;\n' +
+    '        margin-bottom: 100px;\n' +
+    '        margin-right: 150px;\n' +
+    '        margin-left: 10%;\n' +
+    '    }\n' +
+    '    .signatureOfER {\n' +
+    '        font-size: 40px;\n' +
+    '        font-family: Brush Script MT, Brush Script Std, cursive; \n' +
+    '    }\n' +
+    '</style>\n' +
+    '<body>'+
     '<h4 class="dateOfLetter">Date: {{letter_date}}</h4>\n' +
     '    <h4 class="employeeName">{{first_name}} {{last_name}}</h4>\n' +
     '    <p class="employeeAddress">{{address1}} <br> {{city}}, {{state}}, {{pincode}}</p>\n' +
@@ -178,9 +210,43 @@ let emailTemplates = {
     '    <h2 class="signatureOfER">Signature</h2>\n' +
     '\n' +
     '    <p class="leaveManager">Leave Admin Name<br>\n' +
-    '        Leave of Absence Representative</p>'
+    '        Leave of Absence Representative</p>'+
+    '</body>\n' +
+    '</html>'
   ,
   ERTWLetter : '' +
+    '<!DOCTYPE html>\n' +
+    '<html lang="en">\n' +
+    '<head>\n' +
+    '    <meta charset="UTF-8">\n' +
+    '    <meta name="viewport" content="width=device-width, initial-scale=1.0">\n' +
+    '    <meta http-equiv="X-UA-Compatible" content="ie=edge">\n' +
+    '    <title>ERTW Letter to Send</title>\n' +
+    '</head>\n' +
+    '<style>\n' +
+    '    .employeeName {\n' +
+    '        margin: 0;\n' +
+    '        margin-block-start: 0;\n' +
+    '        margin-block-end: 0;\n' +
+    '    }\n' +
+    '    .employeeAddress {\n' +
+    '        margin: 0;\n' +
+    '        margin-block-start: 0;\n' +
+    '        margin-block-end: 0;\n' +
+    '    }\n' +
+    '    body {\n' +
+    '        font-family: Cambria,Georgia,serif; \n' +
+    '        margin-top: 100px;\n' +
+    '        margin-bottom: 100px;\n' +
+    '        margin-right: 150px;\n' +
+    '        margin-left: 10%;\n' +
+    '    }\n' +
+    '    .signatureOfER {\n' +
+    '        font-size: 40px;\n' +
+    '        font-family: Brush Script MT, Brush Script Std, cursive; \n' +
+    '    }\n' +
+    '</style>\n' +
+    '<body>'+
     '<h4 class="dateOfLetter">Date:{{letter_date}}</h4>\n' +
     '    <h4 class="employeeName">{{first_name}} {{last_name}}</h4>\n' +
     '    <p class="employeeAddress">{{address1}} <br> {{city}}, {{state}}, {{pincode}}</p>\n' +
@@ -200,9 +266,81 @@ let emailTemplates = {
     '    <h2 class="signatureOfER">Signature</h2>\n' +
     '    \n' +
     '    <p class="leaveManager">Leave Admin Name<br>\n' +
-    '        Leave of Absence Representative</p>'
+    '        Leave of Absence Representative</p>'+
+    '</body>\n' +
+    '</html>'
   ,
   DeniedLetter: '' +
+  '<!DOCTYPE html>\n' +
+'<html lang="en">\n' +
+'<head>\n' +
+'    <meta charset="UTF-8">\n' +
+'    <meta name="viewport" content="width=device-width, initial-scale=1.0">\n' +
+'    <meta http-equiv="X-UA-Compatible" content="ie=edge">\n' +
+'    <title>Denial    Letter to Send</title>\n' +
+'</head>\n' +
+'<style>\n' +
+'    body {\n' +
+'        font-family: Cambria,Georgia,serif; \n' +
+'        margin-top: 75px;\n' +
+'        margin-bottom: 100px;\n' +
+'        margin-right: 50px;\n' +
+'        margin-left: 50px;\n' +
+'    }\n' +
+'    .employeeName {\n' +
+'        margin: 0;\n' +
+'        margin-block-start: 0;\n' +
+'        margin-block-end: 0;\n' +
+'    }\n' +
+'    .employeeAddress {\n' +
+'        margin: 0;\n' +
+'        margin-block-start: 0;\n' +
+'        margin-block-end: 0;\n' +
+'    }\n' +
+'    \n' +
+'    .signatureOfER {\n' +
+'        font-size: 40px;\n' +
+'        font-family: Brush Script MT, Brush Script Std, cursive; \n' +
+'    }\n' +
+'    .secondP {\n' +
+'        font-weight: bold;\n' +
+'    }\n' +
+'    .leavetable {\n' +
+'        position:absolute;\n' +
+'    }\n' +
+'    table { \n' +
+'            border: 1px solid black; \n' +
+'            border-collapse: collapse; \n' +
+'            width: 100%;\n' +
+'        } \n' +
+'    th {\n' +
+'        border: 1px solid black; \n' +
+'        border-collapse: collapse; \n' +
+'        width: auto;\n' +
+'    }\n' +
+'    td {\n' +
+'        border: 1px solid black; \n' +
+'        border-collapse: collapse; \n' +
+'        width: 100%;\n' +
+'    }\n' +
+'    .tableStatusDenied {\n' +
+'        background-color: red;\n' +
+'    }\n' +
+'    .leaveTypeTableEdit {\n' +
+'        width: 15%;\n' +
+'    }\n' +
+'    .leaveNameTableEdit {\n' +
+'        width: 15%;\n' +
+'    }\n' +
+'    .leaveDatesTableEdit {\n' +
+'        width: 31%;\n' +
+'    }\n' +
+'    .leaveReasonTableEdit {\n' +
+'        width: 39%;\n' +
+'    }\n' +
+'\n' +
+'</style>\n' +
+'<body>'+
     '<h4 class="dateOfLetter">Date: {{letter_date}}</h4>\n' +
     '    <h4 class="employeeName">{{first_name}} {{last_name}}</h4>\n' +
     '    <p class="employeeAddress">{{address1}} <br> {{city}}, {{state}}, {{pincode}}</p>\n' +
@@ -266,7 +404,9 @@ let emailTemplates = {
     '       \n' +
     '        <p>Sincerely,</p>\n' +
     '        <p class="leaveManager">Leave Admin Name<br>\n' +
-    '            Leave of Absence Representative</p>'
+    '            Leave of Absence Representative</p>' +
+  '</body>\n' +
+'</html>'
   ,
   leaveEligibilityTable:'' +
     '<th>Federal</th>\n' +
@@ -280,6 +420,88 @@ let emailTemplates = {
     ''
   ,
   incompleteLetter:'' +
+    '<!DOCTYPE html>\n' +
+    '<html lang="en">\n' +
+    '<head>\n' +
+    '    <meta charset="UTF-8">\n' +
+    '    <meta name="viewport" content="width=device-width, initial-scale=1.0">\n' +
+    '    <meta http-equiv="X-UA-Compatible" content="ie=edge">\n' +
+    '    <title>Incomplete Letter to Send</title>\n' +
+    '</head>\n' +
+    '<style>\n' +
+    '    body {\n' +
+    '        font-family: Cambria,Georgia,serif; \n' +
+    '        margin-top: 75px;\n' +
+    '        margin-bottom: 100px;\n' +
+    '        margin-right: 50px;\n' +
+    '        margin-left: 50px;\n' +
+    '    }\n' +
+    '    .employeeName {\n' +
+    '        margin: 0;\n' +
+    '        margin-block-start: 0;\n' +
+    '        margin-block-end: 0;\n' +
+    '    }\n' +
+    '    .employeeAddress {\n' +
+    '        margin: 0;\n' +
+    '        margin-block-start: 0;\n' +
+    '        margin-block-end: 0;\n' +
+    '    }\n' +
+    '    \n' +
+    '    .signatureOfER {\n' +
+    '        font-size: 40px;\n' +
+    '        font-family: Brush Script MT, Brush Script Std, cursive; \n' +
+    '    }\n' +
+    '    .secondP {\n' +
+    '        font-weight: bold;\n' +
+    '    }\n' +
+    '    .leavetable {\n' +
+    '        position:absolute;\n' +
+    '    }\n' +
+    '    table { \n' +
+    '            border: 1px solid black; \n' +
+    '            border-collapse: collapse; \n' +
+    '            width: 100%;\n' +
+    '        } \n' +
+    '    th {\n' +
+    '        border: 1px solid black; \n' +
+    '        border-collapse: collapse; \n' +
+    '        width: auto;\n' +
+    '    }\n' +
+    '    td {\n' +
+    '        border: 1px solid black; \n' +
+    '        border-collapse: collapse; \n' +
+    '        width: 100%;\n' +
+    '    }\n' +
+    '    .tableStatusDenied {\n' +
+    '        background-color: red;\n' +
+    '    }\n' +
+    '    .tableStatusPending {\n' +
+    '        background-color: lightgray;\n' +
+    '    }\n' +
+    '    .leaveTypeTableEdit {\n' +
+    '        width: 15%;\n' +
+    '    }\n' +
+    '    .leaveNameTableEdit {\n' +
+    '        width: 15%;\n' +
+    '    }\n' +
+    '    .leaveDatesTableEdit {\n' +
+    '        width: 31%;\n' +
+    '    }\n' +
+    '    .leaveReasonTableEdit {\n' +
+    '        width: 39%;\n' +
+    '    }\n' +
+    '    .leaveTypeUpdate {\n' +
+    '        width: 15%;\n' +
+    '    }\n' +
+    '    .leaveReasonUpdate {\n' +
+    '        width: 40%;\n' +
+    '    }\n' +
+    '    .leaveDatesUpdate {\n' +
+    '        width: 31%;\n' +
+    '    }\n' +
+    '\n' +
+    '</style>\n' +
+    '<body>'+
     '<h4 class="dateOfLetter">Date: {{letter_date}}</h4>\n' +
     '    <h4 class="employeeName">{{first_name}} {{last_name}}</h4>\n' +
     '    <p class="employeeAddress">{{address1}} <br> {{city}}, {{state}}, {{pincode}}</p>\n' +
@@ -372,7 +594,9 @@ let emailTemplates = {
     '       \n' +
     '        <p>Sincerely,</p>\n' +
     '        <p class="leaveManager">\n' +
-    '            Company Leave of Absence</p>'
+    '            Company Leave of Absence</p>'+
+  '</body>\n' +
+'</html>',
 }
 
 module.exports = {

@@ -4,7 +4,7 @@ let tbl_usermaster = "tbl_UserMaster";
 let tbl_LeaveInfo = "tbl_LeaveInfo";
 let tbl_notes = "tbl_notes";
 let query = {
-  
+
   /* create task query start */
   addTaskQuery: {
     table: tbl_tasklist,
@@ -13,8 +13,18 @@ let query = {
       fValue: []
     }
   }, // create task query end
-   // Tasklist 
-  getTaskListQuery:{
+  /* edit task query start */
+  editTaskQueryByTaskIdQuery: {
+    table: tbl_tasklist,
+    update: [],
+    filter: {
+      field: 'pk_taskId',
+      operator: 'EQ',
+      value: ''
+    },
+  }, // edit task query end
+  // Tasklist
+  getTaskListQuery: {
     join: {
       table: tbl_tasklist,
       alias: 'tl',
@@ -60,6 +70,9 @@ let query = {
       field: 'pk_taskId',
       alias: 'taskId'
     }, {
+      field: 'pk_empID',
+      alias: 'empId'
+    }, {
       field: 'pk_leaveInfoId',
       alias: 'leave_info_id'
     }, {
@@ -75,13 +88,24 @@ let query = {
       field: 'taskName',
       alias: 'taskName'
     }, {
+      field: 'taskDesc',
+      alias: 'taskDesc'
+    }, {
       field: 'DATE_FORMAT(dueDate, "%m/%d/%Y")',
       encloseField: false,
       alias: 'dueDate'
     }, {
+      field: 'DATE_FORMAT(dueDate, "%Y-%m-%d")',
+      encloseField: false,
+      alias: 'dueDateDB'
+    }, {
       field: 'CASE WHEN tl.status = 0 THEN "Created" WHEN tl.status = 1 THEN "Completed" ELSE "" END',
       encloseField: false,
       alias: 'status'
+    }, {
+      field: 'tl.status',
+      encloseField: false,
+      alias: 'statusType'
     }],
     /*filter: {
       field: 'pk_empID',
@@ -89,7 +113,7 @@ let query = {
       value: ''
     }*/
   },
-   addNotesQuery: {
+  addNotesQuery: {
     table: tbl_notes,
     insert: {
       field: ["userId", "notes", "empId", "leaveInfoId", "modifyBy"],
@@ -105,7 +129,7 @@ let query = {
       value: ''
     },
   }, // create task query end
-  getNotesListQuery:{
+  getNotesListQuery: {
     join: {
       table: tbl_notes,
       alias: 'tn',
@@ -159,7 +183,7 @@ let query = {
     }*/
   },
 
-  getNotesQuery:{
+  getNotesQuery: {
     join: {
       table: tbl_notes,
       alias: 'tn',

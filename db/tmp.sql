@@ -174,3 +174,47 @@ ADD `HRContactEmail` VARCHAR(45) NULL,
 ADD `PBContactName` VARCHAR(45) NULL,
 ADD `PBContactNumber` VARCHAR(45) NULL,
 ADD `PBContactEmail` VARCHAR(45) NULL;
+
+CREATE TABLE `tbl_LeaveDeterminationDecision` (
+  `pk_leaveDeterminationDecisionID` INT NOT NULL AUTO_INCREMENT,
+  `startDate` DATE NOT NULL,
+  `endDate` DATE NOT NULL,
+  `leaveTypeStatus` VARCHAR(45) NOT NULL,
+  `fk_leaveInfoId` INT NOT NULL,
+  `fk_empId` INT NOT NULL,
+PRIMARY KEY (`pk_leaveDeterminationDecisionID`));
+
+CREATE TABLE `tbl_LeaveChronology` (
+  `pk_leaveChronologyId` INT NOT NULL AUTO_INCREMENT,
+  `leave_type_id` INT NULL,
+  `processCode` VARCHAR(25) NULL,
+  `processName` VARCHAR(45) NULL,
+  `processTemplate` VARCHAR(150) NULL,
+  PRIMARY KEY (`pk_leaveChronologyId`));
+
+CREATE TABLE `tbl_LeaveChronologyMapping` (
+`pk_leaveChronologyMappingId` INT NOT NULL AUTO_INCREMENT,
+`leaveType` VARCHAR(25) NULL,
+`fk_leaveChronologyId` INT NULL,
+`fk_leaveInfoId` INT NULL,
+`data` JSON NULL,
+`fk_createdBy` INT,
+`createdDate` Datetime NOT NULL DEFAULT NOW(),
+PRIMARY KEY (`pk_leaveChronologyMappingId`));
+
+INSERT INTO `tbl_LeaveChronology` (`pk_leaveChronologyId`, `leave_type_id`, `processCode`, `processName`, `processTemplate`) VALUES ('1', '1', 'CREATE_LEAVE', 'Create New Leave', 'A new \"Continuous\" leave was initiated for \"{{leave_name}}\" with dates \"{{start_date}} - {{end_date}}\".');
+INSERT INTO `tbl_LeaveChronology` (`pk_leaveChronologyId`, `leave_type_id`, `processCode`, `processName`, `processTemplate`) VALUES ('2', '1', 'ELI_LETTER', 'Eligibility Letter', 'Task Completed and Letter Sent To Employee and Supervisor');
+INSERT INTO `tbl_LeaveChronology` (`pk_leaveChronologyId`, `leave_type_id`, `processCode`,`processName`, `processTemplate`) VALUES ('3', '1', 'PAPER_ATT', 'Paperwork Attached', 'Paperwork attached with name {{file_name}} and Paperwork Review Task set for {{date}}');
+INSERT INTO `tbl_LeaveChronology` (`pk_leaveChronologyId`, `leave_type_id`, `processCode`,`processName`, `processTemplate`) VALUES ('4', '1', 'PAPER_REVIEW', 'Paperwork Review', 'Review Completed, Paperwork Incomplete, Incomplete Letter Sent');
+INSERT INTO `tbl_LeaveChronology` (`pk_leaveChronologyId`, `leave_type_id`, `processCode`,`processName`, `processTemplate`) VALUES ('5', '1', 'PAPER_REVIEW_ATT','Paperwork Attached', 'Paperwork Review Task set for {{date}}');
+INSERT INTO `tbl_LeaveChronology` (`pk_leaveChronologyId`, `leave_type_id`, `processCode`,`processName`, `processTemplate`) VALUES ('6', '1', 'TASK_CREATE', 'Task Created', 'A task was created for date \"{{date}}\" with name \"{{task_name}}\" and with Comment \"{{task_comment}}\".');
+INSERT INTO `tbl_LeaveChronology` (`pk_leaveChronologyId`, `leave_type_id`, `processCode`,`processName`, `processTemplate`) VALUES ('7', '1', 'TASK_EDIT', 'Task Edited', 'Task Name \"{{old_task_name}}\" was changed to name \"{{task_name}}\" and comment added \"{{task_comment}}\".');
+INSERT INTO `tbl_LeaveChronology` (`pk_leaveChronologyId`, `leave_type_id`, `processCode`,`processName`, `processTemplate`) VALUES ('8', '1', 'NOTE_ADD', 'Note Added', 'Note Added with Comment \"{{note_comment}}\"');
+INSERT INTO `tbl_LeaveChronology` (`pk_leaveChronologyId`, `leave_type_id`, `processCode`,`processName`, `processTemplate`) VALUES ('9', '1', 'TASK_COMPLETE', 'Task Completed', 'Task completed with Comment \"{{task_comment}}\"');
+INSERT INTO `tbl_LeaveChronology` (`pk_leaveChronologyId`, `leave_type_id`, `processCode`,`processName`, `processTemplate`) VALUES ('10', '1', 'PROVIDER_INFO_ADD', 'Provider Information Added', 'Provider Added: <br><br>{{name}}  <br>{{type}} <br>Phone: {{phone}} <br>Fax:{{fax}}');
+INSERT INTO `tbl_LeaveChronology` (`pk_leaveChronologyId`, `leave_type_id`, `processCode`,`processName`, `processTemplate`) VALUES ('11', '1', 'DECISION_UDPATE', 'Decision Updated', 'Leave Approved for dates \"{{start_date}} through {{end_date}}\" Decision Task date set for \"{{date}}\"');
+INSERT INTO `tbl_LeaveChronology` (`pk_leaveChronologyId`, `leave_type_id`, `processCode`,`processName`, `processTemplate`) VALUES ('12', '1', 'ELIGIBILTY_UPDATE', 'Eligibility Updated', 'Leave Eligibility Plan \"{{leave_plan}}\" updated to \"{{update}}\"');
+INSERT INTO `tbl_LeaveChronology` (`pk_leaveChronologyId`, `leave_type_id`, `processCode`,`processName`, `processTemplate`) VALUES ('13', '1', 'DECISION_DENIED', 'Decision Updated', 'Leave Denied for dates \"{{start_date}} through {{end_date}}\"');
+INSERT INTO `tbl_LeaveChronology` (`pk_leaveChronologyId`, `leave_type_id`, `processCode`,`processName`, `processTemplate`) VALUES ('14', '1', 'CLOSE_LEAVE', 'Close Leave', 'Leave automatically closed as Decision was made for all dates of leave and end date has passed');
+
+

@@ -7,16 +7,35 @@ let query = require('./task.query');
 let dbDateFormat = constant.appConfig.DB_DATE_FORMAT;
 
 
-let addTask = async (userId, taskName, status, taskDesc, empId, leaveInfoId,dueDate, modifyBy) => {
+let addTask = async (userId, taskName, status, taskDesc, empId, leaveInfoId, dueDate, modifyBy) => {
   debug("task.DAL -> addTask");
   let addTaskQuery = common.cloneObject(query.addTaskQuery);
-  addTaskQuery.insert.fValue = [userId, taskName, status, taskDesc, empId, leaveInfoId,dueDate, modifyBy];
+  addTaskQuery.insert.fValue = [userId, taskName, status, taskDesc, empId, leaveInfoId, dueDate, modifyBy];
   return await common.executeQuery(addTaskQuery);
+};
+
+let editTask = async (taskId, fieldValueUpdate) => {
+  debug("task.DAL -> editTask");
+  let editTaskQuery = common.cloneObject(query.editTaskQueryByTaskIdQuery);
+  editTaskQuery.update = fieldValueUpdate;
+  editTaskQuery.filter.value = taskId;
+  return await common.executeQuery(editTaskQuery);
 };
 
 let getTaskList = async () => {
   debug("task.DAL -> getTaskList");
   let getTaskListQuery = common.cloneObject(query.getTaskListQuery);
+  return await common.executeQuery(getTaskListQuery);
+};
+
+let getTaskDetailById = async (taskId) => {
+  debug("task.DAL -> getTaskDetailById");
+  let getTaskListQuery = common.cloneObject(query.getTaskListQuery);
+  getTaskListQuery.filter = {
+    field: 'pk_taskId',
+    operator: 'eq',
+    value: taskId
+  };
   return await common.executeQuery(getTaskListQuery);
 };
 
@@ -31,7 +50,7 @@ let updateNotes = async (noteId, fieldValueUpdate) => {
   debug("task.DAL -> updateNotes");
   let updateNotesQuery = common.cloneObject(query.updateNotesQuery);
   //let updateUserQuery = common.cloneObject(query.updateUserQuery);
-   updateNotesQuery.update = fieldValueUpdate
+  updateNotesQuery.update = fieldValueUpdate
   updateNotesQuery.filter.value = noteId;
   return await common.executeQuery(updateNotesQuery);
 };
@@ -81,13 +100,15 @@ let deleteTask = async (id) => {
 
 module.exports = {
   addTask: addTask,
+  editTask: editTask,
   getTaskList: getTaskList,
-  addNotes:addNotes,
-  getNotesList:getNotesList,
+  getTaskDetailById: getTaskDetailById,
+  addNotes: addNotes,
+  getNotesList: getNotesList,
   getNotes: getNotes,
-  updateNotes:updateNotes
-  /*getManagerList: getManagerList,
-  getTask: getTask,
-  updateTask:updateTask,
-  deleteTask: deleteTask*/
+  updateNotes: updateNotes,
+  // getManagerList: getManagerList,
+  // getTask: getTask,
+  // updateTask:updateTask,
+  // deleteTask: deleteTask
 };

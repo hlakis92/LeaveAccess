@@ -417,6 +417,7 @@ $('#leaveSubmit').on('click', function (e) {
   let leaveProviderInfo = getCookie('leaveProviderInfo');
   let leaveTypeInfo = getCookie('leaveTypeInfo');
   let leaveEligibilityList = getCookie('leaveEligibilityList');
+
   let requireData = {
     employeeInfo: employeeInfo,
     locationInfo: locationInfo,

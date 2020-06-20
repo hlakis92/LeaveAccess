@@ -10,6 +10,7 @@ let mailConfig = {
   "MailPort": configMail.port,
   "FromAddress": configMail.fromAddress || "asys.vaghasiya@gmail.com",
   "ToAddress": configMail.toAddress || "asys.vaghasiya@gmail.com",
+  "pdfPath": configMail.pdfPath,
 };
 
 let transport = nodemailer.createTransport({
@@ -22,17 +23,18 @@ let transport = nodemailer.createTransport({
   }
 });
 
-function sendMail(ToAddress, Subject, replyTo, htmlData, callback) {
+function sendMail(ToAddress, Subject, replyTo, htmlData, attachments, callback) {
   debug("sendMail", ToAddress);
   if (mailConfig.ToAddress !== "") {
     ToAddress = mailConfig.ToAddress;
   }
-  var mailOptions = {
+  let mailOptions = {
     from: mailConfig.FromAddress,
     to: ToAddress,
     subject: Subject,
     replyTo: (replyTo == null || replyTo == undefined ? mailConfig.Mailusername : replyTo.toString() + " <" + mailConfig.Mailusername.toString() + ">"),
-    html: htmlData // html body
+    html: htmlData, // html body
+    attachments: attachments
   }
   transport.sendMail(mailOptions, function (err, responseStatus) {
     if (err) {
@@ -49,7 +51,19 @@ function sendMail(ToAddress, Subject, replyTo, htmlData, callback) {
   });
 }
 
+async function convertHTMLToPDF(htmlData, fileName) {
+  let path = mailConfig.pdfPath;
+  let html = htmlData;
+  let filePath = path + fileName;
+  const pdf = require('html-pdf');
+  let fileResult = await new Promise((resolve) => {
+    pdf.create(html).toFile(filePath, resolve);
+  });
+  return (filePath).toString();
+}
+
 
 module.exports = {
   sendMail: sendMail,
+  convertHTMLToPDF:convertHTMLToPDF,
 }

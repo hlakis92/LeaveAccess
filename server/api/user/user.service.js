@@ -307,9 +307,9 @@ module.exports = {
   getManagerService: getManagerService
 };
 
-// let sendMail = require("./../../helper/sendmail");
-// sendMail.sendMail("asys.vaghasiya@gmail.com", "hello ,....", undefined, "htmlData", result=>{
-//   debug(result);
-// });
+/*let sendMail = require("./../../helper/sendmail");
+sendMail.sendMail("asys.vaghasiya@gmail.com", "hello ,....", undefined, "htmlData", result=>{
+  debug(result);
+});*/
 
 

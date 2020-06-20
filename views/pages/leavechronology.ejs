@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <% include ../partials/head %>
+
+</head>
+<body>
+
+<div class="container">
+    <div class="container-fluid">
+        <% include ../partials/topnav %>
+    </div>
+    <div class="container-fluid text-center">
+        <!-- <div class="row content">
+      <div class="col-sm-2 sidenav1">
+        <p>
+
+      </div> -->
+        <div class="col-sm-10 text-left">
+
+            <!-- this will be the beginning of the form that will contain the employee's information -->
+            <!--Input for first and last name-->
+            <h4 id="letterTitle">Leave Chronology</h4>
+            <table id="leaveReasonTable">
+                <tr>
+                    <th>Date and Time</th>
+                    <th>Change Made By</th>
+                    <th>Process Completed</th>
+                    <th>Additional Information</th>
+                </tr>
+                <% leaveChronologyData.forEach(function(data) { %>
+                    <tr id="date&timeCompleted">
+                        <td id="dateTimeComplete">
+                            <a href="#" data-target="#"><%= data['date'] %> </a> 10:36amCST
+                        </td>
+                        <td id="dateTimeComplete"><%= data['name'] %></td>
+                        <td id="dateTimeComplete"><%= data['processName'] %></td>
+                        <td id="dateTimeComplete"><%- data['info'] %></td>
+                    </tr>
+                <% }); %>
+            </table>
+        </div>
+</div>
+</body>
+<% include ../partials/footer %>
+</html>

@@ -79,8 +79,31 @@ let addAllDataService = async (request) => {
     if (leaveInfoResult.status === true) {
       leaveInfoId = leaveInfoResult.content['insertId']
     }
-    let addLeaveResult = await leaveDAL.addEmployeeLeave(leaveEligibilityList, empId, leaveInfoId);
+    let addLeaveResult = await leaveDAL.addEmployeeLeave(leaveEligibilityList, empId, leaveInfoId, 'add');
+    leaveReasonInfo = JSON.parse(leaveReasonInfo);
+    leaveTypeInfo = JSON.parse(leaveTypeInfo);
+    leaveProviderInfo = JSON.parse(leaveProviderInfo);
+
+    let leaveChronologyData1 = {
+      leave_name: leaveReasonInfo['leaveReason'],
+      leave_type: leaveTypeInfo['leaveType'],
+      start_date: leaveTypeInfo['startDate'],
+      end_date: leaveTypeInfo['endDate'],
+    };
+    let addLeaveChronology1 = await leaveDAL.addLeaveChronology(leaveTypeInfo['leaveType'], 1, leaveInfoId, JSON.stringify(leaveChronologyData1), request.session.userInfo.userId)
+    let leaveChronologyData2 = {
+      name: leaveProviderInfo['providerName'],
+      type: leaveProviderInfo['providerType'],
+      phone: leaveProviderInfo['providePhone'],
+      fax: leaveProviderInfo['provideFax'],
+    };
+    let addLeaveChronology2 = await leaveDAL.addLeaveChronology(leaveTypeInfo['leaveType'], 10, leaveInfoId, JSON.stringify(leaveChronologyData2), request.session.userInfo.userId)
+
     debug("employeeInfoResult", empId);
+  } else {
+    let removeLeaveResult = await leaveDAL.removeEmployeeLeave(leaveInfoId);
+    // let getLeaveEligibility = await leaveDAL.get
+    let editLeaveResult = await leaveDAL.addEmployeeLeave(leaveEligibilityList, empId, leaveInfoId, 'edit');
   }
   let employeeAndLeaveInfo = await leaveDAL.getEmployeeAndLeaveInfoByLeaveInfoId(leaveInfoId);
   let employeeLeaveProviderInfo = await leaveDAL.getEmployeeLeaveEligibilityByLeaveInfoId(leaveInfoId);
@@ -88,10 +111,16 @@ let addAllDataService = async (request) => {
     let emailData = Object.assign(employeeAndLeaveInfo.content[0], employeeLeaveProviderInfo.content[0]);
     emailData['letter_date'] = common.getDateInUSFormat(d3.timeFormat(dbDateFormatDOB)(new Date()));
     emailData['last_date'] = common.getDateInUSFormat(d3.timeFormat(dbDateFormatDOB)(new Date()));
-    let htmlData = common.generatingTemplate(constant.emailTemplates.incompleteLetter,emailData);
+    let htmlData = common.generatingTemplate(constant.emailTemplates.incompleteLetter, emailData);
     debug(htmlData);
     let sendMail = require("./../../helper/sendmail");
-    sendMail.sendMail(emailData['email'], "Claim Number: " + leaveInfoId, undefined, htmlData, result => {
+    let fileName = "Leave" + "_" + leaveInfoId + "_" + (new Date()).getTime() + ".pdf";
+    let pdfResult = await sendMail.convertHTMLToPDF(htmlData, fileName);
+    let attachments = [{   // use URL as an attachment
+      filename: pdfResult,
+      path: pdfResult
+    }];
+    sendMail.sendMail(emailData['email'], "Claim Number: " + leaveInfoId, undefined, "PFA", attachments, result => {
       debug(result);
     });
   }
@@ -279,8 +308,13 @@ let addLeaveDeterminationDecisionService = async (request) => {
       }
       let htmlData = common.generatingTemplate(constant.emailTemplates.DeniedLetter, emailData);
       let sendMail = require("./../../helper/sendmail");
-      debug(htmlData)
-      sendMail.sendMail(emailData['email'], "Claim Number: " + leaveInfoId, undefined, htmlData, result => {
+      let fileName = "Leave" + "_" + leaveInfoId + "_" + (new Date()).getTime() + ".pdf";
+      let pdfResult = await sendMail.convertHTMLToPDF(htmlData, fileName);
+      let attachments = [{   // use URL as an attachment
+        filename: pdfResult,
+        path: pdfResult
+      }];
+      sendMail.sendMail(emailData['email'], "Claim Number: " + leaveInfoId, undefined, htmlData, attachments, result => {
         debug(result);
       });
 
@@ -341,6 +375,8 @@ let leaveCloseService = async (request) => {
   debug("leave.service -> leaveCloseService");
   let leaveInfoId = request.params.claimNumber;
   let result = await leaveDAL.leaveCloseByLeaveInfoId(leaveInfoId);
+  let cdata = {};
+  let addLeaveChronology = leaveDAL.addLeaveChronology('', 14, leaveInfoId, JSON.stringify(cdata), request.session.userInfo.userId)
   return {
     status: true,
     data: {}
@@ -381,6 +417,17 @@ let getEmployeeLeaveEligibilityService = async (request) => {
   debug("leave.service -> getEmployeeLeaveEligibilityService");
   let leaveInfoId = request.query.claimNumber;
   let result = await leaveDAL.getEmployeeLeaveEligibilityByLeaveInfoId(leaveInfoId);
+  (result.content).forEach(data => {
+    if (data['eligibilityData'] !== null) {
+      data['eligibilityData'] = JSON.parse(data['eligibilityData']);
+    }
+    if (data['qualifying_reason'] !== null) {
+      data['qualifying_reason'] = JSON.parse(data['qualifying_reason']);
+    }
+    if (data['maximum_duration'] !== null) {
+      data['maximum_duration'] = JSON.parse(data['maximum_duration']);
+    }
+  })
   return {
     status: true,
     data: result.content
@@ -434,8 +481,13 @@ let returnToWorkConfirmationService = async (request) => {
         htmlData = common.generatingTemplate(constant.emailTemplates.ARTWLetter, emailData);
       }
       let sendMail = require("./../../helper/sendmail");
-      debug(htmlData)
-      sendMail.sendMail(emailData['email'], "email template", undefined, htmlData, result => {
+      let fileName = type + "_" + leaveInfoId + "_" + (new Date()).getTime() + ".pdf";
+      let pdfResult = await sendMail.convertHTMLToPDF(htmlData, fileName);
+      let attachments = [{   // use URL as an attachment
+        filename: pdfResult,
+        path: pdfResult
+      }]
+      sendMail.sendMail(emailData['email'], "email template", undefined, "PFA", attachments, result => {
         debug(result);
       });
     }
@@ -476,11 +528,38 @@ let paperWorkReviewService = async (request) => {
   });
   await leaveDAL.removePaperWorkReviewByLeaveInfoId(leaveInfoId);
   await leaveDAL.addPaperWorkReview(addValueArray);
+
   return {
     status: true,
     data: constant.leaveMessages.MSG_PAPER_WORK_REVIEW_UPDATED_SUCCESSFULLY
   }
 };
+
+/**
+ * Created By: AV
+ * Updated By: AV
+ *
+ * get employee leave chronology by claim_number (leave_info_id)
+ *
+ * @param  {object}  request
+ * @return {object}
+ *
+ */
+let getLeaveChronologyServiceService = async (request) => {
+  debug("leave.service -> getLeaveChronologyServiceService");
+  let leaveInfoId = request.params.claimNumber;
+  let result = await leaveDAL.getLeaveChronologyByLeaveInfoId(leaveInfoId);
+  if (result.status === true) {
+    (result.content).forEach(data => {
+      data['info'] = common.generatingTemplate(data['processTemplate'], JSON.parse(data['data']));
+    })
+  }
+  return {
+    status: true,
+    data: result.content
+  };
+};
+
 
 module.exports = {
   checkLeaveEligibilityService: checkLeaveEligibilityService,
@@ -496,4 +575,31 @@ module.exports = {
   getEmployeeLeaveEligibilityService: getEmployeeLeaveEligibilityService,
   returnToWorkConfirmationService: returnToWorkConfirmationService,
   paperWorkReviewService: paperWorkReviewService,
+  getLeaveChronologyServiceService: getLeaveChronologyServiceService,
 };
+
+async function convertHTMLToPDF(htmlData, fileName) {
+  let path = "";
+  let html = "<h1>Hello</h1>";
+  const pdf = require('html-pdf');
+  let fileResult = await new Promise((resolve) => {
+    pdf.create(html).toFile(path + fileName, resolve);
+  });
+  return fileResult;
+}
+
+// k();
+async function k() {
+
+  let result = await convertHTMLToPDF("<h1>Welcome</h1>", "find.pdf");
+  debug(result);
+}
+
+/*let sendMail = require("./../../helper/sendmail");
+let attachments = [{   // use URL as an attachment
+  filename: 'find.pdf',
+  path: 'find.pdf'
+},]
+sendMail.sendMail("asys.vaghasiya@gmail.com", "hello2 ,....", undefined, "htmlData", attachments, result => {
+  debug(result);
+});*/

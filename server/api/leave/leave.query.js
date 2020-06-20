@@ -6,6 +6,9 @@ let tbl_EmployeeWorkScheduleMapping = "tbl_EmployeeWorkScheduleMapping";
 let tbl_PaperWorkReview = "tbl_PaperWorkReview";
 let tbl_PaperWorkReviewDocument = "tbl_PaperWorkReviewDocument";
 let tbl_LeaveDeterminationDecision = "tbl_LeaveDeterminationDecision";
+let tbl_LeaveChronologyMapping = "tbl_LeaveChronologyMapping";
+let tbl_UserMaster = "tbl_UserMaster";
+let tbl_LeaveChronology = "tbl_LeaveChronology";
 
 let query = {
   /* create user query start */
@@ -40,14 +43,24 @@ let query = {
       fValue: []
     }
   }, // create user query end
-  /* create user query start */
+  /* add employee leave query start */
   addEmployeeLeaveQuery: {
     table: tbl_EmployeeLeave,
     insert: {
       field: ['empId', 'leaveInfoId', 'leaveId', 'leave_name', 'state', 'eligibility', 'qualifying_reason', 'leave_type', 'maximum_duration', 'from_date', 'to_date'],
       fValue: []
     }
-  }, // create user query end
+  }, // add employee leave query end
+  /* remove employee leave query start */
+  removeEmployeeLeaveQuery: {
+    table: tbl_EmployeeLeave,
+    delete: [],
+    filter: {
+      field: 'leaveInfoId',
+      operator: 'EQ',
+      value: ''
+    },
+  }, // remove employee leave query end
   getAllEmployeeLeaveQuery: {
     join: {
       table: tbl_EmployeeMaster,
@@ -478,10 +491,12 @@ let query = {
       field: 'maximum_duration',
       alias: 'maximum_duration'
     }, {
-      field: 'from_date',
+      field: 'DATE_FORMAT(from_date, "%Y-%m-%d")',
+      encloseField: false,
       alias: 'from_date'
     }, {
-      field: 'to_date',
+      field: 'DATE_FORMAT(to_date, "%Y-%m-%d")',
+      encloseField: false,
       alias: 'to_date'
     }, {
       field: 'leaveTypeStatus',
@@ -581,7 +596,7 @@ let query = {
         }
       }]
     },
-    select: [ {
+    select: [{
       field: 'firstName',
       alias: 'first_name'
     }, {
@@ -633,6 +648,69 @@ let query = {
       value: ''
     },
   },
+  /* add leave chronology add query */
+  addLeaveChronologyQuery: {
+    table: tbl_LeaveChronologyMapping,
+    insert: {
+      field: ['leaveType', 'fk_leaveChronologyId', 'fk_leaveInfoId', 'data', 'fk_createdBy'],
+      fValue: []
+    }
+  },
+  /* get leave chronology by leave info id query start */
+  getLeaveChronologyByLeaveInfoIdQuery:{
+    join: {
+      table: tbl_LeaveChronology,
+      alias: 'LC',
+      joinwith: [{
+        table: tbl_LeaveChronologyMapping,
+        alias: 'LCM',
+        joincondition: {
+          table: 'LC',
+          field: 'pk_leaveChronologyId',
+          operator: 'eq',
+          value: {
+            table: 'LCM',
+            field: 'fk_leaveChronologyId'
+          }
+        }
+      }, {
+        table: tbl_UserMaster,
+        alias: 'UM',
+        joincondition: {
+          table: 'LCM',
+          field: 'fk_createdBy',
+          operator: 'eq',
+          value: {
+            table: 'UM',
+            field: 'pk_userID'
+          }
+        }
+      }]
+    },
+    select: [{
+      field: 'processName',
+      alias: 'processName'
+    }, {
+      field: 'processTemplate',
+      alias: 'processTemplate'
+    }, {
+      field: 'data',
+      alias: 'data'
+    }, {
+      field: 'DATE_FORMAT(createdDate, "%m/%d/%Y")',
+      encloseField: false,
+      alias: 'date'
+    }, {
+      field: 'name',
+      encloseField: false,
+      alias: 'name'
+    }],
+    filter: {
+      field: 'fk_leaveInfoId',
+      operator: 'EQ',
+      value: ''
+    },
+  }
 };
 
 module.exports = query;
