@@ -117,7 +117,7 @@ let addAllDataService = async (request) => {
     let fileName = "Leave" + "_" + leaveInfoId + "_" + (new Date()).getTime() + ".pdf";
     let pdfResult = await sendMail.convertHTMLToPDF(htmlData, fileName);
     let attachments = [{   // use URL as an attachment
-      filename: pdfResult,
+      filename: fileName,
       path: pdfResult
     }];
     sendMail.sendMail(emailData['email'], "Claim Number: " + leaveInfoId, undefined, "PFA", attachments, result => {
@@ -311,7 +311,7 @@ let addLeaveDeterminationDecisionService = async (request) => {
       let fileName = "Leave" + "_" + leaveInfoId + "_" + (new Date()).getTime() + ".pdf";
       let pdfResult = await sendMail.convertHTMLToPDF(htmlData, fileName);
       let attachments = [{   // use URL as an attachment
-        filename: pdfResult,
+        filename: fileName,
         path: pdfResult
       }];
       sendMail.sendMail(emailData['email'], "Claim Number: " + leaveInfoId, undefined, htmlData, attachments, result => {
@@ -484,7 +484,7 @@ let returnToWorkConfirmationService = async (request) => {
       let fileName = type + "_" + leaveInfoId + "_" + (new Date()).getTime() + ".pdf";
       let pdfResult = await sendMail.convertHTMLToPDF(htmlData, fileName);
       let attachments = [{   // use URL as an attachment
-        filename: pdfResult,
+        filename: fileName,
         path: pdfResult
       }]
       sendMail.sendMail(emailData['email'], "email template", undefined, "PFA", attachments, result => {

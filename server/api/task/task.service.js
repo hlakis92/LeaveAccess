@@ -406,8 +406,3 @@ module.exports = {
   addNotesService: addNotesService,
   editNotesService: editNotesService
 };
-// console.log(DateLibrary.getWeekNumber(new Date()),'Week_of_Year')
-
-
-let t = {"old_task_name": "aaaa", "task_name": "Edit task ", "task_comment": "   aaa \n\n\na\n\n\na\n\na  "}
-debug(JSON.stringify(t))
