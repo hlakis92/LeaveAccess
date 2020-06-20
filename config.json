@@ -22,6 +22,7 @@
     "host": "in-v3.mailjet.com",
     "port": "587",
     "fromAddress": "hello@briskbraintech.com",
-    "toAddress": ""
+    "toAddress": "",
+    "pdfPath": "/home/ubuntu/tmp/"
   }
 }
