@@ -162,7 +162,7 @@ let query = {
       alias: 'supervisorName'
     }, {
       field: 'supervisorContactNumber',
-      alias: 'supervisorName'
+      alias: 'supervisorPhone'
     }, {
       field: 'supervisorContactEmail',
       alias: 'supervisorEmail'

@@ -10,7 +10,7 @@ module.exports = router;
 router.get('/tasks', controller.tasks);
 // router.post('/deletetask', controller.deletetask);
 router.post('/addtask', controller.addtask);
-router.post('/updatetask', controller.updateTask);
+router.post('/edittask', controller.editTask);
 
 router.get('/notes', controller.notes);
 // router.post('/deletetask', controller.deletetask);

@@ -15,29 +15,7 @@
 
         <div class="row content">
             <div class="col-sm-2 sidenav">
-                <p>
-                    <a href="/leavesummary/<%= employeeLeaveClaimInfoData.emp_id %>">Leave Summary</a>
-                </p>
-                <p>
-                    <a href="#">Manual Letters</a>
-                </p>
-                <p>
-                    <a href="/leaveprovider?type=1&empId=<%= employeeLeaveClaimInfoData.emp_id %>&claimNumber=<%= employeeLeaveClaimInfoData.leave_info_id %>">
-                        Provider Information
-                    </a>
-                </p>
-                <p>
-                    <a href="/decision/<%= employeeLeaveClaimInfoData.leave_info_id %>">Decision</a>
-                </p>
-                <p>
-                    <a href="#">Eligibility Requirements</a>
-                </p>
-                <p>
-                    <a href="../Ancillary/leaveChronologyFamilyMember.html">Leave Chronology</a>
-                </p>
-                <p>
-                    <a href="/closeLeave/<%= employeeLeaveClaimInfoData.leave_info_id %>">Close Leave</a>
-                </p>
+                <% include ../partials/leavesidebar %>
             </div>
             <div class="col-sm-8 text-left well">
                 <div class="row">
@@ -498,37 +476,13 @@
 
 
         <div class="col-sm-2 sidenav2">
-            <div class="well">
-                <p id="addName">First Last</p>
-                <p id="addAddress">100 someplace ave, somewhere, AN, 00000</p>
-                <p id="employeePhoneNumber">Phone Number: </p>
-                <p id="employeeGender">Gender:</p>
-                <p id="addEmail">Email: someone@place.com</p>
-                <p id="employeeStatus">Status:Active</p>
-            </div>
+            <% include ../partials/employeeinfo.ejs %>
 
             <div class="noteArea"></div>
 
             <br>
 
-            <div class="well sidenav2">
-                <div id="supervisorcontacts">
-                    <p id="supervisorName">Supervisor Name:</p>
-                    <p id="supervisorPhoneNumber">Supervisor Number:</p>
-                    <p id="supervisorEmail">Supervisor Email:</p>
-                </div>
-                <div id="HRcontacts">
-                    <p id="supervisorName">Human Resources Name:</p>
-                    <p id="supervisorPhoneNumber">Human Resources Number:</p>
-                    <p id="supervisorEmail">Human Resources Email:</p>
-                </div>
-                <div id="payrollcontacts">
-                    <p id="supervisorName">Payroll/Benefits Name:</p>
-                    <p id="supervisorPhoneNumber">Payroll/Benefits Number:</p>
-                    <p id="supervisorEmail">Payroll/Benefits Email:</p>
-                </div>
-
-            </div>
+            <% include ../partials/employeecontactlist.ejs %>
 
             <div class="well">
                 <p id="updateClaimNumber">Leave ID: 2019000001</p>

@@ -210,6 +210,10 @@ let query = {
       }]
     },
     select: [{
+      field: 'pk_empID',
+      encloseField: false,
+      alias: 'empId'
+    }, {
       field: 'CONCAT(firstName," ",lastName)',
       encloseField: false,
       alias: 'employeeName'
@@ -299,6 +303,30 @@ let query = {
       field: 'IFNULL(DATE_FORMAT(ARTWDate,  "%m/%d/%Y"), "MM/DD/YYYY")',
       encloseField: false,
       alias: 'ARTWDate'
+    }, {
+      field: 'IFNULL(PR_userId, 0)',
+      encloseField: false,
+      alias: 'PR_userId'
+    }, {
+      field: 'IFNULL(DATE_FORMAT(PRDate,  "%m/%d/%Y"), "MM/DD/YYYY")',
+      encloseField: false,
+      alias: 'PRDate'
+    }, {
+      field: 'IFNULL(D_userId, 0)',
+      encloseField: false,
+      alias: 'D_userId'
+    }, {
+      field: 'IFNULL(DATE_FORMAT(DDate,  "%m/%d/%Y"), "MM/DD/YYYY")',
+      encloseField: false,
+      alias: 'DDate'
+    }, {
+      field: 'IFNULL(E_userId, 0)',
+      encloseField: false,
+      alias: 'E_userId'
+    }, {
+      field: 'IFNULL(DATE_FORMAT(EDate,  "%m/%d/%Y"), "MM/DD/YYYY")',
+      encloseField: false,
+      alias: 'EDate'
     }],
     filter: {
       field: 'pk_leaveInfoId',
@@ -657,7 +685,7 @@ let query = {
     }
   },
   /* get leave chronology by leave info id query start */
-  getLeaveChronologyByLeaveInfoIdQuery:{
+  getLeaveChronologyByLeaveInfoIdQuery: {
     join: {
       table: tbl_LeaveChronology,
       alias: 'LC',
@@ -700,6 +728,14 @@ let query = {
       field: 'DATE_FORMAT(createdDate, "%m/%d/%Y")',
       encloseField: false,
       alias: 'date'
+    }, {
+      field: 'DATE_FORMAT(createdDate, "%h:%i%p")',
+      encloseField: false,
+      alias: 'time'
+    }, {
+      field: 'createdDate',
+      encloseField: false,
+      alias: 'datetime'
     }, {
       field: 'name',
       encloseField: false,

@@ -1,0 +1,36 @@
+<div class="well sidenav2">
+    <% if(employeeInfo !== undefined) { %>
+        <% let l = JSON.parse(employeeLocationInfo) %>
+        <div id="supervisorcontacts">
+            <p id="supervisorName">Supervisor Name: <%= l['supervisorName'] %></p>
+            <p id="supervisorPhoneNumber">Supervisor Number: <%= l['supervisorPhone'] %></p>
+            <p id="supervisorEmail">Supervisor Email: <%= l['supervisorEmail'] %></p>
+        </div>
+        <div id="HRcontacts">
+            <p id="supervisorName">Human Resources Name: <%= l['hrName'] %></p>
+            <p id="supervisorPhoneNumber">Human Resources Number: <%= l['hrPhone'] %></p>
+            <p id="supervisorEmail">Human Resources Email: <%= l['hrEmail'] %></p>
+        </div>
+        <div id="payrollcontacts">
+            <p id="supervisorName">Payroll/Benefits Name: <%= l['payrollName'] %></p>
+            <p id="supervisorPhoneNumber">Payroll/Benefits Number: <%= l['payrollPhone'] %></p>
+            <p id="supervisorEmail">Payroll/Benefits Email: <%= l['payrollEmail'] %></p>
+        </div>
+    <% } else { %>
+        <div id="supervisorcontacts">
+            <p id="supervisorName">Supervisor Name:</p>
+            <p id="supervisorPhoneNumber">Supervisor Number:</p>
+            <p id="supervisorEmail">Supervisor Email:</p>
+        </div>
+        <div id="HRcontacts">
+            <p id="supervisorName">Human Resources Name:</p>
+            <p id="supervisorPhoneNumber">Human Resources Number:</p>
+            <p id="supervisorEmail">Human Resources Email:</p>
+        </div>
+        <div id="payrollcontacts">
+            <p id="supervisorName">Payroll/Benefits Name:</p>
+            <p id="supervisorPhoneNumber">Payroll/Benefits Number:</p>
+            <p id="supervisorEmail">Payroll/Benefits Email:</p>
+        </div>
+    <% } %>
+</div>

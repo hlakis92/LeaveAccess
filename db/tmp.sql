@@ -216,5 +216,12 @@ INSERT INTO `tbl_LeaveChronology` (`pk_leaveChronologyId`, `leave_type_id`, `pro
 INSERT INTO `tbl_LeaveChronology` (`pk_leaveChronologyId`, `leave_type_id`, `processCode`,`processName`, `processTemplate`) VALUES ('12', '1', 'ELIGIBILTY_UPDATE', 'Eligibility Updated', 'Leave Eligibility Plan \"{{leave_plan}}\" updated to \"{{update}}\"');
 INSERT INTO `tbl_LeaveChronology` (`pk_leaveChronologyId`, `leave_type_id`, `processCode`,`processName`, `processTemplate`) VALUES ('13', '1', 'DECISION_DENIED', 'Decision Updated', 'Leave Denied for dates \"{{start_date}} through {{end_date}}\"');
 INSERT INTO `tbl_LeaveChronology` (`pk_leaveChronologyId`, `leave_type_id`, `processCode`,`processName`, `processTemplate`) VALUES ('14', '1', 'CLOSE_LEAVE', 'Close Leave', 'Leave automatically closed as Decision was made for all dates of leave and end date has passed');
+INSERT INTO `tbl_LeaveChronology` (`pk_leaveChronologyId`, `leave_type_id`, `processCode`, `processName`, `processTemplate`) VALUES ('', '1', 'DECISION_UDPATE_RW', 'Decision Updated', 'Leave Approved for dates \"{{start_date}} through {{end_date}}\" with Reduced Schedule \"S: 0, M: 4, T: 4, W: 4, Th: 4, F: 4, Sa: 0\"');
 
-
+ALTER TABLE `tbl_LeaveInfo`
+ADD COLUMN `PRDate` DATE NULL DEFAULT NULL AFTER `ARTW_userId`,
+ADD COLUMN `PR_userId` INT(11) NULL DEFAULT NULL AFTER `PRDate`,
+ADD COLUMN `EDate` DATE NULL DEFAULT NULL AFTER `PR_userId`,
+ADD COLUMN `E_userId` INT(11) NULL DEFAULT NULL AFTER `EDate`,
+ADD COLUMN `DDate` DATE NULL DEFAULT NULL AFTER `E_userId`,
+ADD COLUMN `D_userId` INT(11) NULL DEFAULT NULL AFTER `DDate`;

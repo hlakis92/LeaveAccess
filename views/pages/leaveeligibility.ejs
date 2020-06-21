@@ -141,14 +141,15 @@
                 </p>
                 <br>
                 <!-- <div class="col-sm-12"> -->
-                <div class="well">
+                <!--<div class="well">
                     <p id="addName">First Last</p>
                     <p id="addAddress">100 someplace ave, somewhere, AN, 00000</p>
                     <p id="employeePhoneNumber">Phone Number: </p>
                     <p id="employeeGender">Gender:</p>
                     <p id="addEmail">Email: someone@place.com</p>
                     <p id="employeeStatus">Status:Active</p>
-                </div>
+                </div>-->
+                <% include ../partials/employeeinfo %>
                 <!-- </div> -->
             </div>
 
@@ -164,24 +165,7 @@
 
             <div class="row">
                 <!-- <div class="col-sm-12"> -->
-                <div class="well sidenav2">
-                    <div id="supervisorcontacts">
-                        <p id="supervisorName">Supervisor Name:</p>
-                        <p id="supervisorPhoneNumber">Supervisor Number:</p>
-                        <p id="supervisorEmail">Supervisor Email:</p>
-                    </div>
-                    <div id="HRcontacts">
-                        <p id="supervisorName">Human Resources Name:</p>
-                        <p id="supervisorPhoneNumber">Human Resources Number:</p>
-                        <p id="supervisorEmail">Human Resources Email:</p>
-                    </div>
-                    <div id="payrollcontacts">
-                        <p id="supervisorName">Payroll/Benefits Name:</p>
-                        <p id="supervisorPhoneNumber">Payroll/Benefits Number:</p>
-                        <p id="supervisorEmail">Payroll/Benefits Email:</p>
-                    </div>
-                    <!-- </div> -->
-                </div>
+                <% include ../partials/employeecontactlist %>
                 <div class="well">
                     <p id="updateClaimNumber">Leave ID: 2019000001</p>
                     <p id="dateOpened">Date Opened: 00/00/0000</p>

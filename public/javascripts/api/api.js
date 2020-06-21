@@ -633,6 +633,7 @@ function uploadMedia(event){
     var mediaData = new FormData();
     mediaData.append("file", mediaFiles[0]);
     mediaData.append("leave_info_id", $("#leaveInfoId").val());
+    mediaData.append("emp_id", $("#empId").val());
     mediaFiles = undefined;
     let requestMedia = $.ajax({
       url: uploadMediaURL,

@@ -131,13 +131,13 @@ let addTaskService = async (request) => {
  * Created By: MB
  * Updated By: MB
  *
- * Update Task service
+ * edit Task service
  * @param  {object}  request
  * @return {object}
  *
  */
-let updateTaskService = async (request) => {
-  debug("task.service -> updateTaskService");
+let editTaskService = async (request) => {
+  debug("task.service -> editTaskService");
   if (request.body.taskId === undefined
     || request.body.taskName === undefined
     || request.body.userId === undefined) {
@@ -150,7 +150,7 @@ let updateTaskService = async (request) => {
   let userId = request.body.userId;
   let taskName = request.body.taskName;
   let status = request.body.status;
-  let taskDesc = request.body.taskDesc;
+  let taskDesc = (request.body.taskDesc).trim();
   let empId = request.body.empId;
   let leaveInfoId = request.body.leaveInfoId;
   let dueDate = d3.timeFormat(dbDateFormatDOB)(new Date(request.body.dueDate));
@@ -184,15 +184,26 @@ let updateTaskService = async (request) => {
     old_task_name: oldTaskData.content[0]['taskName'],
     task_name: taskName,
     task_comment: (taskDesc).replace(/\n/g, '\\n'),
+  };
+  let change = 1;
+  if (oldTaskData.content[0]['userId'] == userId &&
+    oldTaskData.content[0]['taskName'] == taskName &&
+    oldTaskData.content[0]['taskDesc'] == taskDesc &&
+    oldTaskData.content[0]['dueDateDB'] == dueDate &&
+    oldTaskData.content[0]['statusType'] == status) {
+    change = 0;
   }
   let leaveDAL = require('./../leave/leave.DAL');
-  let addLeaveChronology = await leaveDAL.addLeaveChronology('', 7, leaveInfoId, JSON.stringify(data), request.session.userInfo.userId)
-  if (status == 1) {
+  if (change === 1) {
+    let editTaskResult = await taskDAL.editTask(taskId, fieldValueUpdate);
+    let addLeaveChronology = await leaveDAL.addLeaveChronology('', 7, leaveInfoId, JSON.stringify(data), request.session.userInfo.userId)
+  }
+
+  if (status == 1 && change === 1) {
     let addLeaveChronology1 = await leaveDAL.addLeaveChronology('', 2, leaveInfoId, JSON.stringify({}), request.session.userInfo.userId)
     let addLeaveChronology2 = await leaveDAL.addLeaveChronology('', 9, leaveInfoId, JSON.stringify({task_comment: taskDesc}), request.session.userInfo.userId)
   }
-  let editTaskResult = await taskDAL.editTask(taskId, fieldValueUpdate)
-  // debug(request.body);
+
   return {status: true, data: constant.taskMessages.TASK_UPDATED}
 }
 
@@ -398,7 +409,7 @@ module.exports = {
   getTaskListService: getTaskListService,
   // getTaskService: getTaskService,
   addTaskService: addTaskService,
-  updateTaskService: updateTaskService,
+  editTaskService: editTaskService,
   getNotesListService: getNotesListService,
   // taskUpdateService: taskUpdateService,
   //taskDeleteService: taskDeleteService,

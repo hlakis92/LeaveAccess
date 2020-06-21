@@ -26,10 +26,11 @@
                 <li>
                     <a href="#">Reports</a>
                 </li>
-                
+                <% if(user.userType == 'Admin') { %>  
                 <li>
-                    <a href="/users">User List</a>
+                 <a href="/users">User List</a>
                 </li>
+                <% } %>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li>

@@ -1,0 +1,19 @@
+<div class="well">
+    <% if(employeeInfo !== undefined) { %>
+        <% let e = JSON.parse(employeeInfo) %>
+        <% let l = JSON.parse(employeeLocationInfo) %>
+        <p id="addName"><%= e['first_name'] %> <%= e['last_name'] %></p>
+        <p id="addAddress"><%= e['address1'] %>,<%= e['address2'] %>, <%= e['city'] %>,<%= e['pincode'] %></p>
+        <p id="employeePhoneNumber">Phone Number: </p>
+        <p id="employeeGender">Gender: <%= e['gender'] == 0 ? 'Male' : 'Female' %></p>
+        <p id="addEmail">Email: <%= e['email'] %></p>
+        <p id="employeeStatus">Status: <%= l['employeeStatus'] %></p>
+    <% } else { %>
+        <p id="addName">First Last</p>
+        <p id="addAddress">100 someplace ave, somewhere, AN, 00000</p>
+        <p id="employeePhoneNumber">Phone Number: </p>
+        <p id="employeeGender">Gender:</p>
+        <p id="addEmail">Email: someone@place.com</p>
+        <p id="employeeStatus">Status:Active</p>
+    <% } %>
+</div>

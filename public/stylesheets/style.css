@@ -39,7 +39,7 @@ a {
 .sidenav2 {
     line-height: 15px; /* 4px +12px + 4px */
     font-size: 12px;
-    padding-top: 0px;
+    padding-top:10px;
     text-align: left;
 }
 
@@ -277,6 +277,10 @@ h5 {
 
     border: 1px solid #dddddd;
 }
+.paperworkData label { font-weight: normal; }
+.paperworkData input[type='checkbox'] { margin: 10px 10px 10px 0px; } 
+.taskCheckBox  { margin: 10px 10px 15px 0px !important; } 
+.sidenav { padding-top: 10px; }
 .loaderdiv { display: none; }
 .loader {
   /*border: 3px solid blue;  Light grey

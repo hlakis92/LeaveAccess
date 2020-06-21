@@ -37,6 +37,10 @@ function sendMail(ToAddress, Subject, replyTo, htmlData, attachments, callback) 
     attachments: attachments
   }
   transport.sendMail(mailOptions, function (err, responseStatus) {
+    if (attachments.length)
+      attachments.forEach(data => {
+        fs.unlinkSync(data.path);
+      });
     if (err) {
       callback({
         status: false,
@@ -65,5 +69,5 @@ async function convertHTMLToPDF(htmlData, fileName) {
 
 module.exports = {
   sendMail: sendMail,
-  convertHTMLToPDF:convertHTMLToPDF,
+  convertHTMLToPDF: convertHTMLToPDF,
 }

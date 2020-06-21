@@ -73,6 +73,9 @@ let query = {
       field: 'pk_empID',
       alias: 'empId'
     }, {
+      field: 'userId',
+      alias: 'userId'
+    }, {
       field: 'pk_leaveInfoId',
       alias: 'leave_info_id'
     }, {

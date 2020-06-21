@@ -1,1 +1,4 @@
-Hello First Upload
+
+Intermittent Time Entered
+Intermittent Time Entered
+Decision Updated	Leave Approved for dates "11/16/2019 - 12/15/2019" with Reduced Schedule "S: 0, M: 4, T: 4, W: 4, Th: 4, F: 4, Sa: 0"

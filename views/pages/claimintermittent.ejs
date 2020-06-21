@@ -116,9 +116,9 @@
             <h5 style="background-color:lightgrey;">Tasks</h5>
             <div class="newTasks">
                 <div class="outputTask"><a>Eligibility</a><span class="taskDate"
-                                                                style="padding-left: 25px;">MM/DD/YYYY</span></div>
+                                                                style="padding-left: 25px;"><%= employeeLeaveClaimInfoData['EDate'] %></span></div>
                 <div class="outputTask"><a>Decision</a><span class="taskDate"
-                                                             style="padding-left: 25px;">MM/DD/YYYY</span></div>
+                                                             style="padding-left: 25px;"><%= employeeLeaveClaimInfoData['DDate'] %></span></div>
                 <!-- Trigger the Paperwork modal with a button -->
                     <% include ../partials/paperwork.ejs %>
                 <!-- Trigger the ERTW modal with a button -->
@@ -364,37 +364,13 @@
 
 
         <div class="col-sm-2 sidenav2">
-            <div class="well">
-                <p id="addName">First Last</p>
-                <p id="addAddress">100 someplace ave, somewhere, AN, 00000</p>
-                <p id="employeePhoneNumber">Phone Number: </p>
-                <p id="employeeGender">Gender:</p>
-                <p id="addEmail">Email: someone@place.com</p>
-                <p id="employeeStatus">Status:Active</p>
-            </div>
+            <% include ../partials/employeeinfo.ejs %>
 
             <div class="noteArea"></div>
 
             <br>
 
-            <div class="well sidenav2">
-                <div id="supervisorcontacts">
-                    <p id="supervisorName">Supervisor Name:</p>
-                    <p id="supervisorPhoneNumber">Supervisor Number:</p>
-                    <p id="supervisorEmail">Supervisor Email:</p>
-                </div>
-                <div id="HRcontacts">
-                    <p id="supervisorName">Human Resources Name:</p>
-                    <p id="supervisorPhoneNumber">Human Resources Number:</p>
-                    <p id="supervisorEmail">Human Resources Email:</p>
-                </div>
-                <div id="payrollcontacts">
-                    <p id="supervisorName">Payroll/Benefits Name:</p>
-                    <p id="supervisorPhoneNumber">Payroll/Benefits Number:</p>
-                    <p id="supervisorEmail">Payroll/Benefits Email:</p>
-                </div>
-
-            </div>
+            <% include ../partials/employeecontactlist.ejs %>
 
             <div class="well">
                 <p id="updateClaimNumber">Leave ID: 2019000001</p>

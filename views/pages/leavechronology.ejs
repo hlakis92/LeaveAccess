@@ -32,7 +32,12 @@
                 <% leaveChronologyData.forEach(function(data) { %>
                     <tr id="date&timeCompleted">
                         <td id="dateTimeComplete">
-                            <a href="#" data-target="#"><%= data['date'] %> </a> 10:36amCST
+                            <a href="#" data-target="#"><%= data['date'] %> </a>
+                            <%
+                                let time = d3.timeFormat('%H:%M:%S')(new Date(data['datetime']));
+                                let tz = 'CST';
+                            %>
+                            <%= time %> <%= tz %>
                         </td>
                         <td id="dateTimeComplete"><%= data['name'] %></td>
                         <td id="dateTimeComplete"><%= data['processName'] %></td>
@@ -40,8 +45,16 @@
                     </tr>
                 <% }); %>
             </table>
+
+            <br>
+            <div class="form-row">
+                <div class="col-md-12">
+                    <button type="submit" class="btn btn-primary" onclick="window.history.back();">← Back to Leave </button>
+                </div>
+            </div>
         </div>
 </div>
 </body>
 <% include ../partials/footer %>
 </html>
+

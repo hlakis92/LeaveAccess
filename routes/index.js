@@ -134,6 +134,7 @@ router.get('/leaveeligibility', middleware.checkAccessToken, async (request, res
     if (employeeLeaveProviderInfoResult.data['leaveReason'] === 'Employees Own Health Condition') {
       type = 0
     }
+    // console.log("..............",employeeInfoResult.data['first_name'])
     response.render('pages/leaveeligibility', {
       title: 'LAM',
       type: type,
@@ -141,6 +142,7 @@ router.get('/leaveeligibility', middleware.checkAccessToken, async (request, res
       employeeLocationInfo: JSON.stringify(employeeLocationInfoResult.data),
       employeeLeaveProviderInfo: JSON.stringify(employeeLeaveProviderInfoResult.data),
       employeeLeaveEligibilityInfo: JSON.stringify(employeeLeaveEligibilityInfoResult.data),
+
     });
   } else {
     response.render('pages/leaveeligibility', {
@@ -197,7 +199,14 @@ router.get('/leavesummary/:empId', middleware.checkAccessToken, async function (
 
 router.get('/claimcontinuous/:claimNumber', middleware.checkAccessToken, async function (req, res, next) {
   let leaveService = require('./../server/api/leave/leave.service');
+  let employeeService = require('./../server/api/employee/employee.service');
   let employeeLeaveClaimInfoResult = await leaveService.getEmployeeLeaveClaimInfoService(req);
+  req['query'] = {
+    empId: employeeLeaveClaimInfoResult.data.employeeInfo['empId']
+  }
+  let employeeInfoResult = await employeeService.getEmployeeInfoService(req);
+  let employeeLocationInfoResult = await employeeService.getEmployeeLocationInfoService(req);
+
 
   //Get Login User Info 
   let userId = req.session.userInfo.userId;
@@ -235,6 +244,8 @@ router.get('/claimcontinuous/:claimNumber', middleware.checkAccessToken, async f
       }
     });
   });
+  // console.log("....................",)
+
   res.render('pages/claimcontinuous', {
     title: 'Leave Overview',
     employeeLeaveInfoData: employeeLeaveInfoData,
@@ -244,13 +255,21 @@ router.get('/claimcontinuous/:claimNumber', middleware.checkAccessToken, async f
     paperWorkReviewList: paperWorkReviewList,
     paperWorkReviewDocumentList: paperWorkReviewDocumentList,
     getManagerData: getManagerData,
-    userId: userId
+    userId: userId,
+    employeeInfo: JSON.stringify(employeeInfoResult.data),
+    employeeLocationInfo: JSON.stringify(employeeLocationInfoResult.data),
   });
 });
 
 router.get('/claimintermittent/:claimNumber', middleware.checkAccessToken, async function (req, res, next) {
   let leaveService = require('./../server/api/leave/leave.service');
+  let employeeService = require('./../server/api/employee/employee.service');
   let employeeLeaveClaimInfoResult = await leaveService.getEmployeeLeaveClaimInfoService(req);
+  req['query'] = {
+    empId: employeeLeaveClaimInfoResult.data.employeeInfo['empId']
+  }
+  let employeeInfoResult = await employeeService.getEmployeeInfoService(req);
+  let employeeLocationInfoResult = await employeeService.getEmployeeLocationInfoService(req);
 
   //Get Login User Info
   let userId = req.session.userInfo.userId
@@ -298,13 +317,21 @@ router.get('/claimintermittent/:claimNumber', middleware.checkAccessToken, async
     paperWorkReviewList: paperWorkReviewList,
     paperWorkReviewDocumentList: paperWorkReviewDocumentList,
     getManagerData: getManagerData,
-    userId: userId
+    userId: userId,
+    employeeInfo: JSON.stringify(employeeInfoResult.data),
+    employeeLocationInfo: JSON.stringify(employeeLocationInfoResult.data),
   });
 });
 
 router.get('/claimreducedschedule/:claimNumber', middleware.checkAccessToken, async function (req, res, next) {
   let leaveService = require('./../server/api/leave/leave.service');
+  let employeeService = require('./../server/api/employee/employee.service');
   let employeeLeaveClaimInfoResult = await leaveService.getEmployeeLeaveClaimInfoService(req);
+  req['query'] = {
+    empId: employeeLeaveClaimInfoResult.data.employeeInfo['empId']
+  }
+  let employeeInfoResult = await employeeService.getEmployeeInfoService(req);
+  let employeeLocationInfoResult = await employeeService.getEmployeeLocationInfoService(req);
   // let common = require('./../server/api/common');
 
   //Get Login User Info
@@ -354,14 +381,22 @@ router.get('/claimreducedschedule/:claimNumber', middleware.checkAccessToken, as
     paperWorkReviewList: paperWorkReviewList,
     paperWorkReviewDocumentList: paperWorkReviewDocumentList,
     getManagerData: getManagerData,
-    userId: userId
+    userId: userId,
+    employeeInfo: JSON.stringify(employeeInfoResult.data),
+    employeeLocationInfo: JSON.stringify(employeeLocationInfoResult.data),
   });
 });
 
 router.get('/decision/:claimNumber', middleware.checkAccessToken, async function (req, res, next) {
   let leaveService = require('./../server/api/leave/leave.service');
+  let employeeService = require('./../server/api/employee/employee.service');
   let employeeLeaveClaimInfoResult = await leaveService.getEmployeeLeaveClaimInfoService(req);
-  let employeeLeaveClaimInfoData, planMaximumDuration, planStatus;
+  req['query'] = {
+    empId: employeeLeaveClaimInfoResult.data.employeeInfo['empId']
+  }
+  let employeeInfoResult = await employeeService.getEmployeeInfoService(req);
+  let employeeLocationInfoResult = await employeeService.getEmployeeLocationInfoService(req);
+  let employeeLeaveClaimInfoData, planMaximumDuration, planStatus, employeeInfo, employeeLocationInfo;
 
   if (employeeLeaveClaimInfoResult.status === true) {
     employeeLeaveClaimInfoData = employeeLeaveClaimInfoResult.data.leaveInfo;
@@ -369,10 +404,13 @@ router.get('/decision/:claimNumber', middleware.checkAccessToken, async function
     planStatus = employeeLeaveClaimInfoResult.data.planStatus
 
   } else {
-
+    employeeInfo = undefined;
+    employeeLocationInfo = undefined;
   }
   res.render('pages/decision', {
     title: 'Leave Overview',
+    employeeInfo: JSON.stringify(employeeInfoResult.data),
+    employeeLocationInfo: JSON.stringify(employeeLocationInfoResult.data),
     employeeLeaveClaimInfoData: employeeLeaveClaimInfoData,
     planMaximumDuration: planMaximumDuration,
     planStatus: planStatus,
@@ -400,7 +438,8 @@ router.get('/leavechoronology/:claimNumber', middleware.checkAccessToken, async 
     employeeLeaveClaimInfoData: employeeLeaveClaimInfoData,
     planMaximumDuration: planMaximumDuration,
     planStatus: planStatus,
-    leaveChronologyData : getLeaveChronologyResult.data
+    leaveChronologyData: getLeaveChronologyResult.data,
+    d3: require("d3")
 
   });
 });

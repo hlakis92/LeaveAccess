@@ -47,86 +47,111 @@ let checkLeaveEligibilityService = async (request) => {
  *
  */
 let addAllDataService = async (request) => {
-  debug("leave.service -> addAllDataService");
-  let data = common.cloneObject(request.body);
-  debug("all data", common.cloneObject(data));
-  let employeeInfo = common.cloneObject(data['employeeInfo']);
-  let locationInfo = common.cloneObject(data['locationInfo']);
-  let leaveReasonInfo = common.cloneObject(data['leaveReasonInfo']);
-  let leaveProviderInfo = common.cloneObject(data['leaveProviderInfo']);
-  let leaveTypeInfo = common.cloneObject(data['leaveTypeInfo']);
-  let leaveEligibilityList = common.cloneObject(data['leaveEligibilityList']);
-  let empId = JSON.parse(data['employeeInfo'])['empId'] || 0;
-  let locationId = JSON.parse(data['locationInfo'])['empId'] || 0;
-  let leaveInfoId = JSON.parse(leaveProviderInfo)['leave_info_id'] || 0;
-  if (empId === 0) {
-    let employeeInfoResult = await leaveDAL.addEmployeeDetail(employeeInfo);
+    debug("leave.service -> addAllDataService");
+    let data = common.cloneObject(request.body);
+    debug("all data", common.cloneObject(data));
+    let employeeInfo = common.cloneObject(data['employeeInfo']);
+    let locationInfo = common.cloneObject(data['locationInfo']);
+    let leaveReasonInfo = common.cloneObject(data['leaveReasonInfo']);
+    let leaveProviderInfo = common.cloneObject(data['leaveProviderInfo']);
+    let leaveTypeInfo = common.cloneObject(data['leaveTypeInfo']);
+    let leaveEligibilityList = common.cloneObject(data['leaveEligibilityList']);
+    let empId = JSON.parse(data['employeeInfo'])['empId'] || 0;
+    let locationId = JSON.parse(data['locationInfo'])['empId'] || 0;
+    let leaveInfoId = JSON.parse(leaveProviderInfo)['leave_info_id'] || 0;
+    if (empId === 0) {
+      let employeeInfoResult = await leaveDAL.addEmployeeDetail(employeeInfo);
 
-    if (employeeInfoResult.status === true) {
-      empId = employeeInfoResult.content['insertId'];
+      if (employeeInfoResult.status === true) {
+        empId = employeeInfoResult.content['insertId'];
+      }
+      let locationId;
+      let locationInfoResult = await leaveDAL.addLocationDetail(locationInfo, empId);
+      if (employeeInfoResult.status === true) {
+        locationId = locationInfoResult.content['insertId'];
+      }
+      if (locationId !== undefined) {
+        await leaveDAL.addEmployeeWorkSchedule(empId, locationId, locationInfo);
+      }
     }
-    let locationId;
-    let locationInfoResult = await leaveDAL.addLocationDetail(locationInfo, empId);
-    if (employeeInfoResult.status === true) {
-      locationId = locationInfoResult.content['insertId'];
+    if (leaveInfoId === 0) {
+      let leaveInfoResult = await leaveDAL.addLeaveInfo(leaveReasonInfo, leaveProviderInfo, leaveTypeInfo, empId);
+      if (leaveInfoResult.status === true) {
+        leaveInfoId = leaveInfoResult.content['insertId']
+      }
+      let addLeaveResult = await leaveDAL.addEmployeeLeave(leaveEligibilityList, empId, leaveInfoId, 'add');
+      leaveReasonInfo = JSON.parse(leaveReasonInfo);
+      leaveTypeInfo = JSON.parse(leaveTypeInfo);
+      leaveProviderInfo = JSON.parse(leaveProviderInfo);
+
+      let leaveChronologyData1 = {
+        leave_name: leaveReasonInfo['leaveReason'],
+        leave_type: leaveTypeInfo['leaveType'],
+        start_date: leaveTypeInfo['startDate'],
+        end_date: leaveTypeInfo['endDate'],
+      };
+      let addLeaveChronology1 = await leaveDAL.addLeaveChronology(leaveTypeInfo['leaveType'], 1, leaveInfoId, JSON.stringify(leaveChronologyData1), request.session.userInfo.userId)
+      let leaveChronologyData2 = {
+        name: leaveProviderInfo['providerName'],
+        type: leaveProviderInfo['providerType'],
+        phone: leaveProviderInfo['providePhone'],
+        fax: leaveProviderInfo['provideFax'],
+      };
+      let addLeaveChronology2 = await leaveDAL.addLeaveChronology(leaveTypeInfo['leaveType'], 10, leaveInfoId, JSON.stringify(leaveChronologyData2), request.session.userInfo.userId)
+
+      debug("employeeInfoResult", empId);
+    } else {
+      let getOldLeaveEligibility = await leaveDAL.getEmployeeLeaveEligibilityByLeaveInfoId(leaveInfoId);
+      let index = 0;
+      for (const data of (getOldLeaveEligibility.content)) {
+        let isChange = 0, changeType = "";
+        let changeData = JSON.parse(leaveEligibilityList)[index];
+        if (data['_comment'] === changeData['_comment']) {
+          debug((data));
+          JSON.parse(data['eligibilityData']).forEach((eData, index) => {
+            if (eData['value'] !== changeData['eligibilityData'][index]['value'] && isChange === 0) {
+              isChange = 1;
+              changeType = changeData['eligibilityData'][index]['value'];
+            }
+          });
+          if (isChange === 1) {
+            let leaveChronologyData3 = {
+              leave_plan: data['leave_name'],
+              update: changeType
+            };
+            let addLeaveChronology3 = await leaveDAL.addLeaveChronology(leaveTypeInfo['leaveType'], 12, leaveInfoId, JSON.stringify(leaveChronologyData3), request.session.userInfo.userId)
+          }
+        }
+        index++;
+      }
+
+      let removeLeaveResult = await leaveDAL.removeEmployeeLeave(leaveInfoId);
+// let getLeaveEligibility = await leaveDAL.get
+      let editLeaveResult = await leaveDAL.addEmployeeLeave(leaveEligibilityList, empId, leaveInfoId, 'edit');
     }
-    if (locationId !== undefined) {
-      await leaveDAL.addEmployeeWorkSchedule(empId, locationId, locationInfo);
+    let employeeAndLeaveInfo = await leaveDAL.getEmployeeAndLeaveInfoByLeaveInfoId(leaveInfoId);
+    let employeeLeaveProviderInfo = await leaveDAL.getEmployeeLeaveEligibilityByLeaveInfoId(leaveInfoId);
+    if (employeeAndLeaveInfo.status === true && employeeAndLeaveInfo.content.length !== 0 && leaveInfoId === 0) {
+      let emailData = Object.assign(employeeAndLeaveInfo.content[0], employeeLeaveProviderInfo.content[0]);
+      emailData['letter_date'] = common.getDateInUSFormat(d3.timeFormat(dbDateFormatDOB)(new Date()));
+      emailData['last_date'] = common.getDateInUSFormat(d3.timeFormat(dbDateFormatDOB)(new Date()));
+      let htmlData = common.generatingTemplate(constant.emailTemplates.incompleteLetter, emailData);
+      debug(htmlData);
+      let sendMail = require("./../../helper/sendmail");
+      let fileName = "Leave" + "_" + leaveInfoId + "_" + (new Date()).getTime() + ".pdf";
+      let pdfResult = await sendMail.convertHTMLToPDF(htmlData, fileName);
+      let attachments = [{   // use URL as an attachment
+        filename: fileName,
+        path: pdfResult
+      }];
+      sendMail.sendMail(emailData['email'], "Claim Number: " + leaveInfoId, undefined, "PFA", attachments, result => {
+        debug(result);
+      });
     }
+
+    return {status: true, data: {}}
   }
-  if (leaveInfoId === 0) {
-    let leaveInfoResult = await leaveDAL.addLeaveInfo(leaveReasonInfo, leaveProviderInfo, leaveTypeInfo, empId);
-    if (leaveInfoResult.status === true) {
-      leaveInfoId = leaveInfoResult.content['insertId']
-    }
-    let addLeaveResult = await leaveDAL.addEmployeeLeave(leaveEligibilityList, empId, leaveInfoId, 'add');
-    leaveReasonInfo = JSON.parse(leaveReasonInfo);
-    leaveTypeInfo = JSON.parse(leaveTypeInfo);
-    leaveProviderInfo = JSON.parse(leaveProviderInfo);
-
-    let leaveChronologyData1 = {
-      leave_name: leaveReasonInfo['leaveReason'],
-      leave_type: leaveTypeInfo['leaveType'],
-      start_date: leaveTypeInfo['startDate'],
-      end_date: leaveTypeInfo['endDate'],
-    };
-    let addLeaveChronology1 = await leaveDAL.addLeaveChronology(leaveTypeInfo['leaveType'], 1, leaveInfoId, JSON.stringify(leaveChronologyData1), request.session.userInfo.userId)
-    let leaveChronologyData2 = {
-      name: leaveProviderInfo['providerName'],
-      type: leaveProviderInfo['providerType'],
-      phone: leaveProviderInfo['providePhone'],
-      fax: leaveProviderInfo['provideFax'],
-    };
-    let addLeaveChronology2 = await leaveDAL.addLeaveChronology(leaveTypeInfo['leaveType'], 10, leaveInfoId, JSON.stringify(leaveChronologyData2), request.session.userInfo.userId)
-
-    debug("employeeInfoResult", empId);
-  } else {
-    let removeLeaveResult = await leaveDAL.removeEmployeeLeave(leaveInfoId);
-    // let getLeaveEligibility = await leaveDAL.get
-    let editLeaveResult = await leaveDAL.addEmployeeLeave(leaveEligibilityList, empId, leaveInfoId, 'edit');
-  }
-  let employeeAndLeaveInfo = await leaveDAL.getEmployeeAndLeaveInfoByLeaveInfoId(leaveInfoId);
-  let employeeLeaveProviderInfo = await leaveDAL.getEmployeeLeaveEligibilityByLeaveInfoId(leaveInfoId);
-  if (employeeAndLeaveInfo.status === true && employeeAndLeaveInfo.content.length !== 0) {
-    let emailData = Object.assign(employeeAndLeaveInfo.content[0], employeeLeaveProviderInfo.content[0]);
-    emailData['letter_date'] = common.getDateInUSFormat(d3.timeFormat(dbDateFormatDOB)(new Date()));
-    emailData['last_date'] = common.getDateInUSFormat(d3.timeFormat(dbDateFormatDOB)(new Date()));
-    let htmlData = common.generatingTemplate(constant.emailTemplates.incompleteLetter, emailData);
-    debug(htmlData);
-    let sendMail = require("./../../helper/sendmail");
-    let fileName = "Leave" + "_" + leaveInfoId + "_" + (new Date()).getTime() + ".pdf";
-    let pdfResult = await sendMail.convertHTMLToPDF(htmlData, fileName);
-    let attachments = [{   // use URL as an attachment
-      filename: fileName,
-      path: pdfResult
-    }];
-    sendMail.sendMail(emailData['email'], "Claim Number: " + leaveInfoId, undefined, "PFA", attachments, result => {
-      debug(result);
-    });
-  }
-
-  return {status: true, data: {}}
-};
+;
 
 /**
  * Created By: AV
@@ -284,10 +309,45 @@ let addLeaveDeterminationDecisionService = async (request) => {
   let startDate = data['startDate'];
   let endDate = data['endDate'];
   let leaveTypeStatus = data['leaveTypeStatus'];
+  let userId = request.session.userInfo.userId;
   await leaveDAL.addLeaveDeterminationDecision(leaveInfoId, empId, startDate, endDate, leaveTypeStatus);
+  let employeeAndLeaveInfo = await leaveDAL.getEmployeeAndLeaveInfoByLeaveInfoId(leaveInfoId);
+  if (leaveTypeStatus === 'approved') {
+    let dueDate = DateLibrary.getRelativeDate(new Date(startDate), {
+      operationType: "Absolute_DateTime",
+      granularityType: "days",
+      value: 7
+    })
+    dueDate = d3.timeFormat(dbDateFormatDOB)(dueDate)
+    const taskDAL = require("../task/task.DAL");
+    let addTask = taskDAL.addTask(userId, "Decision Task", 0, 'Decision Task Set', empId, leaveInfoId, dueDate, userId);
+    let cdata = {
+      start_date: common.getDateInUSFormat(startDate),
+      end_date: common.getDateInUSFormat(endDate),
+      date:common.getDateInUSFormat(dueDate)
+    };
+    if(employeeAndLeaveInfo.content[0]['leave_type_of_leave'] === 'reducedschedule'){
+      let addLeaveChronology = leaveDAL.addLeaveChronology('', 15, leaveInfoId, JSON.stringify(cdata), userId);
+    } else {
+      let addLeaveChronology = leaveDAL.addLeaveChronology('', 11, leaveInfoId, JSON.stringify(cdata), userId);
+    }
+    let fieldValueUpdate = [{
+      field: 'D_userId',
+      fValue: userId
+    }, {
+      field: 'DDate',
+      fValue: dueDate
+    }]
+
+    let result = await leaveDAL.editLeaveInfoByLeaveInfoId(leaveInfoId, fieldValueUpdate);
+  }
   if (leaveTypeStatus === 'denied') {
-    let employeeAndLeaveInfo = await leaveDAL.getEmployeeAndLeaveInfoByLeaveInfoId(leaveInfoId);
     let employeeLeaveProviderInfo = await leaveDAL.getEmployeeLeaveEligibilityByLeaveInfoId(leaveInfoId);
+    let cdata = {
+      start_date: common.getDateInUSFormat(startDate),
+      end_date: common.getDateInUSFormat(endDate),
+    };
+    let addLeaveChronology = leaveDAL.addLeaveChronology('', 13, leaveInfoId, JSON.stringify(cdata), userId);
     if (employeeAndLeaveInfo.status === true && employeeAndLeaveInfo.content.length !== 0) {
       let emailData = Object.assign(employeeAndLeaveInfo.content[0], employeeLeaveProviderInfo.content[0]);
       emailData['letter_date'] = common.getDateInUSFormat(d3.timeFormat(dbDateFormatDOB)(new Date()));
@@ -578,7 +638,7 @@ module.exports = {
   getLeaveChronologyServiceService: getLeaveChronologyServiceService,
 };
 
-async function convertHTMLToPDF(htmlData, fileName) {
+/*async function convertHTMLToPDF(htmlData, fileName) {
   let path = "";
   let html = "<h1>Hello</h1>";
   const pdf = require('html-pdf');
@@ -593,7 +653,7 @@ async function k() {
 
   let result = await convertHTMLToPDF("<h1>Welcome</h1>", "find.pdf");
   debug(result);
-}
+}*/
 
 /*let sendMail = require("./../../helper/sendmail");
 let attachments = [{   // use URL as an attachment
