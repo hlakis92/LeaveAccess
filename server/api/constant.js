@@ -597,6 +597,432 @@ let emailTemplates = {
     '            Company Leave of Absence</p>'+
   '</body>\n' +
 '</html>',
+  MatEoiNonStatLetter:'<!DOCTYPE html>\n' +
+    '<html lang="en">\n' +
+    '<head>\n' +
+    '    <meta charset="UTF-8">\n' +
+    '    <meta name="viewport" content="width=device-width, initial-scale=1.0">\n' +
+    '    <meta http-equiv="X-UA-Compatible" content="ie=edge">\n' +
+    '    <title>EOI Letter to Send</title>\n' +
+    '</head>\n' +
+    '<style>\n' +
+    '    body {\n' +
+    '        font-family: Cambria,Georgia,serif;\n' +
+    '        margin-top: 75px;\n' +
+    '        margin-bottom: 100px;\n' +
+    '        margin-right: 50px;\n' +
+    '        margin-left: 50px;\n' +
+    '    }\n' +
+    '    .employeeName {\n' +
+    '        margin: 0;\n' +
+    '        margin-block-start: 0;\n' +
+    '        margin-block-end: 0;\n' +
+    '    }\n' +
+    '    .employeeAddress {\n' +
+    '        margin: 0;\n' +
+    '        margin-block-start: 0;\n' +
+    '        margin-block-end: 0;\n' +
+    '    }\n' +
+    '\n' +
+    '    .signatureOfER {\n' +
+    '        font-size: 40px;\n' +
+    '        font-family: Brush Script MT, Brush Script Std, cursive;\n' +
+    '    }\n' +
+    '    .secondP {\n' +
+    '        font-weight: bold;\n' +
+    '    }\n' +
+    '    .leavetable {\n' +
+    '        position:absolute;\n' +
+    '    }\n' +
+    '    table {\n' +
+    '            border: 1px solid black;\n' +
+    '            border-collapse: collapse;\n' +
+    '            width: 100%;\n' +
+    '        }\n' +
+    '    th {\n' +
+    '        border: 1px solid black;\n' +
+    '        border-collapse: collapse;\n' +
+    '        width: auto;\n' +
+    '    }\n' +
+    '    td {\n' +
+    '        border: 1px solid black;\n' +
+    '        border-collapse: collapse;\n' +
+    '        width: 100%;\n' +
+    '    }\n' +
+    '    .tableStatusDenied {\n' +
+    '        background-color: red;\n' +
+    '    }\n' +
+    '    .tableStatusPending {\n' +
+    '        background-color: lightgray;\n' +
+    '    }\n' +
+    '    .leaveTypeTableEdit {\n' +
+    '        width: 15%;\n' +
+    '    }\n' +
+    '    .leaveNameTableEdit {\n' +
+    '        width: 15%;\n' +
+    '    }\n' +
+    '    .leaveDatesTableEdit {\n' +
+    '        width: 31%;\n' +
+    '    }\n' +
+    '    .leaveReasonTableEdit {\n' +
+    '        width: 39%;\n' +
+    '    }\n' +
+    '    .leaveTypeUpdate {\n' +
+    '        width: 15%;\n' +
+    '    }\n' +
+    '    .leaveReasonUpdate {\n' +
+    '        width: 40%;\n' +
+    '    }\n' +
+    '    .leaveDatesUpdate {\n' +
+    '        width: 31%;\n' +
+    '    }\n' +
+    '\n' +
+    '</style>\n' +
+    '<body>\n' +
+    '    <h4 class="dateOfLetter">Date:</h4>\n' +
+    '    <h4 class="employeeName">First Last</h4>\n' +
+    '    <p class="employeeAddress">4865 Address Place <br> city, ST, 22222</p>\n' +
+    '    <br>\n' +
+    '    <p class="employeenFirstName">Dear {{first_name}} {{last_name}},</p>\n' +
+    '\n' +
+    '    <p class="firstP">We have received notification on your <span class="leaveType">Continuous</span>\n' +
+    '        request for Leave of Absence\n' +
+    '        due to <span class="leaveReason">Employee Pregnancy / Employee’s Own Serious Health Condition</span>\n' +
+    '        beginning <span class="leaveDates">10/1/2019 through 10/2/2020</span>. This letter serves as notification of your\n' +
+    '        rights and responsibilities for leave under federal and state entitlements.</p>\n' +
+    '\n' +
+    '    <p class="endPar">Listed below are the leave type(s)\n' +
+    '        you are eligible for today and the status of each plan:</p>\n' +
+    '        <table class="leaveTable" BORDER="1">\n' +
+    '            <tr>\n' +
+    '               <th align="center" class="tableStatusPending" style="font-weight: 100%;"COLSPAN="4">\n' +
+    '                  Pending\n' +
+    '               </th>\n' +
+    '            </tr>\n' +
+    '            <tr align="left">\n' +
+    '               <th class="leaveTypeTableEdit">Leave Type</th>\n' +
+    '               <th class="leaveNameTableEdit">Leave Name</th>\n' +
+    '               <th class="leaveDatesTableEdit">Dates</th>\n' +
+    '            </tr>\n' +
+    '            <tr align="left">\n' +
+    '                <th class="leaveTypeUpdate">Company</th>\n' +
+    '                <th class="leaveReasonUpdate">Insert Company Leave Here</th>\n' +
+    '                <th class="leaveDatesUpdate">01/16/2020 - 02/15/2020</th>\n' +
+    '             </tr>\n' +
+    '             <tr align="left">\n' +
+    '                <th class="leaveTypeUpdate">Federal</th>\n' +
+    '                <th class="leaveReasonUpdate">Family & Medical Leave Act (FMLA)</th>\n' +
+    '                <th class="leaveDatesUpdate">01/16/2020 - 02/15/2020</th>\n' +
+    '             </tr>\n' +
+    '             <tr align="left">\n' +
+    '                <th class="leaveTypeUpdate">State</th>\n' +
+    '                <th class="leaveReasonUpdate">Insert State Leave Here</th>\n' +
+    '                <th class="leaveDatesUpdate">01/16/2020 - 02/15/2020</th>\n' +
+    '             </tr>\n' +
+    '        </table>\n' +
+    '        <br>\n' +
+    '        <table class="leaveTable" BORDER="1">\n' +
+    '            <tr>\n' +
+    '               <th align="center" class="tableStatusDenied" style="font-weight: 100%;"COLSPAN="4">\n' +
+    '                  Denied\n' +
+    '               </th>\n' +
+    '            </tr>\n' +
+    '            <tr align="left">\n' +
+    '               <th class="leaveTypeTableEdit">Leave Type</th>\n' +
+    '               <th class="leaveNameTableEdit">Leave Name</th>\n' +
+    '               <th class="leaveDatesTableEdit">Dates</th>\n' +
+    '               <th class="leaveReasonTableEdit">Reason</th>\n' +
+    '            </tr>\n' +
+    '            <tr align="left">\n' +
+    '                <th>Federal</th>\n' +
+    '                <th>Family & Medical Leave Act (FMLA)</th>\n' +
+    '                <th>01/16/2020 - 02/15/2020</th>\n' +
+    '                <th>Eligibility Not Met:<br>\n' +
+    '                    <ul style="margin-top: 0;" align="left" >\n' +
+    '                    <li>1250 hours worked in previous 12 Month</li>\n' +
+    '                    <li> 12 Months of Service</li>\n' +
+    '                </ul> </th>\n' +
+    '             </tr>\n' +
+    '             <tr align="left">\n' +
+    '                <th>State</th>\n' +
+    '                <th>Insert State Leave Here</th>\n' +
+    '                <th>01/16/2020 - 02/15/2020</th>\n' +
+    '                <th>Insert Denial Reason</th>\n' +
+    '             </tr>\n' +
+    '        </table>\n' +
+    '        <p class="firstP">Company, Inc. utilizes a rolling backward calculation method to determine your available leave time under\n' +
+    '            FMLA and/or applicable state law. A “rolling 12-month period” is measured backwards from the first day\n' +
+    '            leave time is used.\n' +
+    '        </p>\n' +
+    '        <p>The final determination on your leave request is based on your eligibility and entitlement as of your first day of\n' +
+    '            absence, as well as timely submission of any supporting documentation, if applicable, as noted below. Once we\n' +
+    '            obtain this information, we will inform you whether your leave is designated as Family and Medical Leave Act.\n' +
+    '            You will be notified of any change in your leave status.</p>\n' +
+    '\n' +
+    '        <p>PLEASE SUBMIT THE REQUESTED SUPPORTING DOCUMENTATION NO LATER THAN 15 CALENDAR DAYS\n' +
+    '            FROM THE DATE OF THIS NOTICE OR THE START DATE OF YOUR LEAVE REQUEST. PLEASE SUBMIT THE\n' +
+    '            REQUESTED SUPPORTING DOCUMENTATION BY 8/30/2018.</p>\n' +
+    '\n' +
+    '        <p class="firstP">Provided review the following important information\n' +
+    '            and/or enclosures relating to your leave:\n' +
+    '        </p>\n' +
+    '\n' +
+    '        <ul>\n' +
+    '            <li>Employee Rights and Responsibilities under FMLA: This document provides\n' +
+    '                leave of absence information and eligibility requirements for FMLA.</li>\n' +
+    '            <li>\n' +
+    '                Frequently Asked Questions: This document provides answers to the most\n' +
+    '                commonly asked questions about the effect this leave will have on your benefits\n' +
+    '                and pay.\n' +
+    '            </li>\n' +
+    '            <li>Certification of Health Care Provider: Enclosed you will find a Certification of Health Care Provider\n' +
+    '                form which must be completed and signed by your family member’s healthcare provider and\n' +
+    '                submitted to CompanyEmail@gmail.com or via fax at PHONE NUMBER no later than 15 calendar days\n' +
+    '                from the date of this notice, as outlined above. Failure to timely submit a completed Certification form\n' +
+    '                may result in the denial of FMLA coverage.</li>\n' +
+    '            <li>Return to Work Certification: Enclosed you will find a Return to Work Certification form which\n' +
+    '                must be completed and signed by your healthcare provider and submitted to Company Email or via fax\n' +
+    '                at company number at least five days prior to your first day back to active work. You will not be\n' +
+    '                allowed to return to active work without this form.</li>\n' +
+    '        </ul>\n' +
+    '        <p>If you are not approved for any requested time, you will need to contact company@company.com to\n' +
+    '            discuss your work schedule or other leave options that might be available to you. While on leave you are required to furnish CompanyEmail@gmail.com with periodic reports of your\n' +
+    '            status and availability to return to work. If you have any questions as to whether you will be entitled to paid\n' +
+    '            time off during your leave, please contact CompanyEmail@gmail.com. If the circumstances of your leave change and you are able to return to work earlier than anticipated, you\n' +
+    '            are required to notify CompanyEmail@gmail.com within five workdays prior to the date you will be returning\n' +
+    '            to work.</p>\n' +
+    '\n' +
+    '        <p>The Genetic Information Nondiscrimination Act of 2008 (GINA) prohibits employers and other\n' +
+    '            entities covered by GINA Title II from requesting or requiring genetic information of an individual\n' +
+    '            or family member of the individual, except as specifically allowed by this law. To comply with this\n' +
+    '            law, we are asking that you and your physicians not provide any genetic information when\n' +
+    '            responding to any request for medical information, such as in the Healthcare Certification\n' +
+    '            response from a physician. “Genetic information,” as defined by GINA, includes an individual’s\n' +
+    '            family medical history, the results of an individual’s or family member’s genetic tests, the fact that\n' +
+    '            an individual or an individual’s family member sought or received genetic services, and genetic\n' +
+    '            information of a fetus carried by an individual or an individual’s family member or an embryo\n' +
+    '            lawfully held by an individual or family member receiving assistive reproductive services.</p>\n' +
+    '\n' +
+    '        <p>If your leave is under FMLA or State Leave, then upon your return from leave, you will be restored to the\n' +
+    '            same or an equivalent job with equivalent pay and benefits. If your leave is the result of a company policy,\n' +
+    '            please refer to CompanyEmail@gmail.com for your return to work guidelines.</p>\n' +
+    '        <p>If you have any questions regarding the status of your leave request please contact\n' +
+    '            CompanyEmail@gmail.com.</p>\n' +
+    '\n' +
+    '        <p>Sincerely,</p>\n' +
+    '        <p class="leaveManager">\n' +
+    '            Company Leave of Absence</p>\n' +
+    '\n' +
+    '</body>\n' +
+    '</html>',
+  NonStateFamMen:'<!DOCTYPE html>\n' +
+    '<html lang="en">\n' +
+    '<head>\n' +
+    '    <meta charset="UTF-8">\n' +
+    '    <meta name="viewport" content="width=device-width, initial-scale=1.0">\n' +
+    '    <meta http-equiv="X-UA-Compatible" content="ie=edge">\n' +
+    '    <title>Fam Letter to Send</title>\n' +
+    '</head>\n' +
+    '<style>\n' +
+    '    body {\n' +
+    '        font-family: Cambria,Georgia,serif; \n' +
+    '        margin-top: 75px;\n' +
+    '        margin-bottom: 100px;\n' +
+    '        margin-right: 50px;\n' +
+    '        margin-left: 50px;\n' +
+    '    }\n' +
+    '    .employeeName {\n' +
+    '        margin: 0;\n' +
+    '        margin-block-start: 0;\n' +
+    '        margin-block-end: 0;\n' +
+    '    }\n' +
+    '    .employeeAddress {\n' +
+    '        margin: 0;\n' +
+    '        margin-block-start: 0;\n' +
+    '        margin-block-end: 0;\n' +
+    '    }\n' +
+    '    \n' +
+    '    .signatureOfER {\n' +
+    '        font-size: 40px;\n' +
+    '        font-family: Brush Script MT, Brush Script Std, cursive; \n' +
+    '    }\n' +
+    '    .secondP {\n' +
+    '        font-weight: bold;\n' +
+    '    }\n' +
+    '    .leavetable {\n' +
+    '        position:absolute;\n' +
+    '    }\n' +
+    '    table { \n' +
+    '            border: 1px solid black; \n' +
+    '            border-collapse: collapse; \n' +
+    '            width: 100%;\n' +
+    '        } \n' +
+    '    th {\n' +
+    '        border: 1px solid black; \n' +
+    '        border-collapse: collapse; \n' +
+    '        width: auto;\n' +
+    '    }\n' +
+    '    td {\n' +
+    '        border: 1px solid black; \n' +
+    '        border-collapse: collapse; \n' +
+    '        width: 100%;\n' +
+    '    }\n' +
+    '    .tableStatusDenied {\n' +
+    '        background-color: red;\n' +
+    '    }\n' +
+    '    .tableStatusPending {\n' +
+    '        background-color: lightgray;\n' +
+    '    }\n' +
+    '    .leaveTypeTableEdit {\n' +
+    '        width: 15%;\n' +
+    '    }\n' +
+    '    .leaveNameTableEdit {\n' +
+    '        width: 15%;\n' +
+    '    }\n' +
+    '    .leaveDatesTableEdit {\n' +
+    '        width: 31%;\n' +
+    '    }\n' +
+    '    .leaveReasonTableEdit {\n' +
+    '        width: 39%;\n' +
+    '    }\n' +
+    '    .leaveTypeUpdate {\n' +
+    '        width: 15%;\n' +
+    '    }\n' +
+    '    .leaveReasonUpdate {\n' +
+    '        width: 40%;\n' +
+    '    }\n' +
+    '    .leaveDatesUpdate {\n' +
+    '        width: 31%;\n' +
+    '    }\n' +
+    '\n' +
+    '</style>\n' +
+    '<body>\n' +
+    '    <h4 class="dateOfLetter">Date: {{letter_date}}</h4>\n' +
+    '    <h4 class="employeeName">{{first_name}} {{last_name}}</h4>\n' +
+    '    <p class="employeeAddress">{{address1}} <br> {{city}}, {{state}}, {{pincode}}</p>\n' +
+    '    <br>\n' +
+    '    <p class="employeenFirstName">Dear {{first_name}} {{last_name}},</p>\n' +
+    '\n' +
+    '    <p class="firstP">We have received notification on your <span class="leaveType">{{leave_type}}</span>\n' +
+    '        request for Leave of Absence\n' +
+    '        due to <span class="leaveReason">{{leave_name}}</span>\n' +
+    '        beginning <span class="leaveDates">{{start_date}} through {{end_date}}</span>. This letter serves as notification of your\n' +
+    '        rights and responsibilities for leave under federal and state entitlements.</p>\n' +
+    '\n' +
+    '    <p class="endPar">Listed below are the leave type(s) \n' +
+    '        you are eligible for today and the status of each plan:</p>\n' +
+    '        <table class="leaveTable" BORDER="1">\n' +
+    '            <tr>\n' +
+    '               <th align="center" class="tableStatusPending" style="font-weight: 100%;"COLSPAN="4">\n' +
+    '                   {{leave_status}}\n' +
+    '               </th>\n' +
+    '            </tr>\n' +
+    '            <tr align="left">    \n' +
+    '               <th class="leaveTypeTableEdit">Leave Type</th>\n' +
+    '               <th class="leaveNameTableEdit">Leave Name</th>\n' +
+    '               <th class="leaveDatesTableEdit">Dates</th>\n' +
+    '            </tr>\n' +
+    '             <tr align="left">\n' +
+    '                <th class="leaveTypeUpdate">Federal</th>\n' +
+    '                <th class="leaveReasonUpdate">Family & Medical Leave Act (FMLA)</th>\n' +
+    '                <th class="leaveDatesUpdate">01/16/2020 - 02/15/2020</th>\n' +
+    '             </tr>\n' +
+    '             <tr align="left">\n' +
+    '                <th class="leaveTypeUpdate">State</th>\n' +
+    '                <th class="leaveReasonUpdate">Put State Leave Here</th>\n' +
+    '                <th class="leaveDatesUpdate">01/16/2020 - 02/15/2020</th>\n' +
+    '             </tr>\n' +
+    '        </table>\n' +
+    '        <br>\n' +
+    '        <table class="leaveTable" BORDER="1">\n' +
+    '            <tr>\n' +
+    '               <th align="center" class="tableStatusDenied" style="font-weight: 100%;"COLSPAN="4">\n' +
+    '                  Denied\n' +
+    '               </th>\n' +
+    '            </tr>\n' +
+    '            <tr align="left">    \n' +
+    '               <th class="leaveTypeTableEdit">Leave Type</th>\n' +
+    '               <th class="leaveNameTableEdit">Leave Name</th>\n' +
+    '               <th class="leaveDatesTableEdit">Dates</th>\n' +
+    '               <th class="leaveReasonTableEdit">Reason</th>\n' +
+    '            </tr>\n' +
+    '            <tr align="left">\n' +
+    '                <th>Federal</th>\n' +
+    '                <th>Family & Medical Leave Act (FMLA)</th>\n' +
+    '                <th>01/16/2020 - 02/15/2020</th>\n' +
+    '                <th>Eligibility Not Met:<br> \n' +
+    '                    <ul style="margin-top: 0;" align="left" >\n' +
+    '                    <li>1250 hours worked in previous 12 Month</li>\n' +
+    '                    <li> 12 Months of Service</li>\n' +
+    '                </ul> </th>\n' +
+    '             </tr>\n' +
+    '             <tr align="left">\n' +
+    '                <th>Company</th>\n' +
+    '                <th>Company Medical</th>\n' +
+    '                <th>01/16/2020 - 02/15/2020</th>\n' +
+    '                <th>Relationship Not Covered</th>\n' +
+    '             </tr>\n' +
+    '        </table>\n' +
+    '        <p class="firstP">Company, Inc. utilizes a rolling backward calculation method to determine your available leave time under\n' +
+    '            FMLA and/or applicable state law. A “rolling 12-month period” is measured backwards from the first day\n' +
+    '            leave time is used.\n' +
+    '        </p>\n' +
+    '        <p>The final determination on your leave request is based on your eligibility and entitlement as of your first day of\n' +
+    '            absence, as well as timely submission of any supporting documentation, if applicable, as noted below. Once we\n' +
+    '            obtain this information, we will inform you whether your leave is designated as Family and Medical Leave Act.\n' +
+    '            You will be notified of any change in your leave status.</p>\n' +
+    '\n' +
+    '        <p>PLEASE SUBMIT THE REQUESTED SUPPORTING DOCUMENTATION NO LATER THAN 15 CALENDAR DAYS\n' +
+    '            FROM THE DATE OF THIS NOTICE OR THE START DATE OF YOUR LEAVE REQUEST. PLEASE SUBMIT THE\n' +
+    '            REQUESTED SUPPORTING DOCUMENTATION BY 8/30/2018.</p>\n' +
+    '\n' +
+    '        <p class="firstP">Provided review the following important information \n' +
+    '            and/or enclosures relating to your leave: \n' +
+    '        </p>\n' +
+    '    \n' +
+    '        <ul>\n' +
+    '            <li>Employee Rights and Responsibilities under FMLA: This document provides\n' +
+    '                leave of absence information and eligibility requirements for FMLA.</li>\n' +
+    '            <li> \n' +
+    '                Frequently Asked Questions: This document provides answers to the most\n' +
+    '                commonly asked questions about the effect this leave will have on your benefits\n' +
+    '                and pay.\n' +
+    '            </li>\n' +
+    '            <li>Certification of Health Care Provider: Enclosed you will find a Certification of Health Care Provider\n' +
+    '                form which must be completed and signed by your family member’s healthcare provider and\n' +
+    '                submitted to CompanyEmail@gmail.com or via fax at PHONE NUMBER no later than 15 calendar days\n' +
+    '                from the date of this notice, as outlined above. Failure to timely submit a completed Certification form\n' +
+    '                may result in the denial of FMLA coverage.</li>\n' +
+    '        </ul>\n' +
+    '        <p>If you are not approved for any requested time, you will need to contact company@company.com to\n' +
+    '            discuss your work schedule or other leave options that might be available to you. While on leave you are required to furnish CompanyEmail@gmail.com with periodic reports of your\n' +
+    '            status and availability to return to work. If you have any questions as to whether you will be entitled to paid\n' +
+    '            time off during your leave, please contact CompanyEmail@gmail.com. If the circumstances of your leave change and you are able to return to work earlier than anticipated, you\n' +
+    '            are required to notify CompanyEmail@gmail.com within five workdays prior to the date you will be returning\n' +
+    '            to work.</p>\n' +
+    '\n' +
+    '        <p>The Genetic Information Nondiscrimination Act of 2008 (GINA) prohibits employers and other\n' +
+    '            entities covered by GINA Title II from requesting or requiring genetic information of an individual\n' +
+    '            or family member of the individual, except as specifically allowed by this law. To comply with this\n' +
+    '            law, we are asking that you and your physicians not provide any genetic information when\n' +
+    '            responding to any request for medical information, such as in the Healthcare Certification\n' +
+    '            response from a physician. “Genetic information,” as defined by GINA, includes an individual’s\n' +
+    '            family medical history, the results of an individual’s or family member’s genetic tests, the fact that\n' +
+    '            an individual or an individual’s family member sought or received genetic services, and genetic\n' +
+    '            information of a fetus carried by an individual or an individual’s family member or an embryo\n' +
+    '            lawfully held by an individual or family member receiving assistive reproductive services.</p>\n' +
+    '        \n' +
+    '        <p>If your leave is under FMLA or State Leave, then upon your return from leave, you will be restored to the\n' +
+    '            same or an equivalent job with equivalent pay and benefits. If your leave is the result of a company policy,\n' +
+    '            please refer to CompanyEmail@gmail.com for your return to work guidelines.</p>\n' +
+    '        <p>If you have any questions regarding the status of your leave request please contact\n' +
+    '            CompanyEmail@gmail.com.</p>\n' +
+    '       \n' +
+    '        <p>Sincerely,</p>\n' +
+    '        <p class="leaveManager">\n' +
+    '            Company Leave of Absence</p>\n' +
+    '</body>\n' +
+    '</html>',
 }
 
 module.exports = {

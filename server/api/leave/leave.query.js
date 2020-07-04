@@ -292,7 +292,7 @@ let query = {
       encloseField: false,
       alias: 'ERTW_userId'
     }, {
-      field: 'IFNULL(DATE_FORMAT(ERTWDate,  "%m/%d/%Y"), "MM/DD/YYYY")',
+      field: 'IFNULL(DATE_FORMAT(DATE_ADD(LI.endDate, INTERVAL -7 DAY),  "%m/%d/%Y"), "MM/DD/YYYY")',
       encloseField: false,
       alias: 'ERTWDate'
     }, {
@@ -300,7 +300,7 @@ let query = {
       encloseField: false,
       alias: 'ARTW_userId'
     }, {
-      field: 'IFNULL(DATE_FORMAT(ARTWDate,  "%m/%d/%Y"), "MM/DD/YYYY")',
+      field: 'IFNULL(DATE_FORMAT(LI.endDate,  "%m/%d/%Y"), "MM/DD/YYYY")',
       encloseField: false,
       alias: 'ARTWDate'
     }, {
@@ -308,7 +308,7 @@ let query = {
       encloseField: false,
       alias: 'PR_userId'
     }, {
-      field: 'IFNULL(DATE_FORMAT(PRDate,  "%m/%d/%Y"), "MM/DD/YYYY")',
+      field: 'IFNULL(DATE_FORMAT(DATE_ADD(PRDate, INTERVAL 1 DAY),  "%m/%d/%Y"), "MM/DD/YYYY")',
       encloseField: false,
       alias: 'PRDate'
     }, {
@@ -316,7 +316,7 @@ let query = {
       encloseField: false,
       alias: 'D_userId'
     }, {
-      field: 'IFNULL(DATE_FORMAT(DDate,  "%m/%d/%Y"), "MM/DD/YYYY")',
+      field: 'IFNULL(DATE_FORMAT(DATE_ADD(createdDate, INTERVAL 15 DAY),  "%m/%d/%Y"), "MM/DD/YYYY")',
       encloseField: false,
       alias: 'DDate'
     }, {
@@ -324,7 +324,7 @@ let query = {
       encloseField: false,
       alias: 'E_userId'
     }, {
-      field: 'IFNULL(DATE_FORMAT(EDate,  "%m/%d/%Y"), "MM/DD/YYYY")',
+      field: 'IFNULL(DATE_FORMAT(DATE_ADD(createdDate, INTERVAL 1 DAY),  "%m/%d/%Y"), "MM/DD/YYYY")',
       encloseField: false,
       alias: 'EDate'
     }],
