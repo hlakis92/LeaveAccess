@@ -265,6 +265,13 @@ let getLeaveChronologyByLeaveInfoId = async (leaveInfoId) => {
   return await common.executeQuery(getLeaveChronologyByLeaveInfoIdQuery);
 };
 
+let getEmployeeTaskListByClaimNumber = async (claimNumber) => {
+  debug("leave.DAL -> getEmployeeTaskListByClaimNumber");
+  let getEmployeeTaskListByClaimNumberQuery = common.cloneObject(query.getEmployeeTaskListByClaimNumberQuery);
+  getEmployeeTaskListByClaimNumberQuery.filter.value = claimNumber;
+  return await common.executeQuery(getEmployeeTaskListByClaimNumberQuery);
+};
+
 module.exports = {
   addEmployeeDetail: addEmployeeDetail,
   addLocationDetail: addLocationDetail,
@@ -292,4 +299,5 @@ module.exports = {
   getEmployeeAndLeaveInfoByLeaveInfoId: getEmployeeAndLeaveInfoByLeaveInfoId,
   addLeaveChronology: addLeaveChronology,
   getLeaveChronologyByLeaveInfoId: getLeaveChronologyByLeaveInfoId,
+  getEmployeeTaskListByClaimNumber: getEmployeeTaskListByClaimNumber,
 };

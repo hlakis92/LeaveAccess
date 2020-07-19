@@ -213,6 +213,7 @@ let getEmployeeLeaveClaimInfoService = async (request) => {
   let employeeLeavePlanStatusByClaimNumberResult = await leaveDAL.getEmployeeLeavePlanStatusByClaimNumber(claimNumber);
   let employeePaperWorkReviewResult = await leaveDAL.getEmployeeLeavePaperWorkReviewDataByClaimNumber(claimNumber);
   let employeePaperWorkReviewDocumentResult = await leaveDAL.getEmployeeLeavePaperWorkReviewDocumentDataByClaimNumber(claimNumber);
+  let employeeTaskListByClaimNumberResult = await leaveDAL.getEmployeeTaskListByClaimNumber(claimNumber)
   if (employeePaperWorkReviewDocumentResult.status === true) {
     (employeePaperWorkReviewDocumentResult.content).forEach(data => {
       data['url'] = constant.appConfig.MEDIA_GET_STATIC_URL + data['url'];
@@ -244,7 +245,8 @@ let getEmployeeLeaveClaimInfoService = async (request) => {
         planMaximumDuration: employeeLeaveMaximumDurationData,
         planStatus: employeeLeavePlanStatusByClaimNumberResult.content,
         paperWorkReview: employeePaperWorkReviewResult.content,
-        paperWorkReviewDocument: employeePaperWorkReviewDocumentResult.content
+        paperWorkReviewDocument: employeePaperWorkReviewDocumentResult.content,
+        taskList:employeeTaskListByClaimNumberResult.content
       }
     }
   } else {

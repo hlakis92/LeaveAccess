@@ -418,6 +418,7 @@ $('#leaveSubmit').on('click', function (e) {
   let leaveTypeInfo = getCookie('leaveTypeInfo');
   let leaveEligibilityList = getCookie('leaveEligibilityList');
 
+
   let requireData = {
     employeeInfo: employeeInfo,
     locationInfo: locationInfo,
@@ -426,8 +427,13 @@ $('#leaveSubmit').on('click', function (e) {
     leaveTypeInfo: leaveTypeInfo,
     leaveEligibilityList: leaveEligibilityList
   };
+  leaveProviderInfo = (JSON.parse(leaveProviderInfo));
+  let redirectURL = 'searchemployee';
+  if (leaveProviderInfo['leave_info_id'] !== undefined) {
+    redirectURL = "claim"+leaveProviderInfo['leaveType'] + "\\" + leaveProviderInfo['leave_info_id'];
+  }
   // requireData=JSON.parse(requireData)
-  console.log(requireData)
+  // console.log(requireData)
   $.ajax({
     type: 'POST',
     url: submitLeaveURL,
@@ -441,7 +447,7 @@ $('#leaveSubmit').on('click', function (e) {
       deleteCookie('leaveProviderInfo');
       deleteCookie('leaveTypeInfo');
       deleteCookie('leaveEligibilityList');
-      window.location.href = windowLocation.origin + '/searchemployee';
+      window.location.href = windowLocation.origin + '/' + redirectURL;
     },
     error: result => {
       console.log(result)
@@ -617,16 +623,17 @@ function getQueryStringValue(key) {
 // media
 let mediaFiles;
 $('#uploadPaperWorkFile').on('change', getFileName);
-function getFileName(event){
+
+function getFileName(event) {
   mediaFiles = event.target.files;
   // debugger;
 }
 
 $('#UploadPaperWorkDocument').on('click', uploadMedia);
 
-function uploadMedia(event){
+function uploadMedia(event) {
 // debugger;
- 
+
   // mediaFiles = event.target.files;
   if (mediaFiles != undefined && mediaFiles.length > 0) {
     $('.loaderdiv').show();
@@ -647,7 +654,7 @@ function uploadMedia(event){
     requestMedia.done(function (data) {
       if (data.status) {
         $('.loaderdiv').hide();
-        $("#documentList").append('<div class="form-group col-md-12"><a href='+data.data.url+'>'+data.data.text+'</a></div>');
+        $("#documentList").append('<div class="form-group col-md-12"><a href=' + data.data.url + '>' + data.data.text + '</a></div>');
         alert_message("Document has been uploaded successfully.", "success");
       }
     });

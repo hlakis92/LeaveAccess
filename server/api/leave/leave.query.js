@@ -9,6 +9,7 @@ let tbl_LeaveDeterminationDecision = "tbl_LeaveDeterminationDecision";
 let tbl_LeaveChronologyMapping = "tbl_LeaveChronologyMapping";
 let tbl_UserMaster = "tbl_UserMaster";
 let tbl_LeaveChronology = "tbl_LeaveChronology";
+let tbl_tasklist = "tbl_tasklist";
 
 let query = {
   /* create user query start */
@@ -743,6 +744,23 @@ let query = {
     }],
     filter: {
       field: 'fk_leaveInfoId',
+      operator: 'EQ',
+      value: ''
+    },
+  },
+
+  getEmployeeTaskListByClaimNumberQuery:{
+    table: tbl_tasklist,
+    select:[ {
+      field: 'taskName',
+      alias: 'taskName'
+    }, {
+      field: 'DATE_FORMAT(dueDate, "%m/%d/%Y")',
+      encloseField: false,
+      alias: 'dueDate'
+    }],
+    filter: {
+      field: 'leaveInfoId',
       operator: 'EQ',
       value: ''
     },

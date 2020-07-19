@@ -108,7 +108,8 @@
             </table>
 
             <br>
-            <div class="modal fade" id="confirmationModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal fade" id="confirmationModel" tabindex="-1" role="dialog"
+                 aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -122,7 +123,9 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary" id="leaveSubmit">Save changes</button>
+                            <% if(employeeLeaveProviderInfo !== undefined && employeeLeaveProviderInfo.leave_info_id !== undefined) { %>
+                                <button type="button" class="btn btn-primary" id="leaveSubmit">Save changes</button>
+                            <% } %>
                         </div>
                     </div>
                 </div>
@@ -132,12 +135,12 @@
                 <div class="col-md-12">
                     <button type="button" class="btn btn-secondary" id="leaveEligibilityBackButton"> ← Back</button>
                     <button type="submit" class="btn btn-primary"
-                    <% if(employeeLeaveProviderInfo.leave_info_id !== undefined) { %>
+                    <% if(employeeLeaveProviderInfo === undefined || employeeLeaveProviderInfo.leave_info_id === undefined) { %>
                             id="leaveSubmit"
-                                <% } else { %>
+                    <% } else { %>
                             data-toggle="modal" data-target="#confirmationModel"
-                        <% }  %>
-                        >Submit Leave →
+                            <% } %>
+                    >Submit Leave →
                     </button>
                 </div>
             </div>

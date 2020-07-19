@@ -175,6 +175,9 @@ let query = {
       field: 'userId',
       alias: 'userId'
     }, {
+      field: 'name',
+      alias: 'userName'
+    }, {
       field: 'DATE_FORMAT(tn.createdDate, "%m/%d/%Y")',
       encloseField: false,
       alias: 'createdDate'

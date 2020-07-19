@@ -247,6 +247,15 @@
 
                         </div>
                     </div>
+                    <% taskList.forEach(function(task) { %>
+                        <div class="outputTask">
+                            <a> <%= task['taskName'] %></a>
+                            <span class="taskDate" style="padding-left: 25px;">
+                                <%= task['dueDate'] %>
+                            </span>
+                        </div>
+                    <% }); %>
+
                 </div>
                 <br><br>
 

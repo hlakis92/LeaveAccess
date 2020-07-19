@@ -135,6 +135,7 @@ router.get('/leaveeligibility', middleware.checkAccessToken, async (request, res
       type = 0
     }
     // console.log("..............",employeeInfoResult.data['first_name'])
+    // console.log("..............*******************************.....",employeeLeaveProviderInfo);
     response.render('pages/leaveeligibility', {
       title: 'LAM',
       type: type,
@@ -207,7 +208,6 @@ router.get('/claimcontinuous/:claimNumber', middleware.checkAccessToken, async f
   let employeeInfoResult = await employeeService.getEmployeeInfoService(req);
   let employeeLocationInfoResult = await employeeService.getEmployeeLocationInfoService(req);
 
-
   //Get Login User Info 
   let userId = req.session.userInfo.userId;
 
@@ -216,7 +216,7 @@ router.get('/claimcontinuous/:claimNumber', middleware.checkAccessToken, async f
   let getManager = await userService.getManagerService(req);
   let getManagerData = getManager.data;
   let employeeLeaveClaimInfoData, planMaximumDuration, planStatus, paperWorkReview = [],
-    paperWorkReviewDocumentList = [], employeeLeaveInfoData;
+    paperWorkReviewDocumentList = [], employeeLeaveInfoData, taskList = [];
 
 
   if (employeeLeaveClaimInfoResult.status === true) {
@@ -225,8 +225,8 @@ router.get('/claimcontinuous/:claimNumber', middleware.checkAccessToken, async f
     planMaximumDuration = employeeLeaveClaimInfoResult.data.planMaximumDuration;
     planStatus = employeeLeaveClaimInfoResult.data.planStatus;
     paperWorkReview = employeeLeaveClaimInfoResult.data.paperWorkReview;
-    paperWorkReviewDocumentList = employeeLeaveClaimInfoResult.data.paperWorkReviewDocument
-
+    paperWorkReviewDocumentList = employeeLeaveClaimInfoResult.data.paperWorkReviewDocument;
+    taskList = employeeLeaveClaimInfoResult.data.taskList;
   } else {
   }
   let paperWorkReviewList = [
@@ -246,6 +246,8 @@ router.get('/claimcontinuous/:claimNumber', middleware.checkAccessToken, async f
   });
   // console.log("....................",)
 
+  console.log('..............',taskList)
+
   res.render('pages/claimcontinuous', {
     title: 'Leave Overview',
     employeeLeaveInfoData: employeeLeaveInfoData,
@@ -258,6 +260,7 @@ router.get('/claimcontinuous/:claimNumber', middleware.checkAccessToken, async f
     userId: userId,
     employeeInfo: JSON.stringify(employeeInfoResult.data),
     employeeLocationInfo: JSON.stringify(employeeLocationInfoResult.data),
+    taskList: taskList,
   });
 });
 
