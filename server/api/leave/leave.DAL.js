@@ -268,7 +268,7 @@ let getLeaveChronologyByLeaveInfoId = async (leaveInfoId) => {
 let getEmployeeTaskListByClaimNumber = async (claimNumber) => {
   debug("leave.DAL -> getEmployeeTaskListByClaimNumber");
   let getEmployeeTaskListByClaimNumberQuery = common.cloneObject(query.getEmployeeTaskListByClaimNumberQuery);
-  getEmployeeTaskListByClaimNumberQuery.filter.value = claimNumber;
+  getEmployeeTaskListByClaimNumberQuery.filter.and[0].value = claimNumber;
   return await common.executeQuery(getEmployeeTaskListByClaimNumberQuery);
 };
 

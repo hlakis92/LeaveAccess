@@ -297,6 +297,10 @@ let query = {
       encloseField: false,
       alias: 'ERTWDate'
     }, {
+      field: 'IF(ERTWDate IS NULL, 0, 1)',
+      encloseField: false,
+      alias: 'is_ERTWDate_complete'
+    }, {
       field: 'IFNULL(ARTW_userId, 0)',
       encloseField: false,
       alias: 'ARTW_userId'
@@ -304,6 +308,10 @@ let query = {
       field: 'IFNULL(DATE_FORMAT(LI.endDate,  "%m/%d/%Y"), "MM/DD/YYYY")',
       encloseField: false,
       alias: 'ARTWDate'
+    }, {
+      field: 'IF(ARTWDate IS NULL, 0, 1)',
+      encloseField: false,
+      alias: 'is_ARTWDate_complete'
     }, {
       field: 'IFNULL(PR_userId, 0)',
       encloseField: false,
@@ -313,6 +321,10 @@ let query = {
       encloseField: false,
       alias: 'PRDate'
     }, {
+      field: 'IF(PRDate IS NULL, 0, 1)',
+      encloseField: false,
+      alias: 'is_PRDate_complete'
+    }, {
       field: 'IFNULL(D_userId, 0)',
       encloseField: false,
       alias: 'D_userId'
@@ -321,6 +333,10 @@ let query = {
       encloseField: false,
       alias: 'DDate'
     }, {
+      field: 'IF(DDate IS NULL, 0, 1)',
+      encloseField: false,
+      alias: 'is_DDate_complete'
+    }, {
       field: 'IFNULL(E_userId, 0)',
       encloseField: false,
       alias: 'E_userId'
@@ -328,6 +344,10 @@ let query = {
       field: 'IFNULL(DATE_FORMAT(DATE_ADD(createdDate, INTERVAL 1 DAY),  "%m/%d/%Y"), "MM/DD/YYYY")',
       encloseField: false,
       alias: 'EDate'
+    }, {
+      field: 'IF(EDate IS NULL, 0, 1)',
+      encloseField: false,
+      alias: 'is_EDate_complete'
     }],
     filter: {
       field: 'pk_leaveInfoId',
@@ -749,9 +769,12 @@ let query = {
     },
   },
 
-  getEmployeeTaskListByClaimNumberQuery:{
+  getEmployeeTaskListByClaimNumberQuery: {
     table: tbl_tasklist,
-    select:[ {
+    select: [{
+      field: 'pk_taskId',
+      alias: 'taskId'
+    }, {
       field: 'taskName',
       alias: 'taskName'
     }, {
@@ -760,9 +783,15 @@ let query = {
       alias: 'dueDate'
     }],
     filter: {
-      field: 'leaveInfoId',
-      operator: 'EQ',
-      value: ''
+      and: [{
+        field: 'leaveInfoId',
+        operator: 'EQ',
+        value: ''
+      }, {
+        field: 'status',
+        operator: 'EQ',
+        value: 0
+      }]
     },
   }
 };

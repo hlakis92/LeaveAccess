@@ -246,7 +246,7 @@ router.get('/claimcontinuous/:claimNumber', middleware.checkAccessToken, async f
   });
   // console.log("....................",)
 
-  console.log('..............',taskList)
+  // console.log('..............',req.url)
 
   res.render('pages/claimcontinuous', {
     title: 'Leave Overview',
@@ -261,6 +261,7 @@ router.get('/claimcontinuous/:claimNumber', middleware.checkAccessToken, async f
     employeeInfo: JSON.stringify(employeeInfoResult.data),
     employeeLocationInfo: JSON.stringify(employeeLocationInfoResult.data),
     taskList: taskList,
+    callBackURL:req.url
   });
 });
 

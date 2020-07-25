@@ -116,17 +116,25 @@
 
                 <h5 style="background-color:lightgrey;">Tasks</h5>
                 <div class="newTasks">
-                    <div class="outputTask"><a>Eligibility</a><span class="taskDate"
-                                                                    style="padding-left: 25px;"><%= employeeLeaveClaimInfoData['EDate'] %></span></div>
-                    <div class="outputTask"><a>Decision</a><span class="taskDate"
-                                                                 style="padding-left: 25px;"><%= employeeLeaveClaimInfoData['DDate'] %></span></div>
+                    <% if (employeeLeaveClaimInfoData['is_EDate_complete'] === 0) { %>
+                        <div class="outputTask"><a>Eligibility</a><span class="taskDate"
+                                                                        style="padding-left: 25px;"><%= employeeLeaveClaimInfoData['EDate'] %></span>
+                        </div>
+                    <% } %>
+                    <% if (employeeLeaveClaimInfoData['is_DDate_complete'] === 0) { %>
+                        <div class="outputTask"><a>Decision</a><span class="taskDate"
+                                                                     style="padding-left: 25px;"><%= employeeLeaveClaimInfoData['DDate'] %></span>
+                        </div>
+                    <% } %>
                     <!-- Trigger the Paperwork modal with a button -->
                     <% include ../partials/paperwork.ejs %>
-                    <!-- Trigger the ERTW modal with a button -->
-                    <div class="outputTask" data-toggle="modal" data-target="#myModal3"><a>ERTW
-                            Confirmation</a><span class="taskDate" id="ERTWDateDisplayDate"
-                                                  style="padding-left: 25px;"><%= employeeLeaveClaimInfoData['ERTWDate'] %></span>
-                    </div>
+                    <% if (employeeLeaveClaimInfoData['is_ERTWDate_complete'] === 0) { %>
+                        <!-- Trigger the ERTW modal with a button -->
+                        <div class="outputTask" data-toggle="modal" data-target="#myModal3"><a>ERTW
+                                Confirmation</a><span class="taskDate" id="ERTWDateDisplayDate"
+                                                      style="padding-left: 25px;"><%= employeeLeaveClaimInfoData['ERTWDate'] %></span>
+                        </div>
+                    <% } %>
                     <!-- Modal -->
                     <div class="modal fade" id="myModal3" role="dialog">
                         <div class="modal-dialog">
@@ -185,12 +193,15 @@
                         </div>
                     </div>
 
-                    <!-- Trigger the Paperwork modal with a button -->
-                    <div class="outputTask" data-toggle="modal" data-target="#myModal4"><a>ARTW
-                            Confirmation</a>
-                        <span class="taskDate" id='ARTWDateDisplayDate'
-                              style="padding-left: 25px;"><%= employeeLeaveClaimInfoData['ARTWDate'] %></span>
-                    </div>
+                    <% if (employeeLeaveClaimInfoData['is_ARTWDate_complete'] === 0) { %>
+                        <!-- Trigger the Paperwork modal with a button -->
+                        <div class="outputTask" data-toggle="modal" data-target="#myModal4"><a>ARTW
+                                Confirmation</a>
+                            <span class="taskDate" id='ARTWDateDisplayDate'
+                                  style="padding-left: 25px;"><%= employeeLeaveClaimInfoData['ARTWDate'] %></span>
+                        </div>
+                    <% } %>
+
                     <!-- Modal -->
                     <div class="modal fade" id="myModal4" role="dialog">
                         <div class="modal-dialog">
@@ -249,7 +260,7 @@
                     </div>
                     <% taskList.forEach(function(task) { %>
                         <div class="outputTask">
-                            <a> <%= task['taskName'] %></a>
+                            <a href="/task/edit/<%= task['taskId'] %>?callback=<%= callBackURL %>"> <%= task['taskName'] %></a>
                             <span class="taskDate" style="padding-left: 25px;">
                                 <%= task['dueDate'] %>
                             </span>
@@ -284,7 +295,7 @@
                         <td id="letterSent">
                             <a href="#"> Decision</a>
                         </td>
-                        <td id="employee"><%= employeeLeaveInfoData.employeeName%></td>
+                        <td id="employee"><%= employeeLeaveInfoData.employeeName %></td>
                         <td id="letterSentMethod">Mail, E-Mail</td>
                         <td id="letterDate">06/25/2018</td>
                     </tr>
@@ -292,7 +303,7 @@
                         <td id="letterSent">
                             <a href="#">Decision</a>
                         </td>
-                        <td id="supervisor"><%= employeeLeaveInfoData.supervisorContactName%></td>
+                        <td id="supervisor"><%= employeeLeaveInfoData.supervisorContactName %></td>
                         <td id="letterSentMethod">E-Mail</td>
                         <td id="letterDate">06/25/2018</td>
                     </tr>
@@ -300,7 +311,7 @@
                         <td id="letterSent">
                             <a href="#">Eligibility</a>
                         </td>
-                        <td id="employee"><%= employeeLeaveInfoData.employeeName%></td>
+                        <td id="employee"><%= employeeLeaveInfoData.employeeName %></td>
                         <td id="letterSentMethod">Mail, E-Mail</td>
                         <td id="letterDate">06/25/2018</td>
                     </tr>
@@ -308,14 +319,14 @@
                         <td id="letterSent">
                             <a href="#">Eligibility</a>
                         </td>
-                        <td id="supervisor"><%= employeeLeaveInfoData.supervisorContactName%></td>
+                        <td id="supervisor"><%= employeeLeaveInfoData.supervisorContactName %></td>
                         <td id="letterSentMethod">E-Mail</td>
                         <td id="letterDate">06/25/2018</td>
                     </tr>
 
                 </table>
                 <br>
-                <div style="float: left;"> 
+                <div style="float: left;">
                     <button class="upload-btn-wrapper" type="submit" class="btn btn-primary"
                             type="file">Attach Paperwork
                         <input type="file" name="file" id="uploadPaperWorkFile"/>

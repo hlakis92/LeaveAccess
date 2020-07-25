@@ -117,8 +117,16 @@
         success: result => {
           //alert_message(result.data.message, 'success');
           if (result.status === true) {
+            const urlParams = new URLSearchParams(window.location.search);
+            const callback = urlParams.get('callback');
+
             setCookie('success', result.data.message, 1);
-            window.location.href = windowLocation.origin + '/task';
+            debugger;
+            if (callback === null) {
+              window.location.href = windowLocation.origin + '/task';
+            } else {
+              window.location.href = windowLocation.origin  + callback;
+            }
           } else {
             alert_message(result.error.message, 'fail');
           }

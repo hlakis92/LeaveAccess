@@ -3,7 +3,7 @@
 <head>
     <!-- Required meta tags -->
     <% include ../partials/head %>
-    <link rel="stylesheet" href="/stylesheets/pickmeup.css" type="text/css" />
+    <link rel="stylesheet" href="/stylesheets/pickmeup.css" type="text/css"/>
 </head>
 <body>
 <input type="hidden" name="empId" id="empId" value="<%= employeeLeaveClaimInfoData.emp_id %>">
@@ -41,307 +41,323 @@
                     <tr>
                         <td id="leaveType"><%= employeeLeaveClaimInfoData.leave_type %></td>
                         <td id="leaveReasonCode"><%= employeeLeaveClaimInfoData.leave_reason %></td>
-                        <td id="leaveDates"><%= employeeLeaveClaimInfoData.from_date %> - <%= employeeLeaveClaimInfoData.to_date %></td>
+                        <td id="leaveDates"><%= employeeLeaveClaimInfoData.from_date %>
+                            - <%= employeeLeaveClaimInfoData.to_date %></td>
                         <td id="leavePlan"><%= employeeLeaveClaimInfoData.leave_name %> </td>
                     </tr>
                 </table>
 
-            <hr>
-            <h5>Plan Summary</h5>
-            <div class="row">
-                <div class="col-md-12">
-                    <table class="planDataSummary">
-                        <tr>
-                            <th>Plan Name</th>
-                            <th>Total Hours / Weeks Available</th>
-                            <th>Leave Usage</th>
-                            <th>Hours Remaining(To Date)</th>
-                        </tr>
-                        <!--<tr>
-                            <td>FMLA<br>CFRA</td>
-                            <td>480 Hours / 12 Weeks<br>480 Hours / 12 Weeks</td>
-                            <td>160 Hours / 4 Weeks<br>160 Hours / 4 Weeks</td>
-                            <td>320 Hours / 8 Weeks<br>320 Hours / 8 Weeks</td>
-                        </tr>-->
-                        <% planMaximumDuration.forEach(function(data) { %>
+                <hr>
+                <h5>Plan Summary</h5>
+                <div class="row">
+                    <div class="col-md-12">
+                        <table class="planDataSummary">
                             <tr>
-                                <td><%= data.leave_name %></td>
-                                <td><%= data.total %></td>
-                                <td><%= data.usage %></td>
-                                <td><%= data.remain %></td>
+                                <th>Plan Name</th>
+                                <th>Total Hours / Weeks Available</th>
+                                <th>Leave Usage</th>
+                                <th>Hours Remaining(To Date)</th>
                             </tr>
-                        <% }); %>
-                    </table>
+                            <!--<tr>
+                                <td>FMLA<br>CFRA</td>
+                                <td>480 Hours / 12 Weeks<br>480 Hours / 12 Weeks</td>
+                                <td>160 Hours / 4 Weeks<br>160 Hours / 4 Weeks</td>
+                                <td>320 Hours / 8 Weeks<br>320 Hours / 8 Weeks</td>
+                            </tr>-->
+                            <% planMaximumDuration.forEach(function(data) { %>
+                                <tr>
+                                    <td><%= data.leave_name %></td>
+                                    <td><%= data.total %></td>
+                                    <td><%= data.usage %></td>
+                                    <td><%= data.remain %></td>
+                                </tr>
+                            <% }); %>
+                        </table>
+                    </div>
                 </div>
-            </div>
-            <hr>
-            <h5>Plan Status</h5>
-            <div class="claimStatus">
-                <div class="well">
-                    <% planStatus.forEach(function(data) { %>
-                        <div class="row">
-                            <div class="col-md-6 ">
-                                <div class="planName"><%= data['leave_name'] %></div>
-                            </div>
-                            <div class="col-md-4"></div>
-                            <div class="col-md-4">
-                                <div class="plandates"><%= data['from_date'] %> - <%= data['to_date'] %></div>
-                            </div>
+                <hr>
+                <h5>Plan Status</h5>
+                <div class="claimStatus">
+                    <div class="well">
+                        <% planStatus.forEach(function(data) { %>
                             <div class="row">
-                                <div class="col-md-12">
-                                    <div class="<%= employeeLeaveClaimInfoData.leave_type_status %>"></div>
+                                <div class="col-md-6 ">
+                                    <div class="planName"><%= data['leave_name'] %></div>
+                                </div>
+                                <div class="col-md-4"></div>
+                                <div class="col-md-4">
+                                    <div class="plandates"><%= data['from_date'] %> - <%= data['to_date'] %></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="<%= employeeLeaveClaimInfoData.leave_type_status %>"></div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <br><br>
-                    <% }); %>
-                    <!--                    <br><br>-->
-                    <!--                    <div class="row">-->
-                    <!--                        <div class="col-md-4">-->
-                    <!--                            <div class="planName">Short Term Disability (STD)</div>-->
-                    <!--                        </div>-->
-                    <!--                        <div class="col-md-4"></div>-->
-                    <!--                        <div class="col-md-4">-->
-                    <!--                            <div class="plandates">MM/DD/YYYY - MM/DD/YYYY</div>-->
-                    <!--                        </div>-->
-                    <!--                        <div class="row">-->
-                    <!--                            <div class="col-md-12">-->
-                    <!--                                <div class="planStatus1"></div>-->
-                    <!--                            </div>-->
-                    <!--                        </div>-->
-                    <!--                    </div>-->
+                            <br><br>
+                        <% }); %>
+                        <!--                    <br><br>-->
+                        <!--                    <div class="row">-->
+                        <!--                        <div class="col-md-4">-->
+                        <!--                            <div class="planName">Short Term Disability (STD)</div>-->
+                        <!--                        </div>-->
+                        <!--                        <div class="col-md-4"></div>-->
+                        <!--                        <div class="col-md-4">-->
+                        <!--                            <div class="plandates">MM/DD/YYYY - MM/DD/YYYY</div>-->
+                        <!--                        </div>-->
+                        <!--                        <div class="row">-->
+                        <!--                            <div class="col-md-12">-->
+                        <!--                                <div class="planStatus1"></div>-->
+                        <!--                            </div>-->
+                        <!--                        </div>-->
+                        <!--                    </div>-->
+                    </div>
                 </div>
-            </div>
 
-            <h5 style="background-color:lightgrey;">Tasks</h5>
-            <div class="newTasks">
-                <div class="outputTask"><a>Eligibility</a><span class="taskDate"
-                                                                style="padding-left: 25px;"><%= employeeLeaveClaimInfoData['EDate'] %></span></div>
-                <div class="outputTask"><a>Decision</a><span class="taskDate"
-                                                             style="padding-left: 25px;"><%= employeeLeaveClaimInfoData['DDate'] %></span></div>
-                <!-- Trigger the Paperwork modal with a button -->
+                <h5 style="background-color:lightgrey;">Tasks</h5>
+                <div class="newTasks">
+                    <% if (employeeLeaveClaimInfoData['is_EDate_complete'] === 0) { %>
+                        <div class="outputTask"><a>Eligibility</a><span class="taskDate"
+                                                                        style="padding-left: 25px;">
+                        <%= employeeLeaveClaimInfoData['EDate'] %></span>
+                        </div>
+                    <% } %>
+                    <% if (employeeLeaveClaimInfoData['is_DDate_complete'] === 0) { %>
+                        <div class="outputTask"><a>Decision</a><span class="taskDate"
+                                                                     style="padding-left: 25px;">
+                        <%= employeeLeaveClaimInfoData['DDate'] %></span>
+                        </div>
+                    <% } %>
+                    <!-- Trigger the Paperwork modal with a button -->
                     <% include ../partials/paperwork.ejs %>
-                <!-- Trigger the ERTW modal with a button -->
-                <!--<div class="outputTask" data-toggle="modal" data-target="#myModal3"><a>ERTW
-                        Confirmation</a><span class="taskDate" style="padding-left: 25px;">MM/DD/YYYY</span>
-                    &lt;!&ndash; Modal &ndash;&gt;
-                    <div class="modal fade" id="myModal3" role="dialog">
-                        <div class="modal-dialog">
+                    <!-- Trigger the ERTW modal with a button -->
+                    <!--<div class="outputTask" data-toggle="modal" data-target="#myModal3"><a>ERTW
+                            Confirmation</a><span class="taskDate" style="padding-left: 25px;">MM/DD/YYYY</span>
+                        &lt;!&ndash; Modal &ndash;&gt;
+                        <div class="modal fade" id="myModal3" role="dialog">
+                            <div class="modal-dialog">
 
-                            &lt;!&ndash; Modal content&ndash;&gt;
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                    <h4 class="modal-title">Estimated Return To Work Confirmation</h4>
-                                </div>
-                                <br>
-                                <div id="pickManager">
-                                    <form action="">
-                                        <select name="managers" required>
-                                            <option value="All">All Claim Handler</option>
-                                            <option value="Hassan">Hassan</option>
-                                            <option value="Hassan">Emilee</option>
-                                            <option value="Hassan">Carrie</option>
-                                        </select>
-                                </div>
-
-                                <div class="modal-body">
-                                    <p>What is the estimated return to work date?</p>
-                                    <div>
-                                        <input type="date" id="start" name="trip" value="2018-07-22"
-                                               min="1990-01-01" max="2088-12-31" />
-                                    </div>
-                                </div>
-
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-default"
-                                            data-dismiss="modal">Close</button>
-                                    <button type="sumbmit" class="btn btn-default"
-                                            data-dismiss="modal">submit</button>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>-->
-
-                <!-- Trigger the Paperwork modal with a button -->
-                <!--<div class="outputTask" data-toggle="modal" data-target="#myModal4"><a>ARTW
-                        Confirmation</a><span class="taskDate" style="padding-left: 25px;">MM/DD/YYYY</span>
-                    &lt;!&ndash; Modal &ndash;&gt;
-                    <div class="modal fade" id="myModal4" role="dialog">
-                        <div class="modal-dialog">
-
-                            &lt;!&ndash; Modal content&ndash;&gt;
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                    <h4 class="modal-title">Actual Return To Work Confirmation</h4>
-                                </div>
-                                <br>
-                                <div id="pickManager">
-                                    <form action="">
-                                        <select name="managers" required>
-                                            <option value="All">All Claim Handler</option>
-                                            <option value="Hassan">Hassan</option>
-                                            <option value="Hassan">Emilee</option>
-                                            <option value="Hassan">Carrie</option>
-                                        </select>
-                                </div>
-
-                                <div class="modal-body">
-                                    <p>What is the Actual return to work date?</p>
-                                    <div>
-                                        <input type="date" id="start" name="trip" value="2018-07-22"
-                                               min="1990-01-01" max="2088-12-31" />
-                                    </div>
-                                </div>
-
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-default"
-                                            data-dismiss="modal">Close</button>
-                                    <button type="sumbmit" class="btn btn-default"
-                                            data-dismiss="modal">submit</button>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>-->
-            </div>
-            <br><br>
-
-
-            <div id="Datepicker1">
-                <section>
-                    <h5 style="background-color:lightgrey;">Enter Intermittent Usage</h5>
-                    <h6 id="createTasks1" data-toggle="modal" data-target="#intermittentTimeModal"><a href="#">Enter Time</h6>
-                    <div class="modal fade" id="intermittentTimeModal" role="dialog">
-                        <div class="modal-dialog">
-                            <p id="employeeStatus">Status:Active</p>
-
-                            <!-- Modal content-->
-                            <div class="modal-content">
-
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                    <h5 class="modal-title">Enter The Intermittent Time</h5>
-                                </div>
-
-                                <div class="modal-body">
-                                    <div class="form-group" style="color: black; font-size: small;">
-                                        Flare Up: 6/29/2019 - 12/28/2019 <br />
-                                        Parameters: 4 time(s) a month, each time lasting up to 1 day(s)
-                                    </div>
-                                    <div class="form-group" style="color: black; font-size: small;">
-                                        Office Visits: 6/29/2019 - 10/15/2019 <br />
-                                        Parameters: 4 time(s) a month, each time lasting up to 1 day(s)
-                                    </div>
-
-                                    <label>Is this absence a flare up or an office visit?</label>
-                                    <div id="pickIntermittentType">
-                                        <form action="/intyType.php">
-                                            <select name="intType" required>
-                                                <option value="flareUp">Flare Up</option>
-                                                <option value="officeVisit">Office Visit</option>
-                                            </select>
-                                    </div>
-
-                                    <div class="form-group">
-
-                                    </div>
-
-                                    <div class="form-group">
-                                        <div>
-                                            <label for="start">Date Time Used</label>
-                                            <input class="form-control1 input-sm" type="date" id="start" name="trip" value="2018-07-22"
-                                                   min="1990-01-01" max="2088-12-31" />
-                                        </div>
-
-                                        <br>
-
-                                        <label for="FormControlTextarea1">How many hours used? </label>
-                                        <input type="number" class="form-control1 input-sm" id="inputwednesdayRSHours" placeholder="0" required>
-                                    </div>
-
-                                    <label>Is this absence a flare up or an office visit?</label>
-                                    <div id="pickIntermittentStatus">
-                                        <form action="/intyTypeApproval.php">
-                                            <select name="intTypeApproval" required>
-                                                <option value="pendingIntTime">Pending</option>
-                                                <option value="approvedIntTime">Approved</option>
-                                                <option value="deniedIntTime">Denied</option>
-                                            </select>
+                                &lt;!&ndash; Modal content&ndash;&gt;
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <h4 class="modal-title">Estimated Return To Work Confirmation</h4>
                                     </div>
                                     <br>
-                                    <!-- Modal Task Completed Check box-->
-                                    <div class="custom-control custom-checkbox">
-                                        <label for="FormControlTextarea1">Comment on why time was approved/denied</label>
-                                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="4"> </textarea>
+                                    <div id="pickManager">
+                                        <form action="">
+                                            <select name="managers" required>
+                                                <option value="All">All Claim Handler</option>
+                                                <option value="Hassan">Hassan</option>
+                                                <option value="Hassan">Emilee</option>
+                                                <option value="Hassan">Carrie</option>
+                                            </select>
                                     </div>
 
+                                    <div class="modal-body">
+                                        <p>What is the estimated return to work date?</p>
+                                        <div>
+                                            <input type="date" id="start" name="trip" value="2018-07-22"
+                                                   min="1990-01-01" max="2088-12-31" />
+                                        </div>
+                                    </div>
 
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default"
+                                                data-dismiss="modal">Close</button>
+                                        <button type="sumbmit" class="btn btn-default"
+                                                data-dismiss="modal">submit</button>
+                                    </div>
                                 </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                    <button type="sumbmit" class="btn btn-primary" data-dismiss="modal">submit</button>
-                                </div>
+
                             </div>
-
                         </div>
-                    </div>
-                    <article>
-                        <div class="three-calendars"></div>
-                    </article>
-                </section>
-            </div>
+                    </div>-->
+
+                    <!-- Trigger the Paperwork modal with a button -->
+                    <!--<div class="outputTask" data-toggle="modal" data-target="#myModal4"><a>ARTW
+                            Confirmation</a><span class="taskDate" style="padding-left: 25px;">MM/DD/YYYY</span>
+                        &lt;!&ndash; Modal &ndash;&gt;
+                        <div class="modal fade" id="myModal4" role="dialog">
+                            <div class="modal-dialog">
+
+                                &lt;!&ndash; Modal content&ndash;&gt;
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <h4 class="modal-title">Actual Return To Work Confirmation</h4>
+                                    </div>
+                                    <br>
+                                    <div id="pickManager">
+                                        <form action="">
+                                            <select name="managers" required>
+                                                <option value="All">All Claim Handler</option>
+                                                <option value="Hassan">Hassan</option>
+                                                <option value="Hassan">Emilee</option>
+                                                <option value="Hassan">Carrie</option>
+                                            </select>
+                                    </div>
+
+                                    <div class="modal-body">
+                                        <p>What is the Actual return to work date?</p>
+                                        <div>
+                                            <input type="date" id="start" name="trip" value="2018-07-22"
+                                                   min="1990-01-01" max="2088-12-31" />
+                                        </div>
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default"
+                                                data-dismiss="modal">Close</button>
+                                        <button type="sumbmit" class="btn btn-default"
+                                                data-dismiss="modal">submit</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>-->
+                </div>
+                <br><br>
 
 
-            <br><br>
-            <h5>Notifications</h5>
-            <table id="notifications">
-                <tr>
-                    <th>Letter</th>
-                    <th>Contact</th>
-                    <th>Sent By</th>
-                    <th>Date</th>
-                </tr>
+                <div id="Datepicker1">
+                    <section>
+                        <h5 style="background-color:lightgrey;">Enter Intermittent Usage</h5>
+                        <h6 id="createTasks1" data-toggle="modal" data-target="#intermittentTimeModal"><a href="#">Enter
+                                Time</h6>
+                        <div class="modal fade" id="intermittentTimeModal" role="dialog">
+                            <div class="modal-dialog">
+                                <p id="employeeStatus">Status:Active</p>
 
-                <tr id="employeeInfo">
-                    <td id="letterSent">
-                        <a href="#"> Decision</a>
-                    </td>
-                    <td id="employee"><%= employeeLeaveInfoData.employeeName%></td>
-                    <td id="letterSentMethod">Mail, E-Mail</td>
-                    <td id="letterDate">06/25/2018</td>
-                </tr>
-                <tr>
-                    <td id="letterSent">
-                        <a href="#">Decision</a>
-                    </td>
-                    <td id="supervisor"><%= employeeLeaveInfoData.supervisorContactName%></td>
-                    <td id="letterSentMethod">E-Mail</td>
-                    <td id="letterDate">06/25/2018</td>
-                </tr>
-                <tr id="employeeInfo">
-                    <td id="letterSent">
-                        <a href="#">Eligibility</a>
-                    </td>
-                    <td id="employee"><%= employeeLeaveInfoData.employeeName%></td>
-                    <td id="letterSentMethod">Mail, E-Mail</td>
-                    <td id="letterDate">06/25/2018</td>
-                </tr>
-                <tr>
-                    <td id="letterSent">
-                        <a href="#">Eligibility</a>
-                    </td>
-                    <td id="supervisor"><%= employeeLeaveInfoData.supervisorContactName%></td>
-                    <td id="letterSentMethod">E-Mail</td>
-                    <td id="letterDate">06/25/2018</td>
-                </tr>
+                                <!-- Modal content-->
+                                <div class="modal-content">
 
-            </table>
-            <br>
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <h5 class="modal-title">Enter The Intermittent Time</h5>
+                                    </div>
+
+                                    <div class="modal-body">
+                                        <div class="form-group" style="color: black; font-size: small;">
+                                            Flare Up: 6/29/2019 - 12/28/2019 <br/>
+                                            Parameters: 4 time(s) a month, each time lasting up to 1 day(s)
+                                        </div>
+                                        <div class="form-group" style="color: black; font-size: small;">
+                                            Office Visits: 6/29/2019 - 10/15/2019 <br/>
+                                            Parameters: 4 time(s) a month, each time lasting up to 1 day(s)
+                                        </div>
+
+                                        <label>Is this absence a flare up or an office visit?</label>
+                                        <div id="pickIntermittentType">
+                                            <form action="/intyType.php">
+                                                <select name="intType" required>
+                                                    <option value="flareUp">Flare Up</option>
+                                                    <option value="officeVisit">Office Visit</option>
+                                                </select>
+                                        </div>
+
+                                        <div class="form-group">
+
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div>
+                                                <label for="start">Date Time Used</label>
+                                                <input class="form-control1 input-sm" type="date" id="start" name="trip"
+                                                       value="2018-07-22"
+                                                       min="1990-01-01" max="2088-12-31"/>
+                                            </div>
+
+                                            <br>
+
+                                            <label for="FormControlTextarea1">How many hours used? </label>
+                                            <input type="number" class="form-control1 input-sm"
+                                                   id="inputwednesdayRSHours" placeholder="0" required>
+                                        </div>
+
+                                        <label>Is this absence a flare up or an office visit?</label>
+                                        <div id="pickIntermittentStatus">
+                                            <form action="/intyTypeApproval.php">
+                                                <select name="intTypeApproval" required>
+                                                    <option value="pendingIntTime">Pending</option>
+                                                    <option value="approvedIntTime">Approved</option>
+                                                    <option value="deniedIntTime">Denied</option>
+                                                </select>
+                                        </div>
+                                        <br>
+                                        <!-- Modal Task Completed Check box-->
+                                        <div class="custom-control custom-checkbox">
+                                            <label for="FormControlTextarea1">Comment on why time was
+                                                approved/denied</label>
+                                            <textarea class="form-control" id="exampleFormControlTextarea1"
+                                                      rows="4"> </textarea>
+                                        </div>
+
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close
+                                        </button>
+                                        <button type="sumbmit" class="btn btn-primary" data-dismiss="modal">submit
+                                        </button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <article>
+                            <div class="three-calendars"></div>
+                        </article>
+                    </section>
+                </div>
+
+
+                <br><br>
+                <h5>Notifications</h5>
+                <table id="notifications">
+                    <tr>
+                        <th>Letter</th>
+                        <th>Contact</th>
+                        <th>Sent By</th>
+                        <th>Date</th>
+                    </tr>
+
+                    <tr id="employeeInfo">
+                        <td id="letterSent">
+                            <a href="#"> Decision</a>
+                        </td>
+                        <td id="employee"><%= employeeLeaveInfoData.employeeName %></td>
+                        <td id="letterSentMethod">Mail, E-Mail</td>
+                        <td id="letterDate">06/25/2018</td>
+                    </tr>
+                    <tr>
+                        <td id="letterSent">
+                            <a href="#">Decision</a>
+                        </td>
+                        <td id="supervisor"><%= employeeLeaveInfoData.supervisorContactName %></td>
+                        <td id="letterSentMethod">E-Mail</td>
+                        <td id="letterDate">06/25/2018</td>
+                    </tr>
+                    <tr id="employeeInfo">
+                        <td id="letterSent">
+                            <a href="#">Eligibility</a>
+                        </td>
+                        <td id="employee"><%= employeeLeaveInfoData.employeeName %></td>
+                        <td id="letterSentMethod">Mail, E-Mail</td>
+                        <td id="letterDate">06/25/2018</td>
+                    </tr>
+                    <tr>
+                        <td id="letterSent">
+                            <a href="#">Eligibility</a>
+                        </td>
+                        <td id="supervisor"><%= employeeLeaveInfoData.supervisorContactName %></td>
+                        <td id="letterSentMethod">E-Mail</td>
+                        <td id="letterDate">06/25/2018</td>
+                    </tr>
+
+                </table>
+                <br>
                 <button class="upload-btn-wrapper" type="submit" class="btn btn-primary"
                         type="file">Attach Paperwork
                     <input type="file" name="file" id="uploadPaperWorkFile"/>
@@ -358,31 +374,29 @@
                 </div>
 
 
+            </div>
 
 
-        </div>
+            <div class="col-sm-2 sidenav2">
+                <% include ../partials/employeeinfo.ejs %>
 
+                <div class="noteArea"></div>
 
-        <div class="col-sm-2 sidenav2">
-            <% include ../partials/employeeinfo.ejs %>
+                <br>
 
-            <div class="noteArea"></div>
+                <% include ../partials/employeecontactlist.ejs %>
 
-            <br>
-
-            <% include ../partials/employeecontactlist.ejs %>
-
-            <div class="well">
-                <p id="updateClaimNumber">Leave ID: 2019000001</p>
-                <p id="dateOpened">Date Opened: 00/00/0000</p>
-                <p id="employeePhoneNumber">Return Date: 00/00/0000 </p>
-                <p id="employeeGender">Gender:</p>
-                <p id="dateClosed">Date Closed:00/00/0000</p>
-                <p id="leaveStatus">Status:Opened</p>
+                <div class="well">
+                    <p id="updateClaimNumber">Leave ID: 2019000001</p>
+                    <p id="dateOpened">Date Opened: 00/00/0000</p>
+                    <p id="employeePhoneNumber">Return Date: 00/00/0000 </p>
+                    <p id="employeeGender">Gender:</p>
+                    <p id="dateClosed">Date Closed:00/00/0000</p>
+                    <p id="leaveStatus">Status:Opened</p>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
 </body>
 <% include ../partials/footer %>
@@ -391,30 +405,30 @@
 <script>
   addEventListener('DOMContentLoaded', function () {
     pickmeup('.single', {
-      flat : true
+      flat: true
     });
     pickmeup('.multiple', {
-      flat : true,
-      mode : 'multiple'
+      flat: true,
+      mode: 'multiple'
     });
     pickmeup('.range', {
-      flat : true,
-      mode : 'range'
+      flat: true,
+      mode: 'range'
     });
     var plus_5_days = new Date;
     plus_5_days.setDate(plus_5_days.getDate() + 5);
     pickmeup('.three-calendars', {
-      flat      : true,
-      date      : [
+      flat: true,
+      date: [
         new Date,
         plus_5_days
       ],
-      mode      : 'range',
-      calendars : 3
+      mode: 'range',
+      calendars: 3
     });
     pickmeup('input', {
-      position       : 'right',
-      hide_on_select : true
+      position: 'right',
+      hide_on_select: true
     });
   });
 

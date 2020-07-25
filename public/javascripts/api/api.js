@@ -427,11 +427,8 @@ $('#leaveSubmit').on('click', function (e) {
     leaveTypeInfo: leaveTypeInfo,
     leaveEligibilityList: leaveEligibilityList
   };
-  leaveProviderInfo = (JSON.parse(leaveProviderInfo));
-  let redirectURL = 'searchemployee';
-  if (leaveProviderInfo['leave_info_id'] !== undefined) {
-    redirectURL = "claim"+leaveProviderInfo['leaveType'] + "\\" + leaveProviderInfo['leave_info_id'];
-  }
+
+
   // requireData=JSON.parse(requireData)
   // console.log(requireData)
   $.ajax({
@@ -447,7 +444,10 @@ $('#leaveSubmit').on('click', function (e) {
       deleteCookie('leaveProviderInfo');
       deleteCookie('leaveTypeInfo');
       deleteCookie('leaveEligibilityList');
-      window.location.href = windowLocation.origin + '/' + redirectURL;
+      if (result.status === true) {
+        let redirectURL = "claim" + result.data.leave_type + "\\" + result.data.leave_id;
+        window.location.href = windowLocation.origin + '/' + redirectURL;
+      }
     },
     error: result => {
       console.log(result)

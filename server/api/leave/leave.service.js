@@ -50,6 +50,7 @@ let addAllDataService = async (request) => {
     debug("leave.service -> addAllDataService");
     let data = common.cloneObject(request.body);
     debug("all data", common.cloneObject(data));
+    let userId = request.session.userInfo.userId;
     let employeeInfo = common.cloneObject(data['employeeInfo']);
     let locationInfo = common.cloneObject(data['locationInfo']);
     let leaveReasonInfo = common.cloneObject(data['leaveReasonInfo']);
@@ -59,6 +60,9 @@ let addAllDataService = async (request) => {
     let empId = JSON.parse(data['employeeInfo'])['empId'] || 0;
     let locationId = JSON.parse(data['locationInfo'])['empId'] || 0;
     let leaveInfoId = JSON.parse(leaveProviderInfo)['leave_info_id'] || 0;
+    let leaveType;
+    leaveTypeInfo = JSON.parse(leaveTypeInfo);
+    leaveType = leaveTypeInfo['leaveType'];
     if (empId === 0) {
       let employeeInfoResult = await leaveDAL.addEmployeeDetail(employeeInfo);
 
@@ -81,7 +85,7 @@ let addAllDataService = async (request) => {
       }
       let addLeaveResult = await leaveDAL.addEmployeeLeave(leaveEligibilityList, empId, leaveInfoId, 'add');
       leaveReasonInfo = JSON.parse(leaveReasonInfo);
-      leaveTypeInfo = JSON.parse(leaveTypeInfo);
+
       leaveProviderInfo = JSON.parse(leaveProviderInfo);
 
       let leaveChronologyData1 = {
@@ -128,6 +132,14 @@ let addAllDataService = async (request) => {
       let removeLeaveResult = await leaveDAL.removeEmployeeLeave(leaveInfoId);
 // let getLeaveEligibility = await leaveDAL.get
       let editLeaveResult = await leaveDAL.addEmployeeLeave(leaveEligibilityList, empId, leaveInfoId, 'edit');
+      let fieldValueUpdate = [{
+        field: 'E_userId',
+        fValue: userId
+      }, {
+        field: 'EDate',
+        fValue: d3.timeFormat(dbDateFormatDOB)(new Date())
+      }];
+      await leaveDAL.editLeaveInfoByLeaveInfoId(leaveInfoId, fieldValueUpdate);
     }
     let employeeAndLeaveInfo = await leaveDAL.getEmployeeAndLeaveInfoByLeaveInfoId(leaveInfoId);
     let employeeLeaveProviderInfo = await leaveDAL.getEmployeeLeaveEligibilityByLeaveInfoId(leaveInfoId);
@@ -148,8 +160,7 @@ let addAllDataService = async (request) => {
         debug(result);
       });
     }
-
-    return {status: true, data: {}}
+    return {status: true, data: {leave_id: leaveInfoId, leave_type: leaveType}}
   }
 ;
 
@@ -246,7 +257,7 @@ let getEmployeeLeaveClaimInfoService = async (request) => {
         planStatus: employeeLeavePlanStatusByClaimNumberResult.content,
         paperWorkReview: employeePaperWorkReviewResult.content,
         paperWorkReviewDocument: employeePaperWorkReviewDocumentResult.content,
-        taskList:employeeTaskListByClaimNumberResult.content
+        taskList: employeeTaskListByClaimNumberResult.content
       }
     }
   } else {
@@ -326,22 +337,14 @@ let addLeaveDeterminationDecisionService = async (request) => {
     let cdata = {
       start_date: common.getDateInUSFormat(startDate),
       end_date: common.getDateInUSFormat(endDate),
-      date:common.getDateInUSFormat(dueDate)
+      date: common.getDateInUSFormat(dueDate)
     };
-    if(employeeAndLeaveInfo.content[0]['leave_type_of_leave'] === 'reducedschedule'){
+    if (employeeAndLeaveInfo.content[0]['leave_type_of_leave'] === 'reducedschedule') {
       let addLeaveChronology = leaveDAL.addLeaveChronology('', 15, leaveInfoId, JSON.stringify(cdata), userId);
     } else {
       let addLeaveChronology = leaveDAL.addLeaveChronology('', 11, leaveInfoId, JSON.stringify(cdata), userId);
     }
-    let fieldValueUpdate = [{
-      field: 'D_userId',
-      fValue: userId
-    }, {
-      field: 'DDate',
-      fValue: dueDate
-    }]
 
-    let result = await leaveDAL.editLeaveInfoByLeaveInfoId(leaveInfoId, fieldValueUpdate);
   }
   if (leaveTypeStatus === 'denied') {
     let employeeLeaveProviderInfo = await leaveDAL.getEmployeeLeaveEligibilityByLeaveInfoId(leaveInfoId);
@@ -383,8 +386,15 @@ let addLeaveDeterminationDecisionService = async (request) => {
     }
 
   }
+  let fieldValueUpdate = [{
+    field: 'D_userId',
+    fValue: userId
+  }, {
+    field: 'DDate',
+    fValue: d3.timeFormat(dbDateFormatDOB)(new Date())
+  }];
+  await leaveDAL.editLeaveInfoByLeaveInfoId(leaveInfoId, fieldValueUpdate);
   return {status: true, data: constant.leaveMessages.MSG_LEAVE_DETERMINATION_DECISION_ADDED_SUCCESSFULLY};
-
 };
 
 /**
@@ -574,6 +584,7 @@ let returnToWorkConfirmationService = async (request) => {
  */
 let paperWorkReviewService = async (request) => {
   debug("leave.service -> paperWorkReviewService");
+  let userId = request.session.userInfo.userId;
   let leaveInfoId = request.body.leaveInfoId;
   let paperWorkDataSelected = (request.body.paperWorkDataSelected).split(",");
   let paperWorkDataUnSelected = (request.body.paperWorkDataUnSelected).split(",");
@@ -590,6 +601,15 @@ let paperWorkReviewService = async (request) => {
   });
   await leaveDAL.removePaperWorkReviewByLeaveInfoId(leaveInfoId);
   await leaveDAL.addPaperWorkReview(addValueArray);
+  let date = d3.timeFormat(dbDateFormatDOB)(new Date())
+  let fieldValueUpdate = [{
+    field: 'PR_userId',
+    fValue: userId
+  }, {
+    field: 'PRDate',
+    fValue: date
+  }]
+  await leaveDAL.editLeaveInfoByLeaveInfoId(leaveInfoId, fieldValueUpdate);
 
   return {
     status: true,

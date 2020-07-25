@@ -10,7 +10,7 @@
 <input type="hidden" name="leaveInfoId" id="leaveInfoId" value="<%= employeeLeaveClaimInfoData.leave_info_id %>">
 <input type="hidden" name="userId" id="userId" value="<%= userId %>">
 <div class="container">
-<% include ../partials/topnav %>
+    <% include ../partials/topnav %>
     <div class="container-fluid text-center">
 
         <div class="row content">
@@ -51,7 +51,8 @@
                                     <div class="modal-content ">
                                         <div class="modal-header">
                                             <button type="button" class="close"
-                                                    data-dismiss="modal">&times;</button>
+                                                    data-dismiss="modal">&times;
+                                            </button>
                                             <p class="modal-title">Leave Notes</p>
                                             <br>
                                             <a href="" data-toggle="modal" data-target="#newNoteModal2"><i
@@ -95,13 +96,13 @@
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-default"
-                                                    data-dismiss="modal">Close</button>
+                                                    data-dismiss="modal">Close
+                                            </button>
                                         </div>
                                     </div>
 
                                 </div>
                             </div>
-
 
 
                             <!-- Modal -->
@@ -112,7 +113,8 @@
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <button type="button" class="close"
-                                                    data-dismiss="modal">&times;</button>
+                                                    data-dismiss="modal">&times;
+                                            </button>
                                             <h4 class="modal-title">Create A New Note</h4>
                                         </div>
                                         <div class="form-group">
@@ -123,9 +125,11 @@
 
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-default"
-                                                    data-dismiss="modal">Close</button>
+                                                    data-dismiss="modal">Close
+                                            </button>
                                             <button type="sumbmit" class="btn btn-success"
-                                                    data-dismiss="modal">Save</button>
+                                                    data-dismiss="modal">Save
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -164,7 +168,7 @@
                                     <div>
                                         <label for="start">Task Due Date</label>
                                         <input class="form-control1 input-sm" type="date" id="start" name="trip"
-                                               value="2018-07-22" min="1990-01-01" max="2088-12-31" />
+                                               value="2018-07-22" min="1990-01-01" max="2088-12-31"/>
                                     </div>
 
                                 </div>
@@ -187,15 +191,18 @@
                             <!-- Modal Task Completed Check box -->
                             <div class="row taskcheckoff">
                                 <div class="col-md-12">
-                                    <input type="checkbox" class="taskCheckBox">Task Completed</div>
+                                    <input type="checkbox" class="taskCheckBox">Task Completed
+                                </div>
                             </div>
 
                             <div class="row>">
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-default"
-                                            data-dismiss="modal">Close</button>
+                                            data-dismiss="modal">Close
+                                    </button>
                                     <button type="sumbmit" class="btn btn-default"
-                                            data-dismiss="modal">submit</button>
+                                            data-dismiss="modal">submit
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -206,7 +213,8 @@
             </tr>
             <td id="leaveType"><%= employeeLeaveClaimInfoData.leave_type %></td>
             <td id="leaveReasonCode"><%= employeeLeaveClaimInfoData.leave_reason %></td>
-            <td id="leaveDates"><%= employeeLeaveClaimInfoData.from_date %> - <%= employeeLeaveClaimInfoData.to_date %></td>
+            <td id="leaveDates"><%= employeeLeaveClaimInfoData.from_date %>
+                - <%= employeeLeaveClaimInfoData.to_date %></td>
             <td id="leavePlan"><%= employeeLeaveClaimInfoData.leave_name %> </td>
             </table>
 
@@ -243,54 +251,61 @@
             <div class="claimStatus">
                 <div class="well">
                     <% planStatus.forEach(function(data) { %>
-                    <div class="row">
-                        <div class="col-md-6 ">
-                            <div class="planName"><%= data['leave_name'] %></div>
-                        </div>
-                        <div class="col-md-4"></div>
-                        <div class="col-md-4">
-                            <div class="plandates"><%= data['from_date'] %> - <%= data['to_date'] %></div>
-                        </div>
                         <div class="row">
-                            <div class="col-md-12">
-                                <div class="<%= employeeLeaveClaimInfoData.leave_type_status %>"></div>
+                            <div class="col-md-6 ">
+                                <div class="planName"><%= data['leave_name'] %></div>
+                            </div>
+                            <div class="col-md-4"></div>
+                            <div class="col-md-4">
+                                <div class="plandates"><%= data['from_date'] %> - <%= data['to_date'] %></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="<%= employeeLeaveClaimInfoData.leave_type_status %>"></div>
+                                </div>
                             </div>
                         </div>
-                    </div>
                         <br><br>
-                        <% }); %>
-<!--                    <br><br>-->
-<!--                    <div class="row">-->
-<!--                        <div class="col-md-4">-->
-<!--                            <div class="planName">Short Term Disability (STD)</div>-->
-<!--                        </div>-->
-<!--                        <div class="col-md-4"></div>-->
-<!--                        <div class="col-md-4">-->
-<!--                            <div class="plandates">MM/DD/YYYY - MM/DD/YYYY</div>-->
-<!--                        </div>-->
-<!--                        <div class="row">-->
-<!--                            <div class="col-md-12">-->
-<!--                                <div class="planStatus1"></div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
+                    <% }); %>
+                    <!--                    <br><br>-->
+                    <!--                    <div class="row">-->
+                    <!--                        <div class="col-md-4">-->
+                    <!--                            <div class="planName">Short Term Disability (STD)</div>-->
+                    <!--                        </div>-->
+                    <!--                        <div class="col-md-4"></div>-->
+                    <!--                        <div class="col-md-4">-->
+                    <!--                            <div class="plandates">MM/DD/YYYY - MM/DD/YYYY</div>-->
+                    <!--                        </div>-->
+                    <!--                        <div class="row">-->
+                    <!--                            <div class="col-md-12">-->
+                    <!--                                <div class="planStatus1"></div>-->
+                    <!--                            </div>-->
+                    <!--                        </div>-->
+                    <!--                    </div>-->
                 </div>
             </div>
 
             <h5 style="background-color:lightgrey;">Tasks</h5>
             <div class="newTasks">
-                <div class="outputTask"><a>Eligibility</a><span class="taskDate"
-                                                                style="padding-left: 25px;">MM/DD/YYYY</span></div>
-                <div class="outputTask"><a>Decision</a><span class="taskDate"
-                                                             style="padding-left: 25px;">MM/DD/YYYY</span></div>
+                <% if (employeeLeaveClaimInfoData['is_EDate_complete'] === 0) { %>
+                    <div class="outputTask"><a>Eligibility</a><span class="taskDate"
+                                                                    style="padding-left: 25px;"><%= employeeLeaveClaimInfoData['EDate'] %></span>
+                    </div>
+                <% } %>
+                <% if (employeeLeaveClaimInfoData['is_DDate_complete'] === 0) { %>
+                    <div class="outputTask"><a>Decision</a><span class="taskDate"
+                                                                 style="padding-left: 25px;"><%= employeeLeaveClaimInfoData['DDate'] %></span>
+                    </div>
+                <% } %>
                 <!-- Trigger the Paperwork modal with a button -->
-                <div class="outputTask" data-toggle="modal" data-target="#myModal2"><a>Paperwork Review</a><span
+                <% include ../partials/paperwork.ejs %>
+                <!--<div class="outputTask" data-toggle="modal" data-target="#myModal2"><a>Paperwork Review</a><span
                             class="taskDate" style="padding-left: 25px;">MM/DD/YYYY</span>
-                    <!-- Modal -->
+                    &lt;!&ndash; Modal &ndash;&gt;
                     <div class="modal fade" id="myModal2" role="dialog">
                         <div class="modal-dialog">
 
-                            <!-- Modal content-->
+                            &lt;!&ndash; Modal content&ndash;&gt;
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -307,7 +322,7 @@
 
                         </div>
                     </div>
-                </div>
+                </div>-->
                 <!-- Trigger the ERTW modal with a button -->
                 <!--<div class="outputTask" data-toggle="modal" data-target="#myModal3"><a>ERTW
                         Confirmation</a><span class="taskDate" style="padding-left: 25px;">MM/DD/YYYY</span>
@@ -423,7 +438,7 @@
                     <td id="letterSent">
                         <a href="#"> Decision</a>
                     </td>
-                    <td id="employee"><%= employeeLeaveInfoData.employeeName%></td>
+                    <td id="employee"><%= employeeLeaveInfoData.employeeName %></td>
                     <td id="letterSentMethod">Mail, E-Mail</td>
                     <td id="letterDate">06/25/2018</td>
                 </tr>
@@ -431,7 +446,7 @@
                     <td id="letterSent">
                         <a href="#">Decision</a>
                     </td>
-                    <td id="supervisor"><%= employeeLeaveInfoData.supervisorContactName%></td>
+                    <td id="supervisor"><%= employeeLeaveInfoData.supervisorContactName %></td>
                     <td id="letterSentMethod">E-Mail</td>
                     <td id="letterDate">06/25/2018</td>
                 </tr>
@@ -439,7 +454,7 @@
                     <td id="letterSent">
                         <a href="#">Eligibility</a>
                     </td>
-                    <td id="employee"><%= employeeLeaveInfoData.employeeName%></td>
+                    <td id="employee"><%= employeeLeaveInfoData.employeeName %></td>
                     <td id="letterSentMethod">Mail, E-Mail</td>
                     <td id="letterDate">06/25/2018</td>
                 </tr>
@@ -447,7 +462,7 @@
                     <td id="letterSent">
                         <a href="#">Eligibility</a>
                     </td>
-                    <td id="supervisor"><%= employeeLeaveInfoData.supervisorContactName%></td>
+                    <td id="supervisor"><%= employeeLeaveInfoData.supervisorContactName %></td>
                     <td id="letterSentMethod">E-Mail</td>
                     <td id="letterDate">06/25/2018</td>
                 </tr>
@@ -468,8 +483,6 @@
                     </div>
                 <% }); %>
             </div>
-
-
 
 
         </div>
