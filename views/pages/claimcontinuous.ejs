@@ -89,8 +89,19 @@
                                     <div class="plandates"><%= data['from_date'] %> - <%= data['to_date'] %></div>
                                 </div>
                                 <div class="row">
+                                    <% var isPlanStatusMet = true; %>
+                                    <% JSON.parse(data['eligibility']).forEach(eliData => {
+                                        if (eliData.value !== "met") {
+                                            isPlanStatusMet = false;
+                                        }
+                                    }) %>
                                     <div class="col-md-12">
-                                        <div class="<%= employeeLeaveClaimInfoData.leave_type_status %>"></div>
+                                        <% if(isPlanStatusMet === true) { %>
+                                            <div class="<%= employeeLeaveClaimInfoData.leave_type_status %>"></div>
+                                        <% } else { %>
+                                            <div class="notapplicable"></div>
+                                        <% } %>
+
                                     </div>
                                 </div>
                             </div>

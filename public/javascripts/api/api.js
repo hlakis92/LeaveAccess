@@ -13,6 +13,8 @@ let addLeaveDeterminationDecisionURL = windowLocation.origin + '/api/leave/add-l
 let returnToWorkConfirmationURL = windowLocation.origin + '/api/leave/return-to-work-confirmation';
 let paperWorkReviewURL = windowLocation.origin + '/api/leave/paper-work-review';
 let intermittentParameterURL = windowLocation.origin + '/api/leave/intermittent-parameter';
+let intermittentTimeURL = windowLocation.origin + '/api/leave/intermittent-time';
+let getIntermittentTimeURL = windowLocation.origin + '/api/leave/get-intermittent-time';
 let uploadMediaURL = windowLocation.origin + '/api/media/upload';
 
 
@@ -611,6 +613,38 @@ $('#intermittentParameterButton').on('click', function (e) {
   });
 });
 
+$('#intermittentTimeSubmitButton').on('click', function (e) {
+  let data = {
+    leaveInfoId: $("#leaveInfoId").val(),
+    param: $("#intermittentParam").val(),
+    date: $("#datePick").val(),
+    hours: $("#hoursUsed").val(),
+    status: $("#statusSelect").val(),
+    comment: $("#commentText").val() || "",
+  };
+  $.ajax({
+    type: 'POST',
+    url: intermittentTimeURL,
+    dataType: "json",
+    data: data,
+    beforeSend: function (xhr) {
+      if ($("#datePick").val() == "") {
+        return false
+      } else {
+        e.preventDefault();
+        $("#intermittentTimeModal").trigger("click");
+      }
+    },
+    success: result => {
+      console.log(result);
+      alert_message(result.data.message, "success");
+    },
+    error: result => {
+      console.log(result)
+    }
+  });
+});
+
 $('#paperWorkReviewButton').on('click', function (e) {
   let paperWorkDataSelected = [];
   let paperWorkDataUnSelected = [];
@@ -690,6 +724,37 @@ function uploadMedia(event) {
       alert_message(textStatus, "fail");
     });
   }
+}
+
+function getIntermittentTime() {
+  let leaveInfoId = $("#leaveInfoId").val();
+  let date = $("#selectedDate").val();
+  $.ajax({
+    type: 'GET',
+    url: getIntermittentTimeURL + "/" + leaveInfoId + "/" + date,
+    dataType: "json",
+    success: result => {
+      console.log(result);
+      if (result.status === true) {
+        $("#intermittentParam").val(result.data.param);
+        $("#datePick").val(result.data.date);
+        $("#hoursUsed").val(result.data.hours);
+        $("#statusSelect").val(result.data.status);
+        $("#commentText").text(result.data.comment);
+      } else {
+        $("#intermittentParam").val("flareUp");
+        $("#datePick").val("");
+        $("#hoursUsed").val(0);
+        $("#statusSelect").val("pendingIntTime");
+        $("#commentText").text("");
+      }
+
+      // alert_message(result.data.message, "success");
+    },
+    error: result => {
+      console.log(result)
+    }
+  });
 }
 
 

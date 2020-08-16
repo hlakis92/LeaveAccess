@@ -115,6 +115,9 @@
                                     <% if(employeeLeaveClaimInfoData['leave_type'] === 'intermittent') { %>
                                             data-toggle="modal" data-target="#myModal"
                                             <% } %>
+                                    <% if(employeeLeaveClaimInfoData['leave_type'] === 'reducedschedule') { %>
+                                            data-toggle="modal" data-target="#myModal1"
+                                            <% } %>
                                     >Submit >
                                     </button>
                                 </div>
@@ -127,7 +130,8 @@
 
                                             <div class="modal-header">
                                                 <button type="button" class="close"
-                                                        data-dismiss="modal" id="intermittentParameterModelClose">&times;
+                                                        data-dismiss="modal"
+                                                        id="intermittentParameterModelClose">&times;
                                                 </button>
                                                 <h5 class="modal-title">Enter Parameters</h5>
                                             </div>
@@ -169,6 +173,73 @@
                                                 <button type="sumbmit" class="btn btn-default"
                                                         data-dismiss="modal" id="intermittentParameterButton">submit
                                                 </button>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="modal fade" id="myModal1" role="dialog">
+                                    <div class="modal-dialog">
+                                        <p id="employeeStatus">Status:Active</p>
+
+                                        <!-- Modal content-->
+                                        <div class="modal-content">
+
+                                            <div class="modal-header">
+                                                <button type="button" class="close"
+                                                        id="reducedWorkScheduleClose"
+                                                        data-dismiss="modal">&times;</button>
+                                                <h5 class="modal-title">Enter Reduced Work Schedule</h5>
+                                            </div>
+
+                                            <div class="modal-body">
+                                                <br>
+
+                                                <table id="notifications">
+                                                    <tr>
+                                                        <th>Sunday</th>
+                                                        <th>Monday</th>
+                                                        <th>Tuesday</th>
+                                                        <th>Wednesday</th>
+                                                        <th>Thursday</th>
+                                                        <th>Friday</th>
+                                                        <th>Saturday</th>
+                                                    </tr>
+
+                                                    <tr id="reducedWS">
+                                                        <label for="inputreducedWS">Enter Value for 1/1/2019 - 3/3/2019</label>
+
+                                                        <td id="sundayRSHours"><input type="number" class="form-control"
+                                                                                      id="inputsundayRSHours" placeholder="0">
+                                                        </td>
+                                                        <td id="mondayRSHours"><input type="number" class="form-control"
+                                                                                      id="inputmondayRSHours" placeholder="0">
+                                                        </td>
+                                                        <td id="tuesdayRSHours"><input type="number" class="form-control"
+                                                                                       id="inputtuesdayRSHours" placeholder="0">
+                                                        </td>
+                                                        <td id="wednesdayRSHours"><input type="number" class="form-control"
+                                                                                         id="inputwednesdayRSHours" placeholder="0">
+                                                        </td>
+                                                        <td id="thursdayRSHours"><input type="number" class="form-control"
+                                                                                        id="inputthursdayRSHours" placeholder="0">
+                                                        </td>
+                                                        <td id="fridayRSHours"><input type="number" class="form-control"
+                                                                                      id="inputfridayRSHours" placeholder="0">
+                                                        </td>
+                                                        <td id="SaturdayRSHours"><input type="number" class="form-control"
+                                                                                        id="inputSaturdayRSHours" placeholder="0">
+                                                        </td>
+                                                    </tr>
+                                                </table>
+
+                                            </div>
+
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default"
+                                                        data-dismiss="modal">Close</button>
+                                                <button type="sumbmit" class="btn btn-default"
+                                                        data-dismiss="modal">submit</button>
                                             </div>
                                         </div>
 

@@ -17,6 +17,8 @@ router.post('/sync-data', controller.syncData);
 router.post('/return-to-work-confirmation', controller.returnToWorkConfirmation);
 router.post('/paper-work-review', controller.paperWorkReview);
 router.post('/intermittent-parameter', controller.intermittentParameter);
+router.post('/intermittent-time', controller.intermittentTime);
+router.get('/get-intermittent-time/:leaveInfoId/:date', controller.getIntermittentTime);
 
 
 

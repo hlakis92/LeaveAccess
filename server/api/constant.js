@@ -160,8 +160,12 @@ let leaveMessages = {
     message: 'Leave determination decision added successfully'
   },
   MSG_LEAVE_INTERMITTENT_PARAMETER_ADDED_SUCCESSFULLY:{
-    code: 4004,
+    code: 4005,
     message: 'Leave intermittent parameter added successfully'
+  },
+  MSG_LEAVE_INTERMITTENT_TIME_ADDED_SUCCESSFULLY:{
+    code: 4006,
+    message: 'Leave intermittent time added successfully'
   }
 };
 

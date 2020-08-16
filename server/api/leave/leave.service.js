@@ -673,6 +673,68 @@ let intermittentParameterService = async (request) => {
   }
 };
 
+/**
+ * Created By: AV
+ * Updated By: AV
+ *
+ *
+ *
+ * @param  {object}  request
+ * @return {object}
+ *
+ */
+let intermittentTimeService = async (request) => {
+  debug("leave.service -> intermittentTimeService");
+  let userId = request.session.userInfo.userId;
+  let leaveInfoId = request.body.leaveInfoId;
+  let param = request.body.param;
+  let date = request.body.date;
+  let hours = request.body.hours;
+  let status = request.body.status;
+  let comment = request.body.comment;
+
+  await leaveDAL.removeIntermittentTimeByLeveInfoIdAndDate(leaveInfoId, date);
+  await leaveDAL.addIntermittentTime([leaveInfoId, param, date, hours, status, comment]);
+
+  return {
+    status: true,
+    data: constant.leaveMessages.MSG_LEAVE_INTERMITTENT_TIME_ADDED_SUCCESSFULLY
+  }
+};
+
+/**
+ * Created By: AV
+ * Updated By: AV
+ *
+ *
+ *
+ * @param  {object}  request
+ * @return {object}
+ *
+ */
+let getIntermittentTimeService = async (request) => {
+  debug("leave.service -> getIntermittentTimeService");
+  let userId = request.session.userInfo.userId;
+  let leaveInfoId = request.params.leaveInfoId;
+  let date = request.params.date;
+
+  let result = await leaveDAL.getIntermittentTimeByLeveInfoIdAndDate(leaveInfoId, date);
+  debug(".....................", result)
+  if (result.status === true && result.content.length !== 0) {
+    return {
+      status: true,
+      data: result.content[0]
+    }
+  } else {
+    return {
+      status: false,
+      error: constant.leaveMessages.MSG_LEAVE_INTERMITTENT_TIME_ADDED_SUCCESSFULLY
+    }
+  }
+
+
+};
+
 module.exports = {
   checkLeaveEligibilityService: checkLeaveEligibilityService,
   addAllDataService: addAllDataService,
@@ -689,6 +751,8 @@ module.exports = {
   paperWorkReviewService: paperWorkReviewService,
   getLeaveChronologyServiceService: getLeaveChronologyServiceService,
   intermittentParameterService: intermittentParameterService,
+  intermittentTimeService: intermittentTimeService,
+  getIntermittentTimeService: getIntermittentTimeService,
 };
 
 /*async function convertHTMLToPDF(htmlData, fileName) {

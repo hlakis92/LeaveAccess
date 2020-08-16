@@ -10,6 +10,7 @@ let tbl_LeaveChronologyMapping = "tbl_LeaveChronologyMapping";
 let tbl_UserMaster = "tbl_UserMaster";
 let tbl_LeaveChronology = "tbl_LeaveChronology";
 let tbl_tasklist = "tbl_tasklist";
+let tbl_LeaveIntermittentUsage = "tbl_LeaveIntermittentUsage";
 
 let query = {
   /* create user query start */
@@ -387,6 +388,10 @@ let query = {
       field: 'DATE_FORMAT(to_date, "%m/%d/%Y")',
       encloseField: false,
       alias: 'to_date'
+    }, {
+      field: 'eligibility',
+      encloseField: false,
+      alias: 'eligibility'
     }],
     filter: {
       field: 'leaveInfoId',
@@ -793,7 +798,60 @@ let query = {
         value: 0
       }]
     },
-  }
+  },
+  removeIntermittentTimeByLeveInfoIdAndDateQuery: {
+    table: tbl_LeaveIntermittentUsage,
+    delete: [],
+    filter: {
+      and: [{
+        field: 'fk_leaveInfoId',
+        operator: 'EQ',
+        value: ''
+      }, {
+        field: 'date',
+        operator: 'EQ',
+        value: 0
+      }]
+    },
+  },
+  addIntermittentTimeQuery: {
+    table: tbl_LeaveIntermittentUsage,
+    insert: {
+      field: ["fk_leaveInfoId", "param", "date", "hours", "status", "comment"],
+      fValue: []
+    }
+  },
+  getIntermittentTimeByLeveInfoIdAndDateQuery: {
+    table: tbl_LeaveIntermittentUsage,
+    select: [{
+      field: 'param',
+      alias: 'param'
+    }, {
+      field: 'DATE_FORMAT(date, "%Y-%m-%d")',
+      encloseField: false,
+      alias: 'date'
+    }, {
+      field: 'hours',
+      alias: 'hours'
+    }, {
+      field: 'status',
+      alias: 'status'
+    }, {
+      field: 'comment',
+      alias: 'comment'
+    }],
+    filter: {
+      and: [{
+        field: 'fk_leaveInfoId',
+        operator: 'EQ',
+        value: ''
+      }, {
+        field: 'date',
+        operator: 'EQ',
+        value: 0
+      }]
+    },
+  },
 };
 
 module.exports = query;

@@ -71,8 +71,7 @@ let addLeaveInfo = async (leaveReasonInfo, leaveProviderInfo, leaveTypeInfo, emp
   leaveProviderInfo = JSON.parse(leaveProviderInfo);
   try {
     leaveTypeInfo = JSON.parse(leaveTypeInfo);
-  }
-  catch(err) {
+  } catch (err) {
     leaveTypeInfo = leaveTypeInfo;
   }
 
@@ -278,6 +277,29 @@ let getEmployeeTaskListByClaimNumber = async (claimNumber) => {
   return await common.executeQuery(getEmployeeTaskListByClaimNumberQuery);
 };
 
+let removeIntermittentTimeByLeveInfoIdAndDate = async (leaveInfoId, date) => {
+  debug("leave.DAL -> removeIntermittentTimeByLeveInfoIdAndDate");
+  let removeIntermittentTimeByLeveInfoIdAndDateQuery = common.cloneObject(query.removeIntermittentTimeByLeveInfoIdAndDateQuery);
+  removeIntermittentTimeByLeveInfoIdAndDateQuery.filter.and[0].value = leaveInfoId;
+  removeIntermittentTimeByLeveInfoIdAndDateQuery.filter.and[1].value = date;
+  return await common.executeQuery(removeIntermittentTimeByLeveInfoIdAndDateQuery);
+};
+
+let addIntermittentTime = async (data) => {
+  debug("leave.DAL -> removeIntermittentTimeByLeveInfoIdAndDate");
+  let addIntermittentTimeQuery = common.cloneObject(query.addIntermittentTimeQuery);
+  addIntermittentTimeQuery.insert.fValue = data;
+  return await common.executeQuery(addIntermittentTimeQuery);
+};
+
+let getIntermittentTimeByLeveInfoIdAndDate = async (leaveInfoId, date) => {
+  debug("leave.DAL -> getIntermittentTimeByLeveInfoIdAndDate");
+  let removeIntermittentTimeByLeveInfoIdAndDateQuery = common.cloneObject(query.getIntermittentTimeByLeveInfoIdAndDateQuery);
+  removeIntermittentTimeByLeveInfoIdAndDateQuery.filter.and[0].value = leaveInfoId;
+  removeIntermittentTimeByLeveInfoIdAndDateQuery.filter.and[1].value = date;
+  return await common.executeQuery(removeIntermittentTimeByLeveInfoIdAndDateQuery);
+};
+
 module.exports = {
   addEmployeeDetail: addEmployeeDetail,
   addLocationDetail: addLocationDetail,
@@ -306,4 +328,7 @@ module.exports = {
   addLeaveChronology: addLeaveChronology,
   getLeaveChronologyByLeaveInfoId: getLeaveChronologyByLeaveInfoId,
   getEmployeeTaskListByClaimNumber: getEmployeeTaskListByClaimNumber,
+  removeIntermittentTimeByLeveInfoIdAndDate: removeIntermittentTimeByLeveInfoIdAndDate,
+  addIntermittentTime: addIntermittentTime,
+  getIntermittentTimeByLeveInfoIdAndDate: getIntermittentTimeByLeveInfoIdAndDate,
 };

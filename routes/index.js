@@ -269,6 +269,7 @@ router.get('/claimintermittent/:claimNumber', middleware.checkAccessToken, async
   let leaveService = require('./../server/api/leave/leave.service');
   let employeeService = require('./../server/api/employee/employee.service');
   let employeeLeaveClaimInfoResult = await leaveService.getEmployeeLeaveClaimInfoService(req);
+  console.log(employeeLeaveClaimInfoResult);
   req['query'] = {
     empId: employeeLeaveClaimInfoResult.data.employeeInfo['empId']
   }
