@@ -69,7 +69,13 @@ let addLeaveInfo = async (leaveReasonInfo, leaveProviderInfo, leaveTypeInfo, emp
   debug("leave.DAL -> addLeaveInfo");
   leaveReasonInfo = JSON.parse(leaveReasonInfo);
   leaveProviderInfo = JSON.parse(leaveProviderInfo);
-  leaveTypeInfo = JSON.parse(leaveTypeInfo);
+  try {
+    leaveTypeInfo = JSON.parse(leaveTypeInfo);
+  }
+  catch(err) {
+    leaveTypeInfo = leaveTypeInfo;
+  }
+
   let leaveReason = leaveReasonInfo['leaveReason'];
   let familyFirst = leaveProviderInfo['familyFirst'] || 'NULL';
   let familyLast = leaveProviderInfo['familyLast'] || 'NULL';
