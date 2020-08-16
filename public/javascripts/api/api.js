@@ -12,7 +12,9 @@ let editLeaveDecisionURL = windowLocation.origin + '/api/leave/edit-leave-decisi
 let addLeaveDeterminationDecisionURL = windowLocation.origin + '/api/leave/add-leave-determination-decision';
 let returnToWorkConfirmationURL = windowLocation.origin + '/api/leave/return-to-work-confirmation';
 let paperWorkReviewURL = windowLocation.origin + '/api/leave/paper-work-review';
+let intermittentParameterURL = windowLocation.origin + '/api/leave/intermittent-parameter';
 let uploadMediaURL = windowLocation.origin + '/api/media/upload';
+
 
 let getUsersURL = windowLocation.origin + '/api/user';
 
@@ -580,6 +582,35 @@ $('#ARTWModelButton').on('click', function (e) {
   });
 });
 
+$('#intermittentParameterButton').on('click', function (e) {
+  let data = {
+    flareUpsParams: $("#flareUpsParams").val(),
+    officeVisitsParams: $("#officeVisitsParams").val(),
+    leaveInfoId: $("#leaveInfoId").val(),
+  };
+  $.ajax({
+    type: 'POST',
+    url: intermittentParameterURL,
+    dataType: "json",
+    data: data,
+    beforeSend: function (xhr) {
+      if ($("#flareUpsParams").val() == '' || $("#officeVisitsParams").val() == '') {
+        return false
+      } else {
+        e.preventDefault();
+        $("#intermittentParameterModelClose").trigger("click");
+      }
+    },
+    success: result => {
+      console.log(result);
+      alert_message(result.data.message, "success");
+    },
+    error: result => {
+      console.log(result)
+    }
+  });
+});
+
 $('#paperWorkReviewButton').on('click', function (e) {
   let paperWorkDataSelected = [];
   let paperWorkDataUnSelected = [];
@@ -632,9 +663,6 @@ function getFileName(event) {
 $('#UploadPaperWorkDocument').on('click', uploadMedia);
 
 function uploadMedia(event) {
-// debugger;
-
-  // mediaFiles = event.target.files;
   if (mediaFiles != undefined && mediaFiles.length > 0) {
     $('.loaderdiv').show();
     var mediaData = new FormData();

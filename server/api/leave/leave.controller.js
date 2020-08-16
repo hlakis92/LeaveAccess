@@ -159,6 +159,21 @@ let paperWorkReview = async (request, response) => {
   return response.send(result);
 };
 
+/**
+ * Created By: AV
+ * Updated By: AV
+ *
+ *
+ * @param  {object} request
+ * @param  {object} response
+ * @return {object}
+ */
+let intermittentParameter = async (request, response) => {
+  debug("leave.controller -> intermittenParameter");
+  let result = await leaveService.intermittentParameterService(request);
+  return response.send(result);
+};
+
 module.exports = {
   // addEmployee: addEmployee,
   checkLeaveEligibility: checkLeaveEligibility,
@@ -171,4 +186,5 @@ module.exports = {
   syncData: syncData,
   returnToWorkConfirmation: returnToWorkConfirmation,
   paperWorkReview: paperWorkReview,
+  intermittentParameter:intermittentParameter,
 };

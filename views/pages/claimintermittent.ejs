@@ -225,7 +225,7 @@
                     <section>
                         <h5 style="background-color:lightgrey;">Enter Intermittent Usage</h5>
                         <h6 id="createTasks1" data-toggle="modal" data-target="#intermittentTimeModal"><a href="#">Enter
-                                Time</h6>
+                                Time</a></h6>
                         <div class="modal fade" id="intermittentTimeModal" role="dialog">
                             <div class="modal-dialog">
                                 <p id="employeeStatus">Status:Active</p>
@@ -240,11 +240,13 @@
 
                                     <div class="modal-body">
                                         <div class="form-group" style="color: black; font-size: small;">
-                                            Flare Up: 6/29/2019 - 12/28/2019 <br/>
+                                            Flare Up: <%= employeeLeaveClaimInfoData.from_date %>
+                                            - <%= employeeLeaveClaimInfoData.to_date %> <br/>
                                             Parameters: 4 time(s) a month, each time lasting up to 1 day(s)
                                         </div>
                                         <div class="form-group" style="color: black; font-size: small;">
-                                            Office Visits: 6/29/2019 - 10/15/2019 <br/>
+                                            Office Visits: <%= employeeLeaveClaimInfoData.from_date %>
+                                            - <%= employeeLeaveClaimInfoData.to_date %> <br/>
                                             Parameters: 4 time(s) a month, each time lasting up to 1 day(s)
                                         </div>
 
@@ -308,6 +310,8 @@
                         </div>
                         <article>
                             <div class="three-calendars"></div>
+                            <div class="response"></div>
+                            <div id='calendar'></div>
                         </article>
                     </section>
                 </div>
@@ -433,5 +437,84 @@
   });
 
 
+</script>
+<link rel="stylesheet" href="/stylesheets/fullcalendar.min.css" />
+<script src="/javascripts/moment.min.js"></script>
+<script src="/javascripts/fullcalendar.min.js"></script>
+<script>
+  $(document).ready(function () {
+    var calendar = $('#calendar').fullCalendar({
+      editable: true,
+      events: "fetch-event.php",
+      displayEventTime: false,
+      eventRender: function (event, element, view) {
+        if (event.allDay === 'true') {
+          event.allDay = true;
+        } else {
+          event.allDay = false;
+        }
+      },
+      selectable: true,
+      selectHelper: true,
+      select: function (start, end, allDay) {
+        var title = prompt('Event Title:');
+
+        if (title) {
+          var start = $.fullCalendar.formatDate(start, "Y-MM-DD HH:mm:ss");
+          var end = $.fullCalendar.formatDate(end, "Y-MM-DD HH:mm:ss");
+
+          $.ajax({
+            url: 'add-event.php',
+            data: 'title=' + title + '&start=' + start + '&end=' + end,
+            type: "POST",
+            success: function (data) {
+              displayMessage("Added Successfully");
+            }
+          });
+          calendar.fullCalendar('renderEvent',
+            {
+              title: title,
+              start: start,
+              end: end,
+              allDay: allDay
+            },
+            true
+          );
+        }
+        calendar.fullCalendar('unselect');
+      },
+
+      editable: true,
+      eventDrop: function (event, delta) {
+        var start = $.fullCalendar.formatDate(event.start, "Y-MM-DD HH:mm:ss");
+        var end = $.fullCalendar.formatDate(event.end, "Y-MM-DD HH:mm:ss");
+        $.ajax({
+          url: 'edit-event.php',
+          data: 'title=' + event.title + '&start=' + start + '&end=' + end + '&id=' + event.id,
+          type: "POST",
+          success: function (response) {
+            displayMessage("Updated Successfully");
+          }
+        });
+      },
+      eventClick: function (event) {
+        var deleteMsg = confirm("Do you really want to delete?");
+        if (deleteMsg) {
+          $.ajax({
+            type: "POST",
+            url: "delete-event.php",
+            data: "&id=" + event.id,
+            success: function (response) {
+              if(parseInt(response) > 0) {
+                $('#calendar').fullCalendar('removeEvents', event.id);
+                displayMessage("Deleted Successfully");
+              }
+            }
+          });
+        }
+      }
+
+    });
+  });
 </script>
 </html>

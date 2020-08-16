@@ -39,7 +39,7 @@
                         </div>
                         <br><br>
                     <% }); %>
-<!--                    <br><br>-->
+                    <!--                    <br><br>-->
                     <!--<div class="row">
                         <div class="col-md-6">
                             <div class="planName">Short Term Disability (STD)</div>
@@ -111,9 +111,70 @@
                                 </div>
                                 <div class="form-group col-md-3Determination">
                                     <label for="inputEndDate4">Submit Change</label>
-                                    <button type="button" class="btn btn-primary" id="leaveDecisionButton">Submit >
+                                    <button type="button" class="btn btn-primary" id="leaveDecisionButton"
+                                    <% if(employeeLeaveClaimInfoData['leave_type'] === 'intermittent') { %>
+                                            data-toggle="modal" data-target="#myModal"
+                                            <% } %>
+                                    >Submit >
                                     </button>
                                 </div>
+                                <div class="modal fade" id="myModal" role="dialog">
+                                    <div class="modal-dialog">
+                                        <p id="employeeStatus">Status:Active</p>
+
+                                        <!-- Modal content-->
+                                        <div class="modal-content">
+
+                                            <div class="modal-header">
+                                                <button type="button" class="close"
+                                                        data-dismiss="modal" id="intermittentParameterModelClose">&times;
+                                                </button>
+                                                <h5 class="modal-title">Enter Parameters</h5>
+                                            </div>
+
+                                            <div class="modal-body">
+
+
+                                                <br>
+
+                                                <div class="form-group">
+                                                    <label for="flareupParams">Flare Ups</label>
+                                                    <p class="numOfAbsences">Number of Absences</p>
+                                                    <input type="text" class="form-control" id="flareUpsParams"
+                                                           placeholder="Write Parameters For Flare Ups">
+                                                </div>
+
+                                                <br>
+
+                                                <div class="form-group">
+
+
+                                                    <br>
+
+                                                    <label for="ovParams">Office Visits</label>
+                                                    <p class="numOfAbsences">Number of Absences</p>
+                                                    <input type="text" class="form-control" id="officeVisitsParams"
+                                                           placeholder="Write Parameters For Office Visits">
+                                                </div>
+
+
+                                                <!-- Modal Task Completed Check box-->
+
+                                            </div>
+
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default"
+                                                        data-dismiss="modal">Close
+                                                </button>
+                                                <button type="sumbmit" class="btn btn-default"
+                                                        data-dismiss="modal" id="intermittentParameterButton">submit
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
                     </div>

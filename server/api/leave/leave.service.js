@@ -642,6 +642,36 @@ let getLeaveChronologyServiceService = async (request) => {
   };
 };
 
+/**
+ * Created By: AV
+ * Updated By: AV
+ *
+ *
+ *
+ * @param  {object}  request
+ * @return {object}
+ *
+ */
+let intermittentParameterService = async (request) => {
+  debug("leave.service -> paperWorkReviewService");
+  let userId = request.session.userInfo.userId;
+  let leaveInfoId = request.body.leaveInfoId;
+  let flareUpsParams = request.body.flareUpsParams;
+  let officeVisitsParams = request.body.officeVisitsParams;
+  let fieldValueUpdate = [{
+    field: 'flare_ups_param',
+    fValue: flareUpsParams
+  }, {
+    field: 'office_visits_param',
+    fValue: officeVisitsParams
+  }]
+  await leaveDAL.editLeaveInfoByLeaveInfoId(leaveInfoId, fieldValueUpdate);
+
+  return {
+    status: true,
+    data: constant.leaveMessages.MSG_LEAVE_INTERMITTENT_PARAMETER_ADDED_SUCCESSFULLY
+  }
+};
 
 module.exports = {
   checkLeaveEligibilityService: checkLeaveEligibilityService,
@@ -658,6 +688,7 @@ module.exports = {
   returnToWorkConfirmationService: returnToWorkConfirmationService,
   paperWorkReviewService: paperWorkReviewService,
   getLeaveChronologyServiceService: getLeaveChronologyServiceService,
+  intermittentParameterService: intermittentParameterService,
 };
 
 /*async function convertHTMLToPDF(htmlData, fileName) {

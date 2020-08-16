@@ -16,6 +16,7 @@ router.post('/add-leave-determination-decision', controller.addLeaveDeterminatio
 router.post('/sync-data', controller.syncData);
 router.post('/return-to-work-confirmation', controller.returnToWorkConfirmation);
 router.post('/paper-work-review', controller.paperWorkReview);
+router.post('/intermittent-parameter', controller.intermittentParameter);
 
 
 

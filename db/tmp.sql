@@ -229,4 +229,7 @@ ADD COLUMN `D_userId` INT(11) NULL DEFAULT NULL AFTER `DDate`;
 ALTER TABLE `tbl_LeaveInfo`
 ADD COLUMN `createdDate` DATETIME NOT NULL DEFAULT NOW() AFTER `D_userId`;
 
+ALTER TABLE `tbl_LeaveInfo`
+ADD COLUMN `flare_ups_param` TEXT NULL AFTER `D_userId`,
+ADD COLUMN `office_visits_param` TEXT NULL AFTER `flare_ups_param`;
 
