@@ -224,7 +224,8 @@ let getEmployeeLeaveClaimInfoService = async (request) => {
   let employeeLeavePlanStatusByClaimNumberResult = await leaveDAL.getEmployeeLeavePlanStatusByClaimNumber(claimNumber);
   let employeePaperWorkReviewResult = await leaveDAL.getEmployeeLeavePaperWorkReviewDataByClaimNumber(claimNumber);
   let employeePaperWorkReviewDocumentResult = await leaveDAL.getEmployeeLeavePaperWorkReviewDocumentDataByClaimNumber(claimNumber);
-  let employeeTaskListByClaimNumberResult = await leaveDAL.getEmployeeTaskListByClaimNumber(claimNumber)
+  let employeeTaskListByClaimNumberResult = await leaveDAL.getEmployeeTaskListByClaimNumber(claimNumber);
+  let employeeLeaveDeterminationDecisionResult = await leaveDAL.getEmployeeLeaveDeterminationDecisionByClaimNumber(claimNumber);
   if (employeePaperWorkReviewDocumentResult.status === true) {
     (employeePaperWorkReviewDocumentResult.content).forEach(data => {
       data['url'] = constant.appConfig.MEDIA_GET_STATIC_URL + data['url'];
@@ -248,6 +249,32 @@ let getEmployeeLeaveClaimInfoService = async (request) => {
       }
     });
   }
+  let dateDiff = (employeeLeavePlanStatusByClaimNumberResult.content[0]['date_diff']) + 1;
+
+  let leaveDeterminationMatrix = {
+    dateDiff: dateDiff,
+    pending: 100,
+    denied: 0,
+    approved: 0,
+    not_applicable: 0,
+  }
+  if (employeeLeaveDeterminationDecisionResult.status === true) {
+    (employeeLeaveDeterminationDecisionResult.content).forEach(data => {
+      if (data['status'] === 'pending') {
+        leaveDeterminationMatrix['pending'] += ((data['date_diff'] + 1) / dateDiff * 100);
+      }
+      if (data['status'] === 'denied') {
+        leaveDeterminationMatrix['denied'] += ((data['date_diff'] + 1) / dateDiff * 100);
+      }
+      if (data['status'] === 'approved') {
+        leaveDeterminationMatrix['approved'] += ((data['date_diff'] + 1) / dateDiff * 100);
+      }
+      if (data['status'] === 'notapplicable') {
+        leaveDeterminationMatrix['not_applicable'] += ((data['date_diff'] + 1) / dateDiff * 100);
+      }
+    });
+  }
+  leaveDeterminationMatrix['pending'] = (100 - leaveDeterminationMatrix['denied'] - leaveDeterminationMatrix['approved'] - leaveDeterminationMatrix['not_applicable'])
   if (employeeLeaveClaimInfoResult.status === true && employeeLeaveClaimInfoResult.content.length !== 0) {
     return {
       status: true, data: {
@@ -257,7 +284,8 @@ let getEmployeeLeaveClaimInfoService = async (request) => {
         planStatus: employeeLeavePlanStatusByClaimNumberResult.content,
         paperWorkReview: employeePaperWorkReviewResult.content,
         paperWorkReviewDocument: employeePaperWorkReviewDocumentResult.content,
-        taskList: employeeTaskListByClaimNumberResult.content
+        taskList: employeeTaskListByClaimNumberResult.content,
+        leaveDeterminationMatrix: leaveDeterminationMatrix,
       }
     }
   } else {

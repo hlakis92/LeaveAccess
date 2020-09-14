@@ -33,12 +33,34 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-12 planStatusBarParent">
-                                    <div class="<%= employeeLeaveClaimInfoData.leave_type_status %> planStatusBar"></div>
+                                    <!--<div class="<%= employeeLeaveClaimInfoData.leave_type_status %> planStatusBar"></div>-->
+                                    <div class="progress">
+                                        <div class="progress-bar progress-bar-success" role="progressbar"
+                                             style="width:<%= leaveDeterminationMatrix.approved %>%">
+
+                                        </div>
+                                        <div class="progress-bar progress-bar-warning" role="progressbar"
+                                             style="width: <%= leaveDeterminationMatrix.pending %>%">
+
+                                        </div>
+
+                                        <div class="progress-bar progress-bar-danger" role="progressbar"
+                                             style="width:<%= leaveDeterminationMatrix.denied %>%">
+
+                                        </div>
+                                        <div class="progress-bar progress-bar-info" role="progressbar"
+                                             style="width:<%= leaveDeterminationMatrix.not_applicable %>%">
+
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
+
+
                         </div>
                         <br><br>
                     <% }); %>
+
                     <!--                    <br><br>-->
                     <!--<div class="row">
                         <div class="col-md-6">

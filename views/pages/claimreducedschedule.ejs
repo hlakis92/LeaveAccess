@@ -268,7 +268,25 @@
                                 }) %>
                                 <div class="col-md-12">
                                     <% if(isPlanStatusMet === true) { %>
-                                        <div class="<%= employeeLeaveClaimInfoData.leave_type_status %>"></div>
+                                        <div class="progress">
+                                            <div class="progress-bar progress-bar-success" role="progressbar"
+                                                 style="width:<%= leaveDeterminationMatrix.approved %>%">
+
+                                            </div>
+                                            <div class="progress-bar progress-bar-warning" role="progressbar"
+                                                 style="width: <%= leaveDeterminationMatrix.pending %>%">
+
+                                            </div>
+
+                                            <div class="progress-bar progress-bar-danger" role="progressbar"
+                                                 style="width:<%= leaveDeterminationMatrix.denied %>%">
+
+                                            </div>
+                                            <div class="progress-bar progress-bar-info" role="progressbar"
+                                                 style="width:<%= leaveDeterminationMatrix.not_applicable %>%">
+
+                                            </div>
+                                        </div>
                                     <% } else { %>
                                         <div class="notapplicable"></div>
                                     <% } %>

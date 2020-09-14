@@ -459,6 +459,34 @@ $('#leaveSubmit').on('click', function (e) {
   });
 });
 
+/*$('#leaveDecisionButton').on('click', function (e) {
+  let leaveInfoId = $("#leaveInfoId").val();
+  let leaveTypeStatus = $("#selectLeaveTypeOptions").val();
+  let leaveType = $("#leaveType").val();
+  let startDate = $("#fromDate").val();
+  let endDate = $("#toDate").val();
+  let empId = $("#empId").val();
+  let requireData = {
+    leaveInfoId: leaveInfoId,
+    leaveTypeStatus: leaveTypeStatus,
+    empId: empId,
+    startDate: startDate,
+    endDate: endDate
+  };
+  $.ajax({
+    type: 'POST',
+    url: addLeaveDeterminationDecisionURL,
+    dataType: "json",
+    data: requireData,
+    success: result => {
+      window.location.href = windowLocation.origin + '/decision/' + leaveInfoId;
+    },
+    error: result => {
+      console.log(result)
+    }
+  });
+});*/
+
 $('#leaveDecisionSubmitButton').on('click', function (e) {
   let leaveInfoId = $("#leaveInfoId").val();
   let leaveTypeStatus = $("#selectLeaveTypeOptions").val();

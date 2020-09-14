@@ -389,6 +389,10 @@ let query = {
       encloseField: false,
       alias: 'to_date'
     }, {
+      field: 'DATEDIFF(to_date, from_date)',
+      encloseField: false,
+      alias: 'date_diff'
+    }, {
       field: 'eligibility',
       encloseField: false,
       alias: 'eligibility'
@@ -797,6 +801,28 @@ let query = {
         operator: 'EQ',
         value: 0
       }]
+    },
+  },
+  getEmployeeLeaveDeterminationDecisionByClaimNumberQuery:{
+    table: tbl_LeaveDeterminationDecision,
+    select: [{
+      field: 'leaveTypeStatus',
+      alias: 'status'
+    }, {
+      field: 'startDate',
+      alias: 'startDate'
+    }, {
+      field: 'endDate',
+      alias: 'endDate'
+    }, {
+      field: 'DATEDIFF(endDate, startDate)',
+      encloseField: false,
+      alias: 'date_diff'
+    }],
+    filter: {
+      field: 'fk_leaveInfoId',
+      operator: 'EQ',
+      value: ''
     },
   },
   removeIntermittentTimeByLeveInfoIdAndDateQuery: {

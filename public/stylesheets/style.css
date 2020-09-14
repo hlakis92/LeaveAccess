@@ -171,6 +171,23 @@ tr:nth-child(even) {
     border-radius: 5px;
 }
 
+.progress-bar-success{
+    background: lightgreen;
+}
+
+.progress-bar-warning {
+    background: rgb(253, 208, 8);
+
+}
+
+.progress-bar-danger{
+    background: rgb(218, 115, 115);
+}
+
+.progress-bar-info{
+    background: lightgray;
+}
+
 h5 {
     text-decoration: underline;
     font-weight: bold;
