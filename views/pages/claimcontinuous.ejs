@@ -117,53 +117,58 @@
 
                                                 </div>
                                             </div>
-                                        <% } else { %>
-                                            <div class="notapplicable"></div>
+                                        <% } else {  %>
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-info" role="progressbar"
+                                                     style="width:100%">
+
+                                                </div>
+                                            </div>
                                         <% } %>
 
                                     </div>
                                 </div>
                             </div>
                             <br><br>
-                        <% }); %>
-                        <!--                    <br><br>-->
-                        <!--                    <div class="row">-->
-                        <!--                        <div class="col-md-4">-->
-                        <!--                            <div class="planName">Short Term Disability (STD)</div>-->
-                        <!--                        </div>-->
-                        <!--                        <div class="col-md-4"></div>-->
-                        <!--                        <div class="col-md-4">-->
-                        <!--                            <div class="plandates">MM/DD/YYYY - MM/DD/YYYY</div>-->
-                        <!--                        </div>-->
-                        <!--                        <div class="row">-->
-                        <!--                            <div class="col-md-12">-->
-                        <!--                                <div class="planStatus1"></div>-->
-                        <!--                            </div>-->
-                        <!--                        </div>-->
-                        <!--                    </div>-->
+                            <% }); %>
+                            <!--                    <br><br>-->
+                            <!--                    <div class="row">-->
+                            <!--                        <div class="col-md-4">-->
+                            <!--                            <div class="planName">Short Term Disability (STD)</div>-->
+                            <!--                        </div>-->
+                            <!--                        <div class="col-md-4"></div>-->
+                            <!--                        <div class="col-md-4">-->
+                            <!--                            <div class="plandates">MM/DD/YYYY - MM/DD/YYYY</div>-->
+                            <!--                        </div>-->
+                            <!--                        <div class="row">-->
+                            <!--                            <div class="col-md-12">-->
+                            <!--                                <div class="planStatus1"></div>-->
+                            <!--                            </div>-->
+                            <!--                        </div>-->
+                            <!--                    </div>-->
                     </div>
                 </div>
 
                 <h5 style="background-color:lightgrey;">Tasks</h5>
                 <div class="newTasks">
                     <% if (employeeLeaveClaimInfoData['is_EDate_complete'] === 0) { %>
-                        <div class="outputTask"><a>Eligibility</a><span class="taskDate"
-                                                                        style="padding-left: 25px;"><%= employeeLeaveClaimInfoData['EDate'] %></span>
-                        </div>
+                    <div class="outputTask"><a>Eligibility</a><span class="taskDate"
+                                                                    style="padding-left: 25px;"><%= employeeLeaveClaimInfoData['EDate'] %></span>
+                    </div>
                     <% } %>
                     <% if (employeeLeaveClaimInfoData['is_DDate_complete'] === 0) { %>
-                        <div class="outputTask"><a>Decision</a><span class="taskDate"
-                                                                     style="padding-left: 25px;"><%= employeeLeaveClaimInfoData['DDate'] %></span>
-                        </div>
+                    <div class="outputTask"><a>Decision</a><span class="taskDate"
+                                                                 style="padding-left: 25px;"><%= employeeLeaveClaimInfoData['DDate'] %></span>
+                    </div>
                     <% } %>
                     <!-- Trigger the Paperwork modal with a button -->
                     <% include ../partials/paperwork.ejs %>
                     <% if (employeeLeaveClaimInfoData['is_ERTWDate_complete'] === 0) { %>
-                        <!-- Trigger the ERTW modal with a button -->
-                        <div class="outputTask" data-toggle="modal" data-target="#myModal3"><a>ERTW
-                                Confirmation</a><span class="taskDate" id="ERTWDateDisplayDate"
-                                                      style="padding-left: 25px;"><%= employeeLeaveClaimInfoData['ERTWDate'] %></span>
-                        </div>
+                    <!-- Trigger the ERTW modal with a button -->
+                    <div class="outputTask" data-toggle="modal" data-target="#myModal3"><a>ERTW
+                            Confirmation</a><span class="taskDate" id="ERTWDateDisplayDate"
+                                                  style="padding-left: 25px;"><%= employeeLeaveClaimInfoData['ERTWDate'] %></span>
+                    </div>
                     <% } %>
                     <!-- Modal -->
                     <div class="modal fade" id="myModal3" role="dialog">
@@ -188,12 +193,12 @@
                                                         <% } %>
 
                                                         <% getManagerData.forEach(function(data) { %>
-                                                            <% if(data['userId'] == employeeLeaveClaimInfoData['ERTW_userId']) { %>
-                                                                <option value="<%= data.userId %>"
-                                                                        selected><%= data.name %></option>
-                                                            <% } else { %>
-                                                                <option value="<%= data.userId %>"><%= data.name %></option>
-                                                            <% } %>
+                                                        <% if(data['userId'] == employeeLeaveClaimInfoData['ERTW_userId']) { %>
+                                                        <option value="<%= data.userId %>"
+                                                                selected><%= data.name %></option>
+                                                        <% } else { %>
+                                                        <option value="<%= data.userId %>"><%= data.name %></option>
+                                                        <% } %>
                                                         <% }); %>
                                                     </select>
                                                 </div>
@@ -224,12 +229,12 @@
                     </div>
 
                     <% if (employeeLeaveClaimInfoData['is_ARTWDate_complete'] === 0) { %>
-                        <!-- Trigger the Paperwork modal with a button -->
-                        <div class="outputTask" data-toggle="modal" data-target="#myModal4"><a>ARTW
-                                Confirmation</a>
-                            <span class="taskDate" id='ARTWDateDisplayDate'
-                                  style="padding-left: 25px;"><%= employeeLeaveClaimInfoData['ARTWDate'] %></span>
-                        </div>
+                    <!-- Trigger the Paperwork modal with a button -->
+                    <div class="outputTask" data-toggle="modal" data-target="#myModal4"><a>ARTW
+                            Confirmation</a>
+                        <span class="taskDate" id='ARTWDateDisplayDate'
+                              style="padding-left: 25px;"><%= employeeLeaveClaimInfoData['ARTWDate'] %></span>
+                    </div>
                     <% } %>
 
                     <!-- Modal -->
@@ -254,12 +259,12 @@
                                                         <% } %>
 
                                                         <% getManagerData.forEach(function(data) { %>
-                                                            <% if(data['userId'] == employeeLeaveClaimInfoData['ERTW_userId']) { %>
-                                                                <option value="<%= data.userId %>"
-                                                                        selected><%= data.name %></option>
-                                                            <% } else { %>
-                                                                <option value="<%= data.userId %>"><%= data.name %></option>
-                                                            <% } %>
+                                                        <% if(data['userId'] == employeeLeaveClaimInfoData['ERTW_userId']) { %>
+                                                        <option value="<%= data.userId %>"
+                                                                selected><%= data.name %></option>
+                                                        <% } else { %>
+                                                        <option value="<%= data.userId %>"><%= data.name %></option>
+                                                        <% } %>
                                                         <% }); %>
                                                     </select>
                                                 </div>
@@ -289,12 +294,12 @@
                         </div>
                     </div>
                     <% taskList.forEach(function(task) { %>
-                        <div class="outputTask">
-                            <a href="/task/edit/<%= task['taskId'] %>?callback=<%= callBackURL %>"> <%= task['taskName'] %></a>
-                            <span class="taskDate" style="padding-left: 25px;">
+                    <div class="outputTask">
+                        <a href="/task/edit/<%= task['taskId'] %>?callback=<%= callBackURL %>"> <%= task['taskName'] %></a>
+                        <span class="taskDate" style="padding-left: 25px;">
                                 <%= task['dueDate'] %>
                             </span>
-                        </div>
+                    </div>
                     <% }); %>
 
                 </div>
@@ -370,9 +375,9 @@
                 <h5>Uploaded Paperwork Document</h5>
                 <div id="documentList">
                     <% paperWorkReviewDocumentList.forEach(function(data) { %>
-                        <div class="form-group col-md-12">
-                            <a href="<%= data['url'] %>"><%= data['text'] %></a>
-                        </div>
+                    <div class="form-group col-md-12">
+                        <a href="<%= data['url'] %>"><%= data['text'] %></a>
+                    </div>
                     <% }); %>
                 </div>
             </div>

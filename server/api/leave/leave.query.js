@@ -803,16 +803,18 @@ let query = {
       }]
     },
   },
-  getEmployeeLeaveDeterminationDecisionByClaimNumberQuery:{
+  getEmployeeLeaveDeterminationDecisionByClaimNumberQuery: {
     table: tbl_LeaveDeterminationDecision,
     select: [{
       field: 'leaveTypeStatus',
       alias: 'status'
     }, {
-      field: 'startDate',
+      field: 'DATE_FORMAT(startDate, "%Y-%m-%d")',
+      encloseField: false,
       alias: 'startDate'
     }, {
-      field: 'endDate',
+      field: 'DATE_FORMAT(endDate, "%Y-%m-%d")',
+      encloseField: false,
       alias: 'endDate'
     }, {
       field: 'DATEDIFF(endDate, startDate)',

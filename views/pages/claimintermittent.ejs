@@ -83,6 +83,12 @@
                 <div class="claimStatus">
                     <div class="well">
                         <% planStatus.forEach(function(data) { %>
+                            <% var isPlanStatusMet = true; %>
+                            <% JSON.parse(data['eligibility']).forEach(eliData => {
+                                if (eliData.value !== "met") {
+                                    isPlanStatusMet = false;
+                                }
+                            }) %>
                             <div class="row">
                                 <div class="col-md-6 ">
                                     <div class="planName"><%= data['leave_name'] %></div>
@@ -93,25 +99,34 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <div class="progress">
-                                            <div class="progress-bar progress-bar-success" role="progressbar"
-                                                 style="width:<%= leaveDeterminationMatrix.approved %>%">
+                                        <% if(isPlanStatusMet === true) { %>
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-success" role="progressbar"
+                                                     style="width:<%= leaveDeterminationMatrix.approved %>%">
 
+                                                </div>
+                                                <div class="progress-bar progress-bar-warning" role="progressbar"
+                                                     style="width: <%= leaveDeterminationMatrix.pending %>%">
+
+                                                </div>
+
+                                                <div class="progress-bar progress-bar-danger" role="progressbar"
+                                                     style="width:<%= leaveDeterminationMatrix.denied %>%">
+
+                                                </div>
+                                                <div class="progress-bar progress-bar-info" role="progressbar"
+                                                     style="width:<%= leaveDeterminationMatrix.not_applicable %>%">
+
+                                                </div>
                                             </div>
-                                            <div class="progress-bar progress-bar-warning" role="progressbar"
-                                                 style="width: <%= leaveDeterminationMatrix.pending %>%">
+                                        <% } else { %>
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-info" role="progressbar"
+                                                     style="width:100%">
 
+                                                </div>
                                             </div>
-
-                                            <div class="progress-bar progress-bar-danger" role="progressbar"
-                                                 style="width:<%= leaveDeterminationMatrix.denied %>%">
-
-                                            </div>
-                                            <div class="progress-bar progress-bar-info" role="progressbar"
-                                                 style="width:<%= leaveDeterminationMatrix.not_applicable %>%">
-
-                                            </div>
-                                        </div>
+                                        <% } %>
                                     </div>
                                 </div>
                             </div>
@@ -273,10 +288,10 @@
 
                                         <label>Is this absence a flare up or an office visit?</label>
                                         <div id="pickIntermittentType">
-                                                <select name="intType" required id="intermittentParam">
-                                                    <option value="flareUp">Flare Up</option>
-                                                    <option value="officeVisit">Office Visit</option>
-                                                </select>
+                                            <select name="intType" required id="intermittentParam">
+                                                <option value="flareUp">Flare Up</option>
+                                                <option value="officeVisit">Office Visit</option>
+                                            </select>
                                         </div>
 
                                         <div class="form-group">
@@ -300,11 +315,11 @@
 
                                         <label>Is this absence a flare up or an office visit?</label>
                                         <div id="pickIntermittentStatus">
-                                                <select name="intTypeApproval" required id="statusSelect">
-                                                    <option value="pendingIntTime">Pending</option>
-                                                    <option value="approvedIntTime">Approved</option>
-                                                    <option value="deniedIntTime">Denied</option>
-                                                </select>
+                                            <select name="intTypeApproval" required id="statusSelect">
+                                                <option value="pendingIntTime">Pending</option>
+                                                <option value="approvedIntTime">Approved</option>
+                                                <option value="deniedIntTime">Denied</option>
+                                            </select>
                                         </div>
                                         <br>
                                         <!-- Modal Task Completed Check box-->
@@ -458,7 +473,7 @@
 
 
 </script>
-<link rel="stylesheet" href="/stylesheets/fullcalendar.min.css" />
+<link rel="stylesheet" href="/stylesheets/fullcalendar.min.css"/>
 <script src="/javascripts/moment.min.js"></script>
 <script src="/javascripts/fullcalendar.min.js"></script>
 <script>

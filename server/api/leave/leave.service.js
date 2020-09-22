@@ -258,6 +258,7 @@ let getEmployeeLeaveClaimInfoService = async (request) => {
     approved: 0,
     not_applicable: 0,
   }
+
   if (employeeLeaveDeterminationDecisionResult.status === true) {
     (employeeLeaveDeterminationDecisionResult.content).forEach(data => {
       if (data['status'] === 'pending') {
@@ -286,6 +287,7 @@ let getEmployeeLeaveClaimInfoService = async (request) => {
         paperWorkReviewDocument: employeePaperWorkReviewDocumentResult.content,
         taskList: employeeTaskListByClaimNumberResult.content,
         leaveDeterminationMatrix: leaveDeterminationMatrix,
+        leaveDeterminationDecision:employeeLeaveDeterminationDecisionResult.content
       }
     }
   } else {

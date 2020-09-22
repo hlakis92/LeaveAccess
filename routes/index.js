@@ -408,13 +408,14 @@ router.get('/decision/:claimNumber', middleware.checkAccessToken, async function
   let employeeInfoResult = await employeeService.getEmployeeInfoService(req);
   let employeeLocationInfoResult = await employeeService.getEmployeeLocationInfoService(req);
   let employeeLeaveClaimInfoData, planMaximumDuration, planStatus, employeeInfo, employeeLocationInfo,
-    leaveDeterminationMatrix;
+    leaveDeterminationMatrix, leaveDeterminationDecision;
 
   if (employeeLeaveClaimInfoResult.status === true) {
     employeeLeaveClaimInfoData = employeeLeaveClaimInfoResult.data.leaveInfo;
     planMaximumDuration = employeeLeaveClaimInfoResult.data.planMaximumDuration;
     planStatus = employeeLeaveClaimInfoResult.data.planStatus
     leaveDeterminationMatrix = employeeLeaveClaimInfoResult.data.leaveDeterminationMatrix
+    leaveDeterminationDecision = employeeLeaveClaimInfoResult.data.leaveDeterminationDecision
 
   } else {
     employeeInfo = undefined;
@@ -427,8 +428,8 @@ router.get('/decision/:claimNumber', middleware.checkAccessToken, async function
     employeeLeaveClaimInfoData: employeeLeaveClaimInfoData,
     planMaximumDuration: planMaximumDuration,
     planStatus: planStatus,
-    leaveDeterminationMatrix: leaveDeterminationMatrix
-
+    leaveDeterminationMatrix: leaveDeterminationMatrix,
+    leaveDeterminationDecision: leaveDeterminationDecision
   });
 });
 
