@@ -258,21 +258,58 @@ let getEmployeeLeaveClaimInfoService = async (request) => {
     approved: 0,
     not_applicable: 0,
   }
-
+  let leaveDeterminationDecision = [];
   if (employeeLeaveDeterminationDecisionResult.status === true) {
+    let previousDate;
+
     (employeeLeaveDeterminationDecisionResult.content).forEach(data => {
+      data['no_of_per'] = ((data['date_diff'] + 1) / dateDiff * 100);
+      data['tooltip_data'] = data['startDate'] + "/" + data['endDate'];
+      if (previousDate !== undefined) {
+        let pDate = new Date(previousDate);
+        pDate = new Date(pDate.setDate(pDate.getDate() + 1));
+        let sDate = new Date(data['startDate']);
+        let eDate = new Date(data['endDate']);
+        let newSDate = d3.timeFormat(dbDateFormatDOB)(pDate);
+        let newEDate = d3.timeFormat(dbDateFormatDOB)(new Date(sDate.setDate(sDate.getDate() - 1)));
+        if (pDate.getTime() < sDate.getTime()) {
+          let Object = {
+            status: 'pending',
+            startDate: newSDate,
+            endDate: newEDate,
+            date_diff: Math.floor(( Date.parse(newEDate) - Date.parse(newSDate) ) / 86400000),
+            no_of_per: 10,
+            tooltip_data: newSDate + '/' + newEDate,
+            class: 'progress-bar-warning',
+            class2: 'pending1'
+          }
+          Object['no_of_per'] = ((Object['date_diff'] + 1) / dateDiff * 100);
+          leaveDeterminationDecision.push(Object)
+        }
+
+      }
+      previousDate = data['endDate'];
       if (data['status'] === 'pending') {
+        data['class'] = "progress-bar-warning";
+        data['class2'] = "pending1";
         leaveDeterminationMatrix['pending'] += ((data['date_diff'] + 1) / dateDiff * 100);
       }
       if (data['status'] === 'denied') {
+        data['class'] = "progress-bar-danger";
+        data['class2'] = "denied1";
         leaveDeterminationMatrix['denied'] += ((data['date_diff'] + 1) / dateDiff * 100);
       }
       if (data['status'] === 'approved') {
+        data['class'] = "progress-bar-success";
+        data['class2'] = "approved1";
         leaveDeterminationMatrix['approved'] += ((data['date_diff'] + 1) / dateDiff * 100);
       }
       if (data['status'] === 'notapplicable') {
+        data['class'] = "progress-bar-info";
+        data['class2'] = "notapplicable1";
         leaveDeterminationMatrix['not_applicable'] += ((data['date_diff'] + 1) / dateDiff * 100);
       }
+      leaveDeterminationDecision.push(data);
     });
   }
   leaveDeterminationMatrix['pending'] = (100 - leaveDeterminationMatrix['denied'] - leaveDeterminationMatrix['approved'] - leaveDeterminationMatrix['not_applicable'])
@@ -287,7 +324,7 @@ let getEmployeeLeaveClaimInfoService = async (request) => {
         paperWorkReviewDocument: employeePaperWorkReviewDocumentResult.content,
         taskList: employeeTaskListByClaimNumberResult.content,
         leaveDeterminationMatrix: leaveDeterminationMatrix,
-        leaveDeterminationDecision:employeeLeaveDeterminationDecisionResult.content
+        leaveDeterminationDecision: leaveDeterminationDecision
       }
     }
   } else {

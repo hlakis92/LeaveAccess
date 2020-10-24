@@ -43,13 +43,20 @@
                                     <!--<div class="<%= employeeLeaveClaimInfoData.leave_type_status %> planStatusBar"></div>-->
                                     <% if(isPlanStatusMet === true) { %>
                                         <div class="progress">
-                                            <div class="progress-bar progress-bar-success approved1" role="progressbar"
+                                            <% leaveDeterminationDecision.forEach(function(data) { %>
+                                                <div class="progress-bar <%= data.class %> <%= data.class2 %>"
+                                                     data-toggle="tooltip" title=<%= data.tooltip_data %>
+                                                     role="progressbar"
+                                                     style="width:<%= data.no_of_per %>%">
+                                                </div>
+                                            <% }) %>
+
+                                            <!--<div class="progress-bar progress-bar-success approved1" role="progressbar"
                                                  style="width:<%= leaveDeterminationMatrix.approved %>%">
 
                                             </div>
                                             <div class="progress-bar progress-bar-warning pending1" role="progressbar"
                                                  style="width: <%= leaveDeterminationMatrix.pending %>%">
-
                                             </div>
 
                                             <div class="progress-bar progress-bar-danger denied1" role="progressbar"
@@ -59,7 +66,7 @@
                                             <div class="progress-bar progress-bar-info notapplicable1" role="progressbar"
                                                  style="width:<%= leaveDeterminationMatrix.not_applicable %>%">
 
-                                            </div>
+                                            </div>-->
                                         </div>
                                     <% } else { %>
                                         <div class="progress">

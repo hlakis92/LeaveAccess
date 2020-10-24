@@ -826,6 +826,9 @@ let query = {
       operator: 'EQ',
       value: ''
     },
+    sortby: [{
+      field: 'startDate'
+    }],
   },
   removeIntermittentTimeByLeveInfoIdAndDateQuery: {
     table: tbl_LeaveIntermittentUsage,

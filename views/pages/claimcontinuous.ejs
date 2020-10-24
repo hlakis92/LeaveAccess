@@ -98,7 +98,14 @@
                                     <div class="col-md-12">
                                         <% if(isPlanStatusMet === true) { %>
                                             <!--<div class="<%= employeeLeaveClaimInfoData.leave_type_status %>"></div>-->
-                                            <div class="progress">
+                                            <% leaveDeterminationDecision.forEach(function(data) { %>
+                                                <div class="progress-bar <%= data.class %> <%= data.class2 %>"
+                                                     data-toggle="tooltip" title=<%= data.tooltip_data %>
+                                                     role="progressbar"
+                                                     style="width:<%= data.no_of_per %>%">
+                                                </div>
+                                            <% }) %>
+                                            <!--<div class="progress">
                                                 <div class="progress-bar progress-bar-success" role="progressbar"
                                                      style="width:<%= leaveDeterminationMatrix.approved %>%">
 
@@ -116,7 +123,7 @@
                                                      style="width:<%= leaveDeterminationMatrix.not_applicable %>%">
 
                                                 </div>
-                                            </div>
+                                            </div>-->
                                         <% } else {  %>
                                             <div class="progress">
                                                 <div class="progress-bar progress-bar-info" role="progressbar"
@@ -158,7 +165,8 @@
                     <% } %>
                     <% if (employeeLeaveClaimInfoData['is_DDate_complete'] === 0) { %>
                     <div class="outputTask"><a>Decision</a><span class="taskDate"
-                                                                 style="padding-left: 25px;"><%= employeeLeaveClaimInfoData['DDate'] %></span>
+                                                                 style="padding-left: 25px;">
+                            <%= employeeLeaveClaimInfoData['DDate'] %></span>
                     </div>
                     <% } %>
                     <!-- Trigger the Paperwork modal with a button -->
