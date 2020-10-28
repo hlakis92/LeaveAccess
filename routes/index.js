@@ -247,9 +247,6 @@ router.get('/claimcontinuous/:claimNumber', middleware.checkAccessToken, async f
       }
     });
   });
-  // console.log("....................",)
-
-  // console.log('..............',req.url)
 
   res.render('pages/claimcontinuous', {
     title: 'Leave Overview',
@@ -274,7 +271,7 @@ router.get('/claimintermittent/:claimNumber', middleware.checkAccessToken, async
   let leaveService = require('./../server/api/leave/leave.service');
   let employeeService = require('./../server/api/employee/employee.service');
   let employeeLeaveClaimInfoResult = await leaveService.getEmployeeLeaveClaimInfoService(req);
-  console.log(employeeLeaveClaimInfoResult);
+  // console.log(employeeLeaveClaimInfoResult);
   req['query'] = {
     empId: employeeLeaveClaimInfoResult.data.employeeInfo['empId']
   }
@@ -445,7 +442,7 @@ router.get('/leavechoronology/:claimNumber', middleware.checkAccessToken, async 
   let employeeLeaveClaimInfoResult = await leaveService.getEmployeeLeaveClaimInfoService(req);
   let employeeLeaveClaimInfoData, planMaximumDuration, planStatus;
   let getLeaveChronologyResult = await leaveService.getLeaveChronologyServiceService(req);
-  console.log(getLeaveChronologyResult);
+  // console.log(getLeaveChronologyResult);
 
   if (employeeLeaveClaimInfoResult.status === true) {
     employeeLeaveClaimInfoData = employeeLeaveClaimInfoResult.data.leaveInfo;

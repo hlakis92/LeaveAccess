@@ -225,7 +225,6 @@ let getNotesListService = async (request) => {
   } else {
     return {status: false, error: constant.taskMessages.NO_RECORD_FOUND};
   }
-
 };
 
 /**

@@ -249,7 +249,7 @@ let getEmployeeLeaveClaimInfoService = async (request) => {
       }
     });
   }
-  let dateDiff = (employeeLeavePlanStatusByClaimNumberResult.content[0]['date_diff']) + 1;
+  let dateDiff = (employeeLeavePlanStatusByClaimNumberResult.content[0]['date_diff']);
 
   let leaveDeterminationMatrix = {
     dateDiff: dateDiff,
@@ -259,8 +259,10 @@ let getEmployeeLeaveClaimInfoService = async (request) => {
     not_applicable: 0,
   }
   let leaveDeterminationDecision = [];
-  if (employeeLeaveDeterminationDecisionResult.status === true) {
-    let previousDate;
+  let leavePlanStatus = employeeLeavePlanStatusByClaimNumberResult.content[0];
+  if (employeeLeaveDeterminationDecisionResult.status === true
+    && employeeLeaveDeterminationDecisionResult.content.length !== 0) {
+    let previousDate = leavePlanStatus['from_date'];
 
     (employeeLeaveDeterminationDecisionResult.content).forEach(data => {
       data['no_of_per'] = ((data['date_diff'] + 1) / dateDiff * 100);
@@ -277,7 +279,7 @@ let getEmployeeLeaveClaimInfoService = async (request) => {
             status: 'pending',
             startDate: newSDate,
             endDate: newEDate,
-            date_diff: Math.floor(( Date.parse(newEDate) - Date.parse(newSDate) ) / 86400000),
+            date_diff: Math.floor((Date.parse(newEDate) - Date.parse(newSDate)) / 86400000),
             no_of_per: 10,
             tooltip_data: newSDate + '/' + newEDate,
             class: 'progress-bar-warning',
@@ -311,7 +313,22 @@ let getEmployeeLeaveClaimInfoService = async (request) => {
       }
       leaveDeterminationDecision.push(data);
     });
+  } else {
+    let leavePlanStatus = employeeLeavePlanStatusByClaimNumberResult.content[0]
+    let Object = {
+      status: 'pending',
+      startDate: leavePlanStatus['from_date'],
+      endDate: leavePlanStatus['to_date'],
+      date_diff: leavePlanStatus['date_diff'],
+      no_of_per: 100,
+      tooltip_data: leavePlanStatus['from_date'] + '/' + leavePlanStatus['to_date'],
+      class: 'progress-bar-warning',
+      class2: 'pending1'
+    }
+    leaveDeterminationDecision.push(Object);
   }
+  debug("....................................", dateDiff);
+  debug("....................................", leaveDeterminationDecision);
   leaveDeterminationMatrix['pending'] = (100 - leaveDeterminationMatrix['denied'] - leaveDeterminationMatrix['approved'] - leaveDeterminationMatrix['not_applicable'])
   if (employeeLeaveClaimInfoResult.status === true && employeeLeaveClaimInfoResult.content.length !== 0) {
     return {
