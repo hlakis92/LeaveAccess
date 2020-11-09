@@ -199,7 +199,7 @@ let getEmployeeLeaveSummaryService = async (request) => {
   let empId = request.params.empId;
   let employeeLeaveSummaryResult = await leaveDAL.getEmployeeLeaveSummaryByEmpId(empId);
   let getEmployeeLeaveStatusTypeResult = await leaveDAL.getEmployeeLeaveStatusTypeByEmpId(empId);
-  let getEmployeeLeaveStatusTypeObject;
+  let getEmployeeLeaveStatusTypeObject = {};
   if (getEmployeeLeaveStatusTypeResult.status === true && getEmployeeLeaveStatusTypeResult.content.length !== 0) {
     let getEmployeeLeaveStatusTypeNestByLeaveInfoId = common.nestingData(getEmployeeLeaveStatusTypeResult.content, 'fk_leaveInfoId');
     getEmployeeLeaveStatusTypeObject = common.adjustValueOfKeyValuesPairToObject(getEmployeeLeaveStatusTypeNestByLeaveInfoId)
