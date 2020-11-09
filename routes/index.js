@@ -247,7 +247,7 @@ router.get('/claimcontinuous/:claimNumber', middleware.checkAccessToken, async f
       }
     });
   });
-
+  console.log("....................",employeeLeaveInfoData)
   res.render('pages/claimcontinuous', {
     title: 'Leave Overview',
     employeeLeaveInfoData: employeeLeaveInfoData,

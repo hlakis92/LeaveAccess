@@ -369,38 +369,75 @@
                         <th>Date</th>
                     </tr>
 
-                    <tr id="employeeInfo">
+                    <% if (employeeLeaveClaimInfoData['is_DDate_complete'] === 1) { %>
+
+                        <!--<tr id="employeeInfo">
                         <td id="letterSent">
                             <a href="#"> Decision</a>
                         </td>
                         <td id="employee"><%= employeeLeaveInfoData.employeeName %></td>
                         <td id="letterSentMethod">Mail, E-Mail</td>
                         <td id="letterDate">06/25/2018</td>
-                    </tr>
-                    <tr>
-                        <td id="letterSent">
-                            <a href="#">Decision</a>
-                        </td>
-                        <td id="supervisor"><%= employeeLeaveInfoData.supervisorContactName %></td>
-                        <td id="letterSentMethod">E-Mail</td>
-                        <td id="letterDate">06/25/2018</td>
-                    </tr>
-                    <tr id="employeeInfo">
+                    </tr>-->
+                        <tr>
+                            <td id="letterSent">
+                                <a href="#">Decision</a>
+                            </td>
+                            <td id="supervisor"><%= employeeLeaveInfoData.supervisorContactName %></td>
+                            <td id="letterSentMethod">E-Mail</td>
+                            <td id="letterDate">06/25/2018</td>
+                        </tr>
+                        <tr>
+                            <td id="letterSent">
+                                <a href="#">Decision</a>
+                            </td>
+                            <td id="supervisor"><%= employeeLeaveInfoData.HRContactName %></td>
+                            <td id="letterSentMethod">E-Mail</td>
+                            <td id="letterDate">06/25/2018</td>
+                        </tr>
+                        <tr>
+                            <td id="letterSent">
+                                <a href="#">Decision</a>
+                            </td>
+                            <td id="supervisor"><%= employeeLeaveInfoData.PBContactName %></td>
+                            <td id="letterSentMethod">E-Mail</td>
+                            <td id="letterDate">06/25/2018</td>
+                        </tr>
+                    <% } %>
+                    <% if (employeeLeaveClaimInfoData['is_EDate_complete'] === 1) { %>
+                        <!--<tr id="employeeInfo">
                         <td id="letterSent">
                             <a href="#">Eligibility</a>
                         </td>
                         <td id="employee"><%= employeeLeaveInfoData.employeeName %></td>
                         <td id="letterSentMethod">Mail, E-Mail</td>
                         <td id="letterDate">06/25/2018</td>
-                    </tr>
-                    <tr>
-                        <td id="letterSent">
-                            <a href="#">Eligibility</a>
-                        </td>
-                        <td id="supervisor"><%= employeeLeaveInfoData.supervisorContactName %></td>
-                        <td id="letterSentMethod">E-Mail</td>
-                        <td id="letterDate">06/25/2018</td>
-                    </tr>
+                    </tr>-->
+                        <tr>
+                            <td id="letterSent">
+                                <a href="#">Eligibility</a>
+                            </td>
+                            <td id="supervisor"><%= employeeLeaveInfoData.supervisorContactName %></td>
+                            <td id="letterSentMethod">E-Mail</td>
+                            <td id="letterDate">06/25/2018</td>
+                        </tr>
+                        <tr>
+                            <td id="letterSent">
+                                <a href="#">Eligibility</a>
+                            </td>
+                            <td id="supervisor"><%= employeeLeaveInfoData.HRContactName %></td>
+                            <td id="letterSentMethod">E-Mail</td>
+                            <td id="letterDate">06/25/2018</td>
+                        </tr>
+                        <tr>
+                            <td id="letterSent">
+                                <a href="#">Eligibility</a>
+                            </td>
+                            <td id="supervisor"><%= employeeLeaveInfoData.PBContactName %></td>
+                            <td id="letterSentMethod">E-Mail</td>
+                            <td id="letterDate">06/25/2018</td>
+                        </tr>
+                    <% } %>
 
                 </table>
                 <br>

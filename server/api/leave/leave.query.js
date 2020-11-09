@@ -173,6 +173,10 @@ let query = {
       field: 'CASE WHEN leaveStatus = 0 THEN "incomplete" WHEN leaveStatus = 1 THEN "open" WHEN leaveStatus = 2 THEN "closed" ELSE "" END',
       encloseField: false,
       alias: 'status'
+    }, {
+      field: '"Pending"',
+      encloseField: false,
+      alias: 'statusType'
     }],
     filter: {
       field: 'pk_empID',
@@ -223,6 +227,14 @@ let query = {
       field: 'IFNULL(supervisorContactName, "-")',
       encloseField: false,
       alias: 'supervisorContactName'
+    }, {
+      field: 'IFNULL(HRContactName, "-")',
+      encloseField: false,
+      alias: 'HRContactName'
+    }, {
+      field: 'IFNULL(PBContactName, "-")',
+      encloseField: false,
+      alias: 'PBContactName'
     }],
     filter: {
       field: 'pk_leaveInfoId',
@@ -883,6 +895,33 @@ let query = {
       }]
     },
   },
+  getEmployeeLeaveStatusTypeByEmpIdQuery:{
+    table: tbl_LeaveDeterminationDecision,
+    select: [{
+      field: 'fk_leaveInfoId',
+      alias: 'fk_leaveInfoId'
+    }, {
+      field: 'DATE_FORMAT(MIN(startDate), "%m/%d/%Y")',
+      encloseField: false,
+      alias: 'startDate'
+    }, {
+      field: 'DATE_FORMAT(MAX(endDate), "%m/%d/%Y")',
+      encloseField: false,
+      alias: 'endDate'
+    }, {
+      field: 'GROUP_CONCAT(leaveTypeStatus)',
+      encloseField: false,
+      alias: 'leaveTypeStatus'
+    }],
+    filter: {
+      field: 'fk_empId',
+      operator: 'EQ',
+      value: ''
+    },
+    groupby: [{
+      field: 'fk_leaveInfoId'
+    }],
+  }
 };
 
 module.exports = query;

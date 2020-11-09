@@ -307,6 +307,13 @@ let getIntermittentTimeByLeveInfoIdAndDate = async (leaveInfoId, date) => {
   return await common.executeQuery(removeIntermittentTimeByLeveInfoIdAndDateQuery);
 };
 
+let getEmployeeLeaveStatusTypeByEmpId = async (empId) => {
+  debug("leave.DAL -> getEmployeeLeaveStatusTypeByEmpId");
+  let getEmployeeLeaveStatusTypeByEmpIdQuery = common.cloneObject(query.getEmployeeLeaveStatusTypeByEmpIdQuery);
+  getEmployeeLeaveStatusTypeByEmpIdQuery.filter.value = empId;
+  return await common.executeQuery(getEmployeeLeaveStatusTypeByEmpIdQuery);
+};
+
 module.exports = {
   addEmployeeDetail: addEmployeeDetail,
   addLocationDetail: addLocationDetail,
@@ -335,8 +342,9 @@ module.exports = {
   addLeaveChronology: addLeaveChronology,
   getLeaveChronologyByLeaveInfoId: getLeaveChronologyByLeaveInfoId,
   getEmployeeTaskListByClaimNumber: getEmployeeTaskListByClaimNumber,
-  getEmployeeLeaveDeterminationDecisionByClaimNumber:getEmployeeLeaveDeterminationDecisionByClaimNumber,
+  getEmployeeLeaveDeterminationDecisionByClaimNumber: getEmployeeLeaveDeterminationDecisionByClaimNumber,
   removeIntermittentTimeByLeveInfoIdAndDate: removeIntermittentTimeByLeveInfoIdAndDate,
   addIntermittentTime: addIntermittentTime,
   getIntermittentTimeByLeveInfoIdAndDate: getIntermittentTimeByLeveInfoIdAndDate,
+  getEmployeeLeaveStatusTypeByEmpId: getEmployeeLeaveStatusTypeByEmpId,
 };
