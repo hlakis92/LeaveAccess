@@ -199,26 +199,26 @@ let getEmployeeLeaveSummaryService = async (request) => {
   let empId = request.params.empId;
   let employeeLeaveSummaryResult = await leaveDAL.getEmployeeLeaveSummaryByEmpId(empId);
   let getEmployeeLeaveStatusTypeResult = await leaveDAL.getEmployeeLeaveStatusTypeByEmpId(empId);
-  let getEmployeeLeaveStatusTypeObject = {};
+  let getEmployeeLeaveStatusTypeObject;
   if (getEmployeeLeaveStatusTypeResult.status === true && getEmployeeLeaveStatusTypeResult.content.length !== 0) {
     let getEmployeeLeaveStatusTypeNestByLeaveInfoId = common.nestingData(getEmployeeLeaveStatusTypeResult.content, 'fk_leaveInfoId');
     getEmployeeLeaveStatusTypeObject = common.adjustValueOfKeyValuesPairToObject(getEmployeeLeaveStatusTypeNestByLeaveInfoId)
   }
   if (employeeLeaveSummaryResult.status === true) {
     (employeeLeaveSummaryResult.content).forEach(data => {
-      if (getEmployeeLeaveStatusTypeObject.hasOwnProperty(data['leave_info_id']) === true) {
+      if (getEmployeeLeaveStatusTypeObject !== undefined && getEmployeeLeaveStatusTypeObject.hasOwnProperty(data['leave_info_id']) === true) {
         let leaveStatusData = getEmployeeLeaveStatusTypeObject[data['leave_info_id']][0];
-        debug(data,leaveStatusData)
+        debug(data, leaveStatusData)
         let leaveTypeStatus = (leaveStatusData['leaveTypeStatus']).split(",");
         if (leaveTypeStatus.includes('denied') === true) {
           data['statusType'] = "Denied";
         }
         if (leaveTypeStatus.includes('pending') === true) {
           data['statusType'] = "Pending";
-          debug(data,leaveStatusData)
+          debug(data, leaveStatusData)
         }
-        if(data['from_date'] === leaveStatusData['startDate'] &&
-          data['to_date'] === leaveStatusData['endDate']){
+        if (data['from_date'] === leaveStatusData['startDate'] &&
+          data['to_date'] === leaveStatusData['endDate']) {
           if (leaveTypeStatus.includes('approved') === true) {
             data['statusType'] = "Approved";
           }
@@ -226,7 +226,6 @@ let getEmployeeLeaveSummaryService = async (request) => {
             data['statusType'] = "Partial Approved";
           }
         }
-
       }
     });
     return {status: true, data: employeeLeaveSummaryResult.content}
