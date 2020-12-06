@@ -21,5 +21,16 @@
     <a href="/leavechoronology/<%= employeeLeaveClaimInfoData.leave_info_id %>">Leave Chronology</a>
 </p>
 <p>
-    <a href="/closeLeave/<%= employeeLeaveClaimInfoData.leave_info_id %>">Close Leave</a>
+    <%
+    if(employeeLeaveClaimInfoData.leave_status === 1 || employeeLeaveClaimInfoData.leave_status === 3) {
+    %>
+        <a href="/closeLeave/<%= employeeLeaveClaimInfoData.leave_info_id %>"
+           onclick="return confirm('Are you sure?')">Close Leave</a>
+
+    <% } else { %>
+        <a href="/reopenLeave/<%= employeeLeaveClaimInfoData.leave_info_id %>"
+           onclick="return confirm('Are you sure?')">Reopen Leave</a>
+
+    <% } %>
+
 </p>

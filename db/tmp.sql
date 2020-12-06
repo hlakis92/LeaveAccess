@@ -243,3 +243,9 @@ CREATE TABLE `tbl_LeaveIntermittentUsage` (
   PRIMARY KEY (`pk_leaveIntermittentUsageId`));
 
 
+CREATE TABLE `tbl_LeaveNotificationMapping` (
+  `pk_leaveNotificationID` INT NOT NULL AUTO_INCREMENT,
+  `letterType` TINYINT(1) NOT NULL,
+  `letterDate` DATE NOT NULL DEFAULT NOW(),
+  `createdBy` INT NOT NULL,
+  PRIMARY KEY (`pk_leaveNotificationID`));

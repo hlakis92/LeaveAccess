@@ -140,6 +140,7 @@ let addAllDataService = async (request) => {
         fValue: d3.timeFormat(dbDateFormatDOB)(new Date())
       }];
       await leaveDAL.editLeaveInfoByLeaveInfoId(leaveInfoId, fieldValueUpdate);
+      await leaveDAL.addLeaveNotification([leaveInfoId, 1, d3.timeFormat(dbDateFormatDOB)(new Date()), userId]);
     }
     let employeeAndLeaveInfo = await leaveDAL.getEmployeeAndLeaveInfoByLeaveInfoId(leaveInfoId);
     let employeeLeaveProviderInfo = await leaveDAL.getEmployeeLeaveEligibilityByLeaveInfoId(leaveInfoId);
@@ -255,6 +256,7 @@ let getEmployeeLeaveClaimInfoService = async (request) => {
   let employeePaperWorkReviewDocumentResult = await leaveDAL.getEmployeeLeavePaperWorkReviewDocumentDataByClaimNumber(claimNumber);
   let employeeTaskListByClaimNumberResult = await leaveDAL.getEmployeeTaskListByClaimNumber(claimNumber);
   let employeeLeaveDeterminationDecisionResult = await leaveDAL.getEmployeeLeaveDeterminationDecisionByClaimNumber(claimNumber);
+  let employeeLeaveNotificationResult = await leaveDAL.getEmployeeLeaveNotificationByClaimNumber(claimNumber);
   if (employeePaperWorkReviewDocumentResult.status === true) {
     (employeePaperWorkReviewDocumentResult.content).forEach(data => {
       data['url'] = constant.appConfig.MEDIA_GET_STATIC_URL + data['url'];
@@ -278,7 +280,7 @@ let getEmployeeLeaveClaimInfoService = async (request) => {
       }
     });
   }
-  let dateDiff = (employeeLeavePlanStatusByClaimNumberResult.content[0]['date_diff']);
+  let dateDiff = (employeeLeavePlanStatusByClaimNumberResult.content[0]['date_diff']) + 1;
 
   let leaveDeterminationMatrix = {
     dateDiff: dateDiff,
@@ -295,7 +297,7 @@ let getEmployeeLeaveClaimInfoService = async (request) => {
 
     (employeeLeaveDeterminationDecisionResult.content).forEach(data => {
       data['no_of_per'] = ((data['date_diff'] + 1) / dateDiff * 100);
-      data['tooltip_data'] = data['startDate'] + "/" + data['endDate'];
+      data['tooltip_data'] = data['startDate'] + "-" + data['endDate'];
       if (previousDate !== undefined) {
         let pDate = new Date(previousDate);
         pDate = new Date(pDate.setDate(pDate.getDate() + 1));
@@ -310,7 +312,7 @@ let getEmployeeLeaveClaimInfoService = async (request) => {
             endDate: newEDate,
             date_diff: Math.floor((Date.parse(newEDate) - Date.parse(newSDate)) / 86400000),
             no_of_per: 10,
-            tooltip_data: newSDate + '/' + newEDate,
+            tooltip_data: newSDate + '-' + newEDate,
             class: 'progress-bar-warning',
             class2: 'pending1'
           }
@@ -348,9 +350,9 @@ let getEmployeeLeaveClaimInfoService = async (request) => {
       status: 'pending',
       startDate: leavePlanStatus['from_date'],
       endDate: leavePlanStatus['to_date'],
-      date_diff: leavePlanStatus['date_diff'],
+      date_diff: (leavePlanStatus['date_diff']),
       no_of_per: 100,
-      tooltip_data: leavePlanStatus['from_date'] + '/' + leavePlanStatus['to_date'],
+      tooltip_data: leavePlanStatus['from_date'] + '-' + leavePlanStatus['to_date'],
       class: 'progress-bar-warning',
       class2: 'pending1'
     }
@@ -370,7 +372,8 @@ let getEmployeeLeaveClaimInfoService = async (request) => {
         paperWorkReviewDocument: employeePaperWorkReviewDocumentResult.content,
         taskList: employeeTaskListByClaimNumberResult.content,
         leaveDeterminationMatrix: leaveDeterminationMatrix,
-        leaveDeterminationDecision: leaveDeterminationDecision
+        leaveDeterminationDecision: leaveDeterminationDecision,
+        employeeLeaveNotification: employeeLeaveNotificationResult.content
       }
     }
   } else {
@@ -507,6 +510,7 @@ let addLeaveDeterminationDecisionService = async (request) => {
     fValue: d3.timeFormat(dbDateFormatDOB)(new Date())
   }];
   await leaveDAL.editLeaveInfoByLeaveInfoId(leaveInfoId, fieldValueUpdate);
+  await leaveDAL.addLeaveNotification([leaveInfoId, 0, d3.timeFormat(dbDateFormatDOB)(new Date()), userId]);
   return {status: true, data: constant.leaveMessages.MSG_LEAVE_DETERMINATION_DECISION_ADDED_SUCCESSFULLY};
 };
 
@@ -562,6 +566,26 @@ let leaveCloseService = async (request) => {
   let result = await leaveDAL.leaveCloseByLeaveInfoId(leaveInfoId);
   let cdata = {};
   let addLeaveChronology = leaveDAL.addLeaveChronology('', 14, leaveInfoId, JSON.stringify(cdata), request.session.userInfo.userId)
+  return {
+    status: true,
+    data: {}
+  };
+};
+
+/**
+ * Created By: AV
+ * Updated By: AV
+ *
+ * employee leave reopen  by claim_number (leave_info_id)
+ *
+ * @param  {object}  request
+ * @return {object}
+ *
+ */
+let leaveReOpenService = async (request) => {
+  debug("leave.service -> leaveCloseService");
+  let leaveInfoId = request.params.claimNumber;
+  let result = await leaveDAL.leaveReOpenByLeaveInfoId(leaveInfoId);
   return {
     status: true,
     data: {}
@@ -858,6 +882,7 @@ module.exports = {
   addLeaveDeterminationDecisionService: addLeaveDeterminationDecisionService,
   checkEmployeeExistOrNotService: checkEmployeeExistOrNotService,
   leaveCloseService: leaveCloseService,
+  leaveReOpenService: leaveReOpenService,
   getEmployeeLeaveProviderService: getEmployeeLeaveProviderService,
   getEmployeeLeaveEligibilityService: getEmployeeLeaveEligibilityService,
   returnToWorkConfirmationService: returnToWorkConfirmationService,

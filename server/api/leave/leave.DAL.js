@@ -200,6 +200,13 @@ let leaveCloseByLeaveInfoId = async (leaveInfoId) => {
   return await common.executeQuery(leaveCloseByLeaveInfoIdQuery);
 };
 
+let leaveReOpenByLeaveInfoId = async (leaveInfoId) => {
+  debug("leave.DAL -> leaveReOpenByLeaveInfoId");
+  let leaveReOpenByLeaveInfoIdQuery = common.cloneObject(query.leaveReOpenByLeaveInfoIdQuery);
+  leaveReOpenByLeaveInfoIdQuery.filter.value = leaveInfoId;
+  return await common.executeQuery(leaveReOpenByLeaveInfoIdQuery);
+};
+
 let getEmployeeLeaveProviderByLeaveInfoId = async (leaveInfoId) => {
   debug("leave.DAL -> getEmployeeLeaveProviderByLeaveInfoId");
   let getEmployeeLeaveProviderByLeaveInfoIdQuery = common.cloneObject(query.getEmployeeLeaveProviderByLeaveInfoIdQuery);
@@ -314,6 +321,20 @@ let getEmployeeLeaveStatusTypeByEmpId = async (empId) => {
   return await common.executeQuery(getEmployeeLeaveStatusTypeByEmpIdQuery);
 };
 
+let addLeaveNotification = async (data) => {
+  debug("leave.DAL -> addLeaveNotification");
+  let addLeaveNotificationQuery = common.cloneObject(query.addLeaveNotificationQuery);
+  addLeaveNotificationQuery.insert.fValue = data;
+  return await common.executeQuery(addLeaveNotificationQuery);
+};
+
+let getEmployeeLeaveNotificationByClaimNumber = async (claimNumber) => {
+  debug("leave.DAL -> getEmployeeLeaveNotificationByClaimNumber");
+  let getEmployeeLeaveNotificationByClaimNumberQuery = common.cloneObject(query.getEmployeeLeaveNotificationByClaimNumberQuery);
+  getEmployeeLeaveNotificationByClaimNumberQuery.filter.value = claimNumber;
+  return await common.executeQuery(getEmployeeLeaveNotificationByClaimNumberQuery);
+};
+
 module.exports = {
   addEmployeeDetail: addEmployeeDetail,
   addLocationDetail: addLocationDetail,
@@ -331,6 +352,7 @@ module.exports = {
   editEmployeeLeaveByLeaveInfoId: editEmployeeLeaveByLeaveInfoId,
   checkEmployeeExistOrNotByEmployeeId: checkEmployeeExistOrNotByEmployeeId,
   leaveCloseByLeaveInfoId: leaveCloseByLeaveInfoId,
+  leaveReOpenByLeaveInfoId: leaveReOpenByLeaveInfoId,
   getEmployeeLeaveProviderByLeaveInfoId: getEmployeeLeaveProviderByLeaveInfoId,
   getEmployeeLeaveEligibilityByLeaveInfoId: getEmployeeLeaveEligibilityByLeaveInfoId,
   removePaperWorkReviewByLeaveInfoId: removePaperWorkReviewByLeaveInfoId,
@@ -347,4 +369,6 @@ module.exports = {
   addIntermittentTime: addIntermittentTime,
   getIntermittentTimeByLeveInfoIdAndDate: getIntermittentTimeByLeveInfoIdAndDate,
   getEmployeeLeaveStatusTypeByEmpId: getEmployeeLeaveStatusTypeByEmpId,
+  addLeaveNotification: addLeaveNotification,
+  getEmployeeLeaveNotificationByClaimNumber:getEmployeeLeaveNotificationByClaimNumber,
 };

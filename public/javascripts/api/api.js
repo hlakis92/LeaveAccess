@@ -172,11 +172,16 @@ $('#employeeAddButton').on('click', function (e) {
       console.log(result);
       deleteCookie('employeeInfo');
       setCookie('employeeInfo', JSON.stringify(data), 1);
-      if (empId > 0) {
-        window.location.href = windowLocation.origin + '/location?empId=' + empId;
+      if (getQueryString('redirection') === null) {
+        if (empId > 0) {
+          window.location.href = windowLocation.origin + '/location?empId=' + empId;
+        } else {
+          window.location.href = windowLocation.origin + '/location';
+        }
       } else {
-        window.location.href = windowLocation.origin + '/location';
+        window.location.href = windowLocation.origin + '/' + getQueryString('redirection');
       }
+
     },
     error: result => {
       console.log(result)
@@ -235,7 +240,11 @@ $('#locationAddButton').one('click', function (e) {
       } else {
         deleteCookie('locationInfo');
         setCookie('locationInfo', JSON.stringify(data), 1);
-        window.location.href = windowLocation.origin + '/leavereason';
+        if (getQueryString('redirection') === null) {
+          window.location.href = windowLocation.origin + '/leavereason';
+        } else {
+          window.location.href = windowLocation.origin + '/' + getQueryString('redirection');
+        }
       }
 
     },

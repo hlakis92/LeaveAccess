@@ -260,8 +260,14 @@
                         <div class="col-md-6">
                             <br> <br>
                             <!--back and next page button-->
-                            <button type="button" class="btn btn-secondary" id="locationBackButton"> Back</button>
-                            <button type="submit" class="btn btn-primary" id="locationAddButton">Next Page →</button>
+
+                            <% if(query.redirection === undefined || query.redirection === "")  { %>
+                                <button type="button" class="btn btn-secondary" id="locationBackButton"> Back</button>
+                                <button type="submit" class="btn btn-primary" id="locationAddButton">Next Page →
+                                </button>
+                            <% } else { %>
+                                <button type="submit" class="btn btn-primary" id="locationAddButton">Save</button>
+                            <% } %>
                         </div>
                     </div>
                 </div>
@@ -319,3 +325,5 @@
   });
 </script>
 </html>
+
+

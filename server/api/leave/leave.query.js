@@ -11,6 +11,7 @@ let tbl_UserMaster = "tbl_UserMaster";
 let tbl_LeaveChronology = "tbl_LeaveChronology";
 let tbl_tasklist = "tbl_tasklist";
 let tbl_LeaveIntermittentUsage = "tbl_LeaveIntermittentUsage";
+let tbl_LeaveNotificationMapping = "tbl_LeaveNotificationMapping";
 
 let query = {
   /* create user query start */
@@ -170,7 +171,7 @@ let query = {
       encloseField: false,
       alias: 'to_date'
     }, {
-      field: 'CASE WHEN leaveStatus = 0 THEN "incomplete" WHEN leaveStatus = 1 THEN "open" WHEN leaveStatus = 2 THEN "closed" ELSE "" END',
+      field: 'CASE WHEN leaveStatus = 0 THEN "incomplete" WHEN leaveStatus IN (1,3) THEN "open" WHEN leaveStatus = 2 THEN "closed" ELSE "" END',
       encloseField: false,
       alias: 'status'
     }, {
@@ -297,6 +298,10 @@ let query = {
       field: '"open"',
       encloseField: false,
       alias: 'status'
+    }, {
+      field: 'leaveStatus',
+      encloseField: false,
+      alias: 'leave_status'
     }, {
       field: 'GROUP_CONCAT(leave_name SEPARATOR "\n")',
       encloseField: false,
@@ -454,6 +459,19 @@ let query = {
     update: [{
       field: 'leaveStatus',
       fValue: 2
+    }],
+    filter: {
+      field: 'pk_leaveInfoId',
+      operator: 'EQ',
+      value: ''
+    },
+  }, // leave close by leave info id query end
+  /* leave close by leave info id query start*/
+  leaveReOpenByLeaveInfoIdQuery: {
+    table: tbl_LeaveInfo,
+    update: [{
+      field: 'leaveStatus',
+      fValue: 3
     }],
     filter: {
       field: 'pk_leaveInfoId',
@@ -921,7 +939,33 @@ let query = {
     groupby: [{
       field: 'fk_leaveInfoId'
     }],
-  }
+  },
+  addLeaveNotificationQuery: {
+    table: tbl_LeaveNotificationMapping,
+    insert: {
+      field: ["fk_leaveInfoId", "letterType", "letterDate", "createdBy"],
+      fValue: []
+    }
+  },
+  getEmployeeLeaveNotificationByClaimNumberQuery: {
+    table: tbl_LeaveNotificationMapping,
+    select: [{
+      field: 'letterType',
+      alias: 'letter_type'
+    }, {
+      field: 'DATE_FORMAT(letterDate, "%m/%d/%Y")',
+      encloseField: false,
+      alias: 'date'
+    }],
+    filter: {
+      field: 'fk_leaveInfoId',
+      operator: 'EQ',
+      value: ''
+    },
+    sortby: [{
+      field: 'letterDate'
+    }],
+  },
 };
 
 module.exports = query;
