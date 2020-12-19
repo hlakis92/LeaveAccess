@@ -847,6 +847,14 @@ let query = {
       encloseField: false,
       alias: 'endDate'
     }, {
+      field: 'DATE_FORMAT(startDate, "%m/%d/%Y")',
+      encloseField: false,
+      alias: 'toolTipStartDate'
+    }, {
+      field: 'DATE_FORMAT(endDate, "%m/%d/%Y")',
+      encloseField: false,
+      alias: 'toolTipEndDate'
+    }, {
       field: 'DATEDIFF(endDate, startDate)',
       encloseField: false,
       alias: 'date_diff'

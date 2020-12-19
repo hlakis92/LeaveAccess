@@ -297,7 +297,7 @@ let getEmployeeLeaveClaimInfoService = async (request) => {
 
     (employeeLeaveDeterminationDecisionResult.content).forEach(data => {
       data['no_of_per'] = ((data['date_diff'] + 1) / dateDiff * 100);
-      data['tooltip_data'] = data['startDate'] + "-" + data['endDate'];
+      data['tooltip_data'] = data['toolTipStartDate'] + "-" + data['toolTipEndDate'];
       if (previousDate !== undefined) {
         let pDate = new Date(previousDate);
         pDate = new Date(pDate.setDate(pDate.getDate() + 1));
@@ -305,6 +305,8 @@ let getEmployeeLeaveClaimInfoService = async (request) => {
         let eDate = new Date(data['endDate']);
         let newSDate = d3.timeFormat(dbDateFormatDOB)(pDate);
         let newEDate = d3.timeFormat(dbDateFormatDOB)(new Date(sDate.setDate(sDate.getDate() - 1)));
+        let newTSDate = d3.timeFormat('%m/%d/%Y')(new Date(newSDate));
+        let newTEDate = d3.timeFormat('%m/%d/%Y')(new Date(newEDate));
         if (pDate.getTime() < sDate.getTime()) {
           let Object = {
             status: 'pending',
@@ -312,7 +314,7 @@ let getEmployeeLeaveClaimInfoService = async (request) => {
             endDate: newEDate,
             date_diff: Math.floor((Date.parse(newEDate) - Date.parse(newSDate)) / 86400000),
             no_of_per: 10,
-            tooltip_data: newSDate + '-' + newEDate,
+            tooltip_data: newTSDate + '-' + newTEDate,
             class: 'progress-bar-warning',
             class2: 'pending1'
           }
