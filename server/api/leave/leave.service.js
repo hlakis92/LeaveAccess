@@ -281,6 +281,7 @@ let getEmployeeLeaveClaimInfoService = async (request) => {
     });
   }
   let dateDiff = (employeeLeavePlanStatusByClaimNumberResult.content[0]['date_diff']) + 1;
+  let dateDiffCopy = dateDiff;
 
   let leaveDeterminationMatrix = {
     dateDiff: dateDiff,
@@ -307,7 +308,7 @@ let getEmployeeLeaveClaimInfoService = async (request) => {
         let newEDate = d3.timeFormat(dbDateFormatDOB)(new Date(sDate.setDate(sDate.getDate() - 1)));
         let newTSDate = d3.timeFormat('%m/%d/%Y')(new Date(newSDate));
         let newTEDate = d3.timeFormat('%m/%d/%Y')(new Date(newEDate));
-        if (pDate.getTime() < sDate.getTime()) {
+        if (pDate.getTime() <= sDate.getTime() ) {
           let Object = {
             status: 'pending',
             startDate: newSDate,
