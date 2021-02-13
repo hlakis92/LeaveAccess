@@ -42,7 +42,7 @@
                                 <div class="col-md-12">
                                     <!--<div class="<%= employeeLeaveClaimInfoData.leave_type_status %> planStatusBar"></div>-->
                                     <% if(isPlanStatusMet === true) { %>
-                                        <div class="progress">
+                                        <div class="progress progress-valid">
                                             <% leaveDeterminationDecision.forEach(function(data) { %>
                                                 <div class="progress-bar <%= data.class %> <%= data.class2 %>"
                                                      data-toggle="tooltip" title=<%= data.tooltip_data %>
@@ -447,15 +447,55 @@
           leaveDeterminationDecisionData[leaveType] = ((new Date(endDate)).getTime()-(new Date(startDate)).getTime())/(1000*60*60*24)
         }*/
         console.log(leaveDeterminationDecisionData,leaveType,startDate,endDate);
-        Object.keys(leaveDeterminationMatrix).forEach(key=>{
+        leaveDeterminationDecisionData.forEach(data=>{
+                console.log("data...........",data);
+        });
+        let lastEndDate;
+        let reviseK = [];
+        /*leaveDeterminationDecisionData.forEach(data=>{
+          if(new Date(data['startDate']).getTime()===new Date(startDate).getTime()){
+            // is same
+            // debug("in same")
+            data['endDate']=endDate;
+            data['status']=leaveType;
+            reviseK.push(data)
+          }else if(new Date(data['startDate']).getTime()>=new Date(startDate).getTime() && new Date(data['endDate']).getTime()<=new Date(startDate).getTime()){
+            // in between
+            // debug("in between")
+            // reviseK.push(data)
+          } else if(new Date(data['startDate']).getTime()<=new Date(endDate).getTime() && new Date(data['endDate']).getTime()>new Date(endDate).getTime()){
+            // is same
+            // debug("start karat end moti")
+            data['endDate']=new Date((new Date(startDate).getTime())-86400000);
+            reviseK.push(data);
+            reviseK.push({startDate:startDate,endDate:endDate,status:leaveType});
+          }
+          else {
+            // debug("no change")
+            reviseK.push(data)
+          }
+          lastEndDate = data['eDate'];
+        });
+        console.log(reviseK)*/
+       /* Object.keys(leaveDeterminationMatrix).forEach(key=>{
           let all = document.getElementsByClassName(key+"1");
           for (let i = 0; i < all.length; i++) {
             all[i].style.width = leaveDeterminationMatrix[key]+'%';
           }
+        });*/
+        console.log("....leaveDeterminationMatrix......",leaveDeterminationMatrix);
+        $(".progress-valid").children().remove();
+        leaveDeterminationDecisionData.forEach(data=>{
+          console.log("............")
+          let e=
+          '<div class="progress-bar '+  data.class  +' '+data.class2 +' " data-toggle="tooltip" title="'+ data.tooltip_data +' "  role="progressbar"  style="width:'+ data.no_of_per +'%"> </div>'
+          ;
+          console.log("...........................000",e)
+          $(".progress-valid").append(e);
         });
-        console.log(leaveDeterminationMatrix)
 
       }
+
     });
   });
 

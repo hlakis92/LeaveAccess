@@ -442,6 +442,7 @@ let addLeaveDeterminationDecisionService = async (request) => {
   let endDate = data['endDate'];
   let leaveTypeStatus = data['leaveTypeStatus'];
   let userId = request.session.userInfo.userId;
+  //
   await leaveDAL.addLeaveDeterminationDecision(leaveInfoId, empId, startDate, endDate, leaveTypeStatus);
   let employeeAndLeaveInfo = await leaveDAL.getEmployeeAndLeaveInfoByLeaveInfoId(leaveInfoId);
   if (leaveTypeStatus === 'approved') {
@@ -921,3 +922,41 @@ let attachments = [{   // use URL as an attachment
 sendMail.sendMail("asys.vaghasiya@gmail.com", "hello2 ,....", undefined, "htmlData", attachments, result => {
   debug(result);
 });*/
+
+
+let k = [
+  {sDate:'2021-01-01',eDate:'2021-01-02',status:'pending'},
+  {sDate:'2021-01-03',eDate:'2021-01-06',status:'approved'},
+  {sDate:'2021-01-07',eDate:'2021-01-16',status:'no-app'}
+  ];
+processLeave('2021-01-04','2021-01-05',"denied")
+function processLeave(statDate,endDate,status){
+  debug(k);
+  let lastEndDate;
+  let reviseK = [];
+  k.forEach(data=>{
+    if(new Date(data['sDate']).getTime()===new Date(statDate).getTime()){
+      // is same
+      debug("in same")
+      data['eDate']=endDate;
+      data['status']=status;
+      reviseK.push(data)
+    }else if(new Date(data['sDate']).getTime()>=new Date(statDate).getTime() && new Date(data['eDate']).getTime()<=new Date(statDate).getTime()){
+      // in between
+      debug("in between")
+      // reviseK.push(data)
+    } else if(new Date(data['sDate']).getTime()<=new Date(endDate).getTime() && new Date(data['eDate']).getTime()>new Date(endDate).getTime()){
+      // is same
+      debug("start karat end moti")
+      data['eDate']=new Date((new Date(statDate).getTime())-86400000);
+      reviseK.push(data);
+      reviseK.push({sDate:statDate,eDate:endDate,status:status});
+    }
+     else {
+      debug("no change")
+      reviseK.push(data)
+    }
+    lastEndDate = data['eDate'];
+  });
+  debug(reviseK);
+}
