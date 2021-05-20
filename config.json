@@ -26,3 +26,32 @@
     "pdfPath": "/home/ubuntu/tmp/"
   }
 }
+/*{
+  "ssl": {
+    "active": false,
+    "key": "SSL_2019/leave_access.key",
+    "certificate": "SSL_2019/leave_access.crt",
+    "intermediate": "SSL_2019/leave_access.crt"
+  },
+  "dbConfig": {
+    "host": "127.0.0.1",
+    "port": "3306",
+    "user": "root",
+    "password": "",
+    "database": "leave_access_new",
+    "type": "database",
+    "databaseType": "mysql"
+  },
+  "mailConfig": {
+    "service": "smtp",
+    "username": "3c5903c869e0656cee6233712fcd726b",
+    "password": "5052db86e68d54780607884c56d08951",
+    "host": "in-v3.mailjet.com",
+    "port": "587",
+    "fromAddress": "hello@briskbraintech.com",
+    "toAddress": "",
+    "pdfPath": "/home/ubuntu/tmp/"
+  }
+}*/
+
+  

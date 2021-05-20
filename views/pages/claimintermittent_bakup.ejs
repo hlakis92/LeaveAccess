@@ -9,9 +9,6 @@
 <input type="hidden" name="empId" id="empId" value="<%= employeeLeaveClaimInfoData.emp_id %>">
 <input type="hidden" name="leaveInfoId" id="leaveInfoId" value="<%= employeeLeaveClaimInfoData.leave_info_id %>">
 <input type="hidden" name="userId" id="userId" value="<%= userId %>">
-<input type="hidden" name="startDate" id="startDate" value="<%= employeeLeaveClaimInfoData.from_date_db %>">
-<input type="hidden" name="endDate" id="endDate" value="<%= employeeLeaveClaimInfoData.to_date_db %>">
-<input type="hidden" name="selectedDate" id="selectedDate" value="">
 <div class="container">
     <% include ../partials/topnav %>
     <div class="container-fluid text-center">
@@ -83,12 +80,6 @@
                 <div class="claimStatus">
                     <div class="well">
                         <% planStatus.forEach(function(data) { %>
-                            <% var isPlanStatusMet = true; %>
-                            <% JSON.parse(data['eligibility']).forEach(eliData => {
-                                if (eliData.value !== "met") {
-                                    isPlanStatusMet = false;
-                                }
-                            }) %>
                             <div class="row">
                                 <div class="col-md-6 ">
                                     <div class="planName"><%= data['leave_name'] %></div>
@@ -99,35 +90,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <% if(isPlanStatusMet === true) { %>
-                                            <div class="progress">
-                                                <% leaveDeterminationDecision.forEach(function(data) { %>
-                                                    <div class="progress-bar <%= data.class %> <%= data.class2 %>"
-                                                         data-toggle="tooltip" title=<%= data.tooltip_data %>
-                                                         role="progressbar"
-                                                         style="width:<%= data.no_of_per %>%">
-                                                    </div>
-                                                <% }) %>
-                                                <!--<div class="progress-bar progress-bar-success" role="progressbar"
-                                                     style="width:<%= leaveDeterminationMatrix.approved %>%">
-                                                </div>
-                                                <div class="progress-bar progress-bar-warning" role="progressbar"
-                                                     style="width: <%= leaveDeterminationMatrix.pending %>%">
-                                                </div>
-                                                <div class="progress-bar progress-bar-danger" role="progressbar"
-                                                     style="width:<%= leaveDeterminationMatrix.denied %>%">
-                                                </div>
-                                                <div class="progress-bar progress-bar-info" role="progressbar"
-                                                     style="width:<%= leaveDeterminationMatrix.not_applicable %>%">
-                                                </div>-->
-                                            </div>
-                                        <% } else { %>
-                                            <div class="progress">
-                                                <div class="progress-bar progress-bar-info" role="progressbar"
-                                                     style="width:100%">
-                                                </div>
-                                            </div>
-                                        <% } %>
+                                        <div class="<%= employeeLeaveClaimInfoData.leave_type_status %>"></div>
                                     </div>
                                 </div>
                             </div>
@@ -173,6 +136,7 @@
                         &lt;!&ndash; Modal &ndash;&gt;
                         <div class="modal fade" id="myModal3" role="dialog">
                             <div class="modal-dialog">
+
                                 &lt;!&ndash; Modal content&ndash;&gt;
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -189,6 +153,7 @@
                                                 <option value="Hassan">Carrie</option>
                                             </select>
                                     </div>
+
                                     <div class="modal-body">
                                         <p>What is the estimated return to work date?</p>
                                         <div>
@@ -196,6 +161,7 @@
                                                    min="1990-01-01" max="2088-12-31" />
                                         </div>
                                     </div>
+
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-default"
                                                 data-dismiss="modal">Close</button>
@@ -203,6 +169,7 @@
                                                 data-dismiss="modal">submit</button>
                                     </div>
                                 </div>
+
                             </div>
                         </div>
                     </div>-->
@@ -213,6 +180,7 @@
                         &lt;!&ndash; Modal &ndash;&gt;
                         <div class="modal fade" id="myModal4" role="dialog">
                             <div class="modal-dialog">
+
                                 &lt;!&ndash; Modal content&ndash;&gt;
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -229,6 +197,7 @@
                                                 <option value="Hassan">Carrie</option>
                                             </select>
                                     </div>
+
                                     <div class="modal-body">
                                         <p>What is the Actual return to work date?</p>
                                         <div>
@@ -236,6 +205,7 @@
                                                    min="1990-01-01" max="2088-12-31" />
                                         </div>
                                     </div>
+
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-default"
                                                 data-dismiss="modal">Close</button>
@@ -243,6 +213,7 @@
                                                 data-dismiss="modal">submit</button>
                                     </div>
                                 </div>
+
                             </div>
                         </div>
                     </div>-->
@@ -253,8 +224,7 @@
                 <div id="Datepicker1">
                     <section>
                         <h5 style="background-color:lightgrey;">Enter Intermittent Usage</h5>
-                        <h6 id="createTasks1" data-toggle="modal" data-target="#intermittentTimeModal"><a href="#">Enter
-                                Time</a></h6>
+                        <h6 id="createTasks1" data-toggle="modal" data-target="#intermittentTimeModal"><a href="#">Enter Time</a></h6>
                         <div class="modal fade" id="intermittentTimeModal" role="dialog">
                             <div class="modal-dialog">
                                 <p id="employeeStatus">Status:Active</p>
@@ -281,10 +251,11 @@
 
                                         <label>Is this absence a flare up or an office visit?</label>
                                         <div id="pickIntermittentType">
-                                            <select name="intType" required id="intermittentParam">
-                                                <option value="flareUp">Flare Up</option>
-                                                <option value="officeVisit">Office Visit</option>
-                                            </select>
+                                            <form action="/intyType.php">
+                                                <select name="intType" required>
+                                                    <option value="flareUp">Flare Up</option>
+                                                    <option value="officeVisit">Office Visit</option>
+                                                </select>
                                         </div>
 
                                         <div class="form-group">
@@ -294,25 +265,26 @@
                                         <div class="form-group">
                                             <div>
                                                 <label for="start">Date Time Used</label>
-                                                <input class="form-control1 input-sm" type="date"
-                                                       id="datePick" name="trip"
-                                                       min="1990-01-01" max="2088-12-31" required/>
+                                                <input class="form-control1 input-sm" type="date" id="start" name="trip"
+                                                       value="2018-07-22"
+                                                       min="1990-01-01" max="2088-12-31"/>
                                             </div>
 
                                             <br>
 
                                             <label for="FormControlTextarea1">How many hours used? </label>
                                             <input type="number" class="form-control1 input-sm"
-                                                   id="hoursUsed" placeholder="0" required value="0">
+                                                   id="inputwednesdayRSHours" placeholder="0" required>
                                         </div>
 
                                         <label>Is this absence a flare up or an office visit?</label>
                                         <div id="pickIntermittentStatus">
-                                            <select name="intTypeApproval" required id="statusSelect">
-                                                <option value="pendingIntTime">Pending</option>
-                                                <option value="approvedIntTime">Approved</option>
-                                                <option value="deniedIntTime">Denied</option>
-                                            </select>
+                                            <form action="/intyTypeApproval.php">
+                                                <select name="intTypeApproval" required>
+                                                    <option value="pendingIntTime">Pending</option>
+                                                    <option value="approvedIntTime">Approved</option>
+                                                    <option value="deniedIntTime">Denied</option>
+                                                </select>
                                         </div>
                                         <br>
                                         <!-- Modal Task Completed Check box-->
@@ -320,7 +292,7 @@
                                             <label for="FormControlTextarea1">Comment on why time was
                                                 approved/denied</label>
                                             <textarea class="form-control" id="exampleFormControlTextarea1"
-                                                      rows="4" id="commentText"> </textarea>
+                                                      rows="4"> </textarea>
                                         </div>
 
 
@@ -328,8 +300,7 @@
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-default" data-dismiss="modal">Close
                                         </button>
-                                        <button type="sumbmit" class="btn btn-primary"
-                                                id="intermittentTimeSubmitButton">submit
+                                        <button type="sumbmit" class="btn btn-primary" data-dismiss="modal">submit
                                         </button>
                                     </div>
                                 </div>
@@ -354,66 +325,40 @@
                         <th>Sent By</th>
                         <th>Date</th>
                     </tr>
-                    <% if (employeeLeaveClaimInfoData['is_DDate_complete'] === 1) { %>
-                        <% employeeLeaveNotification.forEach(function(data) {
-                        if(data.letter_type === 0) {
-                        %>
-                            <tr>
-                                <td id="letterSent">
-                                    <a href="#">Decision</a>
-                                </td>
-                                <td id="supervisor"><%= employeeLeaveInfoData.supervisorContactName %></td>
-                                <td id="letterSentMethod">E-Mail</td>
-                                <td id="letterDate"><%= data.date %></td>
-                            </tr>
-                            <tr>
-                                <td id="letterSent">
-                                    <a href="#">Decision</a>
-                                </td>
-                                <td id="supervisor"><%= employeeLeaveInfoData.HRContactName %></td>
-                                <td id="letterSentMethod">E-Mail</td>
-                                <td id="letterDate"><%= data.date %></td>
-                            </tr>
-                            <tr>
-                                <td id="letterSent">
-                                    <a href="#">Decision</a>
-                                </td>
-                                <td id="supervisor"><%= employeeLeaveInfoData.PBContactName %></td>
-                                <td id="letterSentMethod">E-Mail</td>
-                                <td id="letterDate"><%= data.date %></td>
-                            </tr>
-                        <% }}); %>
-                    <% } %>
-                    <% if (employeeLeaveClaimInfoData['is_EDate_complete'] === 1) { %>
-                        <% employeeLeaveNotification.forEach(function(data) {
-                        if(data.letter_type === 1) {
-                        %>
-                            <tr>
-                                <td id="letterSent">
-                                    <a href="#">Eligibility</a>
-                                </td>
-                                <td id="supervisor"><%= employeeLeaveInfoData.supervisorContactName %></td>
-                                <td id="letterSentMethod">E-Mail</td>
-                                <td id="letterDate"><%= data.date %></td>
-                            </tr>
-                            <tr>
-                                <td id="letterSent">
-                                    <a href="#">Eligibility</a>
-                                </td>
-                                <td id="supervisor"><%= employeeLeaveInfoData.HRContactName %></td>
-                                <td id="letterSentMethod">E-Mail</td>
-                                <td id="letterDate"><%= data.date %></td>
-                            </tr>
-                            <tr>
-                                <td id="letterSent">
-                                    <a href="#">Eligibility</a>
-                                </td>
-                                <td id="supervisor"><%= employeeLeaveInfoData.PBContactName %></td>
-                                <td id="letterSentMethod">E-Mail</td>
-                                <td id="letterDate"><%= data.date %></td>
-                            </tr>
-                        <% }}); %>
-                    <% } %>
+
+                    <tr id="employeeInfo">
+                        <td id="letterSent">
+                            <a href="#"> Decision</a>
+                        </td>
+                        <td id="employee"><%= employeeLeaveInfoData.employeeName %></td>
+                        <td id="letterSentMethod">Mail, E-Mail</td>
+                        <td id="letterDate">06/25/2018</td>
+                    </tr>
+                    <tr>
+                        <td id="letterSent">
+                            <a href="#">Decision</a>
+                        </td>
+                        <td id="supervisor"><%= employeeLeaveInfoData.supervisorContactName %></td>
+                        <td id="letterSentMethod">E-Mail</td>
+                        <td id="letterDate">06/25/2018</td>
+                    </tr>
+                    <tr id="employeeInfo">
+                        <td id="letterSent">
+                            <a href="#">Eligibility</a>
+                        </td>
+                        <td id="employee"><%= employeeLeaveInfoData.employeeName %></td>
+                        <td id="letterSentMethod">Mail, E-Mail</td>
+                        <td id="letterDate">06/25/2018</td>
+                    </tr>
+                    <tr>
+                        <td id="letterSent">
+                            <a href="#">Eligibility</a>
+                        </td>
+                        <td id="supervisor"><%= employeeLeaveInfoData.supervisorContactName %></td>
+                        <td id="letterSentMethod">E-Mail</td>
+                        <td id="letterDate">06/25/2018</td>
+                    </tr>
+
                 </table>
                 <br>
                 <button class="upload-btn-wrapper" type="submit" class="btn btn-primary"
@@ -445,12 +390,12 @@
                 <% include ../partials/employeecontactlist.ejs %>
 
                 <div class="well">
-                    <p id="updateClaimNumber">Leave ID: <%= employeeLeaveClaimInfoData.leave_info_id %></p>
-<!--                    <p id="dateOpened">Date Opened: 00/00/0000</p>-->
-<!--                    <p id="employeePhoneNumber">Return Date: 00/00/0000 </p>-->
-<!--                    <p id="employeeGender">Gender:</p>-->
-<!--                    <p id="dateClosed">Date Closed:00/00/0000</p>-->
-<!--                    <p id="leaveStatus">Status:Opened</p>-->
+                    <p id="updateClaimNumber">Leave ID: 2019000001</p>
+                    <p id="dateOpened">Date Opened: 00/00/0000</p>
+                    <p id="employeePhoneNumber">Return Date: 00/00/0000 </p>
+                    <p id="employeeGender">Gender:</p>
+                    <p id="dateClosed">Date Closed:00/00/0000</p>
+                    <p id="leaveStatus">Status:Opened</p>
                 </div>
             </div>
         </div>
@@ -489,36 +434,19 @@
       hide_on_select: true
     });
   });
+
+
 </script>
-<link rel="stylesheet" href="/stylesheets/fullcalendar.min.css"/>
+<link rel="stylesheet" href="/stylesheets/fullcalendar.min.css" />
 <script src="/javascripts/moment.min.js"></script>
 <script src="/javascripts/fullcalendar.min.js"></script>
 <script>
   $(document).ready(function () {
-    var calendar = $('#calendar').fullCalendar({
-      editable: true,
-      displayEventTime: false,
-      // validRange: {
-      //   start: $("#startDate").val(),
-      //   end: $("#endDate").val()
-      // },
-      eventRender: function (event, element, view) {
-        if (event.allDay === 'true') {
-          event.allDay = true;
-        } else {
-          event.allDay = false;
-        }
+    var calendar = $('#calendar').fullCalendar({ 
+      dayClick: function(date, jsEvent, view, resourceObj) {
+        $("#createTasks1").trigger("click");        
       },
-      selectable: true,
-      selectHelper: true,
-      select: function (start, end, allDay) {
-        var start = $.fullCalendar.formatDate(start, "Y-MM-DD");
-        var end = $.fullCalendar.formatDate(end, "Y-MM-DD");
-        $("#selectedDate").val(start);
-        getIntermittentTime();
-        $("#createTasks1").trigger("click");
-      },
-      editable: true,
+
     });
   });
 </script>
