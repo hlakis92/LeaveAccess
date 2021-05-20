@@ -174,6 +174,36 @@ let intermittentParameter = async (request, response) => {
   return response.send(result);
 };
 
+/**
+ * Created By: AV
+ * Updated By: AV
+ *
+ *
+ * @param  {object} request
+ * @param  {object} response
+ * @return {object}
+ */
+let intermittentTime = async (request, response) => {
+  debug("leave.controller -> intermittentTime");
+  let result = await leaveService.intermittentTimeService(request);
+  return response.send(result);
+};
+
+/**
+ * Created By: AV
+ * Updated By: AV
+ *
+ *
+ * @param  {object} request
+ * @param  {object} response
+ * @return {object}
+ */
+let getIntermittentTime = async (request, response) => {
+  debug("leave.controller -> intermittentTime");
+  let result = await leaveService.getIntermittentTimeService(request);
+  return response.send(result);
+};
+
 module.exports = {
   // addEmployee: addEmployee,
   checkLeaveEligibility: checkLeaveEligibility,
@@ -186,5 +216,7 @@ module.exports = {
   syncData: syncData,
   returnToWorkConfirmation: returnToWorkConfirmation,
   paperWorkReview: paperWorkReview,
-  intermittentParameter:intermittentParameter,
+  intermittentParameter: intermittentParameter,
+  intermittentTime: intermittentTime,
+  getIntermittentTime: getIntermittentTime,
 };

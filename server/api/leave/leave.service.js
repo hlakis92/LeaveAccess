@@ -140,6 +140,7 @@ let addAllDataService = async (request) => {
         fValue: d3.timeFormat(dbDateFormatDOB)(new Date())
       }];
       await leaveDAL.editLeaveInfoByLeaveInfoId(leaveInfoId, fieldValueUpdate);
+      await leaveDAL.addLeaveNotification([leaveInfoId, 1, d3.timeFormat(dbDateFormatDOB)(new Date()), userId]);
     }
     let employeeAndLeaveInfo = await leaveDAL.getEmployeeAndLeaveInfoByLeaveInfoId(leaveInfoId);
     let employeeLeaveProviderInfo = await leaveDAL.getEmployeeLeaveEligibilityByLeaveInfoId(leaveInfoId);
@@ -198,7 +199,36 @@ let getEmployeeLeaveSummaryService = async (request) => {
   debug("leave.service -> getEmployeeLeaveService");
   let empId = request.params.empId;
   let employeeLeaveSummaryResult = await leaveDAL.getEmployeeLeaveSummaryByEmpId(empId);
+  let getEmployeeLeaveStatusTypeResult = await leaveDAL.getEmployeeLeaveStatusTypeByEmpId(empId);
+  let getEmployeeLeaveStatusTypeObject;
+  if (getEmployeeLeaveStatusTypeResult.status === true && getEmployeeLeaveStatusTypeResult.content.length !== 0) {
+    let getEmployeeLeaveStatusTypeNestByLeaveInfoId = common.nestingData(getEmployeeLeaveStatusTypeResult.content, 'fk_leaveInfoId');
+    getEmployeeLeaveStatusTypeObject = common.adjustValueOfKeyValuesPairToObject(getEmployeeLeaveStatusTypeNestByLeaveInfoId)
+  }
   if (employeeLeaveSummaryResult.status === true) {
+    (employeeLeaveSummaryResult.content).forEach(data => {
+      if (getEmployeeLeaveStatusTypeObject !== undefined && getEmployeeLeaveStatusTypeObject.hasOwnProperty(data['leave_info_id']) === true) {
+        let leaveStatusData = getEmployeeLeaveStatusTypeObject[data['leave_info_id']][0];
+        debug(data, leaveStatusData)
+        let leaveTypeStatus = (leaveStatusData['leaveTypeStatus']).split(",");
+        if (leaveTypeStatus.includes('denied') === true) {
+          data['statusType'] = "Denied";
+        }
+        if (leaveTypeStatus.includes('pending') === true) {
+          data['statusType'] = "Pending";
+          debug(data, leaveStatusData)
+        }
+        if (data['from_date'] === leaveStatusData['startDate'] &&
+          data['to_date'] === leaveStatusData['endDate']) {
+          if (leaveTypeStatus.includes('approved') === true) {
+            data['statusType'] = "Approved";
+          }
+          if (leaveTypeStatus.includes('approved') === true && leaveTypeStatus.includes('denied') === true) {
+            data['statusType'] = "Partial Approved";
+          }
+        }
+      }
+    });
     return {status: true, data: employeeLeaveSummaryResult.content}
   } else {
     return {status: false, error: {}}
@@ -224,7 +254,9 @@ let getEmployeeLeaveClaimInfoService = async (request) => {
   let employeeLeavePlanStatusByClaimNumberResult = await leaveDAL.getEmployeeLeavePlanStatusByClaimNumber(claimNumber);
   let employeePaperWorkReviewResult = await leaveDAL.getEmployeeLeavePaperWorkReviewDataByClaimNumber(claimNumber);
   let employeePaperWorkReviewDocumentResult = await leaveDAL.getEmployeeLeavePaperWorkReviewDocumentDataByClaimNumber(claimNumber);
-  let employeeTaskListByClaimNumberResult = await leaveDAL.getEmployeeTaskListByClaimNumber(claimNumber)
+  let employeeTaskListByClaimNumberResult = await leaveDAL.getEmployeeTaskListByClaimNumber(claimNumber);
+  let employeeLeaveDeterminationDecisionResult = await leaveDAL.getEmployeeLeaveDeterminationDecisionByClaimNumber(claimNumber);
+  let employeeLeaveNotificationResult = await leaveDAL.getEmployeeLeaveNotificationByClaimNumber(claimNumber);
   if (employeePaperWorkReviewDocumentResult.status === true) {
     (employeePaperWorkReviewDocumentResult.content).forEach(data => {
       data['url'] = constant.appConfig.MEDIA_GET_STATIC_URL + data['url'];
@@ -248,6 +280,90 @@ let getEmployeeLeaveClaimInfoService = async (request) => {
       }
     });
   }
+  let dateDiff = (employeeLeavePlanStatusByClaimNumberResult.content[0]['date_diff']) + 1;
+  let dateDiffCopy = dateDiff;
+
+  let leaveDeterminationMatrix = {
+    dateDiff: dateDiff,
+    pending: 100,
+    denied: 0,
+    approved: 0,
+    not_applicable: 0,
+  }
+  let leaveDeterminationDecision = [];
+  let leavePlanStatus = employeeLeavePlanStatusByClaimNumberResult.content[0];
+  if (employeeLeaveDeterminationDecisionResult.status === true
+    && employeeLeaveDeterminationDecisionResult.content.length !== 0) {
+    let previousDate = leavePlanStatus['from_date'];
+
+    (employeeLeaveDeterminationDecisionResult.content).forEach(data => {
+      data['no_of_per'] = ((data['date_diff'] + 1) / dateDiff * 100);
+      data['tooltip_data'] = data['toolTipStartDate'] + "-" + data['toolTipEndDate'];
+      if (previousDate !== undefined) {
+        let pDate = new Date(previousDate);
+        pDate = new Date(pDate.setDate(pDate.getDate() + 1));
+        let sDate = new Date(data['startDate']);
+        let eDate = new Date(data['endDate']);
+        let newSDate = d3.timeFormat(dbDateFormatDOB)(pDate);
+        let newEDate = d3.timeFormat(dbDateFormatDOB)(new Date(sDate.setDate(sDate.getDate() - 1)));
+        let newTSDate = d3.timeFormat('%m/%d/%Y')(new Date(newSDate));
+        let newTEDate = d3.timeFormat('%m/%d/%Y')(new Date(newEDate));
+        if (pDate.getTime() <= sDate.getTime() ) {
+          let Object = {
+            status: 'pending',
+            startDate: newSDate,
+            endDate: newEDate,
+            date_diff: Math.floor((Date.parse(newEDate) - Date.parse(newSDate)) / 86400000),
+            no_of_per: 10,
+            tooltip_data: newTSDate + '-' + newTEDate,
+            class: 'progress-bar-warning',
+            class2: 'pending1'
+          }
+          Object['no_of_per'] = ((Object['date_diff'] + 1) / dateDiff * 100);
+          leaveDeterminationDecision.push(Object)
+        }
+
+      }
+      previousDate = data['endDate'];
+      if (data['status'] === 'pending') {
+        data['class'] = "progress-bar-warning";
+        data['class2'] = "pending1";
+        leaveDeterminationMatrix['pending'] += ((data['date_diff'] + 1) / dateDiff * 100);
+      }
+      if (data['status'] === 'denied') {
+        data['class'] = "progress-bar-danger";
+        data['class2'] = "denied1";
+        leaveDeterminationMatrix['denied'] += ((data['date_diff'] + 1) / dateDiff * 100);
+      }
+      if (data['status'] === 'approved') {
+        data['class'] = "progress-bar-success";
+        data['class2'] = "approved1";
+        leaveDeterminationMatrix['approved'] += ((data['date_diff'] + 1) / dateDiff * 100);
+      }
+      if (data['status'] === 'notapplicable') {
+        data['class'] = "progress-bar-info";
+        data['class2'] = "notapplicable1";
+        leaveDeterminationMatrix['not_applicable'] += ((data['date_diff'] + 1) / dateDiff * 100);
+      }
+      leaveDeterminationDecision.push(data);
+    });
+  } else {
+    let leavePlanStatus = employeeLeavePlanStatusByClaimNumberResult.content[0]
+    let Object = {
+      status: 'pending',
+      startDate: leavePlanStatus['from_date'],
+      endDate: leavePlanStatus['to_date'],
+      date_diff: (leavePlanStatus['date_diff']),
+      no_of_per: 100,
+      tooltip_data: leavePlanStatus['from_date'] + '-' + leavePlanStatus['to_date'],
+      class: 'progress-bar-warning',
+      class2: 'pending1'
+    }
+    leaveDeterminationDecision.push(Object);
+  }
+  debug("....................................", dateDiff);
+  debug("....................................", leaveDeterminationDecision);
+  leaveDeterminationMatrix['pending'] = (100 - leaveDeterminationMatrix['denied'] - leaveDeterminationMatrix['approved'] - leaveDeterminationMatrix['not_applicable'])
   if (employeeLeaveClaimInfoResult.status === true && employeeLeaveClaimInfoResult.content.length !== 0) {
     return {
       status: true, data: {
@@ -257,7 +373,10 @@ let getEmployeeLeaveClaimInfoService = async (request) => {
         planStatus: employeeLeavePlanStatusByClaimNumberResult.content,
         paperWorkReview: employeePaperWorkReviewResult.content,
         paperWorkReviewDocument: employeePaperWorkReviewDocumentResult.content,
-        taskList: employeeTaskListByClaimNumberResult.content
+        taskList: employeeTaskListByClaimNumberResult.content,
+        leaveDeterminationMatrix: leaveDeterminationMatrix,
+        leaveDeterminationDecision: leaveDeterminationDecision,
+        employeeLeaveNotification: employeeLeaveNotificationResult.content
       }
     }
   } else {
@@ -323,6 +442,7 @@ let addLeaveDeterminationDecisionService = async (request) => {
   let endDate = data['endDate'];
   let leaveTypeStatus = data['leaveTypeStatus'];
   let userId = request.session.userInfo.userId;
+  //
   await leaveDAL.addLeaveDeterminationDecision(leaveInfoId, empId, startDate, endDate, leaveTypeStatus);
   let employeeAndLeaveInfo = await leaveDAL.getEmployeeAndLeaveInfoByLeaveInfoId(leaveInfoId);
   if (leaveTypeStatus === 'approved') {
@@ -394,6 +514,7 @@ let addLeaveDeterminationDecisionService = async (request) => {
     fValue: d3.timeFormat(dbDateFormatDOB)(new Date())
   }];
   await leaveDAL.editLeaveInfoByLeaveInfoId(leaveInfoId, fieldValueUpdate);
+  await leaveDAL.addLeaveNotification([leaveInfoId, 0, d3.timeFormat(dbDateFormatDOB)(new Date()), userId]);
   return {status: true, data: constant.leaveMessages.MSG_LEAVE_DETERMINATION_DECISION_ADDED_SUCCESSFULLY};
 };
 
@@ -449,6 +570,26 @@ let leaveCloseService = async (request) => {
   let result = await leaveDAL.leaveCloseByLeaveInfoId(leaveInfoId);
   let cdata = {};
   let addLeaveChronology = leaveDAL.addLeaveChronology('', 14, leaveInfoId, JSON.stringify(cdata), request.session.userInfo.userId)
+  return {
+    status: true,
+    data: {}
+  };
+};
+
+/**
+ * Created By: AV
+ * Updated By: AV
+ *
+ * employee leave reopen  by claim_number (leave_info_id)
+ *
+ * @param  {object}  request
+ * @return {object}
+ *
+ */
+let leaveReOpenService = async (request) => {
+  debug("leave.service -> leaveCloseService");
+  let leaveInfoId = request.params.claimNumber;
+  let result = await leaveDAL.leaveReOpenByLeaveInfoId(leaveInfoId);
   return {
     status: true,
     data: {}
@@ -673,6 +814,68 @@ let intermittentParameterService = async (request) => {
   }
 };
 
+/**
+ * Created By: AV
+ * Updated By: AV
+ *
+ *
+ *
+ * @param  {object}  request
+ * @return {object}
+ *
+ */
+let intermittentTimeService = async (request) => {
+  debug("leave.service -> intermittentTimeService");
+  let userId = request.session.userInfo.userId;
+  let leaveInfoId = request.body.leaveInfoId;
+  let param = request.body.param;
+  let date = request.body.date;
+  let hours = request.body.hours;
+  let status = request.body.status;
+  let comment = request.body.comment;
+
+  await leaveDAL.removeIntermittentTimeByLeveInfoIdAndDate(leaveInfoId, date);
+  await leaveDAL.addIntermittentTime([leaveInfoId, param, date, hours, status, comment]);
+
+  return {
+    status: true,
+    data: constant.leaveMessages.MSG_LEAVE_INTERMITTENT_TIME_ADDED_SUCCESSFULLY
+  }
+};
+
+/**
+ * Created By: AV
+ * Updated By: AV
+ *
+ *
+ *
+ * @param  {object}  request
+ * @return {object}
+ *
+ */
+let getIntermittentTimeService = async (request) => {
+  debug("leave.service -> getIntermittentTimeService");
+  let userId = request.session.userInfo.userId;
+  let leaveInfoId = request.params.leaveInfoId;
+  let date = request.params.date;
+
+  let result = await leaveDAL.getIntermittentTimeByLeveInfoIdAndDate(leaveInfoId, date);
+  debug(".....................", result)
+  if (result.status === true && result.content.length !== 0) {
+    return {
+      status: true,
+      data: result.content[0]
+    }
+  } else {
+    return {
+      status: false,
+      error: constant.leaveMessages.MSG_LEAVE_INTERMITTENT_TIME_ADDED_SUCCESSFULLY
+    }
+  }
+
+
+};
+
 module.exports = {
   checkLeaveEligibilityService: checkLeaveEligibilityService,
   addAllDataService: addAllDataService,
@@ -683,12 +886,15 @@ module.exports = {
   addLeaveDeterminationDecisionService: addLeaveDeterminationDecisionService,
   checkEmployeeExistOrNotService: checkEmployeeExistOrNotService,
   leaveCloseService: leaveCloseService,
+  leaveReOpenService: leaveReOpenService,
   getEmployeeLeaveProviderService: getEmployeeLeaveProviderService,
   getEmployeeLeaveEligibilityService: getEmployeeLeaveEligibilityService,
   returnToWorkConfirmationService: returnToWorkConfirmationService,
   paperWorkReviewService: paperWorkReviewService,
   getLeaveChronologyServiceService: getLeaveChronologyServiceService,
   intermittentParameterService: intermittentParameterService,
+  intermittentTimeService: intermittentTimeService,
+  getIntermittentTimeService: getIntermittentTimeService,
 };
 
 /*async function convertHTMLToPDF(htmlData, fileName) {
@@ -716,3 +922,41 @@ let attachments = [{   // use URL as an attachment
 sendMail.sendMail("asys.vaghasiya@gmail.com", "hello2 ,....", undefined, "htmlData", attachments, result => {
   debug(result);
 });*/
+
+
+let k = [
+  {sDate:'2021-01-01',eDate:'2021-01-02',status:'pending'},
+  {sDate:'2021-01-03',eDate:'2021-01-06',status:'approved'},
+  {sDate:'2021-01-07',eDate:'2021-01-16',status:'no-app'}
+  ];
+processLeave('2021-01-04','2021-01-05',"denied")
+function processLeave(statDate,endDate,status){
+  debug(k);
+  let lastEndDate;
+  let reviseK = [];
+  k.forEach(data=>{
+    if(new Date(data['sDate']).getTime()===new Date(statDate).getTime()){
+      // is same
+      debug("in same")
+      data['eDate']=endDate;
+      data['status']=status;
+      reviseK.push(data)
+    }else if(new Date(data['sDate']).getTime()>=new Date(statDate).getTime() && new Date(data['eDate']).getTime()<=new Date(statDate).getTime()){
+      // in between
+      debug("in between")
+      // reviseK.push(data)
+    } else if(new Date(data['sDate']).getTime()<=new Date(endDate).getTime() && new Date(data['eDate']).getTime()>new Date(endDate).getTime()){
+      // is same
+      debug("start karat end moti")
+      data['eDate']=new Date((new Date(statDate).getTime())-86400000);
+      reviseK.push(data);
+      reviseK.push({sDate:statDate,eDate:endDate,status:status});
+    }
+     else {
+      debug("no change")
+      reviseK.push(data)
+    }
+    lastEndDate = data['eDate'];
+  });
+  debug(reviseK);
+}

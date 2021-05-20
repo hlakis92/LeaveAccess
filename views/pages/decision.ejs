@@ -22,6 +22,12 @@
             <div class="claimStatus">
                 <div class="well">
                     <% planStatus.forEach(function(data) { %>
+                        <% var isPlanStatusMet = true; %>
+                        <% JSON.parse(data['eligibility']).forEach(eliData => {
+                            if (eliData.value !== "met") {
+                                isPlanStatusMet = false;
+                            }
+                        }) %>
                         <div class="row">
                             <div class="col-md-6 ">
                                 <div class="planName"><%= data['leave_name'] %></div>
@@ -32,13 +38,52 @@
                                     - <%= data['to_date'] %></div>
                             </div>
                             <div class="row">
-                                <div class="col-md-12 planStatusBarParent">
-                                    <div class="<%= employeeLeaveClaimInfoData.leave_type_status %> planStatusBar"></div>
+
+                                <div class="col-md-12">
+                                    <!--<div class="<%= employeeLeaveClaimInfoData.leave_type_status %> planStatusBar"></div>-->
+                                    <% if(isPlanStatusMet === true) { %>
+                                        <div class="progress progress-valid">
+                                            <% leaveDeterminationDecision.forEach(function(data) { %>
+                                                <div class="progress-bar <%= data.class %> <%= data.class2 %>"
+                                                     data-toggle="tooltip" title=<%= data.tooltip_data %>
+                                                     role="progressbar"
+                                                     style="width:<%= data.no_of_per %>%">
+                                                </div>
+                                            <% }) %>
+
+                                            <!--<div class="progress-bar progress-bar-success approved1" role="progressbar"
+                                                 style="width:<%= leaveDeterminationMatrix.approved %>%">
+
+                                            </div>
+                                            <div class="progress-bar progress-bar-warning pending1" role="progressbar"
+                                                 style="width: <%= leaveDeterminationMatrix.pending %>%">
+                                            </div>
+
+                                            <div class="progress-bar progress-bar-danger denied1" role="progressbar"
+                                                 style="width:<%= leaveDeterminationMatrix.denied %>%">
+
+                                            </div>
+                                            <div class="progress-bar progress-bar-info notapplicable1" role="progressbar"
+                                                 style="width:<%= leaveDeterminationMatrix.not_applicable %>%">
+
+                                            </div>-->
+                                        </div>
+                                    <% } else { %>
+                                        <div class="progress">
+                                            <div class="progress-bar progress-bar-info not-met" role="progressbar"
+                                                 style="width:100%">
+
+                                            </div>
+                                        </div>
+                                    <% } %>
                                 </div>
                             </div>
+
+
                         </div>
                         <br><br>
                     <% }); %>
+
                     <!--                    <br><br>-->
                     <!--<div class="row">
                         <div class="col-md-6">
@@ -88,6 +133,11 @@
                                            id="leaveType">
                                     <input type="hidden" value="<%= employeeLeaveClaimInfoData.emp_id %>"
                                            id="empId">
+                                    <input type="hidden" value="<%= JSON.stringify(leaveDeterminationDecision) %>"
+                                           id="leaveDeterminationDecisionDataId">
+
+                                    <input type="hidden" value="<%= planStatus[0]['date_diff'] %>"
+                                           id="dateDiffData">
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label for="input-leavetype">Leave Type</label>
@@ -115,6 +165,9 @@
                                     <% if(employeeLeaveClaimInfoData['leave_type'] === 'intermittent') { %>
                                             data-toggle="modal" data-target="#myModal"
                                             <% } %>
+                                    <% if(employeeLeaveClaimInfoData['leave_type'] === 'reducedschedule') { %>
+                                            data-toggle="modal" data-target="#myModal1"
+                                            <% } %>
                                     >Submit >
                                     </button>
                                 </div>
@@ -127,7 +180,8 @@
 
                                             <div class="modal-header">
                                                 <button type="button" class="close"
-                                                        data-dismiss="modal" id="intermittentParameterModelClose">&times;
+                                                        data-dismiss="modal"
+                                                        id="intermittentParameterModelClose">&times;
                                                 </button>
                                                 <h5 class="modal-title">Enter Parameters</h5>
                                             </div>
@@ -168,6 +222,88 @@
                                                 </button>
                                                 <button type="sumbmit" class="btn btn-default"
                                                         data-dismiss="modal" id="intermittentParameterButton">submit
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="modal fade" id="myModal1" role="dialog">
+                                    <div class="modal-dialog">
+                                        <p id="employeeStatus">Status:Active</p>
+
+                                        <!-- Modal content-->
+                                        <div class="modal-content">
+
+                                            <div class="modal-header">
+                                                <button type="button" class="close"
+                                                        id="reducedWorkScheduleClose"
+                                                        data-dismiss="modal">&times;
+                                                </button>
+                                                <h5 class="modal-title">Enter Reduced Work Schedule</h5>
+                                            </div>
+
+                                            <div class="modal-body">
+                                                <br>
+
+                                                <table id="notifications">
+                                                    <tr>
+                                                        <th>Sunday</th>
+                                                        <th>Monday</th>
+                                                        <th>Tuesday</th>
+                                                        <th>Wednesday</th>
+                                                        <th>Thursday</th>
+                                                        <th>Friday</th>
+                                                        <th>Saturday</th>
+                                                    </tr>
+
+                                                    <tr id="reducedWS">
+                                                        <label for="inputreducedWS">Enter Value for 1/1/2019 -
+                                                            3/3/2019</label>
+
+                                                        <td id="sundayRSHours"><input type="number" class="form-control"
+                                                                                      id="inputsundayRSHours"
+                                                                                      placeholder="0">
+                                                        </td>
+                                                        <td id="mondayRSHours"><input type="number" class="form-control"
+                                                                                      id="inputmondayRSHours"
+                                                                                      placeholder="0">
+                                                        </td>
+                                                        <td id="tuesdayRSHours"><input type="number"
+                                                                                       class="form-control"
+                                                                                       id="inputtuesdayRSHours"
+                                                                                       placeholder="0">
+                                                        </td>
+                                                        <td id="wednesdayRSHours"><input type="number"
+                                                                                         class="form-control"
+                                                                                         id="inputwednesdayRSHours"
+                                                                                         placeholder="0">
+                                                        </td>
+                                                        <td id="thursdayRSHours"><input type="number"
+                                                                                        class="form-control"
+                                                                                        id="inputthursdayRSHours"
+                                                                                        placeholder="0">
+                                                        </td>
+                                                        <td id="fridayRSHours"><input type="number" class="form-control"
+                                                                                      id="inputfridayRSHours"
+                                                                                      placeholder="0">
+                                                        </td>
+                                                        <td id="SaturdayRSHours"><input type="number"
+                                                                                        class="form-control"
+                                                                                        id="inputSaturdayRSHours"
+                                                                                        placeholder="0">
+                                                        </td>
+                                                    </tr>
+                                                </table>
+
+                                            </div>
+
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default"
+                                                        data-dismiss="modal">Close
+                                                </button>
+                                                <button type="sumbmit" class="btn btn-default"
+                                                        data-dismiss="modal">submit
                                                 </button>
                                             </div>
                                         </div>
@@ -255,6 +391,7 @@
       let leaveType = $("#selectLeaveTypeOptions").val();
       let startDate = $("#fromDate").val();
       let endDate = $("#toDate").val();
+
       if (startDate != "" || endDate != "") {
         let startDateS = startDate.split("-");
         let endDateS = endDate.split("-");
@@ -263,8 +400,102 @@
 
         $(".planStatusBarParent").children().removeClass();
         $(".planStatusBarParent").children().addClass('planStatusBar');
-        $(".planStatusBar").addClass(leaveType);
+        $(".planStatusBar").addClass(leaveType)
+        let leaveDeterminationDecisionData = JSON.parse($("#leaveDeterminationDecisionDataId").val());
+        console.log("before....",leaveDeterminationDecisionData, startDate, endDate);
+        leaveDeterminationDecisionData.forEach(data => {
+          if (data['startDate'] >= startDate && data['endDate'] <= endDate) {
+            data['is_remove'] = 1
+          }
+        });
+        leaveDeterminationDecisionData = leaveDeterminationDecisionData.filter(data => {
+          if (data.hasOwnProperty('is_remove') === false) {
+            return data;
+          }
+        })
+        console.log("after....",leaveDeterminationDecisionData);
+        /*leaveDeterminationDecisionData.forEach(d=>{
+          console.log(d);
+        })*/
+        let dateDiff = parseInt($("#dateDiffData").val()) + 1
+        let leaveDeterminationMatrix = {
+          dateDiff: dateDiff,
+          pending: 100,
+          denied: 0,
+          approved: 0,
+          not_applicable: 0,
+        };
+        (leaveDeterminationDecisionData).forEach(data => {
+          if (data['status'] === 'pending') {
+            leaveDeterminationMatrix['pending'] += ((data['date_diff'] + 1) / dateDiff * 100);
+          }
+          if (data['status'] === 'denied') {
+            leaveDeterminationMatrix['denied'] += ((data['date_diff'] + 1) / dateDiff * 100);
+          }
+          if (data['status'] === 'approved') {
+            leaveDeterminationMatrix['approved'] += ((data['date_diff'] + 1) / dateDiff * 100);
+          }
+          if (data['status'] === 'notapplicable') {
+            leaveDeterminationMatrix['not_applicable'] += ((data['date_diff'] + 1) / dateDiff * 100);
+          }
+        });
+        console.log(leaveDeterminationDecisionData,leaveType,startDate,endDate);
+        leaveDeterminationMatrix['pending'] = (100 - leaveDeterminationMatrix['denied'] - leaveDeterminationMatrix['approved'] - leaveDeterminationMatrix['not_applicable'])
+        /*if(leaveDeterminationDecisionData.hasOwnProperty(leaveType)===true){
+          leaveDeterminationDecisionData[leaveType] + ((new Date(endDate)).getTime()-(new Date(startDate)).getTime())/(1000*60*60*24)
+        } else {
+          leaveDeterminationDecisionData[leaveType] = ((new Date(endDate)).getTime()-(new Date(startDate)).getTime())/(1000*60*60*24)
+        }*/
+        console.log(leaveDeterminationDecisionData,leaveType,startDate,endDate);
+        leaveDeterminationDecisionData.forEach(data=>{
+                console.log("data...........",data);
+        });
+        let lastEndDate;
+        let reviseK = [];
+        /*leaveDeterminationDecisionData.forEach(data=>{
+          if(new Date(data['startDate']).getTime()===new Date(startDate).getTime()){
+            // is same
+            // debug("in same")
+            data['endDate']=endDate;
+            data['status']=leaveType;
+            reviseK.push(data)
+          }else if(new Date(data['startDate']).getTime()>=new Date(startDate).getTime() && new Date(data['endDate']).getTime()<=new Date(startDate).getTime()){
+            // in between
+            // debug("in between")
+            // reviseK.push(data)
+          } else if(new Date(data['startDate']).getTime()<=new Date(endDate).getTime() && new Date(data['endDate']).getTime()>new Date(endDate).getTime()){
+            // is same
+            // debug("start karat end moti")
+            data['endDate']=new Date((new Date(startDate).getTime())-86400000);
+            reviseK.push(data);
+            reviseK.push({startDate:startDate,endDate:endDate,status:leaveType});
+          }
+          else {
+            // debug("no change")
+            reviseK.push(data)
+          }
+          lastEndDate = data['eDate'];
+        });
+        console.log(reviseK)*/
+       /* Object.keys(leaveDeterminationMatrix).forEach(key=>{
+          let all = document.getElementsByClassName(key+"1");
+          for (let i = 0; i < all.length; i++) {
+            all[i].style.width = leaveDeterminationMatrix[key]+'%';
+          }
+        });*/
+        console.log("....leaveDeterminationMatrix......",leaveDeterminationMatrix);
+        $(".progress-valid").children().remove();
+        leaveDeterminationDecisionData.forEach(data=>{
+          console.log("............")
+          let e=
+          '<div class="progress-bar '+  data.class  +' '+data.class2 +' " data-toggle="tooltip" title="'+ data.tooltip_data +' "  role="progressbar"  style="width:'+ data.no_of_per +'%"> </div>'
+          ;
+          console.log("...........................000",e)
+          $(".progress-valid").append(e);
+        });
+
       }
+
     });
   });
 

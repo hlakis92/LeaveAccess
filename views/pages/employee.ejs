@@ -243,8 +243,14 @@
                                 <div class="col-md-4">
                                     <!--back and next page button-->
                                     <!--                                    <button type="submit" class="btn btn-secondary"> ← Back</button>-->
-                                    <button type="submit" class="btn btn-primary" id="employeeAddButton">Next Page →
-                                    </button>
+
+                                    <% if(query.redirection === undefined || query.redirection === "")  { %>
+                                        <button type="submit" class="btn btn-primary" id="employeeAddButton">Next Page →
+
+                                        </button>
+                                    <% } else { %>
+                                        <button type="submit" class="btn btn-primary" id="employeeAddButton">Save</button>
+                                    <% } %>
                                 </div>
                             </div>
                         </div>

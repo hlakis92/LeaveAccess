@@ -233,3 +233,19 @@ ALTER TABLE `tbl_LeaveInfo`
 ADD COLUMN `flare_ups_param` TEXT NULL AFTER `D_userId`,
 ADD COLUMN `office_visits_param` TEXT NULL AFTER `flare_ups_param`;
 
+CREATE TABLE `tbl_LeaveIntermittentUsage` (
+  `pk_leaveIntermittentUsageId` INT NOT NULL AUTO_INCREMENT,
+  `fk_leaveInfoId` INT NOT NULL,
+  `param` VARCHAR(45) NOT NULL,
+  `date` DATE NOT NULL,
+  `hours` INT NOT NULL,
+  `status` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`pk_leaveIntermittentUsageId`));
+
+
+CREATE TABLE `tbl_LeaveNotificationMapping` (
+  `pk_leaveNotificationID` INT NOT NULL AUTO_INCREMENT,
+  `letterType` TINYINT(1) NOT NULL,
+  `letterDate` DATE NOT NULL DEFAULT NOW(),
+  `createdBy` INT NOT NULL,
+  PRIMARY KEY (`pk_leaveNotificationID`));

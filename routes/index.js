@@ -31,9 +31,10 @@ router.get('/employee', middleware.checkAccessToken, async function (req, res, n
     res.render('pages/employee', {
       title: 'LAM',
       employeeInfo: JSON.stringify(employeeInfoResult.data),
+      query: req.query
     });
   } else {
-    res.render('pages/employee', {title: 'LAM', employeeInfo: undefined});
+    res.render('pages/employee', {title: 'LAM', employeeInfo: undefined, query: req.query});
   }
   // res.render('pages/employee', {title: 'LAM'});
 });
@@ -56,9 +57,12 @@ router.get('/location', middleware.checkAccessToken, async function (req, res, n
       title: 'LAM',
       employeeInfo: JSON.stringify(employeeInfoResult.data),
       employeeLocationInfo: JSON.stringify(employeeLocationInfoResult.data),
+      query: req.query
     });
   } else {
-    res.render('pages/location', {title: 'LAM', employeeInfo: undefined, employeeLocationInfo: undefined});
+    res.render('pages/location', {
+      title: 'LAM', employeeInfo: undefined, employeeLocationInfo: undefined, query: req.query
+    });
   }
 });
 
@@ -216,7 +220,8 @@ router.get('/claimcontinuous/:claimNumber', middleware.checkAccessToken, async f
   let getManager = await userService.getManagerService(req);
   let getManagerData = getManager.data;
   let employeeLeaveClaimInfoData, planMaximumDuration, planStatus, paperWorkReview = [],
-    paperWorkReviewDocumentList = [], employeeLeaveInfoData, taskList = [];
+    paperWorkReviewDocumentList = [], employeeLeaveInfoData, taskList = [], leaveDeterminationMatrix,
+    leaveDeterminationDecision, employeeLeaveNotification;
 
 
   if (employeeLeaveClaimInfoResult.status === true) {
@@ -227,6 +232,9 @@ router.get('/claimcontinuous/:claimNumber', middleware.checkAccessToken, async f
     paperWorkReview = employeeLeaveClaimInfoResult.data.paperWorkReview;
     paperWorkReviewDocumentList = employeeLeaveClaimInfoResult.data.paperWorkReviewDocument;
     taskList = employeeLeaveClaimInfoResult.data.taskList;
+    leaveDeterminationMatrix = employeeLeaveClaimInfoResult.data.leaveDeterminationMatrix
+    leaveDeterminationDecision = employeeLeaveClaimInfoResult.data.leaveDeterminationDecision;
+    employeeLeaveNotification = employeeLeaveClaimInfoResult.data.employeeLeaveNotification;
   } else {
   }
   let paperWorkReviewList = [
@@ -244,10 +252,7 @@ router.get('/claimcontinuous/:claimNumber', middleware.checkAccessToken, async f
       }
     });
   });
-  // console.log("....................",)
-
-  // console.log('..............',req.url)
-
+  console.log("....................", employeeLeaveInfoData)
   res.render('pages/claimcontinuous', {
     title: 'Leave Overview',
     employeeLeaveInfoData: employeeLeaveInfoData,
@@ -261,7 +266,10 @@ router.get('/claimcontinuous/:claimNumber', middleware.checkAccessToken, async f
     employeeInfo: JSON.stringify(employeeInfoResult.data),
     employeeLocationInfo: JSON.stringify(employeeLocationInfoResult.data),
     taskList: taskList,
-    callBackURL:req.url
+    callBackURL: req.url,
+    leaveDeterminationMatrix: leaveDeterminationMatrix,
+    leaveDeterminationDecision: leaveDeterminationDecision,
+    employeeLeaveNotification: employeeLeaveNotification,
   });
 });
 
@@ -269,6 +277,7 @@ router.get('/claimintermittent/:claimNumber', middleware.checkAccessToken, async
   let leaveService = require('./../server/api/leave/leave.service');
   let employeeService = require('./../server/api/employee/employee.service');
   let employeeLeaveClaimInfoResult = await leaveService.getEmployeeLeaveClaimInfoService(req);
+  // console.log(employeeLeaveClaimInfoResult);
   req['query'] = {
     empId: employeeLeaveClaimInfoResult.data.employeeInfo['empId']
   }
@@ -284,7 +293,8 @@ router.get('/claimintermittent/:claimNumber', middleware.checkAccessToken, async
 
   // let common = require('./../server/api/common');
   let employeeLeaveClaimInfoData, planMaximumDuration, planStatus, paperWorkReview = [],
-    paperWorkReviewDocumentList = [], employeeLeaveInfoData;
+    paperWorkReviewDocumentList = [], employeeLeaveInfoData, leaveDeterminationMatrix, leaveDeterminationDecision,
+    employeeLeaveNotification;
 
   if (employeeLeaveClaimInfoResult.status === true) {
     employeeLeaveInfoData = employeeLeaveClaimInfoResult.data.employeeInfo;
@@ -292,7 +302,10 @@ router.get('/claimintermittent/:claimNumber', middleware.checkAccessToken, async
     planMaximumDuration = employeeLeaveClaimInfoResult.data.planMaximumDuration;
     planStatus = employeeLeaveClaimInfoResult.data.planStatus;
     paperWorkReview = employeeLeaveClaimInfoResult.data.paperWorkReview;
-    paperWorkReviewDocumentList = employeeLeaveClaimInfoResult.data.paperWorkReviewDocument
+    paperWorkReviewDocumentList = employeeLeaveClaimInfoResult.data.paperWorkReviewDocument;
+    leaveDeterminationMatrix = employeeLeaveClaimInfoResult.data.leaveDeterminationMatrix;
+    leaveDeterminationDecision = employeeLeaveClaimInfoResult.data.leaveDeterminationDecision;
+    employeeLeaveNotification = employeeLeaveClaimInfoResult.data.employeeLeaveNotification;
 
   } else {
 
@@ -324,6 +337,9 @@ router.get('/claimintermittent/:claimNumber', middleware.checkAccessToken, async
     userId: userId,
     employeeInfo: JSON.stringify(employeeInfoResult.data),
     employeeLocationInfo: JSON.stringify(employeeLocationInfoResult.data),
+    leaveDeterminationMatrix: leaveDeterminationMatrix,
+    leaveDeterminationDecision: leaveDeterminationDecision,
+    employeeLeaveNotification: employeeLeaveNotification,
   });
 });
 
@@ -346,7 +362,8 @@ router.get('/claimreducedschedule/:claimNumber', middleware.checkAccessToken, as
   let getManagerData = getManager.data;
 
   let employeeLeaveClaimInfoData, planMaximumDuration, planStatus, paperWorkReview = [],
-    paperWorkReviewDocumentList = [], employeeLeaveInfoData;
+    paperWorkReviewDocumentList = [], employeeLeaveInfoData, leaveDeterminationMatrix, leaveDeterminationDecision,
+    employeeLeaveNotification;
 
   if (employeeLeaveClaimInfoResult.status === true) {
     employeeLeaveInfoData = employeeLeaveClaimInfoResult.data.employeeInfo;
@@ -356,7 +373,9 @@ router.get('/claimreducedschedule/:claimNumber', middleware.checkAccessToken, as
     planStatus = employeeLeaveClaimInfoResult.data.planStatus;
     paperWorkReview = employeeLeaveClaimInfoResult.data.paperWorkReview;
     paperWorkReviewDocumentList = employeeLeaveClaimInfoResult.data.paperWorkReviewDocument
-
+    leaveDeterminationMatrix = employeeLeaveClaimInfoResult.data.leaveDeterminationMatrix
+    leaveDeterminationDecision = employeeLeaveClaimInfoResult.data.leaveDeterminationDecision;
+    employeeLeaveNotification = employeeLeaveClaimInfoResult.data.employeeLeaveNotification;
 
   } else {
 
@@ -388,6 +407,9 @@ router.get('/claimreducedschedule/:claimNumber', middleware.checkAccessToken, as
     userId: userId,
     employeeInfo: JSON.stringify(employeeInfoResult.data),
     employeeLocationInfo: JSON.stringify(employeeLocationInfoResult.data),
+    leaveDeterminationMatrix: leaveDeterminationMatrix,
+    leaveDeterminationDecision: leaveDeterminationDecision,
+    employeeLeaveNotification: employeeLeaveNotification,
   });
 });
 
@@ -400,12 +422,16 @@ router.get('/decision/:claimNumber', middleware.checkAccessToken, async function
   }
   let employeeInfoResult = await employeeService.getEmployeeInfoService(req);
   let employeeLocationInfoResult = await employeeService.getEmployeeLocationInfoService(req);
-  let employeeLeaveClaimInfoData, planMaximumDuration, planStatus, employeeInfo, employeeLocationInfo;
+  let employeeLeaveClaimInfoData, planMaximumDuration, planStatus, employeeInfo, employeeLocationInfo,
+    leaveDeterminationMatrix, leaveDeterminationDecision;
 
   if (employeeLeaveClaimInfoResult.status === true) {
     employeeLeaveClaimInfoData = employeeLeaveClaimInfoResult.data.leaveInfo;
     planMaximumDuration = employeeLeaveClaimInfoResult.data.planMaximumDuration;
     planStatus = employeeLeaveClaimInfoResult.data.planStatus
+    leaveDeterminationMatrix = employeeLeaveClaimInfoResult.data.leaveDeterminationMatrix
+    leaveDeterminationDecision = employeeLeaveClaimInfoResult.data.leaveDeterminationDecision
+    // console.log(leaveDeterminationDecision);
 
   } else {
     employeeInfo = undefined;
@@ -418,7 +444,8 @@ router.get('/decision/:claimNumber', middleware.checkAccessToken, async function
     employeeLeaveClaimInfoData: employeeLeaveClaimInfoData,
     planMaximumDuration: planMaximumDuration,
     planStatus: planStatus,
-
+    leaveDeterminationMatrix: leaveDeterminationMatrix,
+    leaveDeterminationDecision: leaveDeterminationDecision
   });
 });
 
@@ -427,7 +454,7 @@ router.get('/leavechoronology/:claimNumber', middleware.checkAccessToken, async 
   let employeeLeaveClaimInfoResult = await leaveService.getEmployeeLeaveClaimInfoService(req);
   let employeeLeaveClaimInfoData, planMaximumDuration, planStatus;
   let getLeaveChronologyResult = await leaveService.getLeaveChronologyServiceService(req);
-  console.log(getLeaveChronologyResult);
+  // console.log(getLeaveChronologyResult);
 
   if (employeeLeaveClaimInfoResult.status === true) {
     employeeLeaveClaimInfoData = employeeLeaveClaimInfoResult.data.leaveInfo;
@@ -451,6 +478,13 @@ router.get('/leavechoronology/:claimNumber', middleware.checkAccessToken, async 
 router.get('/closeLeave/:claimNumber', middleware.checkAccessToken, async function (req, res, next) {
   let leaveService = require('./../server/api/leave/leave.service');
   let employeeLeaveClaimInfoResult = await leaveService.leaveCloseService(req);
+  let claimNumber = req.params.claimNumber;
+  res.redirect('/claimcontinuous/' + claimNumber);
+});
+
+router.get('/reopenLeave/:claimNumber', middleware.checkAccessToken, async function (req, res, next) {
+  let leaveService = require('./../server/api/leave/leave.service');
+  let employeeLeaveClaimInfoResult = await leaveService.leaveReOpenService(req);
   let claimNumber = req.params.claimNumber;
   res.redirect('/claimcontinuous/' + claimNumber);
 });

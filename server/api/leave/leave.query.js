@@ -10,6 +10,8 @@ let tbl_LeaveChronologyMapping = "tbl_LeaveChronologyMapping";
 let tbl_UserMaster = "tbl_UserMaster";
 let tbl_LeaveChronology = "tbl_LeaveChronology";
 let tbl_tasklist = "tbl_tasklist";
+let tbl_LeaveIntermittentUsage = "tbl_LeaveIntermittentUsage";
+let tbl_LeaveNotificationMapping = "tbl_LeaveNotificationMapping";
 
 let query = {
   /* create user query start */
@@ -169,9 +171,13 @@ let query = {
       encloseField: false,
       alias: 'to_date'
     }, {
-      field: 'CASE WHEN leaveStatus = 0 THEN "incomplete" WHEN leaveStatus = 1 THEN "open" WHEN leaveStatus = 2 THEN "closed" ELSE "" END',
+      field: 'CASE WHEN leaveStatus = 0 THEN "incomplete" WHEN leaveStatus IN (1,3) THEN "open" WHEN leaveStatus = 2 THEN "closed" ELSE "" END',
       encloseField: false,
       alias: 'status'
+    }, {
+      field: '"Pending"',
+      encloseField: false,
+      alias: 'statusType'
     }],
     filter: {
       field: 'pk_empID',
@@ -222,6 +228,14 @@ let query = {
       field: 'IFNULL(supervisorContactName, "-")',
       encloseField: false,
       alias: 'supervisorContactName'
+    }, {
+      field: 'IFNULL(HRContactName, "-")',
+      encloseField: false,
+      alias: 'HRContactName'
+    }, {
+      field: 'IFNULL(PBContactName, "-")',
+      encloseField: false,
+      alias: 'PBContactName'
     }],
     filter: {
       field: 'pk_leaveInfoId',
@@ -284,6 +298,10 @@ let query = {
       field: '"open"',
       encloseField: false,
       alias: 'status'
+    }, {
+      field: 'leaveStatus',
+      encloseField: false,
+      alias: 'leave_status'
     }, {
       field: 'GROUP_CONCAT(leave_name SEPARATOR "\n")',
       encloseField: false,
@@ -387,6 +405,14 @@ let query = {
       field: 'DATE_FORMAT(to_date, "%m/%d/%Y")',
       encloseField: false,
       alias: 'to_date'
+    }, {
+      field: 'DATEDIFF(to_date, from_date)',
+      encloseField: false,
+      alias: 'date_diff'
+    }, {
+      field: 'eligibility',
+      encloseField: false,
+      alias: 'eligibility'
     }],
     filter: {
       field: 'leaveInfoId',
@@ -433,6 +459,19 @@ let query = {
     update: [{
       field: 'leaveStatus',
       fValue: 2
+    }],
+    filter: {
+      field: 'pk_leaveInfoId',
+      operator: 'EQ',
+      value: ''
+    },
+  }, // leave close by leave info id query end
+  /* leave close by leave info id query start*/
+  leaveReOpenByLeaveInfoIdQuery: {
+    table: tbl_LeaveInfo,
+    update: [{
+      field: 'leaveStatus',
+      fValue: 3
     }],
     filter: {
       field: 'pk_leaveInfoId',
@@ -793,7 +832,148 @@ let query = {
         value: 0
       }]
     },
-  }
+  },
+  getEmployeeLeaveDeterminationDecisionByClaimNumberQuery: {
+    table: tbl_LeaveDeterminationDecision,
+    select: [{
+      field: 'leaveTypeStatus',
+      alias: 'status'
+    }, {
+      field: 'DATE_FORMAT(startDate, "%Y-%m-%d")',
+      encloseField: false,
+      alias: 'startDate'
+    }, {
+      field: 'DATE_FORMAT(endDate, "%Y-%m-%d")',
+      encloseField: false,
+      alias: 'endDate'
+    }, {
+      field: 'DATE_FORMAT(startDate, "%m/%d/%Y")',
+      encloseField: false,
+      alias: 'toolTipStartDate'
+    }, {
+      field: 'DATE_FORMAT(endDate, "%m/%d/%Y")',
+      encloseField: false,
+      alias: 'toolTipEndDate'
+    }, {
+      field: 'DATEDIFF(endDate, startDate)',
+      encloseField: false,
+      alias: 'date_diff'
+    }],
+    filter: {
+      field: 'fk_leaveInfoId',
+      operator: 'EQ',
+      value: ''
+    },
+    sortby: [{
+      field: 'startDate'
+    }],
+  },
+  removeIntermittentTimeByLeveInfoIdAndDateQuery: {
+    table: tbl_LeaveIntermittentUsage,
+    delete: [],
+    filter: {
+      and: [{
+        field: 'fk_leaveInfoId',
+        operator: 'EQ',
+        value: ''
+      }, {
+        field: 'date',
+        operator: 'EQ',
+        value: 0
+      }]
+    },
+  },
+  addIntermittentTimeQuery: {
+    table: tbl_LeaveIntermittentUsage,
+    insert: {
+      field: ["fk_leaveInfoId", "param", "date", "hours", "status", "comment"],
+      fValue: []
+    }
+  },
+  getIntermittentTimeByLeveInfoIdAndDateQuery: {
+    table: tbl_LeaveIntermittentUsage,
+    select: [{
+      field: 'param',
+      alias: 'param'
+    }, {
+      field: 'DATE_FORMAT(date, "%Y-%m-%d")',
+      encloseField: false,
+      alias: 'date'
+    }, {
+      field: 'hours',
+      alias: 'hours'
+    }, {
+      field: 'status',
+      alias: 'status'
+    }, {
+      field: 'comment',
+      alias: 'comment'
+    }],
+    filter: {
+      and: [{
+        field: 'fk_leaveInfoId',
+        operator: 'EQ',
+        value: ''
+      }, {
+        field: 'date',
+        operator: 'EQ',
+        value: 0
+      }]
+    },
+  },
+  getEmployeeLeaveStatusTypeByEmpIdQuery:{
+    table: tbl_LeaveDeterminationDecision,
+    select: [{
+      field: 'fk_leaveInfoId',
+      alias: 'fk_leaveInfoId'
+    }, {
+      field: 'DATE_FORMAT(MIN(startDate), "%m/%d/%Y")',
+      encloseField: false,
+      alias: 'startDate'
+    }, {
+      field: 'DATE_FORMAT(MAX(endDate), "%m/%d/%Y")',
+      encloseField: false,
+      alias: 'endDate'
+    }, {
+      field: 'GROUP_CONCAT(leaveTypeStatus)',
+      encloseField: false,
+      alias: 'leaveTypeStatus'
+    }],
+    filter: {
+      field: 'fk_empId',
+      operator: 'EQ',
+      value: ''
+    },
+    groupby: [{
+      field: 'fk_leaveInfoId'
+    }],
+  },
+  addLeaveNotificationQuery: {
+    table: tbl_LeaveNotificationMapping,
+    insert: {
+      field: ["fk_leaveInfoId", "letterType", "letterDate", "createdBy"],
+      fValue: []
+    }
+  },
+  getEmployeeLeaveNotificationByClaimNumberQuery: {
+    table: tbl_LeaveNotificationMapping,
+    select: [{
+      field: 'letterType',
+      alias: 'letter_type'
+    }, {
+      field: 'DATE_FORMAT(letterDate, "%m/%d/%Y")',
+      encloseField: false,
+      alias: 'date'
+    }],
+    filter: {
+      field: 'fk_leaveInfoId',
+      operator: 'EQ',
+      value: ''
+    },
+    sortby: [{
+      field: 'letterDate'
+    }],
+  },
 };
 
 module.exports = query;

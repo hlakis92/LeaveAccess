@@ -71,8 +71,7 @@ let addLeaveInfo = async (leaveReasonInfo, leaveProviderInfo, leaveTypeInfo, emp
   leaveProviderInfo = JSON.parse(leaveProviderInfo);
   try {
     leaveTypeInfo = JSON.parse(leaveTypeInfo);
-  }
-  catch(err) {
+  } catch (err) {
     leaveTypeInfo = leaveTypeInfo;
   }
 
@@ -201,6 +200,13 @@ let leaveCloseByLeaveInfoId = async (leaveInfoId) => {
   return await common.executeQuery(leaveCloseByLeaveInfoIdQuery);
 };
 
+let leaveReOpenByLeaveInfoId = async (leaveInfoId) => {
+  debug("leave.DAL -> leaveReOpenByLeaveInfoId");
+  let leaveReOpenByLeaveInfoIdQuery = common.cloneObject(query.leaveReOpenByLeaveInfoIdQuery);
+  leaveReOpenByLeaveInfoIdQuery.filter.value = leaveInfoId;
+  return await common.executeQuery(leaveReOpenByLeaveInfoIdQuery);
+};
+
 let getEmployeeLeaveProviderByLeaveInfoId = async (leaveInfoId) => {
   debug("leave.DAL -> getEmployeeLeaveProviderByLeaveInfoId");
   let getEmployeeLeaveProviderByLeaveInfoIdQuery = common.cloneObject(query.getEmployeeLeaveProviderByLeaveInfoIdQuery);
@@ -278,6 +284,57 @@ let getEmployeeTaskListByClaimNumber = async (claimNumber) => {
   return await common.executeQuery(getEmployeeTaskListByClaimNumberQuery);
 };
 
+let getEmployeeLeaveDeterminationDecisionByClaimNumber = async (claimNumber) => {
+  debug("leave.DAL -> getEmployeeLeaveDeterminationDecisionByClaimNumber");
+  let getEmployeeLeaveDeterminationDecisionByClaimNumberQuery = common.cloneObject(query.getEmployeeLeaveDeterminationDecisionByClaimNumberQuery);
+  getEmployeeLeaveDeterminationDecisionByClaimNumberQuery.filter.value = claimNumber;
+  return await common.executeQuery(getEmployeeLeaveDeterminationDecisionByClaimNumberQuery);
+};
+
+let removeIntermittentTimeByLeveInfoIdAndDate = async (leaveInfoId, date) => {
+  debug("leave.DAL -> removeIntermittentTimeByLeveInfoIdAndDate");
+  let removeIntermittentTimeByLeveInfoIdAndDateQuery = common.cloneObject(query.removeIntermittentTimeByLeveInfoIdAndDateQuery);
+  removeIntermittentTimeByLeveInfoIdAndDateQuery.filter.and[0].value = leaveInfoId;
+  removeIntermittentTimeByLeveInfoIdAndDateQuery.filter.and[1].value = date;
+  return await common.executeQuery(removeIntermittentTimeByLeveInfoIdAndDateQuery);
+};
+
+let addIntermittentTime = async (data) => {
+  debug("leave.DAL -> removeIntermittentTimeByLeveInfoIdAndDate");
+  let addIntermittentTimeQuery = common.cloneObject(query.addIntermittentTimeQuery);
+  addIntermittentTimeQuery.insert.fValue = data;
+  return await common.executeQuery(addIntermittentTimeQuery);
+};
+
+let getIntermittentTimeByLeveInfoIdAndDate = async (leaveInfoId, date) => {
+  debug("leave.DAL -> getIntermittentTimeByLeveInfoIdAndDate");
+  let removeIntermittentTimeByLeveInfoIdAndDateQuery = common.cloneObject(query.getIntermittentTimeByLeveInfoIdAndDateQuery);
+  removeIntermittentTimeByLeveInfoIdAndDateQuery.filter.and[0].value = leaveInfoId;
+  removeIntermittentTimeByLeveInfoIdAndDateQuery.filter.and[1].value = date;
+  return await common.executeQuery(removeIntermittentTimeByLeveInfoIdAndDateQuery);
+};
+
+let getEmployeeLeaveStatusTypeByEmpId = async (empId) => {
+  debug("leave.DAL -> getEmployeeLeaveStatusTypeByEmpId");
+  let getEmployeeLeaveStatusTypeByEmpIdQuery = common.cloneObject(query.getEmployeeLeaveStatusTypeByEmpIdQuery);
+  getEmployeeLeaveStatusTypeByEmpIdQuery.filter.value = empId;
+  return await common.executeQuery(getEmployeeLeaveStatusTypeByEmpIdQuery);
+};
+
+let addLeaveNotification = async (data) => {
+  debug("leave.DAL -> addLeaveNotification");
+  let addLeaveNotificationQuery = common.cloneObject(query.addLeaveNotificationQuery);
+  addLeaveNotificationQuery.insert.fValue = data;
+  return await common.executeQuery(addLeaveNotificationQuery);
+};
+
+let getEmployeeLeaveNotificationByClaimNumber = async (claimNumber) => {
+  debug("leave.DAL -> getEmployeeLeaveNotificationByClaimNumber");
+  let getEmployeeLeaveNotificationByClaimNumberQuery = common.cloneObject(query.getEmployeeLeaveNotificationByClaimNumberQuery);
+  getEmployeeLeaveNotificationByClaimNumberQuery.filter.value = claimNumber;
+  return await common.executeQuery(getEmployeeLeaveNotificationByClaimNumberQuery);
+};
+
 module.exports = {
   addEmployeeDetail: addEmployeeDetail,
   addLocationDetail: addLocationDetail,
@@ -295,6 +352,7 @@ module.exports = {
   editEmployeeLeaveByLeaveInfoId: editEmployeeLeaveByLeaveInfoId,
   checkEmployeeExistOrNotByEmployeeId: checkEmployeeExistOrNotByEmployeeId,
   leaveCloseByLeaveInfoId: leaveCloseByLeaveInfoId,
+  leaveReOpenByLeaveInfoId: leaveReOpenByLeaveInfoId,
   getEmployeeLeaveProviderByLeaveInfoId: getEmployeeLeaveProviderByLeaveInfoId,
   getEmployeeLeaveEligibilityByLeaveInfoId: getEmployeeLeaveEligibilityByLeaveInfoId,
   removePaperWorkReviewByLeaveInfoId: removePaperWorkReviewByLeaveInfoId,
@@ -306,4 +364,11 @@ module.exports = {
   addLeaveChronology: addLeaveChronology,
   getLeaveChronologyByLeaveInfoId: getLeaveChronologyByLeaveInfoId,
   getEmployeeTaskListByClaimNumber: getEmployeeTaskListByClaimNumber,
+  getEmployeeLeaveDeterminationDecisionByClaimNumber: getEmployeeLeaveDeterminationDecisionByClaimNumber,
+  removeIntermittentTimeByLeveInfoIdAndDate: removeIntermittentTimeByLeveInfoIdAndDate,
+  addIntermittentTime: addIntermittentTime,
+  getIntermittentTimeByLeveInfoIdAndDate: getIntermittentTimeByLeveInfoIdAndDate,
+  getEmployeeLeaveStatusTypeByEmpId: getEmployeeLeaveStatusTypeByEmpId,
+  addLeaveNotification: addLeaveNotification,
+  getEmployeeLeaveNotificationByClaimNumber:getEmployeeLeaveNotificationByClaimNumber,
 };
