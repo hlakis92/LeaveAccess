@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Task List</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="../Assets/style.css">
+    <style>
+    </style>
+</head>
+
+<body>
+    <div class="container">
+
+        <nav class="navbar navbar-inverse">
+
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand">Life Absence Management</a>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a href="leaveSearch.html">Search Team Member</a>
+                    </li>
+                    <li>
+                        <a href="tasks.html">Tasks</a>
+                    </li>
+                    <li class="active">
+                        <a href="teammemberlist.html">Team Member List</a>
+                    </li>
+                    <li>
+                        <a href="#">Reports</a>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#">
+                            <span class="glyphicon glyphicon-log-out"></span> Log Out</a>
+                    </li>
+                </ul>
+            </div>
+    </div>
+    </nav>
+    <br>
+
+    <div class="container">
+        <div class="container-fluid text-center">
+            <div class="row content">
+
+                <div class="col-sm-12 text-left well">
+                    <h1>Team Member List</h1>
+
+                    <br>
+
+                    <form>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <form action="/claim_managers.php">
+                                    <select name="managers">
+                                        <option value="All">All Claim Manager</option>
+                                        <option value="Hassan">Hassan</option>
+                                        <option value="Hassan">Hassan</option>
+                                        <option value="Hassan">Hassan</option>
+                                    </select>
+                            </div>
+                            
+                            <div class="col-md-4">
+                                <form action="/team_status.php">
+                                    <select name="employeeStatus">
+                                        <option value="listofTeamMembers">Team Member Status</option>
+                                        <option value="All">All Team Members</option>
+                                        <option value="active">Active</option>
+                                        <option value="notActive">Inactive</option>
+                                        <option value="terminated">Terminated</option>
+                                    </select>
+                            </div>
+                            <div class="col-md-4">
+                                <fieldset> 
+                                    <div>
+                                        <label for="start">Start</label>
+                                        <input type="date" id="start" name="trip" value="2018-07-22" min="1990-01-01" max="2088-12-31" />
+                                    
+                                        <label for="end">End</label>
+                                        <input type="date" id="end" name="trip" value="2018-07-29" min="2018-01-01" max="2018-12-31" />
+                                    </div>
+
+                                </fieldset>
+                            </div>
+                            
+                        </div>
+                        <br>
+                        <!-- this div belwow is the table for entering the employee's contact informatiion  -->
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <table id="notifications">
+                                    <tr>
+                                        <th>Employee Name</th>
+                                        <th>Employee Number</th>
+                                        <th>Work Status</th>
+                                        <th> HireDate</th>
+                                        <th>Status</th>
+                                    </tr>
+
+                                    <tr id="taskLayoutTable">
+                                        <td id="employeeFirstLastName">First Last</td>
+                                        <td id="teamMemberID">123456</td>
+                                        <td id="workStatus">Full Time</td>
+                                        <td id="hireDate">01/01/2001</td>
+                                        <td id="assignedClaimManager">Active</td>
+                                    </tr>
+
+                                </table>
+                            </div>
+                        </div>
+
+
+
+                        <!--Submit Button-->
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                        </form>
+                </div>
+                </form>
+                </form>
+
+
+
+
+            </div>
+        </div>
+        <br>
+
+
+</body>
+
+</html>

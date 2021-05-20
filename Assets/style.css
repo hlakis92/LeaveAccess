@@ -1,0 +1,233 @@
+/* this sets the items in the div from flowing out of the divs on the page */
+/* div{
+  word-wrap: break-word;
+  border: 1px solid red;
+} */
+/* Remove the navbar's default margin-bottom and rounded borders */ 
+.navbar {
+    margin-bottom: 0;
+    border-radius: 0;
+  }
+  
+  #famMemberinfoTitle{
+    background-color: lightgrey;
+    text-align: center;
+  }
+  /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+  .row.content {
+    height: 450px
+  }
+
+  /* Sets the right side divs */
+  .sidenav1 {
+    padding-top: 0px; 
+    height: 100%;
+  }
+  .noteLines {
+    border: none; 
+    height: 1px; 
+    background: grey; 
+  }
+
+  .form-control1 {
+    height: 20px;
+    width: 150px;
+  }
+  input.taskCheckBox {
+    float: left;
+    margin: 0;
+  }
+  .taskcheckoff {
+    margin: left;
+  }
+  /* Sets the right side divs */
+  .sidenav2 {
+    line-height: 15px; /* 4px +12px + 4px */
+    font-size: 12px;
+    padding-top: 0px;
+    text-align: left; 
+  }
+
+  .noteArea {
+    height: 50px;
+    background-color: lightyellow;
+    border: 1px solid yellow  ;
+  }
+
+  #HRcontacts, #supervisorcontacts, #payrollcontacts {
+    line-height: 15px; /* 4px +12px + 4px */
+    font-size: 12px;
+    padding-top: 20px;
+    text-align: left; 
+  }
+
+  /* centers the radio buttons in grid */
+  #gridRadios1, #gridRadios2, #gridRadios3{
+    margin-left: 40%;
+    font-size: 50%;
+  }
+  /* makes the radio buttons a bit larger */
+  input[type='radio'] { 
+    transform: scale(1.5); 
+  }
+  
+  /* centers the check boxes in grid */
+  #gridCheck{
+    display:inline-block;
+    margin-left: 40%;
+  }
+
+  .container{
+    margin: auto;
+  }
+
+  /* makes the check boxes a bit larger */
+  input[type='checkbox'] { 
+    transform: scale(1.5); 
+  }
+  /* Set black background color, white text and some padding */
+  footer {
+    background-color: #555;
+    color: white;
+    padding: 15px;
+  }
+  
+  /* On small screens, set height to 'auto' for sidenav and grid */
+  @media screen and (max-width: 767px) {
+    .sidenav {
+      height: auto;
+      padding: 15px;
+    }
+    .row.content {height:auto;} 
+  }
+
+  /* centers the container in the middle of the page */
+  .container{
+    margin: auto;
+  }
+
+
+  table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
+.bottomCheckbox {
+  margin: left;
+}
+.planStatus {
+  word-wrap: break-word;
+  border: 1px solid black;
+  padding: 15px;
+  background: rgb(253, 208, 8);
+  border-radius: 5px;
+}
+
+.planStatus1 {
+  word-wrap: break-word;
+  border: 1px solid black;
+  padding: 15px;
+  background: lightgray;
+  border-radius: 5px;
+}
+
+h5 {  
+  text-decoration: underline;
+  font-weight: bold;
+}
+
+.outputTask {
+  text-decoration: underline;
+}
+
+.three-calendars {
+  text-align: center;
+}
+
+#selectLeaveTypeOptions{
+  padding: 7px;
+  border-radius: 5px;
+}
+
+.leaveReasonCode{
+  font-size: 4px;
+}
+
+.electedDates {
+  word-wrap: break-word;
+  border: 1px solid rgb(151, 151, 151);
+  padding: 15px;
+  background: rgb(223, 223, 223);
+  border-radius: 5px;
+
+}
+
+#incompleteLeaves{
+  background-color: rgb(218, 115, 115);
+  padding: 2px;
+  text-align: center;
+  border-radius: 5px;
+}
+
+#openLeaves{
+  background-color: lightgreen;
+  padding: 2px;
+  text-align: center;
+  border-radius: 5px;
+}
+
+#closedLeaves{
+  background-color: lightgrey;
+  padding: 2px;
+  text-align: center;
+  border-radius: 5px;
+}
+
+#leave-eligible{
+  background-color: lightgreen;
+  padding: 5px;
+  text-align: center;
+  border-radius: 5px;
+}
+
+#leave-NotEligible{
+  background-color: lightgrey;
+  padding: 5px;
+  text-align: center;
+  border-radius: 5px;
+}
+
+.upload-btn-wrapper {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+}
+.btn1 {
+  border: 2px solid gray;
+  color: gray;
+  background-color: white;
+  padding: 8px 20px;
+  border-radius: 8px;
+  font-size: 20px;
+  font-weight: bold;
+}
+.upload-btn-wrapper input[type=file] {
+  font-size: 100px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+}
+.paperworkTaskModal {
+  float: left;
+}
